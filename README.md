@@ -56,3 +56,13 @@ path | desc
 /www | web outputs
 /platforms | native outputs
 /plugins | native plugins(cordova)
+
+## About icon
+
+* icon for android/ios config at ``/resources``
+```
+ionic cordova resources android/ios -f
+```
+
+* icon for web config at ``/assets/icon`` and ``/assets/imgs``
+* splash for wpa config at ``/config.xml`` - ``SplashScreen``
