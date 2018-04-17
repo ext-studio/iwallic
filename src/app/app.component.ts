@@ -3,16 +3,20 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePageComponent } from '../pages/home/home';
-import { ListPageComponent } from '../pages/list/list';
+import {
+    AssetAttachComponent, AssetDetailComponent, AssetListComponent,
+    SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+    WalletHomeComponent, WalletOpenComponent,
+    TxDetailComponent, TxListComponent
+} from '../pages';
 
 @Component({
-    templateUrl: 'app.html'
+    templateUrl: 'app.component.html'
 })
 export class MyAppComponent {
     @ViewChild(Nav) public nav: Nav;
 
-    public rootPage: any = HomePageComponent;
+    public rootPage: any = AssetListComponent;
 
     public pages: Array<{title: string, component: any}>;
 
@@ -21,8 +25,16 @@ export class MyAppComponent {
 
         // used for an example of ngFor and navigation
         this.pages = [
-            { title: 'Home', component: HomePageComponent },
-            { title: 'List', component: ListPageComponent }
+            { title: 'AssetList', component: AssetListComponent },
+            { title: 'AssetDetail', component: AssetDetailComponent },
+            { title: 'AssetAttach', component: AssetAttachComponent },
+            { title: 'SystemAbout', component: SystemAboutComponent },
+            { title: 'SystemHelper', component: SystemHelperComponent },
+            { title: 'SystemSetting', component: SystemSettingComponent },
+            { title: 'WalletHome', component: WalletHomeComponent },
+            { title: 'WalletOpen', component: WalletOpenComponent },
+            { title: 'TxDetail', component: TxDetailComponent },
+            { title: 'TxList', component: TxListComponent }
         ];
 
     }

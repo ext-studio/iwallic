@@ -3,8 +3,14 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyAppComponent } from './app.component';
-import { HomePageComponent } from '../pages/home/home';
-import { ListPageComponent } from '../pages/list/list';
+import { CoreModule } from '../core';
+import { SharedModule } from '../shared';
+import {
+    AssetAttachComponent, AssetDetailComponent, AssetListComponent,
+    SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+    WalletHomeComponent, WalletOpenComponent,
+    TxDetailComponent, TxListComponent
+} from '../pages';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -12,18 +18,23 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 @NgModule({
     declarations: [
         MyAppComponent,
-        HomePageComponent,
-        ListPageComponent
+        AssetAttachComponent, AssetDetailComponent, AssetListComponent,
+        SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+        WalletHomeComponent, WalletOpenComponent,
+        TxDetailComponent, TxListComponent
     ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(MyAppComponent),
+        CoreModule, SharedModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
         MyAppComponent,
-        HomePageComponent,
-        ListPageComponent
+        AssetAttachComponent, AssetDetailComponent, AssetListComponent,
+        SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+        WalletHomeComponent, WalletOpenComponent,
+        TxDetailComponent, TxListComponent
     ],
     providers: [
         StatusBar,
