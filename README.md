@@ -4,7 +4,7 @@ NEO thin wallet by ExChain teams.
 
 ## Package manage
 
-Currently use npm to install only. Or errors will occurs when run cordova build.
+Currently use npm to install only. Or errors will occur when ``cordova build``.
 
 ## How to run
 
@@ -45,7 +45,8 @@ yarn build:apk
 
 ### Use npm to install only
 
-安装依赖统一使用``npm``，运行打包建议使用``yarn``。
+* Use ``npm install`` only. It means do not use ``yarn`` when install packages.
+* For running commands(run, build and publish e.g), ``yarn`` is recommended.
 
 ## About Project
 
