@@ -6,5 +6,5 @@ import { Component, OnInit } from '@angular/core';
 export class WalletOpenComponent implements OnInit {
     constructor() { }
 
-    public ngOnInit() { }
+    public ngOnInit() {}
 }

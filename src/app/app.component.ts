@@ -2,7 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Storage } from '@ionic/storage';
+import { AlertController, LoadingController } from 'ionic-angular';
 
+import { GlobalService } from '../core';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
@@ -13,17 +16,21 @@ import {
 @Component({
     templateUrl: 'app.component.html'
 })
-export class MyAppComponent {
+export class AppComponent {
     @ViewChild(Nav) public nav: Nav;
-
-    public rootPage: any = AssetListComponent;
-
     public pages: Array<{title: string, component: any}>;
+    private rootPage: any = AssetListComponent;
 
-    constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+    constructor(
+        private platform: Platform,
+        private statusBar: StatusBar,
+        private splashScreen: SplashScreen,
+        private storage: Storage,
+        private alert: AlertController,
+        private loading: LoadingController,
+        private global: GlobalService
+    ) {
         this.initializeApp();
-
-        // used for an example of ngFor and navigation
         this.pages = [
             { title: 'AssetList', component: AssetListComponent },
             { title: 'AssetDetail', component: AssetDetailComponent },
@@ -36,15 +43,25 @@ export class MyAppComponent {
             { title: 'TxDetail', component: TxDetailComponent },
             { title: 'TxList', component: TxListComponent }
         ];
-
     }
 
-    public initializeApp() {
+    private initializeApp() {
         this.platform.ready().then(() => {
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
+            const loader = this.loading.create();
+            loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            this.storage.get('wallet').then((res) => {
+                loader.dismiss();
+                if (!res) {
+                    this.nav.setRoot(WalletOpenComponent);
+                } else {
+                    console.log('to do...');
+                }
+            }).catch((err) => {
+                loader.dismiss();
+                this.global.Alert('UNKNOWN');
+            });
         });
     }
 
