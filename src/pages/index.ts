@@ -7,5 +7,6 @@ export { SystemAboutComponent } from './system/about/about.component';
 export { WalletGateComponent } from './wallet/gate/gate.component';
 export { WalletOpenComponent } from './wallet/open/open.component';
 export { WalletHomeComponent } from './wallet/home/home.component';
+export { WalletCreateComponent } from './wallet/create/create.component';
 export { TxDetailComponent } from './transaction/detail/detail.component';
 export { TxListComponent } from './transaction/list/list.component';

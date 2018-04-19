@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { WalletService } from '../../../neo';
-import { GlobalService } from '../../../core';
+import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletHomeComponent } from '../home/home.component';
+import { WalletCreateComponent } from '../create/create.component';
 
 /**
  * wallet gate page
@@ -19,18 +18,13 @@ export class WalletGateComponent implements OnInit {
     public homePage = WalletHomeComponent;
     constructor(
         private navCtrl: NavController,
-        private wallet: WalletService,
-        private global: GlobalService
+        private menu: MenuController
     ) { }
 
-    public ngOnInit() { }
+    public ngOnInit() {
+        this.menu.swipeEnable(false);
+    }
     public create() {
-        this.wallet.Create().subscribe((res) => {
-            console.log(`create new wallet(private key):`, res);
-            this.navCtrl.push(WalletHomeComponent, {type: 'create', key: res});
-        }, (err) => {
-            console.log(err);
-            this.global.Alert('UNKNOWN');
-        });
+        this.navCtrl.setRoot(WalletCreateComponent);
     }
 }

@@ -1,14 +1,6 @@
-<ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>iwallic</ion-title>
-    </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-    wallet gate page
-    <button ion-button full [navPush]="openPage">open wallet</button>
-    <button ion-button full (click)="create()">create wallet</button>
+<ion-content class="gate" padding>
+    <div class="btns">
+        <button ion-button full class="open" [navPush]="openPage">open wallet</button>
+        <button ion-button full class="create" (click)="create()">create wallet</button>
+    </div>
 </ion-content>

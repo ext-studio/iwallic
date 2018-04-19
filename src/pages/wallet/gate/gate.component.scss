@@ -1,0 +1,26 @@
+ion-content.gate {
+    background: #273387;
+    background: -webkit-linear-gradient(#273387, #638eca);
+    background: linear-gradient(#273387, #638eca);
+}
+.btns {
+    margin: 160px auto 0 auto;
+    width: 100%;
+    max-width: 250px;
+}
+.btns button {
+    border-radius: 50px;
+    color: #ffffff;
+}
+.btns button:not(:first-of-type) {
+    margin-top: 48px;
+}
+.btns button.open {
+    background: #558aef;
+}
+.btns button.create {
+    background: #6bd3fa;
+}
+.btns button.create.activated, .btns button.create:hover {
+    background: #5ac2e9;
+}

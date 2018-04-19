@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 import { AppComponent } from './app.component';
 import { CoreModule, translateModuleConfig } from '../core';
@@ -11,7 +12,7 @@ import { SharedModule } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletHomeComponent, WalletOpenComponent, WalletGateComponent,
+    WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent,
     TxDetailComponent, TxListComponent
 } from '../pages';
 
@@ -23,7 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         AppComponent, // root
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
-        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, // wallet
+        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, // wallet
         TxDetailComponent, TxListComponent // transaction
     ],
     imports: [
@@ -32,14 +33,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         NEOModule, SharedModule,
         CoreModule,
         // for i18n must place after CoreModule
-        TranslateModule.forRoot(translateModuleConfig)
+        TranslateModule.forRoot(translateModuleConfig),
+        NgxQRCodeModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
         AppComponent,
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-        WalletHomeComponent, WalletOpenComponent, WalletGateComponent,
+        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent,
         TxDetailComponent, TxListComponent
     ],
     providers: [
