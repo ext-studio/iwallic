@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content padding>
-    asset list page
-    <p>{{global.apiDomain}}</p>
-    <p>{{'HELLO' | translate}}</p>
+    wallet gate page
+    <button ion-button full [navPush]="openPage">open wallet</button>
+    <button ion-button full (click)="create()">create wallet</button>
 </ion-content>
