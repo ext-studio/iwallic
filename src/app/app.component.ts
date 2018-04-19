@@ -9,7 +9,7 @@ import { GlobalService } from '../core';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletHomeComponent, WalletOpenComponent,
+    WalletHomeComponent, WalletOpenComponent, WalletGateComponent,
     TxDetailComponent, TxListComponent
 } from '../pages';
 
@@ -40,6 +40,7 @@ export class AppComponent {
             { title: 'SystemSetting', component: SystemSettingComponent },
             { title: 'WalletHome', component: WalletHomeComponent },
             { title: 'WalletOpen', component: WalletOpenComponent },
+            { title: 'WalletGate', component: WalletGateComponent },
             { title: 'TxDetail', component: TxDetailComponent },
             { title: 'TxList', component: TxListComponent }
         ];
@@ -54,7 +55,7 @@ export class AppComponent {
             this.storage.get('wallet').then((res) => {
                 loader.dismiss();
                 if (!res) {
-                    this.nav.setRoot(WalletOpenComponent);
+                    this.nav.setRoot(WalletGateComponent);
                 } else {
                     console.log('to do...');
                 }
