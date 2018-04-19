@@ -1,14 +1,90 @@
-<ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <ion-title>iwallic</ion-title>
+<ion-header no-borde>
+    <ion-navbar transparent class="nav-bar">
+        <ion-buttons left>
+            <button ion-button icon-only>
+                <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-buttons right>
+            <button ion-button icon-only right>
+                <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
+    <div class="header-content" center text-center>
+        <div class="title">
+            <span>我的资产</span>
+            <img src="assets/asset/icon_QRcode.png" alt="">
+        </div>
+        <div class="balance">
+            <span class="num">
+                1000000
+            </span>
+            <span class="unit">NEO</span>
+        </div>
+        <p class="warn-tips">(钱包还未备份)</p>
+    </div>
+    <ion-icon ios="ios-add-circle" md="md-add-circle" class="add-asset"></ion-icon>
 </ion-header>
 
-<ion-content padding>
-    asset list page
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item> 
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+        <ion-item>
+            <span class="asset-type">NEO</span>
+            <span item-end>123123123</span>
+        </ion-item>
+
+    </ion-list>
+
+    <!-- asset list page
     <p>{{global.apiDomain}}</p>
-    <p>{{'HELLO' | translate}}</p>
+    <p>{{'HELLO' | translate}}</p> -->
 </ion-content>
