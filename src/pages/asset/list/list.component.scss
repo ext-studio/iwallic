@@ -1,60 +1,62 @@
-.nav-bar {
-    position: absolute;
-    top: 0;
-}
-.header-box::after {
-    background-size: 0;
-}
-.header-content {
-    height: 230px;
-    width: 100%;
-    padding: 25%;
-    color: #3c373b;
-    .title {
-        span {
-            font-size: 15px;
-        }
-        img {
-            vertical-align: top;
-            width: 22px;
-            height: 22px;
-            margin-left: 8px;
-        }
+asset-list {
+    .nav-bar {
+        position: absolute;
+        top: 0;
     }
-    .balance {
-        .num {
-            font-size: 25px;
-            vertical-align: middle;
-        }
-        .unit {
-            font-size: 12px;
-            vertical-align: middle;
-        }
+    .header-box::after {
+        background-size: 0;
     }
-    .warn-tips {
-        margin: 0;
-        font-size: 10px;
-        color: #d95959;
-    }
-}
-
-.add-asset {
-    font-size: 40px;
-    color: #558aef;
-    position: absolute;
-    bottom: -20px;
-    right: 30px;
-}
-
-ion-item {
-    height: 80px;
-    line-height: 80px;
-    span {
+    .header-content {
+        height: 230px;
+        width: 100%;
+        padding: 25%;
         color: #3c373b;
-        font-size: 20px;
+        .title {
+            span {
+                font-size: 15px;
+            }
+            img {
+                vertical-align: top;
+                width: 22px;
+                height: 22px;
+                margin-left: 8px;
+            }
+        }
+        .balance {
+            .num {
+                font-size: 25px;
+                vertical-align: middle;
+            }
+            .unit {
+                font-size: 12px;
+                vertical-align: middle;
+            }
+        }
+        .warn-tips {
+            margin: 0;
+            font-size: 10px;
+            color: #d95959;
+        }
     }
-    .asset-type {
-        font-size: 18px;
-        color: #646163;
+
+    .add-asset {
+        font-size: 40px;
+        color: #558aef;
+        position: absolute;
+        bottom: -20px;
+        right: 30px;
+    }
+
+    ion-item {
+        height: 80px;
+        line-height: 80px;
+        span {
+            color: #3c373b;
+            font-size: 20px;
+        }
+        .asset-type {
+            font-size: 18px;
+            color: #646163;
+        }
     }
 }
