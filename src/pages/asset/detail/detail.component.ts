@@ -9,21 +9,23 @@ import {
     templateUrl: 'detail.component.html'
 })
 export class AssetDetailComponent implements OnInit {
-    constructor() {}
-    public items: any[]
-    public tab1: any
-    public tab2: any
+    constructor(
+        private infinitescroll: InfiniteScroll
+    ) { }
+    public items: any[];
+    public tab1: any;
+    public tab2: any;
     public ngOnInit() {
-        this.tab1 = WalletHomeComponent 
-        this.tab2 = WalletHomeComponent 
+        this.tab1 = WalletHomeComponent;
+        this.tab2 = WalletHomeComponent;
         this.items = [];
         for (let i = 0; i < 5; i++) {
-            this.items.push( this.items.length );
+            this.items.push(this.items.length);
         }
-      
-     }
-   
-    public doInfinite(InfiniteScroll): Promise<any> {
+
+    }
+
+    public doInfinite(infinitescroll): Promise<any> {
         console.log('Begin async operation');
         this.items = [];
         return new Promise((resolve) => {
@@ -32,8 +34,8 @@ export class AssetDetailComponent implements OnInit {
                     this.items.push(this.items.length);
                 }
                 console.log('Async operation has ended');
-                InfiniteScroll.complete();
+                infinitescroll.complete();
             }, 300);
-        })
+        });
     }
 }

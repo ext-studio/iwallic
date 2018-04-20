@@ -11,3 +11,5 @@ export { WalletHomeComponent } from './wallet/home/home.component';
 export { WalletCreateComponent } from './wallet/create/create.component';
 export { TxDetailComponent } from './transaction/detail/detail.component';
 export { TxListComponent } from './transaction/list/list.component';
+export { TxReceiptComponent } from './transaction/receipt/receipt.component';
+export { TxTransferComponent } from './transaction/transfer/transfer.component';

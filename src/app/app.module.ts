@@ -13,7 +13,7 @@ import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
-    TxDetailComponent, TxListComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
 } from '../pages';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -25,7 +25,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
         WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
-        TxDetailComponent, TxListComponent // transaction
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent // transaction
     ],
     imports: [
         BrowserModule,
@@ -42,7 +42,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
         WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
-        TxDetailComponent, TxListComponent
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
     ],
     providers: [
         StatusBar,

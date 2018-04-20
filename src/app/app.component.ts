@@ -11,7 +11,7 @@ import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletHomeComponent, WalletOpenComponent, WalletGateComponent,
-    TxDetailComponent, TxListComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
 } from '../pages';
 
 @Component({
@@ -44,7 +44,9 @@ export class AppComponent {
             { title: 'WalletOpen', component: WalletOpenComponent },
             { title: 'WalletGate', component: WalletGateComponent },
             { title: 'TxDetail', component: TxDetailComponent },
-            { title: 'TxList', component: TxListComponent }
+            { title: 'TxList', component: TxListComponent },
+            { title: 'TxReceipt', component: TxReceiptComponent },
+            { title: 'TxTransfer', component: TxTransferComponent }
         ];
     }
 
