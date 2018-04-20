@@ -32,7 +32,7 @@ export class AssetDetailComponent implements OnInit {
                     this.items.push(this.items.length);
                 }
                 console.log('Async operation has ended');
-                this.infinitescroll.complete();
+                infiniteScroll.complete();
             }, 300);
         });
     }
