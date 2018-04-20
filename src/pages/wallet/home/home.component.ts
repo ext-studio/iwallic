@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 /**
+ *  also as wallet backup page
  *  show main wallet
  *  show create new button
  *  show close button

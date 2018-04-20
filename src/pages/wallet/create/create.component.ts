@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component, OnInit, ComponentFactoryResolver, ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 
 import { WalletService, wallet as w } from '../../../neo';
-import { GlobalService } from '../../../core';
+import { GlobalService, PopupInputService, InputRef } from '../../../core';
+import { PopupInputComponent } from '../../../shared';
 import { NavController, MenuController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 
@@ -16,7 +20,9 @@ import { AssetListComponent } from '../../asset/list/list.component';
  */
 
 @Component({
-    templateUrl: 'create.component.html'
+    selector: 'wallet-create',
+    templateUrl: 'create.component.html',
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class WalletCreateComponent implements OnInit {
     public wif: string = '';
@@ -24,7 +30,9 @@ export class WalletCreateComponent implements OnInit {
         private wallet: WalletService,
         private global: GlobalService,
         private navCtrl: NavController,
-        private menu: MenuController
+        private menu: MenuController,
+        private vcRef: ViewContainerRef,
+        private input: PopupInputService
     ) { }
 
     public ngOnInit() {
@@ -43,5 +51,11 @@ export class WalletCreateComponent implements OnInit {
 
     public home() {
         this.navCtrl.setRoot(AssetListComponent);
+    }
+
+    public pwd() {
+        this.input.open(this.vcRef).afterClose().subscribe((res) => {
+            console.log(res);
+        });
     }
 }

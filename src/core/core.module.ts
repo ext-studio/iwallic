@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { GlobalService } from './services/global';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { PopupInputService } from './services/popup-input';
 
 @NgModule({
     imports: [
@@ -14,7 +15,7 @@ import { IonicStorageModule } from '@ionic/storage';
     exports: [],
     declarations: [],
     providers: [
-        GlobalService
+        GlobalService, PopupInputService
     ]
 })
 export class CoreModule {}
