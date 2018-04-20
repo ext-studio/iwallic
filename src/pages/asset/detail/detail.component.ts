@@ -9,9 +9,7 @@ import {
     templateUrl: 'detail.component.html'
 })
 export class AssetDetailComponent implements OnInit {
-    constructor(
-        private infinitescroll: InfiniteScroll
-    ) { }
+    constructor() { }
     public items: any[];
     public tab1: any;
     public tab2: any;
@@ -25,7 +23,7 @@ export class AssetDetailComponent implements OnInit {
 
     }
 
-    public doInfinite(infinitescroll): Promise<any> {
+    public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
         console.log('Begin async operation');
         this.items = [];
         return new Promise((resolve) => {
@@ -34,7 +32,7 @@ export class AssetDetailComponent implements OnInit {
                     this.items.push(this.items.length);
                 }
                 console.log('Async operation has ended');
-                infinitescroll.complete();
+                this.infinitescroll.complete();
             }, 300);
         });
     }
