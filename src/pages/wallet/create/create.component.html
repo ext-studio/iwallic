@@ -6,9 +6,11 @@
 
 <ion-content padding>
     <ngx-qrcode qrc-element-type="img" [qrc-value] = "wif"></ngx-qrcode>
-    <div class="title">Your WIF:</div>
+    <div class="title">Your WIF: <ion-icon name="eye" (click)="toggleWif()"></ion-icon></div>
+    <div class="wif">
+
+    </div>
     <div class="wif">{{wif}}</div>
-    <button class="btn copy" ion-button outline>Copy WIF</button>
-    <button class="btn" ion-button round>Back up wallet</button>
-    <button class="btn" ion-button round outline>Enter wallet</button>
+    <button class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
+    <button margin-vertical ion-button block (click)="enter()">Enter wallet</button>
 </ion-content>

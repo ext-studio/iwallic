@@ -2,11 +2,12 @@ import {
     Component, OnInit, ComponentFactoryResolver, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
+import { Clipboard } from '@ionic-native/clipboard';
 
 import { WalletService, wallet as w } from '../../../neo';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
-import { NavController, MenuController, NavParams } from 'ionic-angular';
+import { NavController, MenuController, NavParams, AlertController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 
 /**
@@ -28,6 +29,7 @@ import { AssetListComponent } from '../../asset/list/list.component';
 })
 export class WalletCreateComponent implements OnInit {
     public wif: string = '';
+    public copied: boolean;
     constructor(
         private wallet: WalletService,
         private global: GlobalService,
@@ -35,7 +37,9 @@ export class WalletCreateComponent implements OnInit {
         private menu: MenuController,
         private vcRef: ViewContainerRef,
         private input: PopupInputService,
-        private navParams: NavParams
+        private navParams: NavParams,
+        private clipBoard: Clipboard,
+        private alert: AlertController
     ) { }
 
     public ngOnInit() {
@@ -59,5 +63,30 @@ export class WalletCreateComponent implements OnInit {
 
     public home() {
         this.navCtrl.setRoot(AssetListComponent);
+    }
+
+    public copy() {
+        this.clipBoard.copy(this.wif).then((res) => {
+            this.copied = true;
+        }).catch((err) => {
+            this.alert.create({subTitle: 'Sorry that you need to copy manually.'}).present();
+        });
+    }
+
+    public enter() {
+        const ask = this.alert.create({
+            title: 'Caution',
+            subTitle: 'Sure to enter wallet ?(Please ensure you have backed up your WIF)',
+            buttons: ['Cancel', {
+                text: 'Enter',
+                role: 'go'
+            }]
+        });
+        ask.present();
+        ask.onDidDismiss((data, role) => {
+            if (role === 'go') {
+                this.navCtrl.setRoot(AssetListComponent);
+            }
+        });
     }
 }
