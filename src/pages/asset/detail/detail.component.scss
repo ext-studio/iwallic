@@ -1,0 +1,83 @@
+asset-detail {
+    ion-content {
+        .top {
+            height: 230px;
+            width: 100%;
+            text-align: center;
+            color: #3c373b;
+            padding-top: 80px;
+            h5 {
+                font-size: 15px;
+                margin: 0;
+            }
+            p {
+                margin: 0;
+                font-size: 25px;
+                margin-top: 10px;
+            }
+        }
+        h5 {
+            font-size: 13px;
+            color: #3c373b;
+            text-align: center;
+            margin: 0;
+            margin-top: 14px;
+        }
+        hr {
+            width: 150px;
+            margin: 0 auto;
+            margin-top: 13px;
+            margin-bottom: 1px;
+        }
+        ion-item {
+            height: 60px;
+            line-height: 60px;
+            font-size: 13px;
+            &.payment {
+                color: #d95959; 
+            }
+            &.revenue {
+                color: #646163
+            }
+            img {
+                width: 25px;
+                height: 25px;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+            .num {
+                float: right;
+            }
+        }
+    }
+    ion-footer {
+        ion-row {
+            height: 50px;
+            background: #558aef;
+        }
+        ion-col {
+            height: 100%;
+            button {
+                display: block;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                color: white;
+                font-size: 15px;
+                line-height: 40px;
+                background: transparent;    
+                img {
+                    width: 22px;
+                    height: 22px;
+                    vertical-align: middle;
+                }
+                span {
+                    vertical-align: middle;
+                }
+            }
+            &:nth-child(1) {
+                border-right: 1px solid #88adf4;
+            }
+        }
+    }
+}
