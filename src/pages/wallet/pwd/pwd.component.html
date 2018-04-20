@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>your new wallet</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="tip primary" padding>
+        You need to set a 6 digit numeric cipher to keep your private key and transactions in safe.
+        iWallic will never save your cipher, nor to help you find it back. So keep it in mind.
+    </div>
+
+    <ion-list margin-vertical>
+        <ion-item>
+            <ion-label color="primary" fixed>Pay key</ion-label>
+            <ion-input placeholder="Text Input" [readonly]="true" type="password" [value]="pwd" (click)="enterPwd()"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+            <ion-label color="primary" fixed>Confirm key</ion-label>
+            <ion-input type="tel" placeholder="Tel Input" [readonly]="true" type="password" [value]="rePwd" (click)="enterRePwd()"></ion-input>
+        </ion-item>
+    </ion-list>
+    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
+    <div padding margin-vertical>
+        <button ion-button block (click)="create()" [disabled]="!check()">Create wallet</button>
+    </div>
+</ion-content>

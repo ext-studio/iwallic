@@ -4,12 +4,11 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding style="text-align: center;">
+<ion-content padding>
     <ngx-qrcode qrc-element-type="img" [qrc-value] = "wif"></ngx-qrcode>
     <div class="title">Your WIF:</div>
     <div class="wif">{{wif}}</div>
     <button class="btn copy" ion-button outline>Copy WIF</button>
     <button class="btn" ion-button round>Back up wallet</button>
-    <button class="btn" ion-button round (click)="pwd()">Set a password</button>
     <button class="btn" ion-button round outline>Enter wallet</button>
 </ion-content>

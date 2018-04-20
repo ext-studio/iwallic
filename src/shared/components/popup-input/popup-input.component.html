@@ -1,13 +1,37 @@
-<div class="mask" (click)="cancel.emit()"></div>
-<div class="board" (click)="finish.emit('423423')">
-    <div class="num">9</div>
-    <div class="num">8</div>
-    <div class="num">7</div>
-    <div class="num">6</div>
-    <div class="num">5</div>
-    <div class="num">4</div>
-    <div class="num">3</div>
-    <div class="num">2</div>
-    <div class="num">1</div>
-    <div class="num">0</div>
+<div class="mask" (click)="startClose()" [@mask]="open"></div>
+<div class="board" [@flyUp]="open">
+    <div class="title">
+        <ion-icon name="close" class="close" (click)="startClose()"></ion-icon>
+        <span *ngIf="type === 'ENTER'">Input</span> <span *ngIf="type === 'CONFIRM'">Confirm</span> Password
+    </div>
+    <div class="input">
+        <div>{{result[0] ? '*' : ''}}</div>
+        <div>{{result[1] ? '*' : ''}}</div>
+        <div>{{result[2] ? '*' : ''}}</div>
+        <div>{{result[3] ? '*' : ''}}</div>
+        <div>{{result[4] ? '*' : ''}}</div>
+        <div>{{result[5] ? '*' : ''}}</div>
+    </div>
+    <div class="keys">
+        <div class="num" (click)="enter(1)">1</div>
+        <div class="num" (click)="enter(2)">2</div>
+        <div class="num" (click)="enter(3)">3</div>
+    </div>
+    <div class="keys">
+        <div class="num" (click)="enter(4)">4</div>
+        <div class="num" (click)="enter(5)">5</div>
+        <div class="num" (click)="enter(6)">6</div>
+    </div>
+    <div class="keys">
+        <div class="num" (click)="enter(7)">7</div>
+        <div class="num" (click)="enter(8)">8</div>
+        <div class="num" (click)="enter(9)">9</div>
+    </div>
+    <div class="keys">
+        <div class="num none"></div>
+        <div class="num" (click)="enter(0)">0</div>
+        <div class="num none">
+            <ion-icon name="backspace" class="backspace" (click)="backspace()"></ion-icon>
+        </div>
+    </div>
 </div>

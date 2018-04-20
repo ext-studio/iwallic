@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController } from 'ionic-angular';
 
 import { GlobalService } from '../core';
+import { mask } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
@@ -14,7 +15,8 @@ import {
 } from '../pages';
 
 @Component({
-    templateUrl: 'app.component.html'
+    templateUrl: 'app.component.html',
+    animations: [ mask ]
 })
 export class AppComponent {
     @ViewChild(Nav) public nav: Nav;

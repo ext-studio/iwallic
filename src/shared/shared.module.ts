@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonicModule } from 'ionic-angular';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PopupInputComponent } from './components/popup-input/popup-input.component';
 
 @NgModule({
     imports: [
-        CommonModule, FormsModule
+        CommonModule, FormsModule, IonicModule, BrowserAnimationsModule
     ],
     exports: [
         CommonModule, FormsModule, PopupInputComponent

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 export class InputRef {
     private component: ComponentRef<PopupInputComponent>;
-    private $input: Subject<string> = new Subject<string>();
+    private $input: Subject<any> = new Subject<any>();
     constructor(
         comp: ComponentRef<PopupInputComponent>
     ) {
@@ -16,6 +16,7 @@ export class InputRef {
             this.component.destroy();
         });
         this.component.instance.cancel.subscribe(() => {
+            this.$input.next();
             this.component.destroy();
         });
     }
@@ -30,10 +31,12 @@ export class PopupInputService {
         private componentFactoryResolver: ComponentFactoryResolver
     ) { }
     public open(
-        view: ViewContainerRef
+        view: ViewContainerRef,
+        type: 'ENTER' | 'CONFIRM'
     ) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(PopupInputComponent);
         const newPopupInput = view.createComponent(componentFactory);
+        newPopupInput.instance.type = type;
         return new InputRef(newPopupInput);
     }
 }

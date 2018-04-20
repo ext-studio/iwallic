@@ -5,8 +5,8 @@ import {
 
 import { WalletService, wallet as w } from '../../../neo';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
-import { PopupInputComponent } from '../../../shared';
-import { NavController, MenuController } from 'ionic-angular';
+import { PopupInputComponent, flyUp, mask } from '../../../shared';
+import { NavController, MenuController, NavParams } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 
 /**
@@ -22,7 +22,9 @@ import { AssetListComponent } from '../../asset/list/list.component';
 @Component({
     selector: 'wallet-create',
     templateUrl: 'create.component.html',
-    encapsulation: ViewEncapsulation.Emulated
+    animations: [
+        flyUp, mask
+    ]
 })
 export class WalletCreateComponent implements OnInit {
     public wif: string = '';
@@ -32,11 +34,17 @@ export class WalletCreateComponent implements OnInit {
         private navCtrl: NavController,
         private menu: MenuController,
         private vcRef: ViewContainerRef,
-        private input: PopupInputService
+        private input: PopupInputService,
+        private navParams: NavParams
     ) { }
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
+        const pwd = this.navParams.get('pwd');
+        if (!pwd) {
+            this.global.Alert('UNKNOWN');
+            return;
+        }
         this.wallet.Create().subscribe((res) => {
             this.wif = res;
             console.log(`generate wif from private key`);
@@ -51,11 +59,5 @@ export class WalletCreateComponent implements OnInit {
 
     public home() {
         this.navCtrl.setRoot(AssetListComponent);
-    }
-
-    public pwd() {
-        this.input.open(this.vcRef).afterClose().subscribe((res) => {
-            console.log(res);
-        });
     }
 }

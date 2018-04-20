@@ -1,0 +1,9 @@
+wallet-pwd {
+    .tip {
+        background: map-get($colors, primary);
+        color: map-get($colors, light);
+    }
+    .error {
+        color: map-get($colors, danger);
+    }
+}

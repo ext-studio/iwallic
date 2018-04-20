@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletHomeComponent } from '../home/home.component';
-import { WalletCreateComponent } from '../create/create.component';
+import { WalletPwdComponent } from '../pwd/pwd.component';
 
 /**
  * wallet gate page
@@ -25,6 +25,6 @@ export class WalletGateComponent implements OnInit {
         this.menu.swipeEnable(false);
     }
     public create() {
-        this.navCtrl.setRoot(WalletCreateComponent);
+        this.navCtrl.push(WalletPwdComponent);
     }
 }

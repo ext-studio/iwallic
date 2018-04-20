@@ -12,7 +12,7 @@ import { SharedModule } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent,
+    WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
     TxDetailComponent, TxListComponent
 } from '../pages';
 
@@ -24,7 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         AppComponent, // root
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
-        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, // wallet
+        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
         TxDetailComponent, TxListComponent // transaction
     ],
     imports: [
@@ -41,7 +41,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
         AppComponent,
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent,
+        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
         TxDetailComponent, TxListComponent
     ],
     providers: [

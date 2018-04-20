@@ -1,18 +1,82 @@
-.mask {
-    background: rgba($color: #000000, $alpha: 0.1);
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    z-index: 999;
-    top: 0;left: 0;
-}
-.board {
-    position: fixed;
-    height: 60%;
-    min-height: 420px;
-    width: 100%;
-    z-index: 1000;
-    background: #ffffff;
-    bottom: 0;
-    left: 0;
+popup-input {
+    .mask {
+        background: #000000;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 999;
+        top: 0;left: 0;
+    }
+    .board {
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        background: #eeeeee;
+        left: 0;
+        height: auto;
+        bottom: -100px;
+    }
+    
+    .board .title {
+        text-align: center;
+        position: relative;
+        padding: 8px 0;
+        font-size: 20px;
+    }
+    .board .title .close {
+        position: absolute;
+        top: 0px;left: 0px;
+        padding: 0 12px;
+    }
+    ion-icon {
+        font-size: 40px;
+        color: #969696;
+    }
+    .board .input {
+        border: 1px solid #d4d1d4;
+        border-radius: 4px;
+        width: 98%;
+        max-width: 350px;
+        margin: 16px auto 100px auto;
+        display: flex;
+        display: -webkit-flex;
+    }
+    .board .input > div {
+        flex: 1;font-weight: 600;
+        color: #000000;font-size: 24px;
+        height: 48px;line-height: 48px;
+        text-align: center;
+    }
+    .board .input > div:not(:first-of-type) {
+        border-left: 1px solid #d4d1d4;
+    }
+    .board .keys {
+        display: flex;
+        display: -webkit-flex;
+    }
+    .board .keys:not(:first-of-type) {
+        border-top: 1px solid #d6d6d6;
+    }
+    .board .keys > div {
+        color: #000000;
+        background: #ffffff;
+        text-align: center;
+        flex: 1;padding: 12px 0;
+        font-size: 28px;font-weight: 600;
+        transition: 0.2s;
+    }
+    .board .keys > div:not(:first-of-type) {
+        border-left: 1px solid #d6d6d6;
+    }
+    .board .keys > div:active:not(.none) {
+        background: #eeeeee;
+    }
+    .board .keys .none {
+        background: #dddddd;
+    }
+    .backspace {
+        color: #000000;
+        font-size: 20px;
+        transform: scale(1.5);
+    }
 }
