@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import { Storage } from '@ionic/storage';
+import * as sha from 'sha.js';
 
 @Injectable()
 export class WalletService {
@@ -53,16 +54,30 @@ export class WalletService {
             });
         });
     }
-
+    /**
+     * Save a WIF wallet into storage.
+     * @param wif WIF key
+     * @param key password
+     */
     public SetWallet(wif: string, key: string): Promise<any> {
         return this.storage.set('wallet', {
             wif: wif,
             key: this.shaEncode(key)
         });
     }
-
+    /**
+     * Remove opened wallet.
+     * Password will be removed too.
+     */
+    public CloseWallet() {
+        this.storage.remove('wallet');
+    }
+    /**
+     * Check if password matches opened wallet.
+     * @param key password
+     */
     public Match(key: string): Promise<any> {
-        return this.storage.get('wallet').then((res: any) => {
+        return this.storage.get('wallet').then((res: any): any => {
             if (res && (res['key'] === this.shaEncode(key))) {
                 return Promise.resolve(true);
             } else {
@@ -72,6 +87,6 @@ export class WalletService {
     }
 
     private shaEncode(key: string): string {
-        return key;
+        return sha('sha256').update(key).digest('hex');
     }
 }

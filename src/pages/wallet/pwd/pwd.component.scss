@@ -9,4 +9,7 @@ wallet-pwd {
     .error {
         color: map-get($colors, danger);
     }
+    .scroll-content {
+        background: #f3f3f3;
+    }
 }

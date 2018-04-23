@@ -24,9 +24,6 @@ export class WalletPwdComponent implements OnInit {
                 this.pwd = res;
                 this.rePwd = '';
                 this.enterRePwd();
-            } else {
-                this.pwd = '';
-                this.rePwd = '';
             }
         });
     }
@@ -34,8 +31,6 @@ export class WalletPwdComponent implements OnInit {
         this.input.open(this.vcRef, 'CONFIRM').afterClose().subscribe((res) => {
             if (res) {
                 this.rePwd = res;
-            } else {
-                this.rePwd = '';
             }
         });
     }

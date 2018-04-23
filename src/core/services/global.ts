@@ -64,6 +64,7 @@ export class GlobalService {
         return new Promise((res, rej) => {
             const target: any = window.document.getElementById(selector);
             if (window.navigator.userAgent.toLowerCase().match(/ipad|ipod|iphone/i)) {
+                console.log('iphone');
                 const oldContentEditable = target.contentEditable;
                 const oldReadOnly = target.readOnly;
                 const range = document.createRange();

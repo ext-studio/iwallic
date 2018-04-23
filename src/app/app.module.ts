@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { File } from '@ionic-native/file';
 
 import { AppComponent } from './app.component';
 import { CoreModule, translateModuleConfig } from '../core';
@@ -49,6 +50,7 @@ import { Clipboard } from '@ionic-native/clipboard';
         StatusBar,
         SplashScreen,
         Clipboard,
+        File,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

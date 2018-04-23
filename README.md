@@ -58,12 +58,15 @@ path | desc
 /platforms | native outputs
 /plugins | native plugins(cordova)
 
-## About icon
+## About Modules
 
-* icon for android/ios config at ``/resources``
-```
-ionic cordova resources android/ios -f
-```
-
-* icon for web config at ``/assets/icon`` and ``/assets/imgs``
-* splash for wpa config at ``/config.xml`` - ``SplashScreen``
+* Wallet
+* * Create
+* * Import
+* * Backup
+* * Password Protect
+* * NEP-6 Support (to do)
+* Asset
+* * List
+* Transaction (to do)
+* NEO (to do)

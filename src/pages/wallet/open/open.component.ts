@@ -4,6 +4,7 @@ import { WalletService } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { NavController, MenuController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
+import { File } from '@ionic-native/file';
 
 /**
  * currently only support wif wallet
@@ -23,11 +24,13 @@ export class WalletOpenComponent implements OnInit {
         private navCtrl: NavController,
         private input: PopupInputService,
         private global: GlobalService,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private file: File
     ) { }
 
     public ngOnInit() {
         // KyeUiHRapr63RnyS86N8smh3ijquzyUK8wxEo9NPNmof5CJywXTx
+        // this.file.
     }
     public enterPwd() {
         this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
@@ -35,9 +38,6 @@ export class WalletOpenComponent implements OnInit {
                 this.pwd = res;
                 this.rePwd = '';
                 this.enterRePwd();
-            } else {
-                this.pwd = '';
-                this.rePwd = '';
             }
         });
     }
@@ -48,17 +48,11 @@ export class WalletOpenComponent implements OnInit {
         this.input.open(this.vcRef, 'CONFIRM').afterClose().subscribe((res) => {
             if (res) {
                 this.rePwd = res;
-            } else {
-                this.rePwd = '';
             }
         });
     }
     public import() {
-        if (!this.check()) {
-            return;
-        }
-        if (!this.wallet.CheckWIF(this.wif)) {
-            this.global.Alert('INVALIDWIF');
+        if (!this.check() || !this.checkWIF()) {
             return;
         }
         this.wallet.SetWallet(this.wif, this.pwd).then(() => {
@@ -69,5 +63,8 @@ export class WalletOpenComponent implements OnInit {
     }
     public check() {
         return this.pwd && this.pwd.length === 6 && this.pwd === this.rePwd;
+    }
+    public checkWIF() {
+        return this.wif && this.wallet.CheckWIF(this.wif);
     }
 }
