@@ -15,6 +15,16 @@ export class WalletService {
      * inner implements is ``window.crypto.getRandomValues()``
      */
     public Create(): Observable<string> {
-        return Observable.of(wallet.generatePrivateKey());
+        return Observable.of(wallet.getWIFFromPrivateKey(wallet.generatePrivateKey()));
+    }
+
+    public GetAddressFromWIF(wif: string): string {
+        return wallet.getAddressFromScriptHash(
+            wallet.getScriptHashFromPublicKey(
+                wallet.getPublicKeyFromPrivateKey(
+                    wallet.getPrivateKeyFromWIF(wif)
+                )
+            )
+        );
     }
 }

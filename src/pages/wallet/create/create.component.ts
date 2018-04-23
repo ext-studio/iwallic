@@ -2,7 +2,6 @@ import {
     Component, OnInit, ComponentFactoryResolver, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
-import { Clipboard } from '@ionic-native/clipboard';
 
 import { WalletService, wallet as w } from '../../../neo';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
@@ -30,6 +29,7 @@ import { AssetListComponent } from '../../asset/list/list.component';
 export class WalletCreateComponent implements OnInit {
     public wif: string = '';
     public copied: boolean;
+    public pwd: string;
     constructor(
         private wallet: WalletService,
         private global: GlobalService,
@@ -38,14 +38,15 @@ export class WalletCreateComponent implements OnInit {
         private vcRef: ViewContainerRef,
         private input: PopupInputService,
         private navParams: NavParams,
-        private clipBoard: Clipboard,
         private alert: AlertController
-    ) { }
+    ) {
+        //
+    }
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
-        const pwd = this.navParams.get('pwd');
-        if (!pwd) {
+        this.pwd = this.navParams.get('pwd');
+        if (!this.pwd) {
             this.global.Alert('UNKNOWN');
             return;
         }
@@ -66,7 +67,7 @@ export class WalletCreateComponent implements OnInit {
     }
 
     public copy() {
-        this.clipBoard.copy(this.wif).then((res) => {
+        this.global.Copy('wif-copy').then((res) => {
             this.copied = true;
         }).catch((err) => {
             this.alert.create({subTitle: 'Sorry that you need to copy manually.'}).present();
@@ -85,7 +86,11 @@ export class WalletCreateComponent implements OnInit {
         ask.present();
         ask.onDidDismiss((data, role) => {
             if (role === 'go') {
-                this.navCtrl.setRoot(AssetListComponent);
+                this.global.SetWallet(this.wif, this.pwd).then(() => {
+                    this.navCtrl.setRoot(AssetListComponent);
+                }).catch(() => {
+                    this.global.Alert('UNKNOWN');
+                });
             }
         });
     }

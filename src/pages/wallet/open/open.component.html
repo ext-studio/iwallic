@@ -3,11 +3,31 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>Import wallet</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    wallet open page
-    <button ion-button full (click)="home()">Go to homepage</button>
+<ion-content>
+    <ion-list margin-vertical>
+        <ion-item>
+            <ion-label color="primary" fixed>Your WIF key</ion-label>
+            <ion-textarea placeholder="Tap to enter." type="text" ([ngModel])="wif"></ion-textarea>
+        </ion-item>
+    </ion-list>
+
+    <ion-list margin-vertical>
+        <ion-item>
+            <ion-label color="primary" fixed>Pay key</ion-label>
+            <ion-input placeholder="Tap to enter." [readonly]="true" type="password" [value]="pwd" (click)="enterPwd()"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+            <ion-label color="primary" fixed>Confirm key</ion-label>
+            <ion-input placeholder="Tap to enter." [readonly]="true" type="password" [value]="rePwd" (click)="enterRePwd()"></ion-input>
+        </ion-item>
+    </ion-list>
+    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
+    <div padding margin-vertical>
+        <button ion-button block (click)="import()" [disabled]="!check() || wif?.length !== 64">Import wallet</button>
+    </div>
 </ion-content>

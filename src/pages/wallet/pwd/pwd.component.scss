@@ -1,4 +1,7 @@
 wallet-pwd {
+    .input-cover{
+        display: none;
+    }
     .tip {
         background: map-get($colors, primary);
         color: map-get($colors, light);

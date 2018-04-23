@@ -10,7 +10,7 @@
     <div class="wif">
 
     </div>
-    <div class="wif">{{wif}}</div>
+    <input class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wif" />
     <button class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
     <button margin-vertical ion-button block (click)="enter()">Enter wallet</button>
 </ion-content>

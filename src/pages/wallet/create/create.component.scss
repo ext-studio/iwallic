@@ -14,6 +14,9 @@ wallet-create {
     }
     .wif {
         margin: 12px 0;
+        border: none;
+        display: block;
+        width: 100%;
     }
     button.btn {
         display: block;

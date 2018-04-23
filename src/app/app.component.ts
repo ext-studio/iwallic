@@ -56,16 +56,15 @@ export class AppComponent {
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            this.storage.get('wallet').then((res) => {
+            this.global.Wallet().subscribe(() => {
                 loader.dismiss();
-                if (!res) {
+                console.log('to do...');
+            }, (err) => {
+                loader.dismiss();
+                if (err === 'not_exist') {
                     this.nav.setRoot(WalletGateComponent);
-                } else {
-                    console.log('to do...');
                 }
-            }).catch((err) => {
-                loader.dismiss();
-                this.global.Alert('UNKNOWN');
+                console.log(err);
             });
         });
     }
