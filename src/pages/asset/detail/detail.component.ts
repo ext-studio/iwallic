@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll } from 'ionic-angular';
-import {
-    WalletHomeComponent
-} from '../../../pages';
+import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 
 @Component({
     selector: 'asset-detail',
@@ -11,11 +9,11 @@ import {
 export class AssetDetailComponent implements OnInit {
     constructor() { }
     public items: any[];
-    public tab1: any;
-    public tab2: any;
+    public receipt: any;
+    public transfer: any;
     public ngOnInit() {
-        this.tab1 = WalletHomeComponent;
-        this.tab2 = WalletHomeComponent;
+        this.receipt = TxReceiptComponent;
+        this.transfer = TxTransferComponent;
         this.items = [];
         for (let i = 0; i < 5; i++) {
             this.items.push(this.items.length);
@@ -25,7 +23,6 @@ export class AssetDetailComponent implements OnInit {
 
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
         console.log('Begin async operation');
-        this.items = [];
         return new Promise((resolve) => {
             setTimeout(() => {
                 for (let i = 0; i < 5; i++) {
@@ -33,7 +30,7 @@ export class AssetDetailComponent implements OnInit {
                 }
                 console.log('Async operation has ended');
                 infiniteScroll.complete();
-            }, 300);
+            }, 500);
         });
     }
 }
