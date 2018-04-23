@@ -26,11 +26,21 @@ export class GlobalService {
      * UNKNOWN to unknown error
      * @param type internal alert type
      */
-    public Alert(type: 'UNKNOWN'): Alert {
+    public Alert(type: 'UNKNOWN' | 'INVALIDWIF'): Alert {
+        let alert;
         switch (type) {
+            case 'INVALIDWIF':
+            alert = this.alert.create({
+                title: 'Caution',
+                subTitle: 'This WIF is invalid.',
+                buttons: ['OK'],
+                enableBackdropDismiss: true
+            });
+            alert.present();
+            return alert;
             case 'UNKNOWN':
             default:
-            const alert = this.alert.create({
+            alert = this.alert.create({
                 title: 'Caution',
                 subTitle: 'Oops.. Something went wrong here.',
                 buttons: ['OK'],
@@ -82,43 +92,6 @@ export class GlobalService {
                 } else {
                     rej();
                 }
-            }
-        });
-    }
-
-    public Wallet(): Observable<any> {
-        return new Observable<any>((observer) => {
-            this.storage.get('wallet').then((res) => {
-                console.log(res);
-                if (!(res && res.wif)) {
-                    observer.error('not_exist');
-                    return;
-                }
-                observer.next({
-                    address: this.wallet.GetAddressFromWIF(res.wif),
-                    wif: res.wif
-                });
-                return;
-            }).catch((err) => {
-                observer.error(err);
-                return;
-            });
-        });
-    }
-
-    public SetWallet(wif: string, key: string): Promise<any> {
-        return this.storage.set('wallet', {
-            wif: wif,
-            key: this.SHAEncode(key)
-        });
-    }
-
-    public Match(key: string): Promise<any> {
-        return this.storage.get('wallet').then((res: any) => {
-            if (res && (res['key'] === this.SHAEncode(key))) {
-                return Promise.resolve(true);
-            } else {
-                return Promise.reject('not_match');
             }
         });
     }

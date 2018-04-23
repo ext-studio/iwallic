@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController } from 'ionic-angular';
 
 import { GlobalService } from '../core';
+import { WalletService } from '../neo';
 import { mask } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
@@ -30,7 +31,8 @@ export class AppComponent {
         private storage: Storage,
         private alert: AlertController,
         private loading: LoadingController,
-        private global: GlobalService
+        private global: GlobalService,
+        private wallet: WalletService
     ) {
         this.initializeApp();
         this.pages = [
@@ -51,12 +53,13 @@ export class AppComponent {
     }
 
     private initializeApp() {
+        // this.storage.remove('wallet');
         this.platform.ready().then(() => {
             const loader = this.loading.create();
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            this.global.Wallet().subscribe(() => {
+            this.wallet.Wallet().subscribe(() => {
                 loader.dismiss();
                 console.log('to do...');
             }, (err) => {

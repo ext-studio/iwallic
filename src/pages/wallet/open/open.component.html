@@ -11,7 +11,7 @@
     <ion-list margin-vertical>
         <ion-item>
             <ion-label color="primary" fixed>Your WIF key</ion-label>
-            <ion-textarea placeholder="Tap to enter." type="text" ([ngModel])="wif"></ion-textarea>
+            <ion-textarea placeholder="Tap to enter." type="text" [(ngModel)]="wif"></ion-textarea>
         </ion-item>
     </ion-list>
 
@@ -28,6 +28,6 @@
     </ion-list>
     <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
     <div padding margin-vertical>
-        <button ion-button block (click)="import()" [disabled]="!check() || wif?.length !== 64">Import wallet</button>
+        <button ion-button block (click)="import()" [disabled]="!check() || wif?.length !== 52">Import wallet</button>
     </div>
 </ion-content>

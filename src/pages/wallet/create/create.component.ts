@@ -86,7 +86,7 @@ export class WalletCreateComponent implements OnInit {
         ask.present();
         ask.onDidDismiss((data, role) => {
             if (role === 'go') {
-                this.global.SetWallet(this.wif, this.pwd).then(() => {
+                this.wallet.SetWallet(this.wif, this.pwd).then(() => {
                     this.navCtrl.setRoot(AssetListComponent);
                 }).catch(() => {
                     this.global.Alert('UNKNOWN');

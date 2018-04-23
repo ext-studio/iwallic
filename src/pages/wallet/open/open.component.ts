@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
+import { WalletService } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { NavController, MenuController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
@@ -21,10 +22,13 @@ export class WalletOpenComponent implements OnInit {
         private vcRef: ViewContainerRef,
         private navCtrl: NavController,
         private input: PopupInputService,
-        private global: GlobalService
+        private global: GlobalService,
+        private wallet: WalletService
     ) { }
 
-    public ngOnInit() { }
+    public ngOnInit() {
+        // KyeUiHRapr63RnyS86N8smh3ijquzyUK8wxEo9NPNmof5CJywXTx
+    }
     public enterPwd() {
         this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
             if (res) {
@@ -53,7 +57,11 @@ export class WalletOpenComponent implements OnInit {
         if (!this.check()) {
             return;
         }
-        this.global.SetWallet(this.wif, this.pwd).then(() => {
+        if (!this.wallet.CheckWIF(this.wif)) {
+            this.global.Alert('INVALIDWIF');
+            return;
+        }
+        this.wallet.SetWallet(this.wif, this.pwd).then(() => {
             this.navCtrl.setRoot(AssetListComponent);
         }).catch(() => {
             this.global.Alert('UNKNOWN');
