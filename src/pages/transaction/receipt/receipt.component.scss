@@ -1,3 +1,28 @@
 transaction-receipt {
-    
+    ion-content {
+        background: linear-gradient(#42bfee, #3f76de);
+        .address-bg {
+            height: 434px;
+            margin-top: 30px;
+            text-align: center;
+            #qrcode {
+                margin-top: 40px;
+            }
+            h5 {
+                font-size: 15px;
+                color: #3c373b;
+                margin-top: 44px;
+                margin-bottom: 0;
+            }
+            .address {
+                margin-top: 12px;
+                font-size: 13px;
+                color: #646163;
+            }
+            button {
+                min-width: 150px;
+                margin-top: 48px;
+            }
+        }
+    }
 }

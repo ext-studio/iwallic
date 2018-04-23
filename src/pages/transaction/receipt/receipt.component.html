@@ -1,12 +1,17 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar transparent>
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>收款</ion-title>
+        <ion-title>Receipt</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    receipt
+    <div class="address-bg" style="background: url('assets/asset/address_bg.png'); background-size: 100% 100%;">
+        <img id="qrcode" src="" alt="">
+        <h5>收款地址</h5>
+        <p class="address">XXXX</p>
+        <button ion-button round primary>复制</button>
+    </div>
 </ion-content>
