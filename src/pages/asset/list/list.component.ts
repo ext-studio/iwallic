@@ -40,6 +40,7 @@ export class AssetListComponent implements OnInit {
                 this.getAssetList();
             });
     }
+    
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
         return new Promise((resolve) => {
             setTimeout(() => {
