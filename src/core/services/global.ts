@@ -10,6 +10,7 @@ import QrCodeWithLogo from 'qr-code-with-logo';
 @Injectable()
 export class GlobalService {
     public apiDomain: string = 'http://127.0.0.1:9999';
+    public apiAddr: string = 'http://192.168.1.39:8080';
     constructor(
         private alert: AlertController,
         private loading: LoadingController,
@@ -27,7 +28,7 @@ export class GlobalService {
      * UNKNOWN to unknown error
      * @param type internal alert type
      */
-    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD'): Alert {
+    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD' | 'REQUESTFAILED'): Alert {
         let alert;
         switch (type) {
             case 'INVALIDWIF':
@@ -43,6 +44,15 @@ export class GlobalService {
             alert = this.alert.create({
                 title: 'Caution',
                 subTitle: 'Password is wrong.',
+                buttons: ['OK'],
+                enableBackdropDismiss: true
+            });
+            alert.present();
+            return alert;
+            case 'REQUESTFAILED':
+            alert = this.alert.create({
+                title: 'Caution',
+                subTitle: 'Request failed.',
                 buttons: ['OK'],
                 enableBackdropDismiss: true
             });
