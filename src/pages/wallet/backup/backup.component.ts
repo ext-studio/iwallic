@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
 import { WalletService } from '../../../neo';
 import { NavController, MenuController, NavParams, AlertController } from 'ionic-angular';
@@ -18,15 +18,16 @@ import { NavController, MenuController, NavParams, AlertController } from 'ionic
     templateUrl: 'backup.component.html'
 })
 export class WalletBackupComponent implements OnInit {
-    public qrcode: boolean = false;
+    public verified: boolean = false;
     public wallet: any;
     public copied: boolean;
-    public shown: boolean = false;
     constructor(
         private navParams: NavParams,
         private global: GlobalService,
         private alert: AlertController,
-        private w: WalletService
+        private w: WalletService,
+        private input: PopupInputService,
+        private vcRef: ViewContainerRef
     ) { }
 
     public ngOnInit() {
@@ -46,10 +47,20 @@ export class WalletBackupComponent implements OnInit {
     }
 
     public showQRCode() {
-        if (this.qrcode || !this.wallet) {
+        if (this.verified || !this.wallet) {
             return;
         }
-        this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
-        this.qrcode = true;
+        const check = this.input.open(this.vcRef, 'ENTER');
+        check.afterClose().subscribe((res) => {
+            if (!res) {
+                return;
+            }
+            this.w.Match(res).then(() => {
+                this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
+                this.verified = true;
+            }).catch((err) => {
+                this.global.Alert(err === 'not_match' ? 'WRONGPWD' : 'UNKNOWN');
+            });
+        });
     }
 }

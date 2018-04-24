@@ -27,13 +27,22 @@ export class GlobalService {
      * UNKNOWN to unknown error
      * @param type internal alert type
      */
-    public Alert(type: 'UNKNOWN' | 'INVALIDWIF'): Alert {
+    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD'): Alert {
         let alert;
         switch (type) {
             case 'INVALIDWIF':
             alert = this.alert.create({
                 title: 'Caution',
                 subTitle: 'This WIF is invalid.',
+                buttons: ['OK'],
+                enableBackdropDismiss: true
+            });
+            alert.present();
+            return alert;
+            case 'WRONGPWD':
+            alert = this.alert.create({
+                title: 'Caution',
+                subTitle: 'Password is wrong.',
                 buttons: ['OK'],
                 enableBackdropDismiss: true
             });

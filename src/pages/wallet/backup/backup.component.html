@@ -9,16 +9,20 @@
 
 <ion-content padding>
     <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wallet?.wif"></ngx-qrcode> -->
-    <img id="wallet-qrcode" [hidden]="!qrcode" />
-    <div class="wallet-qrcode" (click)="showQRCode()" *ngIf="!qrcode">
+    <img id="wallet-qrcode" [hidden]="!verified" />
+    <div class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
         <img src="assets/wallet/btn_img_click@2x.png" class="tip" />
     </div>
     <div class="title">
         Your WIF:
-        <ion-icon *ngIf="shown" name="eye" style="font-size: 32px; vertical-align: middle;" (click)="shown = false"></ion-icon>
-        <ion-icon *ngIf="!shown" name="eye-off" style="font-size: 32px; vertical-align: middle;" (click)="shown = true"></ion-icon>
+        <ion-icon *ngIf="verified" name="eye" style="font-size: 32px; vertical-align: middle;" (click)="shown = false"></ion-icon>
+        <ion-icon *ngIf="!verified" name="eye-off" style="font-size: 32px; vertical-align: middle;" (click)="shown = true"></ion-icon>
     </div>
-    <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
-    <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
-    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
+    <input *ngIf="verified" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
+    <input *ngIf="!verified" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
+    <button *ngIf="verified" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
+
+    <p class="tip" text-sm>
+        Touch above to show the qrcode of your WIF key. Then print it or write it down to paper. Do not just save as screenshot or it will lose when the device is not all right.
+    </p>
 </ion-content>
