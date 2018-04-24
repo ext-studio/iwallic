@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // import QrCodeWithLogo from 'qr-code-with-logo';
 import { Storage} from '@ionic/storage';
 import { WalletService } from '../../../neo';
-import { GlobalService, InputRef } from '../../../core';
+import { GlobalService } from '../../../core';
 import { AlertController } from 'ionic-angular';
 
 @Component({

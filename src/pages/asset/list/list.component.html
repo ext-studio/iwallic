@@ -3,11 +3,6 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-buttons right>
-            <button ion-button icon-only right>
-                <ion-icon ios="ios-contact" md="md-contact"></ion-icon>
-            </button>
-        </ion-buttons>
     </ion-navbar>
     <div class="header-content" center text-center style="background: url('assets/asset/list_bg_img.png') no-repeat center; background-size: 100% 100%;">
         <div class="title">
@@ -16,73 +11,24 @@
         </div>
         <div class="balance">
             <span class="num">
-                1000000
+                {{ neoValue }}
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips" >(钱包还未备份)</p>
+        <p class="warn-tips">(钱包还未备份)</p>
     </div>
-    <img src="assets/asset/btn_add.png"  class="add-asset">
+    <img src="assets/asset/btn_add.png" class="add-asset">
 </ion-header>
 
 <ion-content>
     <ion-list>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
+        <ion-item *ngFor="let asset of assetList">
+            <span class="asset-type">{{ asset.name }}</span>
+            <span item-end>{{ asset.value }}</span>
         </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item> 
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-        <ion-item>
-            <span class="asset-type">NEO</span>
-            <span item-end>123123123</span>
-        </ion-item>
-
     </ion-list>
+    <ion-infinite-scroll loadingSpinner="bubbles" [enabled]="enabled" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
-    <!-- asset list page
-    <p>{{global.apiDomain}}</p>
-    <p>{{'HELLO' | translate}}</p> -->
 </ion-content>
