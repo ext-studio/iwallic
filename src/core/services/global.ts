@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { UtilService, WalletService } from '../../neo';
 import { Clipboard } from '@ionic-native/clipboard';
 import { Storage } from '@ionic/storage';
+import QrCodeWithLogo from 'qr-code-with-logo';
 
 @Injectable()
 export class GlobalService {
@@ -99,5 +100,19 @@ export class GlobalService {
 
     public SHAEncode(str: string): string {
         return str;
+    }
+
+    public getQRCode(domId: any, data: any, width: number, logo: any = 'assets/asset/qrcode_logo.png' ) {
+        const qrcode = document.getElementById(domId);
+        QrCodeWithLogo.toImage({
+            image: qrcode,
+            content: data,
+            width: width,
+            logo: {
+                src: 'assets/asset/qrcode_logo.png',
+                radius: 8
+            }
+        });
+        return ;
     }
 }
