@@ -109,7 +109,7 @@ export class GlobalService {
             content: data,
             width: width,
             logo: {
-                src: 'assets/asset/qrcode_logo.png',
+                src: logo,
                 radius: 8
             }
         });

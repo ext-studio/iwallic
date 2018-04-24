@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage} from '@ionic/storage';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
-import { AlertController } from 'ionic-angular';
+import { AlertController, LoadingController } from 'ionic-angular';
 
 @Component({
     selector: 'transaction-receipt',
@@ -17,13 +17,20 @@ export class TxReceiptComponent implements OnInit {
         private storage: Storage,
         private wallet: WalletService,
         private global: GlobalService,
-        private alert: AlertController
+        private alert: AlertController,
+        private loading: LoadingController,
     ) { }
     public ngOnInit() {
         this.storage.get('wallet').then((res) => {
             this.wif = res.wif;
             this.address = this.wallet.GetAddressFromWIF(res.wif);
             this.global.getQRCode('qrcode', this.address, 200);
+        });
+        const loader = this.loading.create();
+        loader.present();
+        this.wallet.Wallet().subscribe(() => {
+            loader.dismiss();
+            console.log('to do...');
         });
     }
     public copy() {

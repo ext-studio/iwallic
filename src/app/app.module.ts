@@ -14,7 +14,7 @@ import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
 } from '../pages';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -27,7 +27,7 @@ import { Clipboard } from '@ionic-native/clipboard';
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
-        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent // transaction
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent // transaction
     ],
     imports: [
         BrowserModule,
@@ -44,7 +44,7 @@ import { Clipboard } from '@ionic-native/clipboard';
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
-        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
     ],
     providers: [
         StatusBar,

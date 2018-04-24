@@ -11,7 +11,7 @@ import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
 } from '../pages';
 
 @Component({

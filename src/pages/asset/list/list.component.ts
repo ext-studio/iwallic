@@ -35,7 +35,7 @@ export class AssetListComponent implements OnInit {
                 this.assetListValue = res['result'];
                 for (let j = 0; j < this.assetListValue.length; j++) {
                     if (this.assetListValue[j].name === 'NEO') {
-                        this.neoValue = this.assetListValue.Balance;
+                        this.neoValue = this.assetListValue.balance;
                     }
                 }
                 this.getAssetList();
@@ -59,10 +59,10 @@ export class AssetListComponent implements OnInit {
                 for (let i = 0; i < temp.length; i++) {
                     for (let j = 0; j < this.assetListValue.length; j++) {
                         if (this.assetListValue[j].name === 'NEO') {
-                            this.neoValue = this.assetListValue.Balance;
+                            this.neoValue = this.assetListValue.balance;
                         }
-                        if (temp[i].assetid === this.assetListValue[j].AssetID) {
-                            temp[i].value = this.assetListValue.Balance;
+                        if (temp[i].assetid === this.assetListValue[j].assetid) {
+                            temp[i].value = this.assetListValue.balance;
                         }
                     }
                     if (!temp[i].value) {
