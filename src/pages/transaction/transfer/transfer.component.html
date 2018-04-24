@@ -7,6 +7,23 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-        transfer
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-input type="text" placeholder="收款地址"></ion-input>
+            <button class="scan" ion-button item-end clear></button>
+        </ion-item>
+        <ion-item>
+            <ion-input type="volume" placeholder="打款数量" (focus)="focusNum()" (blur)="blurNum()"></ion-input>
+            <ion-note item-end *ngIf="isfocus">可用余额：{{ balance }}</ion-note>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-item>
+            <ion-input type="text" placeholder="收款地址"></ion-input>
+        </ion-item>
+    </ion-list>
+    <div padding>
+        <button ion-button block round>提交</button>
+    </div>
 </ion-content>
