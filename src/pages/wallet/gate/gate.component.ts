@@ -10,6 +10,7 @@ import { WalletPwdComponent } from '../pwd/pwd.component';
  */
 
 @Component({
+    selector: 'wallet-gate',
     templateUrl: 'gate.component.html'
 })
 export class WalletGateComponent implements OnInit {

@@ -12,4 +12,8 @@ wallet-pwd {
     .scroll-content {
         background: #f3f3f3;
     }
+    ion-label[fixed] {
+        flex: 0 0 140px;
+        width: 140px;
+    }
 }

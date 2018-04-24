@@ -27,6 +27,7 @@ import { AssetListComponent } from '../../asset/list/list.component';
     ]
 })
 export class WalletCreateComponent implements OnInit {
+    public shown: boolean = true;
     public wif: string = '';
     public copied: boolean;
     public pwd: string;
@@ -52,6 +53,8 @@ export class WalletCreateComponent implements OnInit {
         }
         this.wallet.Create().subscribe((res) => {
             this.wif = res;
+            this.global.getQRCode('wallet-qrcode', this.wif, 160, 'assets/app/logo.png');
+            console.log(this.wif);
         }, (err) => {
             console.log(err);
             this.global.Alert('UNKNOWN');

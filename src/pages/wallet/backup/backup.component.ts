@@ -18,8 +18,10 @@ import { NavController, MenuController, NavParams, AlertController } from 'ionic
     templateUrl: 'backup.component.html'
 })
 export class WalletBackupComponent implements OnInit {
+    public qrcode: boolean = false;
     public wallet: any;
     public copied: boolean;
+    public shown: boolean = false;
     constructor(
         private navParams: NavParams,
         private global: GlobalService,
@@ -41,5 +43,13 @@ export class WalletBackupComponent implements OnInit {
         }).catch((err) => {
             this.alert.create({subTitle: 'Sorry that you need to copy manually.'}).present();
         });
+    }
+
+    public showQRCode() {
+        if (this.qrcode || !this.wallet) {
+            return;
+        }
+        this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
+        this.qrcode = true;
     }
 }

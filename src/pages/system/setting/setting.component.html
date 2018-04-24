@@ -3,10 +3,26 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>Wallet settings</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    system setting page
+<ion-content>
+    <ion-list margin-vertical>
+        <ion-item-group>
+            <ion-item>
+                <ion-label>Language</ion-label>
+                <ion-select [(ngModel)]="lang" interface="action-sheet">
+                    <ion-option value="en">English</ion-option>
+                    <!-- <ion-option value="tw">中文繁體</ion-option> -->
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label>Theme</ion-label>
+                <ion-select [(ngModel)]="theme" interface="action-sheet">
+                    <ion-option value="default">Default</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-item-group>
+    </ion-list>
 </ion-content>

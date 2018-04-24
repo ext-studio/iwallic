@@ -3,16 +3,22 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>Backup wallet</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <ngx-qrcode qrc-element-type="img" [qrc-value] = "wallet?.wif"></ngx-qrcode>
-    <div class="title">Your WIF: <ion-icon name="eye" style="font-size: 32px; vertical-align: middle;"></ion-icon></div>
-    <div class="wif">
-
+    <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wallet?.wif"></ngx-qrcode> -->
+    <img id="wallet-qrcode" [hidden]="!qrcode" />
+    <div class="wallet-qrcode" (click)="showQRCode()" *ngIf="!qrcode">
+        <img src="assets/wallet/btn_img_click@2x.png" class="tip" />
     </div>
-    <input class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
-    <button class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
+    <div class="title">
+        Your WIF:
+        <ion-icon *ngIf="shown" name="eye" style="font-size: 32px; vertical-align: middle;" (click)="shown = false"></ion-icon>
+        <ion-icon *ngIf="!shown" name="eye-off" style="font-size: 32px; vertical-align: middle;" (click)="shown = true"></ion-icon>
+    </div>
+    <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
+    <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
+    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
 </ion-content>
