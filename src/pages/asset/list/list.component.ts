@@ -27,19 +27,19 @@ export class AssetListComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.storage.get('wallet').then((res) => {
+        this.wallet.Wallet().subscribe((res) => {
             this.address = this.wallet.GetAddressFromWIF(res.wif);
-        });
-        this.http.post('http://192.168.1.39:8080/api/block',
-            { 'method': 'getaddressasset', 'params': [this.address] }).subscribe(res => {
-                this.assetListValue = res['result'];
+            this.http.post('http://192.168.1.39:8080/api/block',
+            { 'method': 'getaddressasset', 'params': [this.address] }).subscribe(result => {
+                this.assetListValue = result['result']['AddrAsset'];
                 for (let j = 0; j < this.assetListValue.length; j++) {
                     if (this.assetListValue[j].name === 'NEO') {
-                        this.neoValue = this.assetListValue.balance;
+                        this.neoValue = this.assetListValue[j].balance;
                     }
                 }
                 this.getAssetList();
             });
+        });
     }
 
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
@@ -58,11 +58,8 @@ export class AssetListComponent implements OnInit {
                 const temp = res['result']['result'];
                 for (let i = 0; i < temp.length; i++) {
                     for (let j = 0; j < this.assetListValue.length; j++) {
-                        if (this.assetListValue[j].name === 'NEO') {
-                            this.neoValue = this.assetListValue.balance;
-                        }
-                        if (temp[i].assetid === this.assetListValue[j].assetid) {
-                            temp[i].value = this.assetListValue.balance;
+                        if (temp[i].assetId === this.assetListValue[j].assetId) {
+                            temp[i].value = this.assetListValue[j].balance;
                         }
                     }
                     if (!temp[i].value) {
