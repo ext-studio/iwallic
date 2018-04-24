@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
-import { WalletHomeComponent } from '../home/home.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
 
 /**
@@ -15,7 +14,6 @@ import { WalletPwdComponent } from '../pwd/pwd.component';
 })
 export class WalletGateComponent implements OnInit {
     public openPage = WalletOpenComponent;
-    public homePage = WalletHomeComponent;
     constructor(
         private navCtrl: NavController,
         private menu: MenuController

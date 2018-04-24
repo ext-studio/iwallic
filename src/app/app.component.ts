@@ -3,25 +3,28 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController } from 'ionic-angular';
+import { AlertController, LoadingController, MenuController } from 'ionic-angular';
 
 import { GlobalService } from '../core';
 import { WalletService } from '../neo';
-import { mask } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletHomeComponent, WalletOpenComponent, WalletGateComponent,
+    WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
 } from '../pages';
 
 @Component({
-    templateUrl: 'app.component.html',
-    animations: [ mask ]
+    templateUrl: 'app.component.html'
 })
 export class AppComponent {
     @ViewChild(Nav) public nav: Nav;
-    public pages: Array<{title: string, component: any}>;
+    public BackupPage = WalletBackupComponent;
+    public ImportPage = WalletOpenComponent;
+    public TransactionPage = TxListComponent;
+    public SettingPage = SystemSettingComponent;
+    public HelperPage = SystemHelperComponent;
+    public AboutPage = SystemAboutComponent;
     private rootPage: any = AssetListComponent;
 
     constructor(
@@ -32,24 +35,10 @@ export class AppComponent {
         private alert: AlertController,
         private loading: LoadingController,
         private global: GlobalService,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private menu: MenuController
     ) {
         this.initializeApp();
-        this.pages = [
-            { title: 'AssetList', component: AssetListComponent },
-            { title: 'AssetDetail', component: AssetDetailComponent },
-            { title: 'AssetAttach', component: AssetAttachComponent },
-            { title: 'SystemAbout', component: SystemAboutComponent },
-            { title: 'SystemHelper', component: SystemHelperComponent },
-            { title: 'SystemSetting', component: SystemSettingComponent },
-            { title: 'WalletHome', component: WalletHomeComponent },
-            { title: 'WalletOpen', component: WalletOpenComponent },
-            { title: 'WalletGate', component: WalletGateComponent },
-            { title: 'TxDetail', component: TxDetailComponent },
-            { title: 'TxList', component: TxListComponent },
-            { title: 'TxReceipt', component: TxReceiptComponent },
-            { title: 'TxTransfer', component: TxTransferComponent }
-        ];
     }
 
     private initializeApp() {
@@ -72,9 +61,30 @@ export class AppComponent {
         });
     }
 
-    public openPage(page) {
-        // Reset the content nav to have just this page
-        // we wouldn't want the back button to show in this scenario
-        this.nav.setRoot(page.component);
+    public pushPage(page: any) {
+        this.nav.push(page);
+        this.menu.close();
+    }
+
+    public signOut() {
+        const alert = this.alert.create({
+            title: 'Caution',
+            subTitle: 'Are you sure to close your wallet ?',
+            buttons: [
+                'Cancel',
+                {
+                    text: 'Sign out',
+                    role: 'go'
+                }
+            ]
+        });
+        alert.present();
+        alert.onDidDismiss((data, role) => {
+            if (role === 'go') {
+                this.wallet.CloseWallet();
+                this.menu.close();
+                this.nav.setRoot(WalletGateComponent);
+            }
+        });
     }
 }

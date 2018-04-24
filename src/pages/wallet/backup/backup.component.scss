@@ -1,0 +1,32 @@
+wallet-backup {
+    ion-title {
+        text-align: center;
+    }
+    ion-content {
+        text-align: center;
+    }
+    .qrcode {
+        margin: 44px auto 32px auto;
+        width: max-content;
+    }
+    .qrcode img {
+        max-width: 160px;
+    }
+    .wif {
+        margin: 12px 0;
+        border: none;
+        display: block;
+        width: 100%;
+    }
+    button.btn {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 250px;
+    }
+    button.btn.copy {
+        margin-bottom: 44px;
+        max-width: 130px;
+    }
+}

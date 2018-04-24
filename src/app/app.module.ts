@@ -13,7 +13,7 @@ import { SharedModule } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
+    WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
 } from '../pages';
 
@@ -26,7 +26,7 @@ import { Clipboard } from '@ionic-native/clipboard';
         AppComponent, // root
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
-        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
+        WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent // transaction
     ],
     imports: [
@@ -43,7 +43,7 @@ import { Clipboard } from '@ionic-native/clipboard';
         AppComponent,
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-        WalletHomeComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
+        WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent
     ],
     providers: [

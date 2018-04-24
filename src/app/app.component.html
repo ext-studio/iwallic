@@ -1,13 +1,38 @@
 <ion-menu [content]="content">
     <ion-header>
         <ion-toolbar>
-            <ion-title>Homeggg</ion-title>
+            <img class="sidemenu-logo" src="assets/app/logo.png" />
         </ion-toolbar>
     </ion-header>
     <ion-content>
         <ion-list>
-            <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-                {{p.title}}
+            <button class="sidemenu-item" ion-item (click)="pushPage(BackupPage)">
+                <img src="assets/app/comon_nav_icon_backup@2x.png" />
+                Backup wallet
+            </button>
+            <button class="sidemenu-item" ion-item (click)="pushPage(ImportPage)">
+                <img src="assets/app/comon_nav_icon_Import@2x.png" />
+                Import wallet
+            </button>
+            <button class="sidemenu-item" ion-item (click)="pushPage(TransactionPage)">
+                <img src="assets/app/comon_nav_icon_Record@2x.png" />
+                Transaction
+            </button>
+            <button class="sidemenu-item" ion-item (click)="pushPage(SettingPage)">
+                <img src="assets/app/comon_nav_icon_set@2x.png" />
+                Settings
+            </button>
+            <button class="sidemenu-item" ion-item (click)="pushPage(HelperPage)">
+                <img src="assets/app/comon_nav_icon_Help@2x.png" />
+                Helper
+            </button>
+            <button class="sidemenu-item" ion-item (click)="pushPage(AboutPage)">
+                <img src="assets/app/comon_nav_icon_info@2x.png" />
+                About
+            </button>
+            <button class="sidemenu-item" ion-item (click)="signOut()">
+                <img src="assets/app/comon_nav_icon_Logout@2x.png" />
+                Sign out
             </button>
         </ion-list>
     </ion-content>

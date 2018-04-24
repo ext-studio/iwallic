@@ -14,3 +14,16 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.sidemenu-logo {
+    height: 48px;
+    display: block;
+    margin: 16px auto;
+}
+.sidemenu-item {
+    font-size: 14px;
+    color: #646163;
+}
+.sidemenu-item img {
+    height: 25px;width: 25px;vertical-align: middle;
+    margin-bottom: 3px;margin-right: 8px;
+}

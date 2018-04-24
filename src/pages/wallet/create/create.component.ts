@@ -52,10 +52,6 @@ export class WalletCreateComponent implements OnInit {
         }
         this.wallet.Create().subscribe((res) => {
             this.wif = res;
-            console.log(`generate wif from private key`);
-            console.log(`generate wif qrcode`);
-            console.log(`popup password set plane`);
-            console.log(`popup password confirm plane`);
         }, (err) => {
             console.log(err);
             this.global.Alert('UNKNOWN');
