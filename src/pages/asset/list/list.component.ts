@@ -19,6 +19,7 @@ export class AssetListComponent implements OnInit {
     public address: string = '';
     public enabled: boolean = true;
     public neoValue: number = 0;
+
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -40,7 +41,7 @@ export class AssetListComponent implements OnInit {
                 this.getAssetList();
             });
     }
-    
+
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
         return new Promise((resolve) => {
             setTimeout(() => {

@@ -102,7 +102,7 @@ export class GlobalService {
         return str;
     }
 
-    public getQRCode(domId: any, data: any, width: number, logo: any = 'assets/asset/qrcode_logo.png' ) {
+    public getQRCode(domId: any, data: any, width: number, logo: any = 'assets/app/logo.png' ) {
         const qrcode = document.getElementById(domId);
         QrCodeWithLogo.toImage({
             image: qrcode,
