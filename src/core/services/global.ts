@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertController, LoadingController, Alert, Loading, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { UtilService, WalletService } from '../../neo';
-import { Clipboard } from '@ionic-native/clipboard';
+// import { Clipboard } from '@ionic-native/clipboard';
 import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
 
@@ -16,7 +16,7 @@ export class GlobalService {
         private loading: LoadingController,
         private translate: TranslateService,
         private platform: Platform,
-        private clipBoard: Clipboard,
+        // private clipBoard: Clipboard,
         private storage: Storage,
         private wallet: WalletService
     ) {}
@@ -72,12 +72,11 @@ export class GlobalService {
     }
 
     public Copy(selector: string): Promise<any> {
-        if (this.platform.is('core') || this.platform.is('mobileweb')) {
+        // if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.copyForBrowser(selector);
-        } else {
-            return this.clipBoard.copy(document.getElementById(selector).innerText);
-        }
-
+        // } else {
+        //     return this.clipBoard.copy(document.getElementById(selector).innerText);
+        // }
     }
 
     private copyForBrowser(selector: string): Promise<any> {

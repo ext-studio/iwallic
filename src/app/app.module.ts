@@ -21,7 +21,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Clipboard } from '@ionic-native/clipboard';
+// import { Clipboard } from '@ionic-native/clipboard';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -64,7 +64,7 @@ const translateModuleConfig = {
     providers: [
         StatusBar,
         SplashScreen,
-        Clipboard,
+        // Clipboard,
         File,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
