@@ -27,8 +27,11 @@
             <span item-end>{{ asset.value }}</span>
         </ion-item>
     </ion-list>
-    <ion-infinite-scroll loadingSpinner="bubbles" [enabled]="enabled" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll [enabled]="enabled" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
 </ion-content>

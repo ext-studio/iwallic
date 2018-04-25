@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll } from 'ionic-angular';
+import { InfiniteScroll, Refresher } from 'ionic-angular';
 
 @Component({
     selector: 'transaction-list',
@@ -20,7 +20,6 @@ export class TxListComponent implements OnInit {
     }
 
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
-        console.log('Begin async operation');
         return new Promise((resolve) => {
             setTimeout(() => {
                 if (this.items.length >= 30) {
@@ -29,9 +28,14 @@ export class TxListComponent implements OnInit {
                 for (let i = 0; i < 10; i++) {
                     this.items.push(this.items.length);
                 }
-                console.log('Async operation has ended');
                 infiniteScroll.complete();
             }, 500);
         });
+    }
+
+    public doRefresh(refresher: Refresher) {
+        setTimeout(() => {
+            refresher.complete();
+        }, 500);
     }
 }

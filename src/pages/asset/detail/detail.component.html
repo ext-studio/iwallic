@@ -22,10 +22,13 @@
             <span class="num">{{ i }}</span>
         </ion-item>
     </ion-list>
-
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)"  [enabled]="enabled">
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="enabled">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
 </ion-content>
 
 <ion-footer>

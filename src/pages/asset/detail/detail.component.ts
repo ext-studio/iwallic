@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll, NavController, NavParams } from 'ionic-angular';
+import { InfiniteScroll, NavController, NavParams, Refresher } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 
 @Component({
@@ -46,5 +46,10 @@ export class AssetDetailComponent implements OnInit {
                 infiniteScroll.complete();
             }, 500);
         });
+    }
+    public doRefresh(refresher: Refresher) {
+        setTimeout(() => {
+            refresher.complete();
+        }, 500);
     }
 }
