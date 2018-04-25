@@ -12,6 +12,7 @@ export class AssetDetailComponent implements OnInit {
     public transfer: any;
     public token: string;
     public assetName: string;
+    public enabled: boolean = true;
 
     constructor(
         private navCtrl: NavController,
@@ -35,6 +36,9 @@ export class AssetDetailComponent implements OnInit {
         console.log('Begin async operation');
         return new Promise((resolve) => {
             setTimeout(() => {
+                if (this.items.length >= 20) {
+                    this.enabled = false;
+                }
                 for (let i = 0; i < 5; i++) {
                     this.items.push(this.items.length);
                 }
