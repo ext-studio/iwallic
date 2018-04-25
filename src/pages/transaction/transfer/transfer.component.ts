@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { PopupInputService, GlobalService } from '../../../core';
+import { WalletService } from '../../../neo';
 
 @Component({
     selector: 'transaction-transfer',
@@ -7,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class TxTransferComponent implements OnInit {
     public balance: number;
     public isfocus: boolean = false;
-    constructor() { }
+    constructor(
+        private input: PopupInputService,
+        private vcRef: ViewContainerRef,
+        private w: WalletService,
+        private global: GlobalService
+    ) { }
 
     public ngOnInit() {
         this.balance = 0;
@@ -18,5 +25,18 @@ export class TxTransferComponent implements OnInit {
     }
     public blurNum() {
         this.isfocus = false;
+    }
+
+    public enterPwd() {
+        this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
+            if (!res) {
+                return;
+            }
+            this.w.Match(res).then(() => {
+               console.log(true);
+            }).catch((err) => {
+                this.global.Alert(err === 'not_match' ? 'WRONGPWD' : 'UNKNOWN');
+            });
+        });
     }
 }
