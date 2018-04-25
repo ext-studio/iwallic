@@ -54,7 +54,6 @@ export class WalletCreateComponent implements OnInit {
         this.wallet.Create().subscribe((res) => {
             this.wif = res;
             this.global.getQRCode('wallet-qrcode', this.wif, 160, 'assets/app/logo.png');
-            console.log(this.wif);
         }, (err) => {
             console.log(err);
             this.global.Alert('UNKNOWN');
@@ -76,7 +75,7 @@ export class WalletCreateComponent implements OnInit {
     public enter() {
         const ask = this.alert.create({
             title: 'Caution',
-            subTitle: 'Sure to enter wallet ?(Please ensure you have backed up your WIF)',
+            subTitle: 'Sure to enter wallet?\n(Please ensure you have backed up your WIF)',
             buttons: ['Cancel', {
                 text: 'Enter',
                 role: 'go'

@@ -38,7 +38,6 @@ export class WalletService {
     public Wallet(): Observable<any> {
         return new Observable<any>((observer) => {
             this.storage.get('wallet').then((res) => {
-                console.log(res);
                 if (!(res && res.wif)) {
                     observer.error('not_exist');
                     return;
@@ -62,7 +61,8 @@ export class WalletService {
     public SetWallet(wif: string, key: string): Promise<any> {
         return this.storage.set('wallet', {
             wif: wif,
-            key: this.shaEncode(key)
+            key: this.shaEncode(key),
+            backup: false
         });
     }
     /**
@@ -83,6 +83,13 @@ export class WalletService {
             } else {
                 return Promise.reject('not_match');
             }
+        });
+    }
+
+    public Backup() {
+        this.storage.get('wallet').then((res) => {
+            res['backup'] = true;
+            this.storage.set('wallet', res);
         });
     }
 

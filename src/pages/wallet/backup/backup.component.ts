@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
 import { WalletService } from '../../../neo';
-import { NavController, MenuController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, MenuController, NavParams, AlertController, Navbar } from 'ionic-angular';
 
 /**
  *  also as wallet backup page
@@ -18,6 +18,7 @@ import { NavController, MenuController, NavParams, AlertController } from 'ionic
     templateUrl: 'backup.component.html'
 })
 export class WalletBackupComponent implements OnInit {
+    @ViewChild(Navbar) public navBar: Navbar;
     public verified: boolean = false;
     public wallet: any;
     public copied: boolean;
@@ -27,7 +28,8 @@ export class WalletBackupComponent implements OnInit {
         private alert: AlertController,
         private w: WalletService,
         private input: PopupInputService,
-        private vcRef: ViewContainerRef
+        private vcRef: ViewContainerRef,
+        private nav: NavController
     ) { }
 
     public ngOnInit() {
@@ -36,6 +38,13 @@ export class WalletBackupComponent implements OnInit {
         }, (err) => {
             this.global.Alert('UNKNOWN');
         });
+        this.navBar.backButtonClick = () => {
+            if (this.verified) {
+                this.leaveConfirm();
+            } else {
+                this.nav.pop();
+            }
+        };
     }
 
     public copy() {
@@ -61,6 +70,27 @@ export class WalletBackupComponent implements OnInit {
             }).catch((err) => {
                 this.global.Alert(err === 'not_match' ? 'WRONGPWD' : 'UNKNOWN');
             });
+        });
+    }
+
+    public leaveConfirm() {
+        const alert = this.alert.create({
+            title: 'Tip',
+            subTitle: 'Have you backed up and sure to leave?',
+            buttons: [
+                'Cancel',
+                {
+                    text: 'Leave now',
+                    role: 'ok'
+                }
+            ]
+        });
+        alert.present();
+        alert.onDidDismiss((data, role) => {
+            if (role === 'ok') {
+                this.w.Backup();
+                this.nav.pop();
+            }
         });
     }
 }

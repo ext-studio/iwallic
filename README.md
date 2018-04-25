@@ -70,3 +70,9 @@ path | desc
 * * List
 * Transaction (to do)
 * NEO (to do)
+
+## To s
+
+1. Show confirm alert when exit wallet backup page.
+2. Save to album when backup.
+3. 

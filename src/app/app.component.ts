@@ -50,7 +50,6 @@ export class AppComponent {
             this.splashScreen.hide();
             this.wallet.Wallet().subscribe(() => {
                 loader.dismiss();
-                console.log('to do...');
             }, (err) => {
                 loader.dismiss();
                 if (err === 'not_exist') {

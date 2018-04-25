@@ -22,6 +22,7 @@
     <input *ngIf="!verified" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
     <button *ngIf="verified" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
 
+    <button *ngIf="verified" class="btn copy" ion-button (click)="leaveConfirm()">I have backed up</button>
     <p class="tip" text-sm>
         Touch above to show the qrcode of your WIF key. Then print it or write it down to paper. Do not just save as screenshot or it will lose when the device is not all right.
     </p>
