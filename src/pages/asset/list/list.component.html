@@ -22,7 +22,7 @@
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let asset of assetList">
+        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name)">
             <span class="asset-type">{{ asset.name }}</span>
             <span item-end>{{ asset.value }}</span>
         </ion-item>

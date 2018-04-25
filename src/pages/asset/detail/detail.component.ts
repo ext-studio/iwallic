@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll } from 'ionic-angular';
+import { InfiniteScroll, NavController, NavParams } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 
 @Component({
@@ -7,10 +7,20 @@ import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
     templateUrl: 'detail.component.html'
 })
 export class AssetDetailComponent implements OnInit {
-    constructor() { }
     public items: any[];
     public receipt: any;
     public transfer: any;
+    public token: string;
+    public assetName: string;
+
+    constructor(
+        private navCtrl: NavController,
+        private navParams: NavParams
+    ) {
+        this.token = navParams.get('token');
+        this.assetName = navParams.get('name');
+    }
+
     public ngOnInit() {
         this.receipt = TxReceiptComponent;
         this.transfer = TxTransferComponent;
