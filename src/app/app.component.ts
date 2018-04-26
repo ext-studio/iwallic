@@ -62,7 +62,12 @@ export class AppComponent {
     }
 
     public pushPage(page: any) {
-        this.nav.push(page);
+        if (this.nav.getActive().name === 'AssetListComponent') {
+            this.nav.push(page);
+        } else {
+            this.nav.pop({animate: false});
+            this.nav.push(page, null, {animate: true});
+        }
         this.menu.close();
     }
 

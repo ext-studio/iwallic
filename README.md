@@ -71,8 +71,6 @@ path | desc
 * Transaction (to do)
 * NEO (to do)
 
-## To s
+## Todoes
 
-1. Show confirm alert when exit wallet backup page.
-2. Save to album when backup.
-3. 
+2. Copy result in recept page.

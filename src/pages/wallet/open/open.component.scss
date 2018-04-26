@@ -16,4 +16,7 @@ wallet-open {
         flex: 0 0 140px;
         width: 140px;
     }
+    input.text-input[disabled] {
+        opacity: 1;
+    }
 }
