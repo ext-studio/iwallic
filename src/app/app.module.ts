@@ -4,6 +4,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from '../core';
@@ -65,6 +67,8 @@ const translateModuleConfig = {
         StatusBar,
         SplashScreen,
         // Clipboard,
+        Camera,
+        QRScanner,
         File,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]

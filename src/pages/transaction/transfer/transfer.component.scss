@@ -1,12 +1,13 @@
 transaction-transfer {
     ion-content {
-        background: #f5f5f5 !important; 
+        background: none; 
         ion-list {
             margin: 0;
             .scan {
                 height: 22px;
                 width: 22px;
-                background: url('/assets/transaction/icon_scan.png') no-repeat center;
+                border: none;
+                margin: 0 !important;
             }
             ion-input {
                 font-size: 15px;
