@@ -25,7 +25,7 @@ export class AppComponent {
     public SettingPage = SystemSettingComponent;
     public HelperPage = SystemHelperComponent;
     public AboutPage = SystemAboutComponent;
-    private rootPage: any = AssetListComponent;
+    private rootPage: any;
 
     constructor(
         private platform: Platform,
@@ -50,6 +50,7 @@ export class AppComponent {
             this.splashScreen.hide();
             this.wallet.Wallet().subscribe(() => {
                 loader.dismiss();
+                this.rootPage = AssetListComponent;
             }, (err) => {
                 loader.dismiss();
                 if (err === 'not_exist') {
@@ -61,7 +62,12 @@ export class AppComponent {
     }
 
     public pushPage(page: any) {
-        this.nav.push(page);
+        if (this.nav.getActive().name === 'AssetListComponent') {
+            this.nav.push(page);
+        } else {
+            this.nav.pop({animate: false});
+            this.nav.push(page, null, {animate: true});
+        }
         this.menu.close();
     }
 
