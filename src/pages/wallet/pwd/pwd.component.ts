@@ -28,6 +28,9 @@ export class WalletPwdComponent implements OnInit {
         });
     }
     public enterRePwd() {
+        if (!this.pwd || this.pwd.length !== 6) {
+            return;
+        }
         this.input.open(this.vcRef, 'CONFIRM').afterClose().subscribe((res) => {
             if (res) {
                 this.rePwd = res;
