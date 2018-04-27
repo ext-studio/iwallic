@@ -14,3 +14,4 @@ export { TxListComponent } from './transaction/list/list.component';
 export { TxReceiptComponent } from './transaction/receipt/receipt.component';
 export { TxTransferComponent } from './transaction/transfer/transfer.component';
 export { TxSuccessComponent } from './transaction/success/success.component';
+export { ScanAddrComponent } from './system/scan/scan.component';

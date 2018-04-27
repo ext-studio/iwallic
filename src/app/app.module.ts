@@ -15,7 +15,8 @@ import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
+    ScanAddrComponent
 } from '../pages';
 import { TranslateModule, TranslateLoader, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -44,7 +45,8 @@ const translateModuleConfig = {
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
-        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent // transaction
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
+        ScanAddrComponent
     ],
     imports: [
         BrowserModule,
@@ -61,7 +63,8 @@ const translateModuleConfig = {
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
-        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
+        ScanAddrComponent
     ],
     providers: [
         StatusBar,
