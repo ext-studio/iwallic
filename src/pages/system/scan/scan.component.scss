@@ -1,4 +1,13 @@
 scan {
+    .content-md {
+        background-color: none transparent !important;
+    }
+    ion-app.md {
+        background-color: none transparent !important;;
+    }
+    ion-content {
+        background: none transparent !important;
+    }
     .qrscanner {
         background: none;
         &-area {

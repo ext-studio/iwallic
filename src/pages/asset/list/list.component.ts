@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { WalletBackupComponent, AssetDetailComponent } from '../../../pages';
-import { InfiniteScroll, NavController, Refresher } from 'ionic-angular';
+import { InfiniteScroll, NavController, Refresher, AlertController, } from 'ionic-angular';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
 
@@ -27,6 +27,7 @@ export class AssetListComponent implements OnInit {
         private wallet: WalletService,
         private global: GlobalService,
         private navctrl: NavController,
+        private alert: AlertController
     ) { }
 
     public ngOnInit() {
@@ -100,9 +101,13 @@ export class AssetListComponent implements OnInit {
     }
 
     public jumpDetail(token: string, name: string) {
-        this.navctrl.push(AssetDetailComponent, {
-            token: token,
-            name: name
-        });
+        // this.navctrl.push(AssetDetailComponent, {
+        //     token: token,
+        //     name: name
+        // });
+        this.alert.create({subTitle: 'Coming soon'}).present();
+    }
+    public addAsset() {
+        this.alert.create({subTitle: 'Coming soon'}).present();
     }
 }
