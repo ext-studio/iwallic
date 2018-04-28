@@ -8,17 +8,35 @@ import * as sha from 'sha.js';
 
 @Injectable()
 export class WalletService {
-
+    private cacheWIF: {
+        wif: string,
+        backup: boolean
+    };
     constructor(
         private util: UtilService,
         private storage: Storage
-    ) {}
+    ) {
+        // console.log(wallet.decrypt(''));
+    }
+
     /**
-     * generate new private key by neon-js
-     * inner implements is ``window.crypto.getRandomValues()``
+     * create a new NEP-2 wallet
+     * generate and encrypt private key by neon-js
      */
-    public Create(): Observable<string> {
-        return Observable.of(wallet.getWIFFromPrivateKey(wallet.generatePrivateKey()));
+    public Create(pwd: string = 'iwallic'): Observable<{
+        key: string,
+        wif: string
+    }> {
+        return new Observable<{
+            key: string,
+            wif: string
+        }>((observer) => {
+            const wif = wallet.getWIFFromPrivateKey(wallet.generatePrivateKey());
+            const addr = this.GetAddressFromWIF(wif);
+            const encKey = wallet.encrypt(wif, pwd);
+            observer.next({key: encKey, wif: wif});
+            observer.complete();
+        });
     }
 
     public GetAddressFromWIF(wif: string): string {
@@ -35,17 +53,32 @@ export class WalletService {
         return wallet.isWIF(wif);
     }
 
-    public Wallet(): Observable<any> {
+    public Wallet(pwd?: string): Observable<{
+        wif: string,
+        backup: boolean
+    }> {
         return new Observable<any>((observer) => {
-            this.storage.get('wallet').then((res) => {
-                if (!(res && res.wif)) {
+            if (!pwd) {
+                if (this.cacheWIF) {
+                    observer.next(this.cacheWIF);
+                    observer.complete();
+                    return;
+                } else {
+                    observer.error('need_pwd');
+                    return;
+                }
+            }
+            this.storage.get('wallet').then((res: {
+                key: string,
+                backup: boolean
+            }) => {
+                if (!res || !res.key) {
                     observer.error('not_exist');
                     return;
                 }
-                observer.next({
-                    address: this.GetAddressFromWIF(res.wif),
-                    wif: res.wif
-                });
+                this.cacheWIF = {wif: wallet.decrypt(res.key, pwd), backup: res.backup};
+                observer.next(this.cacheWIF);
+                observer.complete();
                 return;
             }).catch((err) => {
                 observer.error(err);
@@ -58,10 +91,9 @@ export class WalletService {
      * @param wif WIF key
      * @param key password
      */
-    public SetWallet(wif: string, key: string): Promise<any> {
+    public SetWallet(key: string): Promise<any> {
         return this.storage.set('wallet', {
-            wif: wif,
-            key: this.shaEncode(key),
+            key: key,
             backup: false
         });
     }

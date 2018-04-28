@@ -6,7 +6,7 @@ import {
 import { WalletService, wallet as w } from '../../../neo';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
-import { NavController, MenuController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, MenuController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 
 /**
@@ -28,7 +28,10 @@ import { AssetListComponent } from '../../asset/list/list.component';
 })
 export class WalletCreateComponent implements OnInit {
     public shown: boolean = true;
-    public wif: string = '';
+    public newWallet: {
+        key: string,
+        wif: string
+    };
     public copied: boolean;
     public pwd: string;
     constructor(
@@ -38,6 +41,7 @@ export class WalletCreateComponent implements OnInit {
         private menu: MenuController,
         private vcRef: ViewContainerRef,
         private input: PopupInputService,
+        private loading: LoadingController,
         private navParams: NavParams,
         private alert: AlertController
     ) {
@@ -51,9 +55,13 @@ export class WalletCreateComponent implements OnInit {
             this.global.Alert('UNKNOWN');
             return;
         }
-        this.wallet.Create().subscribe((res) => {
-            this.wif = res;
-            this.global.getQRCode('wallet-qrcode', this.wif, 160, 'assets/app/logo.png');
+        const load = this.loading.create({content: 'Creating...'});
+        this.wallet.Create(this.pwd).subscribe((res: {
+            key: string,
+            wif: string
+        }) => {
+            this.newWallet = res;
+            this.global.getQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
         }, (err) => {
             console.log(err);
             this.global.Alert('UNKNOWN');
@@ -84,7 +92,7 @@ export class WalletCreateComponent implements OnInit {
         ask.present();
         ask.onDidDismiss((data, role) => {
             if (role === 'go') {
-                this.wallet.SetWallet(this.wif, this.pwd).then(() => {
+                this.wallet.SetWallet(this.newWallet.key).then(() => {
                     this.navCtrl.setRoot(AssetListComponent);
                 }).catch(() => {
                     this.global.Alert('UNKNOWN');

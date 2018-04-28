@@ -73,4 +73,15 @@ path | desc
 
 ## Todoes
 
-2. Copy result in recept page.
+* Copy result in recept page.
+
+* font-color of list item (setting helper .eg)
+* wallet backup (move to Pikachu (support NEP-2/NEP-6))
+* popup input not present fine
+* tips when created new wallet
+* only new created wallet should ask to backup
+* draggable in browser
+* scroll of asset list(maybe ionic)
+* the eye(for hidden wif) support verify in wallet backup page
+* back button in browsers
+* created new wallet, click copy btn then back to gate page
