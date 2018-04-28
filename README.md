@@ -70,3 +70,7 @@ path | desc
 * * List
 * Transaction (to do)
 * NEO (to do)
+
+## Todoes
+
+2. Copy result in recept page.

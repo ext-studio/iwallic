@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll } from 'ionic-angular';
+import { InfiniteScroll, NavController, NavParams, Refresher } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 
 @Component({
@@ -7,10 +7,21 @@ import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
     templateUrl: 'detail.component.html'
 })
 export class AssetDetailComponent implements OnInit {
-    constructor() { }
     public items: any[];
     public receipt: any;
     public transfer: any;
+    public token: string;
+    public assetName: string;
+    public enabled: boolean = true;
+
+    constructor(
+        private navCtrl: NavController,
+        private navParams: NavParams
+    ) {
+        this.token = navParams.get('token');
+        this.assetName = navParams.get('name');
+    }
+
     public ngOnInit() {
         this.receipt = TxReceiptComponent;
         this.transfer = TxTransferComponent;
@@ -25,6 +36,9 @@ export class AssetDetailComponent implements OnInit {
         console.log('Begin async operation');
         return new Promise((resolve) => {
             setTimeout(() => {
+                if (this.items.length >= 20) {
+                    this.enabled = false;
+                }
                 for (let i = 0; i < 5; i++) {
                     this.items.push(this.items.length);
                 }
@@ -32,5 +46,10 @@ export class AssetDetailComponent implements OnInit {
                 infiniteScroll.complete();
             }, 500);
         });
+    }
+    public doRefresh(refresher: Refresher) {
+        setTimeout(() => {
+            refresher.complete();
+        }, 500);
     }
 }

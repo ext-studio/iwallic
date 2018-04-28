@@ -1,0 +1,24 @@
+transaction-list {
+    ion-content {
+        ion-item {
+            height: 60px;
+            line-height: 60px;
+            font-size: 13px;
+            &.payment {
+                color: #d95959; 
+            }
+            &.revenue {
+                color: #646163
+            }
+            img {
+                width: 25px;
+                height: 25px;
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+            .num {
+                float: right;
+            }
+        }
+    }
+}
