@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, NavController, ViewController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { TxTransferComponent } from '../../../pages';
 
 @Component({
     selector: 'scan',
@@ -12,10 +13,10 @@ export class ScanAddrComponent implements OnInit {
     protected frontCamera: boolean = false;
 
     constructor(
-        public navCtrl: NavController,
-        public navParams: NavParams,
+        private navCtrl: NavController,
+        private navParams: NavParams,
         private qrScanner: QRScanner,
-        public viewCtrl: ViewController
+        private viewCtrl: ViewController,
     ) {
     }
 
@@ -24,20 +25,22 @@ export class ScanAddrComponent implements OnInit {
             .then((status: QRScannerStatus) => {
                 if (status.authorized) {
                     // camera permission was granted
-
                     // start scanning
                     const scanSub = this.qrScanner.scan().subscribe((text: string) => {
-                        // alert(text);
-
                         this.qrScanner.hide(); // hide camera preview
-                        scanSub.unsubscribe(); // stop scanning
-                    });
+                        this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1 , TxTransferComponent, {
+                            'addr': text
+                        });
+                        this.navCtrl.pop({animate: false});
+                        this.navCtrl.pop({animate: false});
 
+                        scanSub.unsubscribe(); // stop scanning
+                        this.hideCamera();
+                    });
                     // show camera preview
                     this.qrScanner.show();
-
+                    this.showCamera();
                     // wait for user to scan something, then the observable callback will be called
-
                 } else if (status.denied) {
                     // camera permission was permanently denied
                     // you must use QRScanner.openSettings() method to guide the user to the settings page
@@ -67,6 +70,12 @@ export class ScanAddrComponent implements OnInit {
         } else {
             this.qrScanner.useFrontCamera();
         }
+    }
+    public showCamera() {
+        (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'transparent';
+    }
+    public hideCamera() {
+        (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'white';
     }
 
 }
