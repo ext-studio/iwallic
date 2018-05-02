@@ -130,7 +130,6 @@ export class Wallet {
             this.accounts.push(new Account(account));
         }
         this.extra = nep6['extra'] || null;
-        // 设置一个主地址
     }
     public static fromWIF(wif: string, pwd: string): Wallet {
         const wal = new Wallet({accounts: [Account.fromWIF(wif, pwd)]});
@@ -163,11 +162,9 @@ export class WalletService {
     public Import(text: string, pwd: string, type: 'NEP2' | 'NEP6'): Observable<any> {
         return new Observable((observer) => {
             if (type === 'NEP2') {
-                // 传入的是WIF 对其进行加密并转NEP-6
                 observer.next(Wallet.fromWIF(text, pwd));
                 observer.complete();
             } else if (type === 'NEP6') {
-                // 传入的就是NEP-6 JSON 校验密码
                 observer.error('unsupport');
             } else {
                 observer.error('type_error');
@@ -253,10 +250,6 @@ export class WalletService {
 
     public CheckWIF(wif: string): boolean {
         return wallet.isWIF(wif);
-    }
-
-    public Wallet(): Observable<any> {
-        return Observable.of({wif: 'L1WPxDLrwwQujjHbNHDUwh94g7KL2T8hb64ZaGTJaFQHN6XK1Pwg'});
     }
 
     /**
