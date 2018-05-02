@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { WalletBackupComponent, AssetDetailComponent } from '../../../pages';
-import { InfiniteScroll, NavController, Refresher, AlertController, } from 'ionic-angular';
+import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
 
@@ -20,6 +20,7 @@ export class AssetListComponent implements OnInit {
     public address: string = '';
     public enabled: boolean = true;
     public neoValue: number = 0;
+    public pageSize: number = 5;
 
     constructor(
         private http: HttpClient,
@@ -27,7 +28,8 @@ export class AssetListComponent implements OnInit {
         private wallet: WalletService,
         private global: GlobalService,
         private navctrl: NavController,
-        private alert: AlertController
+        private alert: AlertController,
+        private platform: Platform
     ) { }
 
     public ngOnInit() {
@@ -45,6 +47,8 @@ export class AssetListComponent implements OnInit {
                             this.neoValue = this.assetListValue[j].balance;
                         }
                     }
+                    const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
+                    this.pageSize = parseInt(tempsize, 0);
                     this.getAssetList();
                 }, (err) => {
                     this.global.Alert('REQUESTFAILED');
@@ -55,7 +59,6 @@ export class AssetListComponent implements OnInit {
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
         return new Promise((resolve) => {
             setTimeout(() => {
-                console.log(this.page);
                 this.page += 1;
                 this.getAssetList();
                 infiniteScroll.complete();
@@ -74,7 +77,7 @@ export class AssetListComponent implements OnInit {
 
     public getAssetList() {
         this.http.post(this.global.apiAddr + '/api/block',
-            { 'method': 'getassets', 'params': [this.page, 5] }).subscribe(res => {
+            { 'method': 'getassets', 'params': [this.page, this.pageSize] }).subscribe(res => {
                 if ( res['result']['data'] === undefined ) {
                     this.global.Alert('REQUESTFAILED');
                     return;

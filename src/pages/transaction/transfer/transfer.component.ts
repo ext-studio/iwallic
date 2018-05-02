@@ -22,7 +22,6 @@ export class TxTransferComponent implements OnInit {
     ) {
         if (this.navParams.get('addr')) {
             this.addr = this.navParams.get('addr');
-            // alert(this.addr);
         }
     }
 
@@ -52,5 +51,9 @@ export class TxTransferComponent implements OnInit {
 
     public qrScan() {
         this.navCtrl.push(ScanAddrComponent);
+    }
+
+    public transfer() {
+        return;
     }
 }

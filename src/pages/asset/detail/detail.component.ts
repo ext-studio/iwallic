@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll, NavController, NavParams, Refresher } from 'ionic-angular';
+import { InfiniteScroll, NavController, NavParams, Refresher, Platform } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 
 @Component({
@@ -13,10 +13,11 @@ export class AssetDetailComponent implements OnInit {
     public token: string;
     public assetName: string;
     public enabled: boolean = true;
-
+    public pageSize: number = 5;
     constructor(
         private navCtrl: NavController,
-        private navParams: NavParams
+        private navParams: NavParams,
+        private platform: Platform
     ) {
         this.token = navParams.get('token');
         this.assetName = navParams.get('name');
@@ -26,23 +27,19 @@ export class AssetDetailComponent implements OnInit {
         this.receipt = TxReceiptComponent;
         this.transfer = TxTransferComponent;
         this.items = [];
-        for (let i = 0; i < 5; i++) {
+        const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
+        this.pageSize = parseInt(tempsize, 0);
+        for (let i = 0; i < this.pageSize; i++) {
             this.items.push(this.items.length);
         }
-
     }
 
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
-        console.log('Begin async operation');
         return new Promise((resolve) => {
             setTimeout(() => {
-                if (this.items.length >= 20) {
-                    this.enabled = false;
-                }
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < this.pageSize; i++) {
                     this.items.push(this.items.length);
                 }
-                console.log('Async operation has ended');
                 infiniteScroll.complete();
             }, 500);
         });
