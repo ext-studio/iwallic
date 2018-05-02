@@ -33,8 +33,8 @@ export class AssetListComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.wallet.Wallet().subscribe((res) => {
-            this.address = this.wallet.GetAddressFromWIF(res.wif);
+        this.wallet.Get().subscribe((res) => {
+            this.address = res.account.address;
             this.http.post(this.global.apiAddr + '/api/block',
                 { 'method': 'getaddressasset', 'params': [this.address] }).subscribe(result => {
                     if ( result['result']['AddrAsset'] === undefined ) {

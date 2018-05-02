@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, Refresher } from 'ionic-angular';
+import { HttpClient } from '@angular/common/http';
+import { GlobalService } from '../../../core';
 
 @Component({
     selector: 'transaction-list',
@@ -8,8 +10,14 @@ import { InfiniteScroll, Refresher } from 'ionic-angular';
 export class TxListComponent implements OnInit {
     public items: any[];
     public enabled: boolean = true;
+    public address: string = '';
+    public page: number = 1;
+    public pageSize: number = 5;
 
-    constructor() {}
+    constructor(
+        private http: HttpClient,
+        private global: GlobalService
+    ) { }
 
     public ngOnInit() {
         this.items = [];
@@ -37,5 +45,15 @@ export class TxListComponent implements OnInit {
         setTimeout(() => {
             refresher.complete();
         }, 500);
+    }
+
+    public getTxList() {
+        this.http.post(this.global.apiAddr + '/api/block',
+            { 'method': 'getpagetxbyaddress', 'params': [this.page, this.pageSize] }).subscribe(result => {
+
+            }, (err) => {
+                console.log(err);
+            });
+        return;
     }
 }

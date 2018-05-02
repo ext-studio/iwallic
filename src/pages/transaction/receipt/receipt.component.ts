@@ -10,7 +10,6 @@ import { AlertController } from 'ionic-angular';
 })
 export class TxReceiptComponent implements OnInit {
     public address: string;
-    public wif: string;
     public copied: boolean;
     constructor(
         private storage: Storage,
@@ -19,9 +18,8 @@ export class TxReceiptComponent implements OnInit {
         private alert: AlertController,
     ) { }
     public ngOnInit() {
-        this.wallet.Wallet().subscribe((res) => {
-            this.wif = res.wif;
-            this.address = this.wallet.GetAddressFromWIF(res.wif);
+        this.wallet.Get().subscribe((res) => {
+            this.address = res.account.address;
             this.global.getQRCode('qrcode', this.address, 200);
         });
     }
