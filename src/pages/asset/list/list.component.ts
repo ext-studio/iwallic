@@ -103,11 +103,10 @@ export class AssetListComponent implements OnInit {
     }
 
     public jumpDetail(token: string, name: string) {
-        // this.navctrl.push(AssetDetailComponent, {
-        //     token: token,
-        //     name: name
-        // });
-        this.alert.create({subTitle: 'Coming soon'}).present();
+        this.navctrl.push(AssetDetailComponent, {
+            token: token,
+            name: name
+        });
     }
     public addAsset() {
         this.alert.create({subTitle: 'Coming soon'}).present();
