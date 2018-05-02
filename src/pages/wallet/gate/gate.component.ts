@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
+import { WalletService, Wallet } from '../../../neo';
 
 /**
  * wallet gate page
@@ -15,15 +16,14 @@ import { WalletPwdComponent } from '../pwd/pwd.component';
 })
 export class WalletGateComponent implements OnInit {
     public openPage = WalletOpenComponent;
+    public createPage = WalletPwdComponent;
     constructor(
         private navCtrl: NavController,
-        private menu: MenuController
+        private menu: MenuController,
+        private wallet: WalletService
     ) { }
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
-    }
-    public create() {
-        this.navCtrl.push(WalletPwdComponent);
     }
 }

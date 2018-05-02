@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Verify</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <input placeholder="Tap to enter." type="password" [(ngModel)]="pwd" />
+    <div padding margin-vertical>
+        <button ion-button block clear (click)="verify()" [disabled]="!pwd?.length">
+            <ion-spinner *ngIf="verifying"></ion-spinner>
+            <span *ngIf="!verifying">Enter wallet</span>
+        </button>
+    </div>
+</ion-content>

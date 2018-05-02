@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -10,10 +10,11 @@ import { WalletService } from '../neo';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
+    WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
+import { PopupInputService } from '../core';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -37,27 +38,25 @@ export class AppComponent {
         private loading: LoadingController,
         private global: GlobalService,
         private wallet: WalletService,
-        private menu: MenuController
+        private menu: MenuController,
+        private input: PopupInputService,
+        private vcRef: ViewContainerRef
     ) {
         this.initializeApp();
     }
 
     private initializeApp() {
-        // this.storage.remove('wallet');
         this.platform.ready().then(() => {
             const loader = this.loading.create();
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            this.wallet.Wallet().subscribe(() => {
+            this.wallet.Check().subscribe(() => {
                 loader.dismiss();
-                this.rootPage = AssetListComponent;
+                this.nav.setRoot(WalletVerifyComponent);
             }, (err) => {
                 loader.dismiss();
-                if (err === 'not_exist') {
-                    this.nav.setRoot(WalletGateComponent);
-                }
-                console.log(err);
+                this.nav.setRoot(WalletGateComponent);
             });
         });
     }
@@ -87,7 +86,7 @@ export class AppComponent {
         alert.present();
         alert.onDidDismiss((data, role) => {
             if (role === 'go') {
-                this.wallet.CloseWallet();
+                this.wallet.Close();
                 this.menu.close();
                 this.nav.setRoot(WalletGateComponent);
             }

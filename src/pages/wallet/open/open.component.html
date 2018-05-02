@@ -30,5 +30,6 @@
     <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
     <div padding margin-vertical>
         <button ion-button block (click)="import()" [disabled]="!check() || !checkWIF()">Import wallet</button>
+        <button ion-button block outline (click)="fromNEP6()">Import NEP-6 wallet</button>
     </div>
 </ion-content>

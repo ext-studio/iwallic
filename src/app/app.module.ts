@@ -14,7 +14,8 @@ import { SharedModule } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
+    WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
+    WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
@@ -44,7 +45,8 @@ const translateModuleConfig = {
         AppComponent, // root
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
-        WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent, // wallet
+        WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
+        WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent, // wallet
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
         ScanAddrComponent
     ],
@@ -62,7 +64,8 @@ const translateModuleConfig = {
         AppComponent,
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-        WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletCreateComponent, WalletPwdComponent,
+        WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
+        WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
         ScanAddrComponent
     ],

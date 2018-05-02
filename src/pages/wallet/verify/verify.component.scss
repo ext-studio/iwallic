@@ -1,0 +1,17 @@
+wallet-verify {
+    input {
+        text-align: center;
+        outline: none;
+        border: none;
+        font-size: 24px;
+        font-weight: 600;
+        color: map-get($colors, primary);
+        width: 100%;
+        margin: 32px 0 16px 0;
+        letter-spacing: 3px;
+    }
+    input::placeholder {
+        color: map-get($colors, primary);
+        opacity: 0.5;
+    }
+}

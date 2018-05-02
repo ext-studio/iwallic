@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { WalletCreateComponent } from '../create/create.component';
-import { NavController, MenuController } from 'ionic-angular';
+import { NavController, MenuController, LoadingController } from 'ionic-angular';
 
 @Component({
     selector: 'wallet-pwd',
@@ -14,29 +14,11 @@ export class WalletPwdComponent implements OnInit {
     constructor(
         private vcRef: ViewContainerRef,
         private navCtrl: NavController,
-        private input: PopupInputService
+        private input: PopupInputService,
+        private load: LoadingController
     ) { }
 
     public ngOnInit() { }
-    public enterPwd() {
-        this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
-            if (res) {
-                this.pwd = res;
-                this.rePwd = '';
-                this.enterRePwd();
-            }
-        });
-    }
-    public enterRePwd() {
-        if (!this.pwd || this.pwd.length !== 6) {
-            return;
-        }
-        this.input.open(this.vcRef, 'CONFIRM').afterClose().subscribe((res) => {
-            if (res) {
-                this.rePwd = res;
-            }
-        });
-    }
     public create() {
         if (!this.check()) {
             return;
@@ -44,6 +26,6 @@ export class WalletPwdComponent implements OnInit {
         this.navCtrl.setRoot(WalletCreateComponent, {pwd: this.pwd});
     }
     public check() {
-        return this.pwd && this.pwd.length === 6 && this.pwd === this.rePwd;
+        return this.pwd && this.pwd === this.rePwd;
     }
 }
