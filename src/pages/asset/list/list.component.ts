@@ -67,7 +67,6 @@ export class AssetListComponent implements OnInit {
             this.page = 1;
             this.enabled = true;
             this.assetList = [];
-            this.assetListValue = [];
             this.getAssetList();
             refresher.complete();
         }, 500);
