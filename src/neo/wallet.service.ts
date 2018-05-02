@@ -84,7 +84,6 @@ export class Account {
         return new Observable((observer) => {
             setTimeout(() => {
                 try {
-                    console.log(this.key, pwd);
                     const check = wallet.decrypt(this.key, pwd);
                     if (check) {
                         observer.next(true);
@@ -161,14 +160,16 @@ export class WalletService {
      */
     public Import(text: string, pwd: string, type: 'NEP2' | 'NEP6'): Observable<any> {
         return new Observable((observer) => {
-            if (type === 'NEP2') {
-                observer.next(Wallet.fromWIF(text, pwd));
-                observer.complete();
-            } else if (type === 'NEP6') {
-                observer.error('unsupport');
-            } else {
-                observer.error('type_error');
-            }
+            setTimeout(() => {
+                if (type === 'NEP2') {
+                    observer.next(Wallet.fromWIF(text, pwd));
+                    observer.complete();
+                } else if (type === 'NEP6') {
+                    observer.error('unsupport');
+                } else {
+                    observer.error('type_error');
+                }
+            }, 200);
         });
     }
     /**
@@ -209,7 +210,7 @@ export class WalletService {
      * if cache exist, return it
      */
     public Get(pwd?: string): Observable<any> {
-        if (this.cached) {
+        if (this.cached && !pwd) {
             return Observable.of(this.cached);
         }
         if (!pwd) {

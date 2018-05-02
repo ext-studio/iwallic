@@ -1,6 +1,6 @@
-<div class="mask" (click)="startClose()" [@mask]="open"></div>
-<div class="board" [@flyUp]="open">
-    <div class="title">
+<!-- <div class="mask" (click)="startClose()" [@mask]="open"></div> -->
+<div class="board" [@flyUp]="open" padding>
+    <!-- <div class="title">
         <ion-icon name="close" class="close" (click)="startClose()"></ion-icon>
         <span *ngIf="type === 'ENTER'">Input</span> <span *ngIf="type === 'CONFIRM'">Confirm</span> Password
     </div>
@@ -33,5 +33,8 @@
         <div class="num none">
             <ion-icon name="backspace" class="backspace" (click)="backspace()"></ion-icon>
         </div>
-    </div>
+    </div> -->
+    <input type="password" class="pwd" [(ngModel)]="pwd" placeholder="Tap to confirm." />
+    <button ion-button block (click)="confirm()" [disabled]="!pwd?.length">Confirm</button>
+    <button ion-button block clear (click)="cancel()">Cancel</button>
 </div>

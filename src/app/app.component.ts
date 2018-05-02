@@ -73,7 +73,7 @@ export class AppComponent {
 
     public signOut() {
         const alert = this.alert.create({
-            title: 'Caution',
+            title: 'Warning',
             subTitle: 'Are you sure to close your wallet ?',
             buttons: [
                 'Cancel',

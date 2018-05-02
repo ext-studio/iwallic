@@ -56,6 +56,9 @@ export class WalletOpenComponent implements OnInit {
         if (!this.check() || !this.checkWIF()) {
             return;
         }
+        if (this.importing) {
+            return;
+        }
         this.importing = true;
         this.wallet.Import(this.wif, this.pwd, 'NEP2').subscribe((res) => {
             this.wallet.Save(res);
@@ -68,7 +71,7 @@ export class WalletOpenComponent implements OnInit {
         this.alert.create({title: 'Completing soon !'}).present();
     }
     public check() {
-        return this.pwd && this.pwd.length === 6 && this.pwd === this.rePwd;
+        return this.pwd && this.pwd === this.rePwd;
     }
     public checkWIF() {
         return this.wif && this.wallet.CheckWIF(this.wif);

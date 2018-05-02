@@ -1,15 +1,11 @@
-<ion-header>
-    <ion-navbar>
-        <ion-title>Verify</ion-title>
-    </ion-navbar>
-</ion-header>
-
-<ion-content>
-    <input placeholder="Tap to enter." type="password" [(ngModel)]="pwd" />
+<ion-content style="background: url('assets/wallet/gate_bg.png') no-repeat center; background-size: cover;">
+    <input placeholder="Tap to verify." type="password" [(ngModel)]="pwd" />
     <div padding margin-vertical>
-        <button ion-button block clear (click)="verify()" [disabled]="!pwd?.length">
+        <button class="verify" ion-button block (click)="verify()" [disabled]="!pwd?.length">
             <ion-spinner *ngIf="verifying"></ion-spinner>
-            <span *ngIf="!verifying">Enter wallet</span>
+            <span *ngIf="!verifying">Enter</span>
         </button>
+        <button ion-button block clear [navPush]="openPage">open</button>
+        <button ion-button block clear [navPush]="createPage">create</button>
     </div>
 </ion-content>

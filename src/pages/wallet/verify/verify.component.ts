@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController, AlertController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
+import { WalletGateComponent } from '../gate/gate.component';
+import { WalletOpenComponent } from '../open/open.component';
+import { WalletPwdComponent } from '../pwd/pwd.component';
 import { WalletService, Wallet } from '../../../neo';
 
 @Component({
@@ -8,6 +11,8 @@ import { WalletService, Wallet } from '../../../neo';
     templateUrl: 'verify.component.html'
 })
 export class WalletVerifyComponent implements OnInit {
+    public openPage = WalletOpenComponent;
+    public createPage = WalletPwdComponent;
     public verifying: boolean = false;
     public pwd: string;
     constructor(
