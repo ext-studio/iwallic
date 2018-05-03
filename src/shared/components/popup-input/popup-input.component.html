@@ -1,39 +1,4 @@
-<!-- <div class="mask" (click)="startClose()" [@mask]="open"></div> -->
 <div class="board" [@flyUp]="open" padding>
-    <!-- <div class="title">
-        <ion-icon name="close" class="close" (click)="startClose()"></ion-icon>
-        <span *ngIf="type === 'ENTER'">Input</span> <span *ngIf="type === 'CONFIRM'">Confirm</span> Password
-    </div>
-    <div class="input">
-        <div>{{result[0] ? '*' : ''}}</div>
-        <div>{{result[1] ? '*' : ''}}</div>
-        <div>{{result[2] ? '*' : ''}}</div>
-        <div>{{result[3] ? '*' : ''}}</div>
-        <div>{{result[4] ? '*' : ''}}</div>
-        <div>{{result[5] ? '*' : ''}}</div>
-    </div>
-    <div class="keys">
-        <div class="num" (click)="enter(1)">1</div>
-        <div class="num" (click)="enter(2)">2</div>
-        <div class="num" (click)="enter(3)">3</div>
-    </div>
-    <div class="keys">
-        <div class="num" (click)="enter(4)">4</div>
-        <div class="num" (click)="enter(5)">5</div>
-        <div class="num" (click)="enter(6)">6</div>
-    </div>
-    <div class="keys">
-        <div class="num" (click)="enter(7)">7</div>
-        <div class="num" (click)="enter(8)">8</div>
-        <div class="num" (click)="enter(9)">9</div>
-    </div>
-    <div class="keys">
-        <div class="num none"></div>
-        <div class="num" (click)="enter(0)">0</div>
-        <div class="num none">
-            <ion-icon name="backspace" class="backspace" (click)="backspace()"></ion-icon>
-        </div>
-    </div> -->
     <input type="password" class="pwd" [(ngModel)]="pwd" placeholder="Tap to confirm." />
     <button ion-button block (click)="confirm()" [disabled]="!pwd?.length">Confirm</button>
     <button ion-button block clear (click)="cancel()">Cancel</button>

@@ -3,7 +3,7 @@
     <div padding margin-vertical>
         <button class="verify" ion-button block (click)="verify()" [disabled]="!pwd?.length">
             <ion-spinner *ngIf="verifying"></ion-spinner>
-            <span *ngIf="!verifying">Enter</span>
+            <span *ngIf="!verifying">Enter wallet</span>
         </button>
         <button ion-button block clear [navPush]="openPage">open</button>
         <button ion-button block clear [navPush]="createPage">create</button>
