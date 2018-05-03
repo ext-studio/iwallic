@@ -29,9 +29,7 @@ export class AssetListComponent implements OnInit {
         private navctrl: NavController,
         private alert: AlertController,
         private platform: Platform
-    ) {
-        console.log(this.backuped);
-    }
+    ) {}
 
     public ionViewDidEnter() {
         this.storage.get('wallet').then((res) => {
