@@ -155,7 +155,7 @@ export class WalletService {
         // console.log(wallet.decrypt(''));
     }
     public Verify(pwd: string, w?: Wallet): Observable<any> {
-        if (!this.cached || !w) {
+        if (!this.cached && !w) {
             return Observable.throw('not_exist');
         }
         if (w) {
