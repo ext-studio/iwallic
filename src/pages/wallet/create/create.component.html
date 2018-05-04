@@ -9,10 +9,10 @@
     <img id="wallet-qrcode" />
     <div class="title">
         Your WIF:
-        <ion-icon *ngIf="shown" name="eye" style="font-size: 32px; vertical-align: middle;" (click)="shown = false"></ion-icon>
-        <ion-icon *ngIf="!shown" name="eye-off" style="font-size: 32px; vertical-align: middle;" (click)="shown = true"></ion-icon>
+        <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
+        <img *ngIf="!shown" (click)="shown = true" src="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
-    <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wif" />
+    <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="newWallet?.wif" />
     <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
     <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
     <button margin-vertical ion-button block (click)="enter()">Enter wallet</button>

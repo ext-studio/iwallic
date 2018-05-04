@@ -15,14 +15,14 @@
     </div>
     <div class="title">
         Your WIF:
-        <ion-icon *ngIf="verified" name="eye" style="font-size: 32px; vertical-align: middle;" (click)="shown = false"></ion-icon>
-        <ion-icon *ngIf="!verified" name="eye-off" style="font-size: 32px; vertical-align: middle;" (click)="shown = true"></ion-icon>
+        <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
+        <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" src="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
-    <input *ngIf="verified" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
-    <input *ngIf="!verified" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
-    <button *ngIf="verified" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
+    <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
+    <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
+    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
 
-    <button *ngIf="verified" class="btn copy" ion-button (click)="leaveConfirm()">I have backed up</button>
+    <button *ngIf="shown" class="btn copy" ion-button (click)="leaveConfirm()">I have backed up</button>
     <p class="tip" text-sm>
         Touch above to show the qrcode of your WIF key. Then print it or write it down to paper. Do not just save as screenshot or it will lose when the device is not all right.
     </p>

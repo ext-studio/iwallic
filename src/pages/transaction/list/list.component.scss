@@ -4,10 +4,10 @@ transaction-list {
             height: 60px;
             line-height: 60px;
             font-size: 13px;
-            &.payment {
+            &.revenue {
                 color: #d95959; 
             }
-            &.revenue {
+            &.payment {
                 color: #646163
             }
             img {

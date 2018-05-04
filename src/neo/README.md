@@ -10,3 +10,11 @@ We will soon publish a whole ts sdk for neo thin wallet.
 * transaction service
 * encode/decode utils
 * rpc service(for rpc api by ExChain team)
+
+## About wallet
+
+* Import from WIF, ask to set key(to WIF-key).
+* Import from NEP-6, same behaviour as NEO-GUI.
+* Save in storage as NEP-6.
+* Export to disk as NEP-6.
+* Export tp clipboard as WIF.

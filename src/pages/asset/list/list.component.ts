@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { WalletBackupComponent, AssetDetailComponent } from '../../../pages';
-import { InfiniteScroll, NavController, Refresher, AlertController, } from 'ionic-angular';
+import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -12,14 +13,14 @@ import { GlobalService } from '../../../core';
     templateUrl: 'list.component.html'
 })
 export class AssetListComponent implements OnInit {
-    public backupTips: string = '';
-    public backupUrl: any = WalletBackupComponent;
     public assetList: any = [];
     public assetListValue: any = [];
     public page: number = 1;
     public address: string = '';
     public enabled: boolean = true;
     public neoValue: number = 0;
+    public pageSize: number = 5;
+    public backuped: boolean = false;
 
     constructor(
         private http: HttpClient,
@@ -27,15 +28,22 @@ export class AssetListComponent implements OnInit {
         private wallet: WalletService,
         private global: GlobalService,
         private navctrl: NavController,
-        private alert: AlertController
-    ) { }
+        private alert: AlertController,
+        private platform: Platform
+    ) {}
+
+    public ionViewDidEnter() {
+        this.storage.get('wallet').then((res) => {
+            this.backuped = (!res['backup']);
+        });
+    }
 
     public ngOnInit() {
-        this.wallet.Wallet().subscribe((res) => {
-            this.address = this.wallet.GetAddressFromWIF(res.wif);
+        this.wallet.Get().subscribe((res) => {
+            this.address = res.account.address;
             this.http.post(this.global.apiAddr + '/api/block',
                 { 'method': 'getaddressasset', 'params': [this.address] }).subscribe(result => {
-                    if ( result['result']['AddrAsset'] === undefined ) {
+                    if (result['result']['AddrAsset'] === undefined) {
                         this.global.Alert('REQUESTFAILED');
                         return;
                     }
@@ -45,6 +53,8 @@ export class AssetListComponent implements OnInit {
                             this.neoValue = this.assetListValue[j].balance;
                         }
                     }
+                    const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
+                    this.pageSize = parseInt(tempsize, 0);
                     this.getAssetList();
                 }, (err) => {
                     this.global.Alert('REQUESTFAILED');
@@ -55,7 +65,6 @@ export class AssetListComponent implements OnInit {
     public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
         return new Promise((resolve) => {
             setTimeout(() => {
-                console.log(this.page);
                 this.page += 1;
                 this.getAssetList();
                 infiniteScroll.complete();
@@ -67,7 +76,6 @@ export class AssetListComponent implements OnInit {
             this.page = 1;
             this.enabled = true;
             this.assetList = [];
-            this.assetListValue = [];
             this.getAssetList();
             refresher.complete();
         }, 500);
@@ -75,8 +83,8 @@ export class AssetListComponent implements OnInit {
 
     public getAssetList() {
         this.http.post(this.global.apiAddr + '/api/block',
-            { 'method': 'getassets', 'params': [this.page, 5] }).subscribe(res => {
-                if ( res['result']['data'] === undefined ) {
+            { 'method': 'getassets', 'params': [this.page, this.pageSize] }).subscribe(res => {
+                if (res['result']['data'] === undefined) {
                     this.global.Alert('REQUESTFAILED');
                     return;
                 }
@@ -100,14 +108,19 @@ export class AssetListComponent implements OnInit {
             });
     }
 
-    public jumpDetail(token: string, name: string) {
-        // this.navctrl.push(AssetDetailComponent, {
-        //     token: token,
-        //     name: name
-        // });
-        this.alert.create({subTitle: 'Coming soon'}).present();
+    public jumpDetail(token: string, name: string, value: number) {
+        this.navctrl.push(AssetDetailComponent, {
+            token: token,
+            name: name,
+            assetValue: value
+        });
     }
+
     public addAsset() {
-        this.alert.create({subTitle: 'Coming soon'}).present();
+        this.alert.create({ subTitle: 'Coming soon' }).present();
+    }
+
+    public walletBackup() {
+        this.navctrl.push(WalletBackupComponent);
     }
 }

@@ -1,0 +1,26 @@
+wallet-verify {
+    input {
+        text-align: center;
+        outline: none;
+        border: none;
+        font-size: 24px;
+        font-weight: 600;
+        color: #ffffff;
+        width: 100%;
+        margin: 64px 0 16px 0;
+        letter-spacing: 3px;
+        background: none;
+    }
+    input::placeholder {
+        color: #ffffff;
+        opacity: 0.7;
+    }
+    button.verify {
+        background: #558aef;
+        border-radius: 50px;
+        color: #ffffff;
+    }
+    button.verify[disabled] {
+        opacity: 0.7;
+    }
+}

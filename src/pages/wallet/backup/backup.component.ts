@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
-import { WalletService } from '../../../neo';
-import { NavController, MenuController, NavParams, AlertController, Navbar } from 'ionic-angular';
+import { WalletService, Wallet } from '../../../neo';
+import { NavController, MenuController, NavParams, AlertController, Navbar, LoadingController } from 'ionic-angular';
 
 /**
  *  also as wallet backup page
@@ -20,7 +20,8 @@ import { NavController, MenuController, NavParams, AlertController, Navbar } fro
 export class WalletBackupComponent implements OnInit {
     @ViewChild(Navbar) public navBar: Navbar;
     public verified: boolean = false;
-    public wallet: any;
+    public shown: boolean = false;
+    public wallet: Wallet;
     public copied: boolean;
     constructor(
         private navParams: NavParams,
@@ -29,11 +30,12 @@ export class WalletBackupComponent implements OnInit {
         private w: WalletService,
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
-        private nav: NavController
+        private nav: NavController,
+        private load: LoadingController
     ) { }
 
     public ngOnInit() {
-        this.w.Wallet().subscribe((res) => {
+        this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
             this.global.Alert('UNKNOWN');
@@ -56,7 +58,7 @@ export class WalletBackupComponent implements OnInit {
     }
 
     public showQRCode() {
-        if (this.verified || !this.wallet) {
+        if (this.verified) {
             return;
         }
         const check = this.input.open(this.vcRef, 'ENTER');
@@ -64,11 +66,16 @@ export class WalletBackupComponent implements OnInit {
             if (!res) {
                 return;
             }
-            this.w.Match(res).then(() => {
+            const load = this.load.create({content: 'Verifying'});
+            load.present();
+            this.wallet.Verify(res).subscribe((wres) => {
                 this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
                 this.verified = true;
-            }).catch((err) => {
-                this.global.Alert(err === 'not_match' ? 'WRONGPWD' : 'UNKNOWN');
+                this.shown = true;
+                load.dismiss();
+            }, (werr) => {
+                load.dismiss();
+                this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
             });
         });
     }

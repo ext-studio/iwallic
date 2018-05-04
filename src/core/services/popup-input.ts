@@ -15,10 +15,6 @@ export class InputRef {
             this.$input.next(res);
             this.component.destroy();
         });
-        this.component.instance.cancel.subscribe(() => {
-            this.$input.next();
-            this.component.destroy();
-        });
     }
     public afterClose(): Observable<any> {
         return this.$input.asObservable();

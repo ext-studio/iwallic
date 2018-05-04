@@ -11,72 +11,26 @@ popup-input {
         position: fixed;
         width: 100%;
         z-index: 1000;
-        background: #eeeeee;
+        background: #ffffff;
         left: 0;
-        height: auto;
+        height: 100%;
         bottom: -100px;
     }
-    
-    .board .title {
+
+    .pwd {
         text-align: center;
-        position: relative;
-        padding: 8px 0;
-        font-size: 20px;
+        outline: none;
+        border: none;
+        font-size: 24px;
+        font-weight: 600;
+        color: map-get($colors, primary);
+        width: 100%;
+        margin: 32px 0 16px 0;
+        letter-spacing: 3px;
     }
-    .board .title .close {
-        position: absolute;
-        top: 3px;left: 0px;
-        padding: 0 12px;
-    }
-    ion-icon {
-        font-size: 32px;
-        color: #969696;
-    }
-    .board .input {
-        border: 1px solid #d4d1d4;
-        border-radius: 4px;
-        width: 98%;
-        max-width: 350px;
-        margin: 16px auto 100px auto;
-        display: flex;
-        display: -webkit-flex;
-    }
-    .board .input > div {
-        flex: 1;font-weight: 600;
-        color: #000000;font-size: 24px;
-        height: 48px;line-height: 56px;
-        text-align: center;
-    }
-    .board .input > div:not(:first-of-type) {
-        border-left: 1px solid #d4d1d4;
-    }
-    .board .keys {
-        display: flex;
-        display: -webkit-flex;
-    }
-    .board .keys:not(:first-of-type) {
-        border-top: 1px solid #d6d6d6;
-    }
-    .board .keys > div {
-        color: #000000;
-        background: #ffffff;
-        text-align: center;
-        flex: 1;padding: 12px 0;
-        font-size: 28px;font-weight: 600;
-        transition: 0.2s;
-    }
-    .board .keys > div:not(:first-of-type) {
-        border-left: 1px solid #d6d6d6;
-    }
-    .board .keys > div:active:not(.none) {
-        background: #eeeeee;
-    }
-    .board .keys .none {
-        background: #dddddd;
-    }
-    .backspace {
-        color: #000000;
-        font-size: 20px;
-        transform: scale(1.5);
+
+    input::placeholder {
+        color: map-get($colors, primary);
+        opacity: 0.5;
     }
 }

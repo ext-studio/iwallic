@@ -3,10 +3,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { WalletService, wallet as w } from '../../../neo';
+import { WalletService, wallet as w, Wallet } from '../../../neo';
 import { GlobalService, PopupInputService, InputRef } from '../../../core';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
-import { NavController, MenuController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, MenuController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 
 /**
@@ -28,7 +28,8 @@ import { AssetListComponent } from '../../asset/list/list.component';
 })
 export class WalletCreateComponent implements OnInit {
     public shown: boolean = true;
-    public wif: string = '';
+    public newWallet: Wallet;
+    public wif: string;
     public copied: boolean;
     public pwd: string;
     constructor(
@@ -38,6 +39,7 @@ export class WalletCreateComponent implements OnInit {
         private menu: MenuController,
         private vcRef: ViewContainerRef,
         private input: PopupInputService,
+        private loading: LoadingController,
         private navParams: NavParams,
         private alert: AlertController
     ) {
@@ -51,10 +53,14 @@ export class WalletCreateComponent implements OnInit {
             this.global.Alert('UNKNOWN');
             return;
         }
-        this.wallet.Create().subscribe((res) => {
-            this.wif = res;
-            this.global.getQRCode('wallet-qrcode', this.wif, 160, 'assets/app/logo.png');
+        const load = this.loading.create({content: 'Creating...'});
+        load.present();
+        this.wallet.Create(this.pwd).subscribe((res: Wallet) => {
+            load.dismiss();
+            this.newWallet = res;
+            this.global.getQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
         }, (err) => {
+            load.dismiss();
             console.log(err);
             this.global.Alert('UNKNOWN');
         });
@@ -84,11 +90,8 @@ export class WalletCreateComponent implements OnInit {
         ask.present();
         ask.onDidDismiss((data, role) => {
             if (role === 'go') {
-                this.wallet.SetWallet(this.wif, this.pwd).then(() => {
-                    this.navCtrl.setRoot(AssetListComponent);
-                }).catch(() => {
-                    this.global.Alert('UNKNOWN');
-                });
+                this.wallet.Save(this.newWallet);
+                this.navCtrl.setRoot(AssetListComponent);
             }
         });
     }

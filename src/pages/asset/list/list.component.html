@@ -15,16 +15,19 @@
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips">(钱包还未备份)</p>
+        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">(钱包还未备份)</p>
     </div>
     <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
 </ion-header>
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name)">
+        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.value)">
             <span class="asset-type">{{ asset.name }}</span>
-            <span item-end>{{ asset.value }}</span>
+            <span item-end>
+                <span *ngIf="asset.value > 0">+</span>
+                <span *ngIf="asset.value < 0">-</span>{{ asset.value }}
+            </span>
         </ion-item>
     </ion-list>
     <ion-infinite-scroll [enabled]="enabled" (ionInfinite)="doInfinite($event)">

@@ -6,19 +6,19 @@
 
 <ion-content>
     <div class="tip primary" padding>
-        You need to set a 6 digit numeric cipher to keep your private key and transactions in safe.
+        You need to set a cipher to keep your private key and transactions in safe.
         iWallic will never save your cipher, nor to help you find it back. So do keep it in mind.
     </div>
 
     <ion-list margin-vertical>
         <ion-item>
             <ion-label color="primary" fixed>Set a Password</ion-label>
-            <ion-input placeholder="Tap to enter." disabled="true" [readonly]="true" type="password" [value]="pwd" (click)="enterPwd()"></ion-input>
+            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="pwd"></ion-input>
         </ion-item>
     
         <ion-item>
             <ion-label color="primary" fixed>Confirm password</ion-label>
-            <ion-input placeholder="Tap to enter." disabled="true" [readonly]="true" type="password" [value]="rePwd" (click)="enterRePwd()"></ion-input>
+            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="rePwd"></ion-input>
         </ion-item>
     </ion-list>
     <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>

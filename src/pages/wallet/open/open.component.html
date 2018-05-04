@@ -19,16 +19,20 @@
     <ion-list margin-vertical>
         <ion-item>
             <ion-label color="primary" fixed>Set a password</ion-label>
-            <ion-input placeholder="Tap to enter." disabled="true" [readonly]="true" type="password" [value]="pwd" (click)="enterPwd()"></ion-input>
+            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="pwd"></ion-input>
         </ion-item>
     
         <ion-item>
             <ion-label color="primary" fixed>Confirm password</ion-label>
-            <ion-input placeholder="Tap to enter." disabled="true" [readonly]="true" type="password" [value]="rePwd" (click)="enterRePwd()"></ion-input>
+            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="rePwd"></ion-input>
         </ion-item>
     </ion-list>
     <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
     <div padding margin-vertical>
-        <button ion-button block (click)="import()" [disabled]="!check() || !checkWIF()">Import wallet</button>
+        <button ion-button block (click)="import()" [disabled]="!check() || !checkWIF()">
+            <span *ngIf="!importing">Import wallet</span>
+            <ion-spinner *ngIf="importing"></ion-spinner>
+        </button>
+        <button ion-button block outline (click)="fromNEP6()">Import NEP-6 wallet</button>
     </div>
 </ion-content>

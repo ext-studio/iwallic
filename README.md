@@ -73,4 +73,11 @@ path | desc
 
 ## Todoes
 
-2. Copy result in recept page.
+* Copy result in recept page.
+
+* font-color of list item (setting helper .eg)
+* wallet backup (move to Pikachu (support NEP-2/NEP-6))
+* tips when created new wallet
+* only new created wallet should ask to backup
+* back button in browsers
+* created new wallet, click copy btn then back to gate page
