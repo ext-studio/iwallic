@@ -3,7 +3,7 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController, MenuController } from 'ionic-angular';
+import { AlertController, LoadingController, MenuController, NavController } from 'ionic-angular';
 
 import { GlobalService } from '../core';
 import { WalletService } from '../neo';
@@ -51,6 +51,31 @@ export class AppComponent {
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+
+            document.addEventListener('backbutton', () => {
+                if (!this.nav.canGoBack()) {
+                    const la = this.alert.create({
+                        title: 'Caution',
+                        subTitle: 'Sure to leave iWallic?',
+                        buttons: [
+                            'Cancel',
+                            {
+                                text: 'Sure',
+                                role: 'ok'
+                            }
+                        ]
+                    });
+                    la.present();
+                    la.onDidDismiss((data, role) => {
+                        if (role === 'ok') {
+                            this.platform.exitApp();
+                        }
+                    });
+                    return;
+                }
+                this.nav.pop();
+            }, false);
+
             this.wallet.Get().subscribe(() => {
                 loader.dismiss();
                 this.nav.setRoot(AssetListComponent);

@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { GlobalService, PopupInputService, InputRef } from '../../../core';
-import { WalletService } from '../../../neo';
+import { GlobalService, PopupInputService, InputRef, ReadFileService } from '../../../core';
+import { WalletService, Wallet } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
-import { NavController, MenuController, AlertController } from 'ionic-angular';
+import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { File } from '@ionic-native/file';
+import { IfObservable } from 'rxjs/observable/IfObservable';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 
 /**
  * currently only support wif wallet
@@ -27,7 +30,8 @@ export class WalletOpenComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         private alert: AlertController,
-        private file: File
+        private file: ReadFileService,
+        private load: LoadingController
     ) { }
 
     public ngOnInit() {
@@ -68,7 +72,44 @@ export class WalletOpenComponent implements OnInit {
         });
     }
     public fromNEP6() {
-        this.alert.create({title: 'Completing soon !'}).present();
+        const load = this.load.create({content: 'Verify'});
+        this.file.read().switchMap((json) => {
+            const w = new Wallet(json);
+            if (!w.wif) {
+                return this.input.open(this.vcRef, 'ENTER').afterClose().switchMap((pwd) => {
+                    if (pwd) {
+                        load.present();
+                        return this.wallet.Verify(pwd, w).map(() => {
+                            load.dismiss();
+                            return w;
+                        }).catch((e) => {
+                            load.dismiss();
+                            return Observable.throw(e);
+                        });
+                    } else {
+                        return Observable.throw('need_verify');
+                    }
+                });
+            }
+            return Observable.of(w);
+        }).subscribe((res) => {
+            this.wallet.Save(res);
+            this.navCtrl.setRoot(AssetListComponent);
+        }, (err) => {
+            if (err === 'verify_failed') {
+                this.alert.create({
+                    title: 'Caution',
+                    subTitle: 'Password is wrong.',
+                    buttons: ['OK']
+                }).present();
+            } else if (err !== 'need_verify') {
+                this.alert.create({
+                    title: 'Caution',
+                    subTitle: 'Import failed, please check your wallet file. (Only support NEP-6 JSON file)',
+                    buttons: ['OK']
+                }).present();
+            }
+        });
     }
     public check() {
         return this.pwd && this.pwd === this.rePwd;
