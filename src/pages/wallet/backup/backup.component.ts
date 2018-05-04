@@ -35,11 +35,11 @@ export class WalletBackupComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        // this.w.Get().subscribe((res) => {
-        //     this.wallet = res;
-        // }, (err) => {
-        //     this.global.Alert('UNKNOWN');
-        // });
+        this.w.Get().subscribe((res) => {
+            this.wallet = res;
+        }, (err) => {
+            this.global.Alert('UNKNOWN');
+        });
         this.navBar.backButtonClick = () => {
             if (this.verified) {
                 this.leaveConfirm();
@@ -66,10 +66,9 @@ export class WalletBackupComponent implements OnInit {
             if (!res) {
                 return;
             }
-            const load = this.load.create({content: 'Verifying...'});
+            const load = this.load.create({content: 'Verifying'});
             load.present();
-            this.w.Get(res).subscribe((wres) => {
-                this.wallet = wres;
+            this.wallet.Verify(res).subscribe((wres) => {
                 this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
                 this.verified = true;
                 this.shown = true;

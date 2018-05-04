@@ -51,12 +51,17 @@ export class AppComponent {
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            this.wallet.Check().subscribe(() => {
+            this.wallet.Get().subscribe(() => {
                 loader.dismiss();
-                this.nav.setRoot(WalletVerifyComponent);
+                this.nav.setRoot(AssetListComponent);
             }, (err) => {
                 loader.dismiss();
-                this.nav.setRoot(WalletGateComponent);
+                console.log(err);
+                if (err === 'need_verify') {
+                    this.nav.setRoot(WalletVerifyComponent);
+                } else {
+                    this.nav.setRoot(WalletGateComponent);
+                }
             });
         });
     }

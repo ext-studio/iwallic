@@ -129,6 +129,7 @@ export class Wallet {
             this.accounts.push(new Account(account));
         }
         this.extra = nep6['extra'] || null;
+        this.verified = nep6['verified'] || false;
     }
     public static fromWIF(wif: string, pwd: string): Wallet {
         const wal = new Wallet({accounts: [Account.fromWIF(wif, pwd)]});
@@ -213,27 +214,23 @@ export class WalletService {
         if (this.cached && !pwd) {
             return Observable.of(this.cached);
         }
-        if (!pwd) {
-            return Observable.throw('need_verify');
-        }
         return Observable.fromPromise(this.storage.get('wallet')).switchMap((res: Wallet) => {
             if (!res) {
                 return Observable.throw('not_exist');
             }
             const w = new Wallet(res);
+            // cached wif to avoid entering pwd each time
+            if (w.wif) {
+                this.cached = w;
+                return Observable.of(this.cached);
+            }
+            if (!pwd) {
+                return Observable.throw('need_verify');
+            }
             return w.Verify(pwd).map((vres) => {
                 this.cached = w;
                 return this.cached;
             });
-        });
-    }
-
-    public Check(): Observable<any> {
-        return Observable.fromPromise(this.storage.get('wallet')).map((res) => {
-            if (!res) {
-                // tslint:disable-next-line:no-string-throw
-                throw 'not_exist';
-            }
         });
     }
 
@@ -251,25 +248,6 @@ export class WalletService {
 
     public CheckWIF(wif: string): boolean {
         return wallet.isWIF(wif);
-    }
-
-    /**
-     * Save a WIF wallet into storage.
-     * @param wif WIF key
-     * @param key password
-     */
-    public SetWallet(key: string): Promise<any> {
-        return this.storage.set('wallet', {
-            key: key,
-            backup: false
-        });
-    }
-    /**
-     * Remove opened wallet.
-     * Password will be removed too.
-     */
-    public CloseWallet() {
-        this.storage.remove('wallet');
     }
     /**
      * Check if password matches opened wallet.
