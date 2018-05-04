@@ -22,9 +22,12 @@
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name)">
+        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.value)">
             <span class="asset-type">{{ asset.name }}</span>
-            <span item-end>{{ asset.value }}</span>
+            <span item-end>
+                <span *ngIf="asset.value > 0">+</span>
+                <span *ngIf="asset.value < 0">-</span>{{ asset.value }}
+            </span>
         </ion-item>
     </ion-list>
     <ion-infinite-scroll [enabled]="enabled" (ionInfinite)="doInfinite($event)">

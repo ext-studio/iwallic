@@ -5,6 +5,7 @@ import { WalletBackupComponent, AssetDetailComponent } from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -107,10 +108,11 @@ export class AssetListComponent implements OnInit {
             });
     }
 
-    public jumpDetail(token: string, name: string) {
+    public jumpDetail(token: string, name: string, value: number) {
         this.navctrl.push(AssetDetailComponent, {
             token: token,
-            name: name
+            name: name,
+            assetValue: value
         });
     }
 

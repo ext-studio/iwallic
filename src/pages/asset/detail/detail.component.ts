@@ -12,6 +12,7 @@ export class AssetDetailComponent implements OnInit {
     public transfer: any;
     public token: string;
     public assetName: string;
+    public assetValue: number = 0;
     public enabled: boolean = true;
     public pageSize: number = 5;
     constructor(
@@ -21,6 +22,7 @@ export class AssetDetailComponent implements OnInit {
     ) {
         this.token = navParams.get('token');
         this.assetName = navParams.get('name');
+        this.assetValue = navParams.get('assetValue');
     }
 
     public ngOnInit() {
