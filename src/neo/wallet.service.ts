@@ -112,6 +112,9 @@ export class Wallet {
         }
         return this.accounts[this.main].wif;
     }
+    public get address() {
+        return this.accounts[this.main] && this.accounts[this.main].address;
+    }
     public get account() {
         return this.accounts[this.main];
     }

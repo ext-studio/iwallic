@@ -3,6 +3,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
 import { WalletService, Wallet } from '../../../neo';
+import { TestState } from './test.state';
 
 /**
  * wallet gate page
@@ -20,10 +21,23 @@ export class WalletGateComponent implements OnInit {
     constructor(
         private navCtrl: NavController,
         private menu: MenuController,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private test: TestState
     ) { }
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
+        this.test.data().subscribe((res) => {
+            console.log('from initial', res);
+        });
+        setTimeout(() => {
+            this.test.data().subscribe((res) => {
+                console.log('from another', res);
+            });
+            setTimeout(() => {
+                this.test.fetch();
+            }, 5000);
+        }, 5000);
+        this.test.fetch();
     }
 }
