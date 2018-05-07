@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { GlobalService, PopupInputService, InputRef, ReadFileService } from '../../../core';
 import { WalletService, Wallet } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
@@ -8,6 +8,7 @@ import { File } from '@ionic-native/file';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * currently only support wif wallet
@@ -37,6 +38,7 @@ export class WalletOpenComponent implements OnInit {
     public ngOnInit() {
         //
     }
+
     public enterPwd() {
         this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
             if (res) {

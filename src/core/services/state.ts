@@ -24,7 +24,12 @@ export class State implements StateBase {
     public loading: boolean = false;
     public $data: Subject<any> = new Subject<any>();
     public data() {
-        return this.$data.asObservable().publish().refCount().startWith(this._data);
+        return this.$data.asObservable().publish().refCount().startWith(this._data).map((res) => {
+            if (res === null) {
+                this.fetch();
+            }
+            return res;
+        });
     }
     public fetch(config?: any) {
         this.$data.error('need_override');
