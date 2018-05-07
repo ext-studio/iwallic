@@ -18,7 +18,7 @@ import {
     WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent,
-    TestState
+    TestState, ListState
 } from '../pages';
 import { TranslateModule, TranslateLoader, TranslateModuleConfig } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -78,7 +78,7 @@ const translateModuleConfig = {
         QRScanner,
         File,
         {provide: ErrorHandler, useClass: IonicErrorHandler},
-        TestState
+        TestState, ListState
     ]
 })
 export class AppModule {
