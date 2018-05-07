@@ -46,9 +46,17 @@ export class AssetDetailComponent implements OnInit {
             }, 500);
         });
     }
+
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
             refresher.complete();
         }, 500);
+    }
+
+    public jumpTx() {
+        this.navCtrl.push(TxTransferComponent, {
+            asset: this.token,
+            assetName: this.assetName
+        });
     }
 }

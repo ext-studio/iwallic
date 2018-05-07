@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, Refresher, Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../../../core';
-import { WalletService } from '../../../neo';
+import { WalletService, TransactionService } from '../../../neo';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class TxListComponent implements OnInit {
         private http: HttpClient,
         private global: GlobalService,
         private wallet: WalletService,
-        private platform: Platform
+        private platform: Platform,
+        private transcation: TransactionService
     ) { }
 
     public ngOnInit() {
