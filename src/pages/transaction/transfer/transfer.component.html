@@ -14,15 +14,16 @@
             <button clear ion-button item-end (click)="qrScan()"><img class="scan" src="assets/transaction/icon_scan.png"></button>
         </ion-item>
         <ion-item>
-            <ion-input type="volume" placeholder="打款数量" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="transferValue" ></ion-input>
-            <ion-note item-end *ngIf="isfocus">可用余额：{{ balance }}</ion-note>
+            <ion-input type="number" placeholder="打款数量" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="transferValue" ></ion-input>
+            <ion-note item-end *ngIf="isfocus">可用余额：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>
-    <ion-list>
+    <ion-list class="note">
         <ion-item>
             <ion-input type="text" placeholder="备注"></ion-input>
         </ion-item>
     </ion-list>
+    <p class="wrong">{{ wrongTips }}</p>
     <div padding>
         <button ion-button block round (click)="enterPwd()">提交</button>
     </div>

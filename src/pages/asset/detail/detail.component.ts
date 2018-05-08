@@ -12,7 +12,7 @@ export class AssetDetailComponent implements OnInit {
     public transfer: any;
     public token: string;
     public assetName: string;
-    public assetValue: number = 0;
+    public assetBalance: number = 0;
     public enabled: boolean = true;
     public pageSize: number = 5;
     constructor(
@@ -22,7 +22,7 @@ export class AssetDetailComponent implements OnInit {
     ) {
         this.token = navParams.get('token');
         this.assetName = navParams.get('name');
-        this.assetValue = navParams.get('assetValue');
+        this.assetBalance = navParams.get('assetBalance');
     }
 
     public ngOnInit() {
@@ -56,7 +56,8 @@ export class AssetDetailComponent implements OnInit {
     public jumpTx() {
         this.navCtrl.push(TxTransferComponent, {
             asset: this.token,
-            assetName: this.assetName
+            assetName: this.assetName,
+            assetBalance: this.assetBalance
         });
     }
 }

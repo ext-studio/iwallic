@@ -72,7 +72,7 @@ export class AssetListComponent implements OnInit {
         this.navctrl.push(AssetDetailComponent, {
             token: token,
             name: name,
-            assetValue: value
+            assetBalance: value
         });
     }
 

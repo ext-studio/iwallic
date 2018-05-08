@@ -9,13 +9,14 @@ import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
     templateUrl: 'transfer.component.html',
 })
 export class TxTransferComponent implements OnInit {
-    public balance: number;
     public isfocus: boolean = false;
     public toaddr: string = '';
     public wallet: Wallet;
     public transferValue: number;
     public asset: string;
     public assetName: string;
+    public assetBalance: number = 0;
+    public wrongTips: string = '';
     constructor(
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
@@ -26,6 +27,7 @@ export class TxTransferComponent implements OnInit {
         private load: LoadingController,
         private w: WalletService,
     ) {
+        console.log(typeof this.assetBalance);
         if (this.navParams.get('addr')) {
             this.toaddr = this.navParams.get('addr');
         }
@@ -35,6 +37,9 @@ export class TxTransferComponent implements OnInit {
         if (this.navParams.get('assetName')) {
             this.assetName = this.navParams.get('assetName');
         }
+        if (this.navParams.get('assetBalance')) {
+            this.assetBalance = this.navParams.get('assetBalance');
+        }
     }
 
     public ngOnInit() {
@@ -43,7 +48,6 @@ export class TxTransferComponent implements OnInit {
         }, (err) => {
             this.global.Alert('UNKNOWN');
         });
-        this.balance = 0;
     }
 
     public focusNum() {
@@ -54,6 +58,19 @@ export class TxTransferComponent implements OnInit {
     }
 
     public enterPwd() {
+        if (this.toaddr.length !== 34) {
+            this.wrongTips = '地址格式错误';
+            return;
+        }
+        if (this.transferValue) {
+            if (parseFloat(this.transferValue.toString()) > parseFloat(this.assetBalance.toString())) {
+                this.wrongTips = '打款数额超出可用余额';
+                return;
+            }
+        } else {
+            this.wrongTips = '打款金额不得为空';
+            return;
+        }
         const check = this.input.open(this.vcRef, 'ENTER');
         check.afterClose().subscribe((res) => {
             if (!res) {
