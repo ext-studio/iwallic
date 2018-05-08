@@ -26,7 +26,9 @@
             <span class="asset-type">{{ asset.name }}</span>
             <span item-end>{{ asset.balance }}</span>
         </ion-item>
+        <!-- <ion-item *ngIf="assetList.length == 0" center>暂无资产</ion-item> -->
     </ion-list>
+    <ion-label *ngIf="assetList.length == 0" text-center class="no-assets">暂无资产</ion-label>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
