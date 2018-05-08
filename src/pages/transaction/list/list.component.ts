@@ -50,14 +50,15 @@ export class TxListComponent implements OnInit {
 
     public getTxList() {
         this.http.post(this.global.apiAddr + '/api/block',
-            { 'method': 'getassetchanges', 'params': [this.page, this.pageSize, this.address] }).subscribe(result => {
-                if (result['result']['data']) {
-                    for (let i = 0; i < result['result']['data'].length; i++) {
-                        this.items.push(result['result']['data'][i]);
+            { 'method': 'getaccounttxes', 'params': [this.page, this.pageSize, this.address] }).subscribe(res => {
+                if (res['result']['data']) {
+                    for (let i = 0; i < res['result']['data'].length; i++) {
+                        this.items.push(res['result']['data'][i]);
                     }
                 } else {
                     this.enabled = false;
                 }
+                console.log(res);
             }, (err) => {
                 console.log(err);
             });

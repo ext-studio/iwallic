@@ -14,12 +14,8 @@ import { ValueTransformer } from '@angular/compiler/src/util';
 })
 export class AssetListComponent implements OnInit {
     public assetList: any = [];
-    public assetListValue: any = [];
-    public page: number = 1;
     public address: string = '';
-    public enabled: boolean = true;
     public neoValue: number = 0;
-    public pageSize: number = 5;
     public backuped: boolean = false;
 
     constructor(
@@ -30,7 +26,7 @@ export class AssetListComponent implements OnInit {
         private navctrl: NavController,
         private alert: AlertController,
         private platform: Platform
-    ) {}
+    ) { }
 
     public ionViewDidEnter() {
         this.storage.get('wallet').then((res) => {
@@ -41,41 +37,12 @@ export class AssetListComponent implements OnInit {
     public ngOnInit() {
         this.wallet.Get().subscribe((res) => {
             this.address = res.account.address;
-            this.http.post(this.global.apiAddr + '/api/block',
-                { 'method': 'getaddressasset', 'params': [this.address] }).subscribe(result => {
-                    if (result['result']['AddrAsset'] === undefined) {
-                        this.global.Alert('REQUESTFAILED');
-                        return;
-                    }
-                    this.assetListValue = result['result']['AddrAsset'];
-                    for (let j = 0; j < this.assetListValue.length; j++) {
-                        if (this.assetListValue[j].name === 'NEO') {
-                            this.neoValue = this.assetListValue[j].balance;
-                        }
-                    }
-                    const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
-                    this.pageSize = parseInt(tempsize, 0);
-                    this.getAssetList();
-                }, (err) => {
-                    this.global.Alert('REQUESTFAILED');
-                });
+            this.getAssetList();
         });
     }
 
-    public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                this.page += 1;
-                this.getAssetList();
-                infiniteScroll.complete();
-            }, 500);
-        });
-    }
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
-            this.page = 1;
-            this.enabled = true;
-            this.assetList = [];
             this.getAssetList();
             refresher.complete();
         }, 500);
@@ -83,25 +50,18 @@ export class AssetListComponent implements OnInit {
 
     public getAssetList() {
         this.http.post(this.global.apiAddr + '/api/block',
-            { 'method': 'getassets', 'params': [this.page, this.pageSize] }).subscribe(res => {
-                if (res['result']['data'] === undefined) {
+            { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
+                if (res['result'] === undefined) {
                     this.global.Alert('REQUESTFAILED');
                     return;
                 }
-                const temp = res['result']['data'];
-                for (let i = 0; i < temp.length; i++) {
-                    for (let j = 0; j < this.assetListValue.length; j++) {
-                        if (temp[i].assetId === this.assetListValue[j].assetId) {
-                            temp[i].value = this.assetListValue[j].balance;
+                this.assetList = res['result'];
+                if (this.assetList) {
+                    for (let i = 0; i < this.assetList.length; i++) {
+                        if (this.assetList[i]['name'] === 'NEO') {
+                            this.neoValue = this.assetList[i]['balance'];
                         }
                     }
-                    if (!temp[i].value) {
-                        temp[i].value = 0;
-                    }
-                    this.assetList.push(temp[i]);
-                }
-                if (temp.length <= 0) {
-                    this.enabled = false;
                 }
             }, (err) => {
                 this.global.Alert('REQUESTFAILED');

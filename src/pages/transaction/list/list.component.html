@@ -9,8 +9,8 @@
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let i of items" [ngClass]="{'payment' : i.value < 0, 'revenue': i.value > 1}">
-            <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value < 0">
+        <ion-item *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 1}">
+            <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">
             <img src="assets/asset/record_icon_revenue.png" alt="" *ngIf="i.value > 0">
             <span>{{ i.txid }}</span>
             <span class="num">{{ i.value }}{{ i.name }}</span>
