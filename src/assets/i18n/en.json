@@ -1,3 +1,27 @@
 {
-  "HELLO": "hello"
+  "NAV_BACK": "Back",
+  "WALLET_GATE_OPEN_WALLET": "Open wallet",
+  "WALLET_GATE_CREATE_WALLET": "Create wallet",
+  "WALLET_BACKUP_TITLE": "Backup wallet",
+  "WALLET_BACKUP_YOURWIF": "Your WIF:",
+  "WALLET_BACKUP_COPY": "Copy",
+  "WALLET_BACKUP_COPIED": "Copied !",
+  "WALLET_BACKUP_BACKED": "I have backed up",
+  "WALLET_BACKUP_TIP": "Touch above to show the qrcode of your WIF key. Then print it or write it down to paper. Do not just save as screenshot or it will lose when the device is not all right.",
+  "WALLET_CREATE_TITLE": "Your new wallet",
+  "WALLET_CREATE_YOURWIF": "Your WIF:",
+  "WALLET_CREATE_COPY": "Copy",
+  "WALLET_CREATE_COPIED": "Copied !",
+  "WALLET_CREATE_ENTER": "Enter wallet",
+  "WALLET_OPEN_TITLE": "Import wallet",
+  "WALLET_OPEN_YOURWIF": "Your WIF key",
+  "WALLET_OPEN_YOURWIF_PH": "Tap to enter.",
+  "WALLET_OPEN_YOURWIF_TIP": "Please enter a valid WIF.",
+  "WALLET_OPEN_PWD": "Set a password",
+  "WALLET_OPEN_PWD_PH": "Tap to enter.",
+  "WALLET_OPEN_REPWD": "Confirm password",
+  "WALLET_OPEN_REPWD_PH": "Tap to enter.",
+  "WALLET_OPEN_PWDTIP": "Two cipher inconsistencies",
+  "WALLET_OPEN_IMPORT": "Import wallet",
+  "WALLET_OPEN_FILE": "Import NEP-6 wallet"
 }

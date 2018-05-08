@@ -1,3 +1,27 @@
 {
-  "HELLO": "你好"
+  "NAV_BACK": "返回",
+  "WALLET_GATE_OPEN_WALLET": "打开钱包",
+  "WALLET_GATE_CREATE_WALLET": "创建钱包",
+  "WALLET_BACKUP_TITLE": "备份钱包",
+  "WALLET_BACKUP_YOURWIF": "你的WIF私钥",
+  "WALLET_BACKUP_COPY": "点击复制",
+  "WALLET_BACKUP_COPIED": "复制完成 !",
+  "WALLET_BACKUP_BACKED": "我已完成备份",
+  "WALLET_BACKUP_TIP": "点击验证密码以展示你的私钥. 然后你可以将私钥复制或打印到纸上. 不要仅使用截图方式来备份, 否则钱包将很容易随着你的设备丢失而丢失.",
+  "WALLET_CREATE_TITLE": "你的新钱包",
+  "WALLET_CREATE_YOURWIF": "你的WIF私钥",
+  "WALLET_CREATE_COPY": "点击复制",
+  "WALLET_CREATE_COPIED": "复制完成 !",
+  "WALLET_CREATE_ENTER": "进入钱包",
+  "WALLET_OPEN_TITLE": "导入钱包",
+  "WALLET_OPEN_YOURWIF": "你的WIF私钥",
+  "WALLET_OPEN_YOURWIF_PH": "点此输入",
+  "WALLET_OPEN_YOURWIF_TIP": "请输入正确的WIF私钥.",
+  "WALLET_OPEN_PWD": "设置一个密码",
+  "WALLET_OPEN_PWD_PH": "点此输入",
+  "WALLET_OPEN_REPWD": "确认你的密码",
+  "WALLET_OPEN_REPWD_PH": "点此输入",
+  "WALLET_OPEN_PWDTIP": "两次密码输入不一致.",
+  "WALLET_OPEN_IMPORT": "导入钱包",
+  "WALLET_OPEN_FILE": "导入NEP-6钱包"
 }

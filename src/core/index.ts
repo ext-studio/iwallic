@@ -3,3 +3,4 @@ export { GlobalService } from './services/global';
 export { PopupInputService, InputRef } from './services/popup-input';
 export { ReadFileService } from './services/readfile';
 export { State, StateBase } from './services/state';
+export { Translate } from './services/translate';

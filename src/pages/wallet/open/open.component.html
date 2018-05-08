@@ -3,36 +3,36 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Import wallet</ion-title>
+        <ion-title>{{'WALLET_OPEN_TITLE' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-list margin-vertical>
         <ion-item>
-            <ion-label color="primary">Your WIF key</ion-label>
-            <ion-textarea rows="4" placeholder="Tap to enter." type="text" [(ngModel)]="wif"></ion-textarea>
+            <ion-label color="primary">{{'WALLET_OPEN_YOURWIF' | translate}}</ion-label>
+            <ion-textarea rows="4" placeholder="{{'WALLET_OPEN_YOURWIF_PH' | translate}}" type="text" [(ngModel)]="wif"></ion-textarea>
         </ion-item>
     </ion-list>
-    <p class="error" *ngIf="wif && !checkWIF()" text-sm margin>Please enter a valid WIF.</p>
+    <p class="error" *ngIf="wif && !checkWIF()" text-sm margin>{{'WALLET_OPEN_YOURWIF_TIP' | translate}}</p>
 
     <ion-list margin-vertical>
         <ion-item>
-            <ion-label color="primary" fixed>Set a password</ion-label>
-            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="pwd"></ion-input>
+            <ion-label color="primary" fixed>{{'WALLET_OPEN_PWD' | translate}}</ion-label>
+            <ion-input placeholder="{{'WALLET_OPEN_PWD_PH' | translate}}" type="password" [(ngModel)]="pwd"></ion-input>
         </ion-item>
     
         <ion-item>
-            <ion-label color="primary" fixed>Confirm password</ion-label>
-            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="rePwd"></ion-input>
+            <ion-label color="primary" fixed>{{'WALLET_OPEN_REPWD' | translate}}</ion-label>
+            <ion-input placeholder="{{'WALLET_OPEN_REPWD_PH' | translate}}" type="password" [(ngModel)]="rePwd"></ion-input>
         </ion-item>
     </ion-list>
-    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
+    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>{{'WALLET_OPEN_PWDTIP' | translate}}</p>
     <div padding margin-vertical>
         <button ion-button block (click)="import()" [disabled]="!check() || !checkWIF()">
-            <span *ngIf="!importing">Import wallet</span>
+            <span *ngIf="!importing">{{'WALLET_OPEN_IMPORT' | translate}}</span>
             <ion-spinner *ngIf="importing"></ion-spinner>
         </button>
-        <button ion-button block outline (click)="fromNEP6()">Import NEP-6 wallet</button>
+        <button ion-button block outline (click)="fromNEP6()">{{'WALLET_OPEN_FILE' | translate}}</button>
     </div>
 </ion-content>

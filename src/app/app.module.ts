@@ -1,14 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { TranslateService } from '@ngx-translate/core';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 
 import { AppComponent } from './app.component';
-import { CoreModule } from '../core';
+import { CoreModule, Translate } from '../core';
 import { NEOModule } from '../neo';
 import { SharedModule } from '../shared';
 import {
@@ -19,7 +18,7 @@ import {
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
-import { TranslateModule, TranslateLoader, TranslateModuleConfig } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateModuleConfig, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 
@@ -81,9 +80,12 @@ const translateModuleConfig = {
 })
 export class AppModule {
     constructor(
-        private translate: TranslateService
+        private translate: TranslateService,
+        private trans: Translate
     ) {
         this.translate.setDefaultLang('en');
-        this.translate.use('en');
+        this.trans.Current().subscribe((res) => {
+            this.translate.use(res);
+        });
     }
 }

@@ -3,10 +3,11 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController, MenuController, NavController } from 'ionic-angular';
+import { AlertController, LoadingController, MenuController, NavController, Config } from 'ionic-angular';
 
 import { GlobalService } from '../core';
 import { WalletService } from '../neo';
+import { TranslateService } from '@ngx-translate/core';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
@@ -40,7 +41,9 @@ export class AppComponent {
         private wallet: WalletService,
         private menu: MenuController,
         private input: PopupInputService,
-        private vcRef: ViewContainerRef
+        private vcRef: ViewContainerRef,
+        private config: Config,
+        private translate: TranslateService
     ) {
         this.initializeApp();
     }
@@ -51,6 +54,11 @@ export class AppComponent {
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            setTimeout(() => {
+                this.translate.get('NAV_BACK').subscribe((res) => {
+                    this.config.set('backButtonText', res);
+                });
+            }, 200);
 
             document.addEventListener('backbutton', () => {
                 if (!this.nav.canGoBack()) {
