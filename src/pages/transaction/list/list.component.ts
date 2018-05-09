@@ -44,6 +44,9 @@ export class TxListComponent implements OnInit {
 
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
+            this.page = 1;
+            this.enabled = false;
+            this.getTxList();
             refresher.complete();
         }, 500);
     }

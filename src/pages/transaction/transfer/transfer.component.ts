@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { PopupInputService, GlobalService } from '../../../core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
 import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
 
@@ -26,20 +26,14 @@ export class TxTransferComponent implements OnInit {
         private tx: TransactionService,
         private load: LoadingController,
         private w: WalletService,
+        private alert: AlertController
     ) {
-        console.log(typeof this.assetBalance);
         if (this.navParams.get('addr')) {
             this.toaddr = this.navParams.get('addr');
         }
-        if (this.navParams.get('asset')) {
-            this.asset = this.navParams.get('asset');
-        }
-        if (this.navParams.get('assetName')) {
-            this.assetName = this.navParams.get('assetName');
-        }
-        if (this.navParams.get('assetBalance')) {
-            this.assetBalance = this.navParams.get('assetBalance');
-        }
+        this.asset = this.navParams.get('asset');
+        this.assetName = this.navParams.get('assetName');
+        this.assetBalance = this.navParams.get('assetBalance');
     }
 
     public ngOnInit() {
@@ -95,7 +89,7 @@ export class TxTransferComponent implements OnInit {
                         this.navCtrl.push(TxSuccessComponent);
                     }
                 }, (err) => {
-                    console.log(err);
+                    this.alert.create({title: 'Error'}).present();
                 });
                 return true;
             }, (werr) => {
@@ -106,6 +100,10 @@ export class TxTransferComponent implements OnInit {
     }
 
     public qrScan() {
-        this.navCtrl.push(ScanAddrComponent);
+        this.navCtrl.push(ScanAddrComponent, {
+            asset: this.asset,
+            assetName: this.assetName,
+            assetBalance: this.assetBalance
+        });
     }
 }

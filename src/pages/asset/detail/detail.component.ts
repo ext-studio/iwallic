@@ -8,8 +8,8 @@ import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 })
 export class AssetDetailComponent implements OnInit {
     public items: any = [];
-    public receipt: any = TxReceiptComponent;
-    public transfer: any = TxTransferComponent;
+    public receipt = TxReceiptComponent;
+    public transfer = TxTransferComponent;
     public token: string;
     public assetName: string;
     public assetBalance: number = 0;
@@ -19,13 +19,11 @@ export class AssetDetailComponent implements OnInit {
         private navCtrl: NavController,
         private navParams: NavParams,
         private platform: Platform
-    ) {
-        this.token = navParams.get('token');
-        this.assetName = navParams.get('name');
-        this.assetBalance = navParams.get('assetBalance');
-    }
-
+    ) {}
     public ngOnInit() {
+        this.token = this.navParams.get('token');
+        this.assetName = this.navParams.get('name');
+        this.assetBalance = this.navParams.get('assetBalance');
         const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
         this.pageSize = parseInt(tempsize, 0);
         for (let i = 0; i < this.pageSize; i++) {
