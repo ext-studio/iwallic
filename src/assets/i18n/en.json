@@ -1,5 +1,12 @@
 {
   "NAV_BACK": "Back",
+  "APP_MENU_BACKUP": "Backup wallet",
+  "APP_MENU_IMPORT": "Import wallet",
+  "APP_MENU_TRANSACTION": "Transaction",
+  "APP_MENU_SETTING": "Settings",
+  "APP_MENU_HELPER": "Helper",
+  "APP_MENU_ABOUT": "About",
+  "APP_MENU_SIGNOUT": "Sign out",
   "WALLET_GATE_OPEN_WALLET": "Open wallet",
   "WALLET_GATE_CREATE_WALLET": "Create wallet",
   "WALLET_BACKUP_TITLE": "Backup wallet",

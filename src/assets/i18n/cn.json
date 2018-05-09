@@ -1,5 +1,12 @@
 {
   "NAV_BACK": "返回",
+  "APP_MENU_BACKUP": "备份钱包",
+  "APP_MENU_IMPORT": "导入钱包",
+  "APP_MENU_TRANSACTION": "我的交易",
+  "APP_MENU_SETTING": "系统设定",
+  "APP_MENU_HELPER": "帮助中心",
+  "APP_MENU_ABOUT": "关于 iWallic",
+  "APP_MENU_SIGNOUT": "关闭钱包",
   "WALLET_GATE_OPEN_WALLET": "打开钱包",
   "WALLET_GATE_CREATE_WALLET": "创建钱包",
   "WALLET_BACKUP_TITLE": "备份钱包",
