@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
-import { WalletBackupComponent, AssetDetailComponent } from '../../../pages';
+import { WalletBackupComponent, AssetDetailComponent, TxReceiptComponent } from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
@@ -17,7 +17,7 @@ export class AssetListComponent implements OnInit {
     public address: string = '';
     public neoValue: number = 0;
     public backuped: boolean = false;
-
+    public receipt: any = TxReceiptComponent;
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -49,7 +49,7 @@ export class AssetListComponent implements OnInit {
     }
 
     public getAssetList() {
-        this.http.post(this.global.apiAddr + '/api/block',
+        this.http.post(this.global.apiAddr + '/api/iwallic',
             { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
                 if (res['result'] === undefined) {
                     this.global.Alert('REQUESTFAILED');

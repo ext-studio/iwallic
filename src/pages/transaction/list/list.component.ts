@@ -49,18 +49,21 @@ export class TxListComponent implements OnInit {
     }
 
     public getTxList() {
-        this.http.post(this.global.apiAddr + '/api/block',
+        this.http.post(this.global.apiAddr + '/api/iwallic',
             { 'method': 'getaccounttxes', 'params': [this.page, this.pageSize, this.address] }).subscribe(res => {
-                if (res['result']['data']) {
+                if (res['result']['data'] != null) {
+                    if (res['result']['data'].length === 0) {
+                        this.enabled = false;
+                    }
                     for (let i = 0; i < res['result']['data'].length; i++) {
                         this.items.push(res['result']['data'][i]);
                     }
+                    this.page += 1;
                 } else {
                     this.enabled = false;
                 }
-                console.log(res);
             }, (err) => {
-                console.log(err);
+                this.global.Alert('REQUESTFAILED');
             });
         return;
     }

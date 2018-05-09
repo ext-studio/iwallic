@@ -7,7 +7,7 @@
     <div class="header-content" center text-center style="background: url('assets/asset/list_bg_img.png') no-repeat center; background-size: cover">
         <div class="title">
             <span>我的资产</span>
-            <img src="assets/asset/icon_QRcode.png" alt="">
+            <img src="assets/asset/icon_QRcode.png" alt="" [navPush]="receipt">
         </div>
         <div class="balance">
             <span class="num">
@@ -17,7 +17,7 @@
         </div>
         <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">(钱包还未备份)</p>
     </div>
-    <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
+    <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>
 
 <ion-content>
@@ -26,9 +26,8 @@
             <span class="asset-type">{{ asset.name }}</span>
             <span item-end>{{ asset.balance }}</span>
         </ion-item>
-        <!-- <ion-item *ngIf="assetList.length == 0" center>暂无资产</ion-item> -->
     </ion-list>
-    <ion-label *ngIf="assetList.length == 0" text-center class="no-assets">暂无资产</ion-label>
+    <ion-label *ngIf="assetList == null" text-center class="no-assets">暂无资产</ion-label>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

@@ -7,9 +7,9 @@ import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
     templateUrl: 'detail.component.html'
 })
 export class AssetDetailComponent implements OnInit {
-    public items: any[];
-    public receipt: any;
-    public transfer: any;
+    public items: any = [];
+    public receipt: any = TxReceiptComponent;
+    public transfer: any = TxTransferComponent;
     public token: string;
     public assetName: string;
     public assetBalance: number = 0;
@@ -26,9 +26,6 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.receipt = TxReceiptComponent;
-        this.transfer = TxTransferComponent;
-        this.items = [];
         const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
         this.pageSize = parseInt(tempsize, 0);
         for (let i = 0; i < this.pageSize; i++) {
