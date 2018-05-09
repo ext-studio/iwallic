@@ -18,6 +18,7 @@ export class AssetListComponent implements OnInit {
     public neoValue: number = 0;
     public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
+    public loading: boolean = true;
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -51,6 +52,7 @@ export class AssetListComponent implements OnInit {
     public getAssetList() {
         this.http.post(this.global.apiAddr + '/api/iwallic',
             { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
+                this.loading = false;
                 if (res['result'] === undefined) {
                     this.global.Alert('REQUESTFAILED');
                     return;

@@ -10,7 +10,7 @@ import QrCodeWithLogo from 'qr-code-with-logo';
 @Injectable()
 export class GlobalService {
     public apiDomain: string = 'http://127.0.0.1:9999';
-    public apiAddr: string = 'http://192.168.1.90:8080';
+    public apiAddr: string = 'http://192.168.1.39:8080';
     constructor(
         private alert: AlertController,
         private loading: LoadingController,

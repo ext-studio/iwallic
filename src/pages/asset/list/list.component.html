@@ -20,15 +20,19 @@
     <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>
 
-<ion-content>
-    <ion-list>
+<ion-content center>
+    <div text-center  padding margin-vertical *ngIf="loading">
+         <ion-spinner ></ion-spinner>
+    </div>
+    <ion-list *ngIf="!loading">
         <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.balance)">
             <span class="asset-type">{{ asset.name }}</span>
             <span item-end>{{ asset.balance }}</span>
         </ion-item>
     </ion-list>
-    <ion-label *ngIf="assetList == null" text-center class="no-assets">暂无资产</ion-label>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+    
+    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">暂无资产</ion-label>
+    <ion-refresher  *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
