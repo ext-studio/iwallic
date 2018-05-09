@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController, MenuController, NavController, Config } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 import { GlobalService, Translate } from '../core';
 import { WalletService } from '../neo';
@@ -16,6 +17,7 @@ import {
     ScanAddrComponent
 } from '../pages';
 import { PopupInputService } from '../core';
+import { Observable } from 'rxjs/observable';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -29,6 +31,7 @@ export class AppComponent {
     public HelperPage = SystemHelperComponent;
     public AboutPage = SystemAboutComponent;
     private rootPage: any;
+    private leaving: boolean = false;
 
     constructor(
         private platform: Platform,
@@ -43,7 +46,8 @@ export class AppComponent {
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
         private config: Config,
-        private translate: Translate
+        private translate: Translate,
+        private toast: ToastController
     ) {
         this.initializeApp();
     }
@@ -68,29 +72,22 @@ export class AppComponent {
                 }
             });
 
-            document.addEventListener('backbutton', () => {
-                if (!this.nav.canGoBack()) {
-                    const la = this.alert.create({
-                        title: 'Caution',
-                        subTitle: 'Sure to leave iWallic?',
-                        buttons: [
-                            'Cancel',
-                            {
-                                text: 'Sure',
-                                role: 'ok'
-                            }
-                        ]
+            this.platform.registerBackButtonAction(() => {
+                if (this.menu.isOpen()) {
+                    this.menu.close();
+                } else if (this.nav.canGoBack()) {
+                    this.nav.pop();
+                } else if (this.leaving) {
+                    this.platform.exitApp();
+                } else {
+                    this.leaving = true;
+                    const check = this.toast.create({message: 'Touch again to exit.', duration: 2000});
+                    check.present();
+                    check.onDidDismiss(() => {
+                        this.leaving = false;
                     });
-                    la.present();
-                    la.onDidDismiss((data, role) => {
-                        if (role === 'ok') {
-                            this.platform.exitApp();
-                        }
-                    });
-                    return;
                 }
-                this.nav.pop();
-            }, false);
+            });
         });
     }
 
