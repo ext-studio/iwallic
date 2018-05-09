@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController, MenuController, NavController, Config } from 'ionic-angular';
 
-import { GlobalService } from '../core';
+import { GlobalService, Translate } from '../core';
 import { WalletService } from '../neo';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -43,7 +43,7 @@ export class AppComponent {
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
         private config: Config,
-        private translate: TranslateService
+        private translate: Translate
     ) {
         this.initializeApp();
     }
@@ -54,11 +54,19 @@ export class AppComponent {
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
-            setTimeout(() => {
-                this.translate.get('NAV_BACK').subscribe((res) => {
-                    this.config.set('backButtonText', res);
-                });
-            }, 200);
+            this.translate.Init();
+            this.wallet.Get().subscribe(() => {
+                loader.dismiss();
+                this.nav.setRoot(AssetListComponent);
+            }, (err) => {
+                loader.dismiss();
+                console.log(err);
+                if (err === 'need_verify') {
+                    this.nav.setRoot(WalletVerifyComponent);
+                } else {
+                    this.nav.setRoot(WalletGateComponent);
+                }
+            });
 
             document.addEventListener('backbutton', () => {
                 if (!this.nav.canGoBack()) {
@@ -83,19 +91,6 @@ export class AppComponent {
                 }
                 this.nav.pop();
             }, false);
-
-            this.wallet.Get().subscribe(() => {
-                loader.dismiss();
-                this.nav.setRoot(AssetListComponent);
-            }, (err) => {
-                loader.dismiss();
-                console.log(err);
-                if (err === 'need_verify') {
-                    this.nav.setRoot(WalletVerifyComponent);
-                } else {
-                    this.nav.setRoot(WalletGateComponent);
-                }
-            });
         });
     }
 

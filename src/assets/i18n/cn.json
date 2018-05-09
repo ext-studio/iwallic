@@ -23,5 +23,6 @@
   "WALLET_OPEN_REPWD_PH": "点此输入",
   "WALLET_OPEN_PWDTIP": "两次密码输入不一致.",
   "WALLET_OPEN_IMPORT": "导入钱包",
-  "WALLET_OPEN_FILE": "导入NEP-6钱包"
+  "WALLET_OPEN_FILE": "导入NEP-6钱包",
+  "SETTING_LANG_SYSTEM": "跟随系统"
 }

@@ -23,5 +23,6 @@
   "WALLET_OPEN_REPWD_PH": "Tap to enter.",
   "WALLET_OPEN_PWDTIP": "Two cipher inconsistencies",
   "WALLET_OPEN_IMPORT": "Import wallet",
-  "WALLET_OPEN_FILE": "Import NEP-6 wallet"
+  "WALLET_OPEN_FILE": "Import NEP-6 wallet",
+  "SETTING_LANG_SYSTEM": "System"
 }

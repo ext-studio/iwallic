@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertController, LoadingController, Alert, Loading, Platform } from 'ionic-angular';
+import { AlertController, LoadingController, Alert, Loading, Platform, NavController, Config } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { UtilService, WalletService } from '../../neo';
 // import { Clipboard } from '@ionic-native/clipboard';
 import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
+import { Translate } from './translate';
 
 @Injectable()
 export class GlobalService {
@@ -15,10 +16,11 @@ export class GlobalService {
         private alert: AlertController,
         private loading: LoadingController,
         private translate: TranslateService,
+        private trans: Translate,
         private platform: Platform,
-        // private clipBoard: Clipboard,
         private storage: Storage,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private config: Config
     ) {}
     public switchI18N(name: string) {
         this.translate.use(name);

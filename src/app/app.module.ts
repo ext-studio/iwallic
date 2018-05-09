@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
-
+import { QRScanner } from '@ionic-native/qr-scanner';
 import { AppComponent } from './app.component';
 import { CoreModule, Translate } from '../core';
 import { NEOModule } from '../neo';
@@ -18,13 +16,11 @@ import {
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
-import { TranslateModule, TranslateLoader, TranslateModuleConfig, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-// import { Clipboard } from '@ionic-native/clipboard';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -55,8 +51,7 @@ const translateModuleConfig = {
         NEOModule, SharedModule,
         CoreModule,
         // for i18n must place after CoreModule
-        TranslateModule.forRoot(translateModuleConfig),
-        NgxQRCodeModule
+        TranslateModule.forRoot(translateModuleConfig)
     ],
     bootstrap: [IonicApp],
     entryComponents: [
@@ -71,21 +66,10 @@ const translateModuleConfig = {
     providers: [
         StatusBar,
         SplashScreen,
-        // Clipboard,
         Camera,
         QRScanner,
         File,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
-export class AppModule {
-    constructor(
-        private translate: TranslateService,
-        private trans: Translate
-    ) {
-        this.translate.setDefaultLang('en');
-        this.trans.Current().subscribe((res) => {
-            this.translate.use(res);
-        });
-    }
-}
+export class AppModule { }
