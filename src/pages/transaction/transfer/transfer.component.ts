@@ -53,20 +53,20 @@ export class TxTransferComponent implements OnInit {
 
     public enterPwd() {
         if (this.toaddr.length !== 34) {
-            this.wrongTips = '地址格式错误';
+            this.wrongTips = 'WRONG_ADDRESS';
             return;
         }
         if (this.transferValue) {
             if (parseFloat(this.transferValue.toString()) > parseFloat(this.assetBalance.toString())) {
-                this.wrongTips = '打款数额超出可用余额';
+                this.wrongTips = 'EXCEEDET_AVAILABLE_BALANCE';
                 return;
             }
         } else {
-            this.wrongTips = '打款金额不得为空';
+            this.wrongTips = 'NO_AMOUNT';
             return;
         }
-        const check = this.input.open(this.vcRef, 'ENTER');
-        check.afterClose().subscribe((res) => {
+        const check =  this.input.open(this.navCtrl, 'ENTER');
+        check.subscribe((res) => {
             if (!res) {
                 return;
             }
@@ -74,6 +74,7 @@ export class TxTransferComponent implements OnInit {
             load.present();
             this.wallet.Verify(res).subscribe((wres) => {
                 load.dismiss();
+                const txLoad = this.load.create({ content: 'transfer' });
                 this.tx.Transfer(
                     this.wallet.account.address,
                     this.wallet.account.wif,
@@ -82,14 +83,18 @@ export class TxTransferComponent implements OnInit {
                     this.asset,
                     this.assetName
                 ).subscribe((xres) => {
+                    txLoad.dismiss();
                     if (xres) {
                         this.navCtrl.pop({
                             animate: false
                         });
                         this.navCtrl.push(TxSuccessComponent);
+                    } else {
+                        this.alert.create({title: 'Error'}).present();
                     }
                 }, (err) => {
                     this.alert.create({title: 'Error'}).present();
+                    txLoad.dismiss();
                 });
                 return true;
             }, (werr) => {

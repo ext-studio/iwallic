@@ -6,7 +6,7 @@
     </ion-navbar>
     <div class="header-content" center text-center style="background: url('assets/asset/list_bg_img.png') no-repeat center; background-size: cover">
         <div class="title">
-            <span>我的资产</span>
+            <span>{{'ASSET_LIST_TITLE' | translate}}</span>
             <img src="assets/asset/icon_QRcode.png" alt="" [navPush]="receipt">
         </div>
         <div class="balance">
@@ -15,7 +15,7 @@
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">(钱包还未备份)</p>
+        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">{{'WALLET_NOT_BACKUP' | translate}}</p>
     </div>
     <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>
@@ -31,7 +31,7 @@
         </ion-item>
     </ion-list>
     
-    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">暂无资产</ion-label>
+    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">{{'NO_ASSETS' | translate}}</ion-label>
     <ion-refresher  *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

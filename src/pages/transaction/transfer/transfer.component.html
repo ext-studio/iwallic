@@ -3,28 +3,28 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>转账</ion-title>
+        <ion-title>{{ 'TRANSFER' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-list>
         <ion-item>
-            <ion-input type="text" placeholder="收款地址" [value]="toaddr" [(ngModel)]="toaddr"></ion-input>
+            <ion-input type="text" placeholder="{{ 'TARGET' | translate }}" [value]="toaddr" [(ngModel)]="toaddr"></ion-input>
             <button clear ion-button item-end (click)="qrScan()"><img class="scan" src="assets/transaction/icon_scan.png"></button>
         </ion-item>
         <ion-item>
-            <ion-input type="number" placeholder="打款数量" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="transferValue" ></ion-input>
-            <ion-note item-end *ngIf="isfocus">可用余额：{{ assetBalance }}</ion-note>
+            <ion-input type="number" placeholder="{{ 'AMOUNT' | translate }}" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="transferValue" ></ion-input>
+            <ion-note item-end *ngIf="isfocus">{{ 'AVAILABLE_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>
     <ion-list class="note">
         <ion-item>
-            <ion-input type="text" placeholder="备注"></ion-input>
+            <ion-input type="text" placeholder="{{ 'NOTE' | translate }}"></ion-input>
         </ion-item>
     </ion-list>
-    <p class="wrong">{{ wrongTips }}</p>
+    <p class="wrong">{{ wrongTips | translate }}</p>
     <div padding>
-        <button ion-button block round (click)="enterPwd()">提交</button>
+        <button ion-button block round (click)="enterPwd()">{{ 'SUBMIT' | translate }}</button>
     </div>
 </ion-content>

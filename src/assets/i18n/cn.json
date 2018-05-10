@@ -31,5 +31,27 @@
   "WALLET_OPEN_PWDTIP": "两次密码输入不一致.",
   "WALLET_OPEN_IMPORT": "导入钱包",
   "WALLET_OPEN_FILE": "导入NEP-6钱包",
-  "SETTING_LANG_SYSTEM": "跟随系统"
+  "SETTING_LANG_SYSTEM": "跟随系统",
+  "ASSET_LIST_TITLE": "我的资产",
+  "WALLET_NOT_BACKUP": "钱包未备份",
+  "NO_ASSETS": "暂无资产",
+  "ASSET": "资产",
+  "YOUR": "您的",
+  "RECENT_TRANSACTION_RECORDS": "近期交易记录",
+  "IN_DEVELOPMENT": "开发中",
+  "TRANSFER": "转账",
+  "RECEIPT": "收款",
+  "TARGET": "收款地址",
+  "AMOUNT": "打款数量",
+  "AVAILABLE_BALANCE": "可用余额",
+  "NOTE": "备注",
+  "SUBMIT": "提交",
+  "SCANNING": "扫描中",
+  "WRONG_ADDRESS": "地址格式错误",
+  "EXCEEDET_AVAILABLE_BALANCE": "超出可用余额",
+  "NO_AMOUNT": "打款金额不得为空"
+
+
+
+  
 }
