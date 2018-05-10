@@ -3,10 +3,12 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController, MenuController } from 'ionic-angular';
+import { AlertController, LoadingController, MenuController, NavController, Config } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
-import { GlobalService } from '../core';
+import { GlobalService, Translate } from '../core';
 import { WalletService } from '../neo';
+import { TranslateService } from '@ngx-translate/core';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
@@ -15,6 +17,7 @@ import {
     ScanAddrComponent
 } from '../pages';
 import { PopupInputService } from '../core';
+import { Observable } from 'rxjs/observable';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -28,6 +31,7 @@ export class AppComponent {
     public HelperPage = SystemHelperComponent;
     public AboutPage = SystemAboutComponent;
     private rootPage: any;
+    private leaving: boolean = false;
 
     constructor(
         private platform: Platform,
@@ -40,7 +44,10 @@ export class AppComponent {
         private wallet: WalletService,
         private menu: MenuController,
         private input: PopupInputService,
-        private vcRef: ViewContainerRef
+        private vcRef: ViewContainerRef,
+        private config: Config,
+        private translate: Translate,
+        private toast: ToastController
     ) {
         this.initializeApp();
     }
@@ -51,6 +58,7 @@ export class AppComponent {
             loader.present();
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+            this.translate.Init();
             this.wallet.Get().subscribe(() => {
                 loader.dismiss();
                 this.nav.setRoot(AssetListComponent);
@@ -61,6 +69,21 @@ export class AppComponent {
                     this.nav.setRoot(WalletVerifyComponent);
                 } else {
                     this.nav.setRoot(WalletGateComponent);
+                }
+            });
+
+            this.platform.registerBackButtonAction(() => {
+                if (this.menu.isOpen()) {
+                    this.menu.close();
+                } else if (this.nav.canGoBack()) {
+                    this.nav.pop();
+                } else if (this.leaving) {
+                    this.platform.exitApp();
+                } else {
+                    this.leaving = true;
+                    this.global.ToastI18N('TOAST_EXISTAPP').subscribe((res) => {
+                        this.leaving = false;
+                    });
                 }
             });
         });
@@ -77,20 +100,13 @@ export class AppComponent {
     }
 
     public signOut() {
-        const alert = this.alert.create({
-            title: 'Warning',
-            subTitle: 'Are you sure to close your wallet ?',
-            buttons: [
-                'Cancel',
-                {
-                    text: 'Sign out',
-                    role: 'go'
-                }
-            ]
-        });
-        alert.present();
-        alert.onDidDismiss((data, role) => {
-            if (role === 'go') {
+        this.global.AlertI18N({
+            title: 'ALERT_TITLE_WARN',
+            content: 'ALERT_CONTENT_SIGNOUT',
+            ok: 'ALERT_OK_SURE',
+            no: 'ALERT_NO_CANCEL'
+        }).subscribe((res) => {
+            if (res) {
                 this.wallet.Close();
                 this.menu.close();
                 this.nav.setRoot(WalletGateComponent);

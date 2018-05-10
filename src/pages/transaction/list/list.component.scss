@@ -19,6 +19,15 @@ transaction-list {
             .num {
                 float: right;
             }
+            ion-col {
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .no-assets {
+            font-size: 16px;
+            color: #646163;
         }
     }
 }

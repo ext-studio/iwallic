@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { GlobalService, PopupInputService, InputRef } from '../../../core';
+import { GlobalService, PopupInputService } from '../../../core';
 import { WalletService, Wallet } from '../../../neo';
 import { NavController, MenuController, NavParams, AlertController, Navbar, LoadingController } from 'ionic-angular';
 
@@ -53,7 +53,7 @@ export class WalletBackupComponent implements OnInit {
         this.global.Copy('wif-copy').then((res) => {
             this.copied = true;
         }).catch((err) => {
-            this.alert.create({subTitle: 'Sorry that you need to copy manually.'}).present();
+            this.global.AlertI18N({content: 'ALERT_CONTENT_COPYMANUALLY'}).subscribe();
         });
     }
 
@@ -61,8 +61,7 @@ export class WalletBackupComponent implements OnInit {
         if (this.verified) {
             return;
         }
-        const check = this.input.open(this.vcRef, 'ENTER');
-        check.afterClose().subscribe((res) => {
+        this.input.open(this.nav, 'ENTER').subscribe((res) => {
             if (!res) {
                 return;
             }
@@ -81,20 +80,13 @@ export class WalletBackupComponent implements OnInit {
     }
 
     public leaveConfirm() {
-        const alert = this.alert.create({
-            title: 'Tip',
-            subTitle: 'Have you backed up and sure to leave?',
-            buttons: [
-                'Cancel',
-                {
-                    text: 'Leave now',
-                    role: 'ok'
-                }
-            ]
-        });
-        alert.present();
-        alert.onDidDismiss((data, role) => {
-            if (role === 'ok') {
+        this.global.AlertI18N({
+            title: 'ALERT_TITLE_TIP',
+            content: 'ALERT_CONTENT_BACKUP',
+            ok: 'ALERT_OK_SURE',
+            no: 'ALERT_NO_CANCEL'
+        }).subscribe((res) => {
+            if (res) {
                 this.w.Backup();
                 this.nav.pop();
             }

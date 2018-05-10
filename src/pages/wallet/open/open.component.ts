@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { GlobalService, PopupInputService, InputRef } from '../../../core';
-import { WalletService } from '../../../neo';
+import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
+import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
+import { WalletService, Wallet } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
-import { NavController, MenuController, AlertController } from 'ionic-angular';
+import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { File } from '@ionic-native/file';
+import { IfObservable } from 'rxjs/observable/IfObservable';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * currently only support wif wallet
@@ -27,14 +31,16 @@ export class WalletOpenComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         private alert: AlertController,
-        private file: File
+        private file: ReadFileService,
+        private load: LoadingController
     ) { }
 
     public ngOnInit() {
         //
     }
+
     public enterPwd() {
-        this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
+        this.input.open(this.navCtrl, 'ENTER').subscribe((res) => {
             if (res) {
                 this.pwd = res;
                 this.rePwd = '';
@@ -46,7 +52,7 @@ export class WalletOpenComponent implements OnInit {
         if (!this.pwd || !this.pwd.length) {
             return;
         }
-        this.input.open(this.vcRef, 'CONFIRM').afterClose().subscribe((res) => {
+        this.input.open(this.navCtrl, 'CONFIRM').subscribe((res) => {
             if (res) {
                 this.rePwd = res;
             }
@@ -64,11 +70,45 @@ export class WalletOpenComponent implements OnInit {
             this.wallet.Save(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
-            this.alert.create({title: 'Import failed.'}).present();
+            this.global.AlertI18N({content: 'ALERT_CONTENT_IMPORTFAILED'}).subscribe();
         });
     }
     public fromNEP6() {
-        this.alert.create({title: 'Completing soon !'}).present();
+        const load = this.load.create({content: 'Verify'});
+        this.file.read().switchMap((json) => {
+            const w = new Wallet(json);
+            if (!w.wif) {
+                return this.input.open(this.navCtrl, 'ENTER').switchMap((pwd) => {
+                    if (pwd) {
+                        load.present();
+                        return this.wallet.Verify(pwd, w).map(() => {
+                            load.dismiss();
+                            return w;
+                        }).catch((e) => {
+                            load.dismiss();
+                            return Observable.throw(e);
+                        });
+                    } else {
+                        return Observable.throw('need_verify');
+                    }
+                });
+            }
+            return Observable.of(w);
+        }).subscribe((res) => {
+            this.wallet.Save(res);
+            this.navCtrl.setRoot(AssetListComponent);
+        }, (err) => {
+            if (err === 'verify_failed') {
+                this.global.Alert('WRONGPWD').subscribe();
+            } else if (err !== 'need_verify') {
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_CAUTION',
+                    content: 'ALERT_CONTENT_IMPORTNEP6',
+                    ok: 'ALERT_OK_SURE',
+                    no: 'ALERT_NO_CANCEL'
+                }).subscribe();
+            }
+        });
     }
     public check() {
         return this.pwd && this.pwd === this.rePwd;

@@ -6,8 +6,8 @@
     </ion-navbar>
     <div class="header-content" center text-center style="background: url('assets/asset/list_bg_img.png') no-repeat center; background-size: cover">
         <div class="title">
-            <span>我的资产</span>
-            <img src="assets/asset/icon_QRcode.png" alt="">
+            <span>{{'ASSET_LIST_TITLE' | translate}}</span>
+            <img src="assets/asset/icon_QRcode.png" alt="" [navPush]="receipt">
         </div>
         <div class="balance">
             <span class="num">
@@ -15,25 +15,24 @@
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">(钱包还未备份)</p>
+        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">{{'WALLET_NOT_BACKUP' | translate}}</p>
     </div>
-    <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
+    <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>
 
-<ion-content>
-    <ion-list>
-        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.value)">
+<ion-content center>
+    <div text-center  padding margin-vertical *ngIf="loading">
+         <ion-spinner ></ion-spinner>
+    </div>
+    <ion-list *ngIf="!loading">
+        <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.balance)">
             <span class="asset-type">{{ asset.name }}</span>
-            <span item-end>
-                <span *ngIf="asset.value > 0">+</span>
-                <span *ngIf="asset.value < 0">-</span>{{ asset.value }}
-            </span>
+            <span item-end>{{ asset.balance }}</span>
         </ion-item>
     </ion-list>
-    <ion-infinite-scroll [enabled]="enabled" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+    
+    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">{{'NO_ASSETS' | translate}}</ion-label>
+    <ion-refresher  *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 

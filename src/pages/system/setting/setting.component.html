@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Wallet settings</ion-title>
+        <ion-title>{{ 'APP_MENU_SETTING' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -12,8 +12,10 @@
         <ion-item-group>
             <ion-item>
                 <ion-label>Language</ion-label>
-                <ion-select [(ngModel)]="lang" interface="action-sheet">
+                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()">
+                    <ion-option value="sys">{{'SETTING_LANG_SYSTEM' | translate}}</ion-option>
                     <ion-option value="en">English</ion-option>
+                    <ion-option value="cn">中文简体</ion-option>
                     <!-- <ion-option value="tw">中文繁體</ion-option> -->
                 </ion-select>
             </ion-item>

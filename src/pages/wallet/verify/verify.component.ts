@@ -5,6 +5,7 @@ import { WalletGateComponent } from '../gate/gate.component';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
 import { WalletService, Wallet } from '../../../neo';
+import { GlobalService } from '../../../core';
 
 @Component({
     selector: 'wallet-verify',
@@ -18,7 +19,8 @@ export class WalletVerifyComponent implements OnInit {
     constructor(
         private wallet: WalletService,
         private nav: NavController,
-        private alert: AlertController
+        private alert: AlertController,
+        private global: GlobalService
     ) { }
 
     public ngOnInit() { }
@@ -32,7 +34,12 @@ export class WalletVerifyComponent implements OnInit {
             this.nav.setRoot(AssetListComponent);
         }, (err) => {
             this.verifying = false;
-            this.alert.create({title: err}).present();
+            this.global.AlertI18N({
+                title: 'ALERT_TITLE_CAUTION',
+                content: 'ALERT_CONTENT_WALLETVERIFY',
+                ok: 'ALERT_OK_SURE'
+            }).subscribe();
+            console.log(err);
         });
     }
 }

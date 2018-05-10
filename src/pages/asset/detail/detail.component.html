@@ -3,49 +3,49 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>{{ assetName }}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <div class="top" style="background: url('assets/asset/detail_bg_img.png')  no-repeat center; background-size: cover">
-        <h5>您的{{ assetName }}资产</h5>
-        <p>{{ assetValue }}</p>
+        <h5>{{ 'YOUR' | translate }} {{ assetName }} {{ 'ASSET' | translate }}</h5>
+        <p>{{ assetBalance }}</p>
     </div>
-    <h5>近期交易记录</h5>
+    <h5>{{ 'RECENT_TRANSACTION_RECORDS' | translate }}</h5>
     <hr>
-    <ion-list class="tx-list">
+    <!-- <ion-list class="tx-list">
         <ion-item *ngFor="let i of items" [ngClass]="{'payment' : i % 2 == 0, 'revenue': i % 2 == 1}">
             <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i % 2 == 0">
             <img src="assets/asset/record_icon_revenue.png" alt="" *ngIf="i % 2 == 1">
             <span>xxxxxxxxx</span>
             <span class="num"> 
-                <span *ngIf="asset.value > 0">+</span>
-                <span *ngIf="asset.value < 0">-</span>{{ i }}
+                {{ i }}
             </span>
         </ion-item>
-    </ion-list>
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="enabled">
+    </ion-list> -->
+    <ion-label style="color:#646163;font-size: 16px;" text-center>{{ 'IN_DEVELOPMENT' | translate }}</ion-label>
+    <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="enabled">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+    </ion-refresher> -->
 
 </ion-content>
 
 <ion-footer>
     <ion-row>
         <ion-col>
-            <button ion-col-6 [navPush]="transfer">
+            <button ion-col-6 (click)="jumpTx()">
                 <img src="assets/asset/detailspage_btn_icon_payment.png" alt="">
-                <span>转账</span>
+                <span>{{ 'TRANSFER' | translate }}</span>
             </button>
         </ion-col>
         <ion-col>
             <button ion-col-6 [navPush]="receipt">
                 <img src="assets/asset/detailspage_btn_icon_QRcode.png" alt="">
-                <span>收款</span>
+                <span>{{ 'RECEIPT' | translate }}</span>
             </button>
         </ion-col>
     </ion-row>

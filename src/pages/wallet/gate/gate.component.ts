@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
 import { WalletService, Wallet } from '../../../neo';
+import { GlobalService } from '../../../core';
 
 /**
  * wallet gate page
@@ -14,16 +15,21 @@ import { WalletService, Wallet } from '../../../neo';
     selector: 'wallet-gate',
     templateUrl: 'gate.component.html'
 })
-export class WalletGateComponent implements OnInit {
+export class WalletGateComponent implements OnInit, OnDestroy {
     public openPage = WalletOpenComponent;
     public createPage = WalletPwdComponent;
     constructor(
         private navCtrl: NavController,
         private menu: MenuController,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private global: GlobalService
     ) { }
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
+    }
+
+    public ngOnDestroy() {
+        //
     }
 }

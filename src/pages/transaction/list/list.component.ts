@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, Refresher, Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../../../core';
-import { WalletService } from '../../../neo';
+import { WalletService, TransactionService } from '../../../neo';
 
 
 @Component({
@@ -20,7 +20,8 @@ export class TxListComponent implements OnInit {
         private http: HttpClient,
         private global: GlobalService,
         private wallet: WalletService,
-        private platform: Platform
+        private platform: Platform,
+        private transcation: TransactionService
     ) { }
 
     public ngOnInit() {
@@ -43,22 +44,31 @@ export class TxListComponent implements OnInit {
 
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
+            this.page = 1;
+            this.enabled = false;
+            this.getTxList();
             refresher.complete();
         }, 500);
     }
 
     public getTxList() {
-        this.http.post(this.global.apiAddr + '/api/block',
-            { 'method': 'getassetchanges', 'params': [this.page, this.pageSize, this.address] }).subscribe(result => {
-                if (result['result']['data']) {
-                    for (let i = 0; i < result['result']['data'].length; i++) {
-                        this.items.push(result['result']['data'][i]);
+        this.http.post(this.global.apiAddr + '/api/iwallic',
+            { 'method': 'getaccounttxes', 'params': [this.page, this.pageSize, this.address] }).subscribe(res => {
+                if (res['result']) {
+                    if (res['result']['data'] != null) {
+                        if (res['result']['data'].length === 0) {
+                            this.enabled = false;
+                        }
+                        for (let i = 0; i < res['result']['data'].length; i++) {
+                            this.items.push(res['result']['data'][i]);
+                        }
+                        this.page += 1;
                     }
                 } else {
                     this.enabled = false;
                 }
             }, (err) => {
-                console.log(err);
+                this.global.Alert('REQUESTFAILED');
             });
         return;
     }

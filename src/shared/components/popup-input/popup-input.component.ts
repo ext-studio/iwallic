@@ -1,41 +1,33 @@
 import { Component, OnInit, Output, EventEmitter, ViewContainerRef } from '@angular/core';
-import { flyUp } from '../../animates/fly';
-import { mask } from '../../animates/mask';
+import { NavParams, NavController } from 'ionic-angular';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     selector: 'popup-input',
-    templateUrl: 'popup-input.component.html',
-    animations: [
-        flyUp, mask
-    ]
+    templateUrl: 'popup-input.component.html'
 })
 export class PopupInputComponent implements OnInit {
     public type = 'ENTER';
-    public open = 'on';
     public pwd: string;
-    public animationStateChange = new EventEmitter<AnimationEvent>();
-    @Output() public finish = new EventEmitter<string>();
+    private $enter: Subject<any>;
     constructor(
-        private vcRef: ViewContainerRef
+        private params: NavParams,
+        private nav: NavController
     ) { }
 
-    public ngOnInit() {}
-    public startClose(fromFinish?: boolean) {
-        this.open = 'off';
-        setTimeout(() => {
-            if (fromFinish) {
-                this.finish.emit(this.pwd);
-            } else {
-                this.finish.emit(null);
-            }
-        }, 300);
+    public ngOnInit() {
+        this.$enter = this.params.get('subject');
     }
 
     public confirm() {
-        this.startClose(true);
+        setTimeout(() => {
+            this.$enter.next(this.pwd);
+            this.$enter.complete();
+        }, 400);
+        this.nav.pop();
     }
 
     public cancel() {
-        this.startClose();
+        this.nav.pop();
     }
 }

@@ -1,22 +1,8 @@
 popup-input {
-    .mask {
-        background: #000000;
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        z-index: 999;
-        top: 0;left: 0;
+    .title {
+        text-align: center;
+        color: #969696;
     }
-    .board {
-        position: fixed;
-        width: 100%;
-        z-index: 1000;
-        background: #ffffff;
-        left: 0;
-        height: 100%;
-        bottom: -100px;
-    }
-
     .pwd {
         text-align: center;
         outline: none;

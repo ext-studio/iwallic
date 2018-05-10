@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Your new wallet</ion-title>
+        <ion-title>{{'WALLET_CREATE_TITLE' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -8,12 +8,12 @@
     <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wif"></ngx-qrcode> -->
     <img id="wallet-qrcode" />
     <div class="title">
-        Your WIF:
+        {{'WALLET_CREATE_YOURWIF' | translate}}
         <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
         <img *ngIf="!shown" (click)="shown = true" src="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
     <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="newWallet?.wif" />
     <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
-    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
-    <button margin-vertical ion-button block (click)="enter()">Enter wallet</button>
+    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_CREATE_COPIED' : 'WALLET_CREATE_COPY') | translate}}</button>
+    <button margin-vertical ion-button block (click)="enter()">{{'WALLET_CREATE_ENTER' | translate}}</button>
 </ion-content>

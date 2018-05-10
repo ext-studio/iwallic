@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Backup wallet</ion-title>
+        <ion-title>{{'WALLET_BACKUP_TITLE' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -14,16 +14,14 @@
         <img src="assets/wallet/btn_img_click@2x.png" class="tip" />
     </div>
     <div class="title">
-        Your WIF:
+        {{'WALLET_BACKUP_YOURWIF' | translate}}
         <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
         <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" src="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
     <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
     <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
-    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'Copied !' : 'Copy WIF'}}</button>
+    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_BACKUP_COPIED' : 'WALLET_BACKUP_COPY') | translate}}</button>
 
-    <button *ngIf="shown" class="btn copy" ion-button (click)="leaveConfirm()">I have backed up</button>
-    <p class="tip" text-sm>
-        Touch above to show the qrcode of your WIF key. Then print it or write it down to paper. Do not just save as screenshot or it will lose when the device is not all right.
-    </p>
+    <button *ngIf="shown" class="btn copy" ion-button (click)="leaveConfirm()">{{'WALLET_BACKUP_BACKED' | translate}}</button>
+    <p class="tip" text-sm>{{'WALLET_BACKUP_TIP' | translate}}</p>
 </ion-content>

@@ -86,6 +86,7 @@ export class Account {
                 try {
                     const check = wallet.decrypt(this.key, pwd);
                     if (check) {
+                        this.wif = check;
                         observer.next(true);
                         observer.complete();
                     } else {
@@ -110,6 +111,9 @@ export class Wallet {
             return null;
         }
         return this.accounts[this.main].wif;
+    }
+    public get address() {
+        return this.accounts[this.main] && this.accounts[this.main].address;
     }
     public get account() {
         return this.accounts[this.main];
@@ -153,7 +157,18 @@ export class WalletService {
     ) {
         // console.log(wallet.decrypt(''));
     }
-
+    public Verify(pwd: string, w?: Wallet): Observable<any> {
+        if (!this.cached && !w) {
+            return Observable.throw('not_exist');
+        }
+        if (w) {
+            this.cached = w;
+        }
+        return this.cached.Verify(pwd).map((res) => {
+            this.Save(res);
+            return res;
+        });
+    }
     /**
      * import a wallet from WIF or NEP-6 JSON
      * @param text file content in JSON or WIF
@@ -229,6 +244,7 @@ export class WalletService {
             }
             return w.Verify(pwd).map((vres) => {
                 this.cached = w;
+                this.Save(w);
                 return this.cached;
             });
         });
