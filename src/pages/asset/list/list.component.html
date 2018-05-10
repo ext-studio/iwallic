@@ -15,7 +15,7 @@
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">{{'WALLET_NOT_BACKUP' | translate}}</p>
+        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p>
     </div>
     <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>
@@ -31,7 +31,7 @@
         </ion-item>
     </ion-list>
     
-    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">{{'NO_ASSETS' | translate}}</ion-label>
+    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
     <ion-refresher  *ngIf="!loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

@@ -53,16 +53,16 @@ export class TxTransferComponent implements OnInit {
 
     public enterPwd() {
         if (this.toaddr.length !== 34) {
-            this.wrongTips = 'WRONG_ADDRESS';
+            this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
             return;
         }
         if (this.transferValue) {
             if (parseFloat(this.transferValue.toString()) > parseFloat(this.assetBalance.toString())) {
-                this.wrongTips = 'EXCEEDET_AVAILABLE_BALANCE';
+                this.wrongTips = 'TRANSACTION_TRANSFER_EXCEEDETBALANCE';
                 return;
             }
         } else {
-            this.wrongTips = 'NO_AMOUNT';
+            this.wrongTips = 'TRANSACTION_TRANSFER_NOAMOUNT';
             return;
         }
         const check =  this.input.open(this.navCtrl, 'ENTER');
@@ -74,7 +74,8 @@ export class TxTransferComponent implements OnInit {
             load.present();
             this.wallet.Verify(res).subscribe((wres) => {
                 load.dismiss();
-                const txLoad = this.load.create({ content: 'transfer' });
+                const txLoad = this.load.create({ content: 'Transfer...' });
+                txLoad.present();
                 this.tx.Transfer(
                     this.wallet.account.address,
                     this.wallet.account.wif,
