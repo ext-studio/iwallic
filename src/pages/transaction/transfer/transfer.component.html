@@ -18,11 +18,11 @@
             <ion-note item-end *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>
-    <ion-list class="note">
+    <!-- <ion-list class="note">
         <ion-item>
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_NOTE' | translate }}"></ion-input>
         </ion-item>
-    </ion-list>
+    </ion-list> -->
     <p class="wrong">{{ wrongTips | translate }}</p>
     <div padding>
         <button ion-button block round (click)="enterPwd()">{{ 'TRANSACTION_TRANSFER_SUBMIT' | translate }}</button>
