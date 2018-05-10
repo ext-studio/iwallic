@@ -27,7 +27,7 @@ export class TxReceiptComponent implements OnInit {
         this.global.Copy('wallet-address').then((res) => {
             this.copied = true;
         }).catch((err) => {
-            this.alert.create({subTitle: 'Sorry that you need to copy manually.'}).present();
+            this.global.AlertI18N({content: 'ALERT_CONTENT_COPYMANUALLY'}).subscribe();
         });
     }
 }

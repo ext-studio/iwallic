@@ -61,7 +61,7 @@ export class AppComponent {
             this.translate.Init();
             this.wallet.Get().subscribe(() => {
                 loader.dismiss();
-                this.nav.setRoot(AssetListComponent);
+                this.nav.setRoot(TxSuccessComponent);
             }, (err) => {
                 loader.dismiss();
                 console.log(err);
