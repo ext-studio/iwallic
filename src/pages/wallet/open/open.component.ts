@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
-import { GlobalService, PopupInputService, InputRef, ReadFileService } from '../../../core';
+import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
 import { WalletService, Wallet } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
@@ -40,7 +40,7 @@ export class WalletOpenComponent implements OnInit {
     }
 
     public enterPwd() {
-        this.input.open(this.vcRef, 'ENTER').afterClose().subscribe((res) => {
+        this.input.open(this.navCtrl, 'ENTER').subscribe((res) => {
             if (res) {
                 this.pwd = res;
                 this.rePwd = '';
@@ -52,7 +52,7 @@ export class WalletOpenComponent implements OnInit {
         if (!this.pwd || !this.pwd.length) {
             return;
         }
-        this.input.open(this.vcRef, 'CONFIRM').afterClose().subscribe((res) => {
+        this.input.open(this.navCtrl, 'CONFIRM').subscribe((res) => {
             if (res) {
                 this.rePwd = res;
             }
@@ -78,7 +78,7 @@ export class WalletOpenComponent implements OnInit {
         this.file.read().switchMap((json) => {
             const w = new Wallet(json);
             if (!w.wif) {
-                return this.input.open(this.vcRef, 'ENTER').afterClose().switchMap((pwd) => {
+                return this.input.open(this.navCtrl, 'ENTER').switchMap((pwd) => {
                     if (pwd) {
                         load.present();
                         return this.wallet.Verify(pwd, w).map(() => {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-import { GlobalService, PopupInputService, InputRef } from '../../../core';
+import { GlobalService, PopupInputService } from '../../../core';
 import { WalletService, Wallet } from '../../../neo';
 import { NavController, MenuController, NavParams, AlertController, Navbar, LoadingController } from 'ionic-angular';
 
@@ -61,8 +61,7 @@ export class WalletBackupComponent implements OnInit {
         if (this.verified) {
             return;
         }
-        const check = this.input.open(this.vcRef, 'ENTER');
-        check.afterClose().subscribe((res) => {
+        this.input.open(this.nav, 'ENTER').subscribe((res) => {
             if (!res) {
                 return;
             }

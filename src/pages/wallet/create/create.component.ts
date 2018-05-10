@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import { WalletService, wallet as w, Wallet } from '../../../neo';
-import { GlobalService, PopupInputService, InputRef } from '../../../core';
+import { GlobalService, PopupInputService } from '../../../core';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { NavController, MenuController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
