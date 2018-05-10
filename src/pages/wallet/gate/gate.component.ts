@@ -3,7 +3,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
 import { WalletService, Wallet } from '../../../neo';
-import { GlobalService } from '../../../core';
+import { GlobalService, PopupInputService } from '../../../core';
 
 /**
  * wallet gate page
@@ -22,7 +22,8 @@ export class WalletGateComponent implements OnInit, OnDestroy {
         private navCtrl: NavController,
         private menu: MenuController,
         private wallet: WalletService,
-        private global: GlobalService
+        private global: GlobalService,
+        private input: PopupInputService
     ) { }
 
     public ngOnInit() {

@@ -37,16 +37,16 @@ export class WalletOpenComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.transaction.Send(
-            'ARL6itN8Cp9FvTMc58sbbWTXCCgSMMaSoz',
-            'AYhN4WsU147R4fjchqGtdBA33DBJQhd4qo',
-            1,
-            'L25ryXBTMewXXYffgszTomgn4qmsgLgDHQnerhSZ7sStdLN8JBSZ',
-            ASSET.NEO,
-            false
-        ).subscribe((res) => {
-            console.log(res);
-        });
+        // this.transaction.Send(
+        //     'ARL6itN8Cp9FvTMc58sbbWTXCCgSMMaSoz',
+        //     'AYhN4WsU147R4fjchqGtdBA33DBJQhd4qo',
+        //     1,
+        //     'L25ryXBTMewXXYffgszTomgn4qmsgLgDHQnerhSZ7sStdLN8JBSZ',
+        //     ASSET.NEO,
+        //     false
+        // ).subscribe((res) => {
+        //     console.log(res);
+        // });
     }
 
     public enterPwd() {

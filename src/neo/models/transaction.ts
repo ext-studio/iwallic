@@ -69,8 +69,7 @@ export class Transaction {
         for (const tx of utxo) {
             const value = valueStr2Num(tx.value);
             curr += value;
-            vin.push({prevIndex: tx.n, prevHash: tx.txid});
-            // 输入
+            vin.push({prevIndex: tx.n, prevHash: tx.txid.slice(2)});
             if (curr >= amount) {
                 break;
             }
@@ -80,13 +79,15 @@ export class Transaction {
             throw 'not_enouogh';
         }
         if (payback > 0) {
-            // 找零
+            vout.push({value: payback, asset: asset, scriptHash: wallet.getScriptHashFromAddress(from)});
         }
         return new Transaction({
             vin, vout
         });
     }
     public addAttr(usage: number, data: string) {
+        // usage Remark
+        // data string
         this.attributes.push({usage, data});
     }
 }
