@@ -54,14 +54,16 @@ export class TxListComponent implements OnInit {
     public getTxList() {
         this.http.post(this.global.apiAddr + '/api/iwallic',
             { 'method': 'getaccounttxes', 'params': [this.page, this.pageSize, this.address] }).subscribe(res => {
-                if (res['result']['data'] != null) {
-                    if (res['result']['data'].length === 0) {
-                        this.enabled = false;
+                if (res['result']) {
+                    if (res['result']['data'] != null) {
+                        if (res['result']['data'].length === 0) {
+                            this.enabled = false;
+                        }
+                        for (let i = 0; i < res['result']['data'].length; i++) {
+                            this.items.push(res['result']['data'][i]);
+                        }
+                        this.page += 1;
                     }
-                    for (let i = 0; i < res['result']['data'].length; i++) {
-                        this.items.push(res['result']['data'][i]);
-                    }
-                    this.page += 1;
                 } else {
                     this.enabled = false;
                 }

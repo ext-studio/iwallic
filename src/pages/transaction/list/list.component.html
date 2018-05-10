@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>{{ 'TRANSACTION' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -32,6 +32,6 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-label *ngIf="items.length == 0" text-center class="no-assets">暂无交易</ion-label>
+    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'NO_TRANSACTION' | translate }}</ion-label>
 
 </ion-content>

@@ -49,9 +49,7 @@
   "SCANNING": "扫描中",
   "WRONG_ADDRESS": "地址格式错误",
   "EXCEEDET_AVAILABLE_BALANCE": "超出可用余额",
-  "NO_AMOUNT": "打款金额不得为空"
-
-
-
-  
+  "NO_AMOUNT": "打款金额不得为空",
+  "TRANSACTION": "交易记录",
+  "NO_TRANSACTION": "暂无交易"
 }
