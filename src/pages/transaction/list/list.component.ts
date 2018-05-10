@@ -37,7 +37,7 @@ export class TxListComponent implements OnInit {
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.getTxList();
-                infiniteScroll.complete();
+                resolve();
             }, 500);
         });
     }
@@ -45,6 +45,7 @@ export class TxListComponent implements OnInit {
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
             this.page = 1;
+            this.items = [];
             this.enabled = false;
             this.getTxList();
             refresher.complete();
