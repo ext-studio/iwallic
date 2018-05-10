@@ -57,21 +57,30 @@ export class Transaction {
         return new Transaction();
     }
     public static forContract(
-        utxo: any[],
-        target: Array<{value: number, addr: string, asset: string}>,
-        wif: string
+        utxo: Array<{assetId: string, txid: string, value: string, id: number, n: number}>,
+        from: string,
+        to: string,
+        amount: number,
+        asset: string
     ): Transaction {
         const vin: Input[] = [];
-        const vout: Output[] = [];
+        const vout: Output[] = [{asset: asset, value: amount, scriptHash: wallet.getScriptHashFromAddress(to)}];
+        let curr = 0;
         for (const tx of utxo) {
-            vin.push({prevHash: tx.hash, prevIndex: tx.n});
+            const value = valueStr2Num(tx.value);
+            curr += value;
+            vin.push({prevIndex: tx.n, prevHash: tx.txid});
+            // 输入
+            if (curr >= amount) {
+                break;
+            }
         }
-        for (const tg of target) {
-            vout.push({
-                scriptHash: wallet.getScriptHashFromAddress(tg.addr),
-                value: tg.value,
-                asset: tg.asset
-            });
+        const payback = curr - amount;
+        if (payback < 0) {
+            throw 'not_enouogh';
+        }
+        if (payback > 0) {
+            // 找零
         }
         return new Transaction({
             vin, vout
@@ -80,6 +89,11 @@ export class Transaction {
     public addAttr(usage: number, data: string) {
         this.attributes.push({usage, data});
     }
+}
+
+export function valueStr2Num(str: string): number {
+    console.log(parseFloat(str));
+    return 1;
 }
 
 export function serializeTx(tx: Transaction, signed: boolean): string {

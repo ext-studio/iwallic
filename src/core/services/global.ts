@@ -14,6 +14,8 @@ import { Translate } from './translate';
 export class GlobalService {
     public apiDomain: string = 'http://127.0.0.1:9999';
     public apiAddr: string = 'http://192.168.1.39:8080';
+    public popups: any[] = [];
+    public masks: any[] = [];
     constructor(
         private alert: AlertController,
         private loading: LoadingController,
@@ -44,13 +46,28 @@ export class GlobalService {
             return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_UNKNOWN', ok: 'ALERT_OK_SURE'});
         }
     }
-
+    public LoadI18N(msg: string): Observable<Loading> {
+        return this.translate.get(msg).switchMap((res) => {
+            return new Observable<Loading>((observer) => {
+                const load = this.loading.create({content: res});
+                this.masks.push(load);
+                load.present();
+                load.onDidDismiss(() => {
+                    this.masks.splice(this.masks.findIndex((e: any) => e.id && (e.id === load.id)), 1);
+                });
+                observer.next(load);
+                observer.complete();
+            });
+        });
+    }
     public ToastI18N(msg: string, duration: number = 2000): Observable<any> {
         return this.translate.get(msg).switchMap((res) => {
             return new Observable<any>((observer) => {
                 const toast = this.toast.create({message: res, duration: duration});
+                this.popups.push(toast);
                 toast.present();
                 toast.onDidDismiss(() => {
+                    this.popups.splice(this.popups.findIndex((e: any) => e.id && (e.id === toast.id)), 1);
                     observer.next();
                     observer.complete();
                 });
@@ -61,8 +78,7 @@ export class GlobalService {
         title?: string,
         content?: string,
         ok?: string,
-        no?: string,
-        enableBackdropDismiss?: boolean
+        no?: string
     }): Observable<any> {
         return this.translate.get(
             [config['title'], config['content'], config['ok'], config['no']].filter((e) => !!e)
@@ -81,11 +97,12 @@ export class GlobalService {
                 const alert = this.alert.create({
                     title: res[config['title']],
                     subTitle: res[config['content']],
-                    buttons: btns,
-                    enableBackdropDismiss: config['enableBackdropDismiss']
+                    buttons: btns
                 });
+                this.popups.push(alert);
                 alert.present();
                 alert.onDidDismiss((data, role) => {
+                    this.popups.splice(this.popups.findIndex((e: any) => e.id && (e.id === alert.id)), 1);
                     if (role === 'ok') {
                         observer.next(true);
                         observer.complete();

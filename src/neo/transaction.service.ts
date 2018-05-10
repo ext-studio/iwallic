@@ -2,12 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../core';
-import { api } from '.';
+import { api, ASSET } from '.';
+import { RPCService } from './rpc.service';
+import { Transaction } from './models/transaction';
 
 @Injectable()
 export class TransactionService {
 
-    constructor() { }
+    constructor(
+        private http: HttpClient,
+        // private global: GlobalService,
+        private rpc: RPCService
+    ) { }
 
     /**
      * Send asset/token to target address
@@ -17,7 +23,14 @@ export class TransactionService {
      * @param asset assetID or scripthash
      * @param isNEP5 is NEP-5 token or not
      */
-    public Send(target: string, amount: number, wif: string, asset: string, isNEP5: boolean = false): Observable<any> {
+    public Send(
+        from: string,
+        to: string,
+        amount: number,
+        wif: string,
+        asset: string,
+        isNEP5: boolean = false
+    ): Observable<any> {
         // if asset
         //  prepare tx can be spent
         //  generate inputs
@@ -26,7 +39,24 @@ export class TransactionService {
         // if NEP-5
         //  just push scripts
         //  sign
-        return Observable.throw('completing');
+        // const tx = Transaction.forContract([], {value: amount, addr: target, asset: asset});
+        return this.http.post(
+            `${this.rpc.apiUrl}/api/iwallic`,
+            {
+                method: 'getutxoes',
+                params: [from, 'NEO']
+            }
+        ).map((res: any) => {
+            if (res.code === 200) {
+                return res.result;
+            } else {
+                throw res.message;
+            }
+        }).switchMap((res) => {
+            return new Observable((observer) => {
+                observer.next(Transaction.forContract(res, from, to, amount, ASSET.NEO));
+            });
+        });
     }
 
     /**

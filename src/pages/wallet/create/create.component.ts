@@ -53,16 +53,16 @@ export class WalletCreateComponent implements OnInit {
             this.global.Alert('UNKNOWN');
             return;
         }
-        const load = this.loading.create({content: 'Creating...'});
-        load.present();
-        this.wallet.Create(this.pwd).subscribe((res: Wallet) => {
-            load.dismiss();
-            this.newWallet = res;
-            this.global.getQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
-        }, (err) => {
-            load.dismiss();
-            console.log(err);
-            this.global.Alert('UNKNOWN');
+        this.global.LoadI18N('LOADING_CREATING').subscribe((load) => {
+            this.wallet.Create(this.pwd).subscribe((res: Wallet) => {
+                load.dismiss();
+                this.newWallet = res;
+                this.global.getQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
+            }, (err) => {
+                load.dismiss();
+                console.log(err);
+                this.global.Alert('UNKNOWN');
+            });
         });
     }
 

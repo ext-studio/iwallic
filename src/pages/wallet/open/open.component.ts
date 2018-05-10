@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
-import { WalletService, Wallet } from '../../../neo';
+import { WalletService, Wallet, TransactionService, ASSET } from '../../../neo';
 import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
@@ -32,11 +32,21 @@ export class WalletOpenComponent implements OnInit {
         private wallet: WalletService,
         private alert: AlertController,
         private file: ReadFileService,
-        private load: LoadingController
+        private load: LoadingController,
+        private transaction: TransactionService
     ) { }
 
     public ngOnInit() {
-        //
+        this.transaction.Send(
+            'ARL6itN8Cp9FvTMc58sbbWTXCCgSMMaSoz',
+            'AYhN4WsU147R4fjchqGtdBA33DBJQhd4qo',
+            1,
+            'L25ryXBTMewXXYffgszTomgn4qmsgLgDHQnerhSZ7sStdLN8JBSZ',
+            ASSET.NEO,
+            false
+        ).subscribe((res) => {
+            console.log(res);
+        });
     }
 
     public enterPwd() {
@@ -98,14 +108,14 @@ export class WalletOpenComponent implements OnInit {
             this.wallet.Save(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
+            console.log(err);
             if (err === 'verify_failed') {
                 this.global.Alert('WRONGPWD').subscribe();
             } else if (err !== 'need_verify') {
                 this.global.AlertI18N({
                     title: 'ALERT_TITLE_CAUTION',
                     content: 'ALERT_CONTENT_IMPORTNEP6',
-                    ok: 'ALERT_OK_SURE',
-                    no: 'ALERT_NO_CANCEL'
+                    ok: 'ALERT_OK_SURE'
                 }).subscribe();
             }
         });
