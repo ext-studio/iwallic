@@ -36,7 +36,11 @@ export class Translate {
     }
 
     public Set(lang: string): void {
-        this.storage.set('language', lang);
+        if (lang === 'sys') {
+            this.storage.remove('language');
+        } else {
+            this.storage.set('language', lang);
+        }
     }
 
     public Switch(lang: string) {
@@ -67,6 +71,19 @@ export class Translate {
     }
 
     private switchLang(lang: string) {
+        if (lang === 'sys') {
+            const sysLang = window.navigator.language.toLocaleLowerCase();
+            switch (sysLang) {
+                case 'zh-tw':
+                case 'zh-tw':
+                case 'zh-cn':
+                lang = 'cn';
+                break;
+                default:
+                lang = 'en';
+                break;
+            }
+        }
         this.translate.use(lang);
         this.translate.get('NAV_BACK').subscribe((backText) => this.config.set('backButtonText', backText));
     }
