@@ -14,6 +14,6 @@
     </div>
     <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="newWallet?.wif" />
     <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
-    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{copied ? 'WALLET_CREATE_COPY' : 'WALLET_CREATE_COPIED' | translate}}</button>
+    <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_CREATE_COPIED' : 'WALLET_CREATE_COPY') | translate}}</button>
     <button margin-vertical ion-button block (click)="enter()">{{'WALLET_CREATE_ENTER' | translate}}</button>
 </ion-content>
