@@ -20,7 +20,10 @@ export class PopupInputComponent implements OnInit {
     }
 
     public confirm() {
-        this.$enter.next(this.pwd);
+        setTimeout(() => {
+            this.$enter.next(this.pwd);
+            this.$enter.complete();
+        }, 400);
         this.nav.pop();
     }
 
