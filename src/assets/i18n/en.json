@@ -27,6 +27,7 @@
   "LOADING_LOADING": "Loading...",
   "LOADING_VERIFY": "Verifying...",
   "LOADING_CREATING": "Creating...",
+  "LOADING_TRANSFER": "Transfer...",
   "WALLET_GATE_OPEN_WALLET": "Open Wallet",
   "WALLET_GATE_CREATE_WALLET": "Create wallet",
   "WALLET_BACKUP_TITLE": "Backup Wallet",

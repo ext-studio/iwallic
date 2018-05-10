@@ -27,6 +27,7 @@
   "LOADING": "加载中...",
   "LOADING_VERIFY": "正在验证...",
   "LOADING_CREATING": "正在创建...",
+  "LOADING_TRANSFER": "转账中...",
   "WALLET_GATE_OPEN_WALLET": "打开钱包",
   "WALLET_GATE_CREATE_WALLET": "创建钱包",
   "WALLET_BACKUP_TITLE": "备份钱包",

@@ -70,37 +70,37 @@ export class TxTransferComponent implements OnInit {
             if (!res) {
                 return;
             }
-            const load = this.load.create({ content: 'Verifying' });
-            load.present();
-            this.wallet.Verify(res).subscribe((wres) => {
-                load.dismiss();
-                const txLoad = this.load.create({ content: 'Transfer...' });
-                txLoad.present();
-                this.tx.Transfer(
-                    this.wallet.account.address,
-                    this.wallet.account.wif,
-                    this.toaddr,
-                    this.transferValue,
-                    this.asset,
-                    this.assetName
-                ).subscribe((xres) => {
-                    txLoad.dismiss();
-                    if (xres) {
-                        this.navCtrl.pop({
-                            animate: false
+            this.global.LoadI18N('LOADING_VERIFY').subscribe((load) => {
+                this.wallet.Verify(res).subscribe((wres) => {
+                    load.dismiss();
+                    this.global.LoadI18N('LOADING_TRANSFER').subscribe((transferLoad) => {
+                        this.tx.Transfer(
+                            this.wallet.account.address,
+                            this.wallet.account.wif,
+                            this.toaddr,
+                            this.transferValue,
+                            this.asset,
+                            this.assetName
+                        ).subscribe((xres) => {
+                            transferLoad.dismiss();
+                            if (xres) {
+                                this.navCtrl.pop({
+                                    animate: false
+                                });
+                                this.navCtrl.push(TxSuccessComponent);
+                            } else {
+                                this.alert.create({title: 'Error'}).present();
+                            }
+                        }, (err) => {
+                            this.alert.create({title: 'Error'}).present();
+                            transferLoad.dismiss();
                         });
-                        this.navCtrl.push(TxSuccessComponent);
-                    } else {
-                        this.alert.create({title: 'Error'}).present();
-                    }
-                }, (err) => {
-                    this.alert.create({title: 'Error'}).present();
-                    txLoad.dismiss();
+                        return true;
+                    });
+                }, (werr) => {
+                    load.dismiss();
+                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
                 });
-                return true;
-            }, (werr) => {
-                load.dismiss();
-                this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
             });
         });
     }
