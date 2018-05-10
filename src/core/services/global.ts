@@ -22,55 +22,65 @@ export class GlobalService {
         private wallet: WalletService,
         private config: Config
     ) {}
-    public switchI18N(name: string) {
-        this.translate.use(name);
-    }
     /**
      * Internal Alert by given type
      * UNKNOWN to unknown error
      * @param type internal alert type
      */
-    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD' | 'REQUESTFAILED'): Alert {
-        let alert;
+    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD' | 'REQUESTFAILED'): Observable<any> {
+        console.log(type);
         switch (type) {
             case 'INVALIDWIF':
-            alert = this.alert.create({
-                title: 'Caution',
-                subTitle: 'This WIF is invalid.',
-                buttons: ['OK'],
-                enableBackdropDismiss: true
-            });
-            alert.present();
-            return alert;
+            return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_INVALIDWIF', ok: 'ALERT_OK_SURE'});
             case 'WRONGPWD':
-            alert = this.alert.create({
-                title: 'Caution',
-                subTitle: 'Password is wrong.',
-                buttons: ['OK'],
-                enableBackdropDismiss: true
-            });
-            alert.present();
-            return alert;
+            return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_WRONGPWD', ok: 'ALERT_OK_SURE'});
             case 'REQUESTFAILED':
-            alert = this.alert.create({
-                title: 'Caution',
-                subTitle: 'Request failed.',
-                buttons: ['OK'],
-                enableBackdropDismiss: true
-            });
-            alert.present();
-            return alert;
+            return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_REQUESTFAILED', ok: 'ALERT_OK_SURE'});
             case 'UNKNOWN':
             default:
-            alert = this.alert.create({
-                title: 'Caution',
-                subTitle: 'Oops.. Something went wrong here.',
-                buttons: ['OK'],
-                enableBackdropDismiss: true
-            });
-            alert.present();
-            return alert;
+            return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_UNKNOWN', ok: 'ALERT_OK_SURE'});
         }
+    }
+
+    public AlertI18N(config: {
+        title?: string,
+        content?: string,
+        ok?: string,
+        no?: string,
+        enableBackdropDismiss?: boolean
+    }): Observable<any> {
+        return this.translate.get(
+            [config['title'], config['content'], config['ok'], config['no']].filter((e) => !!e)
+        ).switchMap((res) => {
+            return new Observable<any>((observer) => {
+                const btns = [];
+                if (res[config['no']]) {
+                    btns.push(res[config['no']]);
+                }
+                if (res[config['ok']]) {
+                    btns.push({
+                        text: res[config['ok']],
+                        role: 'ok'
+                    });
+                }
+                const alert = this.alert.create({
+                    title: res[config['title']],
+                    subTitle: res[config['content']],
+                    buttons: btns,
+                    enableBackdropDismiss: config['enableBackdropDismiss']
+                });
+                alert.present();
+                alert.onDidDismiss((data, role) => {
+                    if (role === 'ok') {
+                        observer.next(true);
+                        observer.complete();
+                    } else {
+                        observer.next(false);
+                        observer.complete();
+                    }
+                });
+            });
+        });
     }
 
     public Copy(selector: string): Promise<any> {

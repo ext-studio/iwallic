@@ -3,6 +3,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
 import { WalletService, Wallet } from '../../../neo';
+import { GlobalService } from '../../../core';
 
 /**
  * wallet gate page
@@ -20,11 +21,17 @@ export class WalletGateComponent implements OnInit, OnDestroy {
     constructor(
         private navCtrl: NavController,
         private menu: MenuController,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private global: GlobalService
     ) { }
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
+        // setTimeout(() => {
+        //     this.global.Alert('UNKNOWN').subscribe((res) => {
+        //         console.log(res);
+        //     });
+        // }, 200);
     }
 
     public ngOnDestroy() {

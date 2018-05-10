@@ -102,20 +102,13 @@ export class AppComponent {
     }
 
     public signOut() {
-        const alert = this.alert.create({
-            title: 'Warning',
-            subTitle: 'Are you sure to close your wallet ?',
-            buttons: [
-                'Cancel',
-                {
-                    text: 'Sign out',
-                    role: 'go'
-                }
-            ]
-        });
-        alert.present();
-        alert.onDidDismiss((data, role) => {
-            if (role === 'go') {
+        this.global.AlertI18N({
+            title: 'ALERT_TITLE_WARN',
+            content: 'ALERT_CONTENT_SIGNOUT',
+            ok: 'ALERT_OK_SURE',
+            no: 'ALERT_NO_CANCEL'
+        }).subscribe((res) => {
+            if (res) {
                 this.wallet.Close();
                 this.menu.close();
                 this.nav.setRoot(WalletGateComponent);

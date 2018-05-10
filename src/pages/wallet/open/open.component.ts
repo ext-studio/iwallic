@@ -70,7 +70,7 @@ export class WalletOpenComponent implements OnInit {
             this.wallet.Save(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
-            this.alert.create({title: 'Import failed.'}).present();
+            this.global.AlertI18N({content: 'ALERT_CONTENT_IMPORTFAILED'}).subscribe();
         });
     }
     public fromNEP6() {
@@ -99,17 +99,14 @@ export class WalletOpenComponent implements OnInit {
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             if (err === 'verify_failed') {
-                this.alert.create({
-                    title: 'Caution',
-                    subTitle: 'Password is wrong.',
-                    buttons: ['OK']
-                }).present();
+                this.global.Alert('WRONGPWD').subscribe();
             } else if (err !== 'need_verify') {
-                this.alert.create({
-                    title: 'Caution',
-                    subTitle: 'Import failed, please check your wallet file. (Only support NEP-6 JSON file)',
-                    buttons: ['OK']
-                }).present();
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_CAUTION',
+                    content: 'ALERT_CONTENT_IMPORTNEP6',
+                    ok: 'ALERT_OK_SURE',
+                    no: 'ALERT_NO_CANCEL'
+                }).subscribe();
             }
         });
     }

@@ -74,22 +74,18 @@ export class WalletCreateComponent implements OnInit {
         this.global.Copy('wif-copy').then((res) => {
             this.copied = true;
         }).catch((err) => {
-            this.alert.create({subTitle: 'Sorry that you need to copy manually.'}).present();
+            this.global.AlertI18N({content: 'ALERT_CONTENT_COPYMANUALLY'}).subscribe();
         });
     }
 
     public enter() {
-        const ask = this.alert.create({
-            title: 'Caution',
-            subTitle: 'Sure to enter wallet?\n(Please ensure you have backed up your WIF)',
-            buttons: ['Cancel', {
-                text: 'Enter',
-                role: 'go'
-            }]
-        });
-        ask.present();
-        ask.onDidDismiss((data, role) => {
-            if (role === 'go') {
+        this.global.AlertI18N({
+            title: 'ALERT_TITLE_CAUTION',
+            content: 'ALERT_CONTENT_ENTERWALLET',
+            ok: 'ALERT_OK_SURE',
+            no: 'ALERT_NO_CANCEL'
+        }).subscribe((res) => {
+            if (res) {
                 this.wallet.Save(this.newWallet);
                 this.navCtrl.setRoot(AssetListComponent);
             }
