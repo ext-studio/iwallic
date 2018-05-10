@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertController, LoadingController, Alert, Loading, Platform, NavController, Config } from 'ionic-angular';
+import {
+    AlertController, LoadingController, Alert, Loading, Platform, NavController, Config, ToastController
+} from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { UtilService, WalletService } from '../../neo';
 // import { Clipboard } from '@ionic-native/clipboard';
@@ -20,7 +22,8 @@ export class GlobalService {
         private platform: Platform,
         private storage: Storage,
         private wallet: WalletService,
-        private config: Config
+        private config: Config,
+        private toast: ToastController
     ) {}
     /**
      * Internal Alert by given type
@@ -42,6 +45,18 @@ export class GlobalService {
         }
     }
 
+    public ToastI18N(msg: string, duration: number = 2000): Observable<any> {
+        return this.translate.get(msg).switchMap((res) => {
+            return new Observable<any>((observer) => {
+                const toast = this.toast.create({message: res, duration: duration});
+                toast.present();
+                toast.onDidDismiss(() => {
+                    observer.next();
+                    observer.complete();
+                });
+            });
+        });
+    }
     public AlertI18N(config: {
         title?: string,
         content?: string,

@@ -23,6 +23,7 @@
   "ALERT_CONTENT_IMPORTNEP6": "导入失败, 请确保你导入的是 NEP-6 钱包文件",
   "ALERT_OK_SURE": "确定",
   "ALERT_NO_CANCEL": "取消",
+  "TOAST_EXISTAPP": "再次点击退出钱包",
   "WALLET_GATE_OPEN_WALLET": "打开钱包",
   "WALLET_GATE_CREATE_WALLET": "创建钱包",
   "WALLET_BACKUP_TITLE": "备份钱包",

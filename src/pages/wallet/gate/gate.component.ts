@@ -27,11 +27,6 @@ export class WalletGateComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         this.menu.swipeEnable(false);
-        // setTimeout(() => {
-        //     this.global.Alert('UNKNOWN').subscribe((res) => {
-        //         console.log(res);
-        //     });
-        // }, 200);
     }
 
     public ngOnDestroy() {

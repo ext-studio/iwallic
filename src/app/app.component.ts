@@ -81,9 +81,7 @@ export class AppComponent {
                     this.platform.exitApp();
                 } else {
                     this.leaving = true;
-                    const check = this.toast.create({message: 'Touch again to exit.', duration: 2000});
-                    check.present();
-                    check.onDidDismiss(() => {
+                    this.global.ToastI18N('TOAST_EXISTAPP').subscribe((res) => {
                         this.leaving = false;
                     });
                 }
