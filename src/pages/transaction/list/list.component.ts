@@ -46,7 +46,7 @@ export class TxListComponent implements OnInit {
         setTimeout(() => {
             this.page = 1;
             this.items = [];
-            this.enabled = false;
+            this.enabled = true;
             this.getTxList();
             refresher.complete();
         }, 500);
