@@ -40,7 +40,7 @@ export class TxTransferComponent implements OnInit {
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
-            this.global.Alert('UNKNOWN');
+            this.global.Alert('UNKNOWN').subscribe();
         });
     }
 

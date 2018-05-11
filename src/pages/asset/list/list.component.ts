@@ -54,7 +54,7 @@ export class AssetListComponent implements OnInit {
             { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
                 this.loading = false;
                 if (res['result'] === undefined) {
-                    this.global.Alert('REQUESTFAILED');
+                    this.global.Alert('REQUESTFAILED').subscribe();
                     return;
                 }
                 this.assetList = res['result'];
@@ -66,7 +66,7 @@ export class AssetListComponent implements OnInit {
                     }
                 }
             }, (err) => {
-                this.global.Alert('REQUESTFAILED');
+                this.global.Alert('REQUESTFAILED').subscribe();
             });
     }
 

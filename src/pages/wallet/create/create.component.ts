@@ -50,7 +50,7 @@ export class WalletCreateComponent implements OnInit {
         this.menu.swipeEnable(false);
         this.pwd = this.navParams.get('pwd');
         if (!this.pwd) {
-            this.global.Alert('UNKNOWN');
+            this.global.Alert('UNKNOWN').subscribe();
             return;
         }
         this.global.LoadI18N('LOADING_CREATING').subscribe((load) => {
@@ -61,7 +61,7 @@ export class WalletCreateComponent implements OnInit {
             }, (err) => {
                 load.dismiss();
                 console.log(err);
-                this.global.Alert('UNKNOWN');
+                this.global.Alert('UNKNOWN').subscribe();
             });
         });
     }

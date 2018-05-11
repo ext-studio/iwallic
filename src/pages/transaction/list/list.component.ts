@@ -69,7 +69,7 @@ export class TxListComponent implements OnInit {
                     this.enabled = false;
                 }
             }, (err) => {
-                this.global.Alert('REQUESTFAILED');
+                this.global.Alert('REQUESTFAILED').subscribe();
             });
         return;
     }
