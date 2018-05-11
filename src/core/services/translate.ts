@@ -85,6 +85,5 @@ export class Translate {
             }
         }
         this.translate.use(lang);
-        this.translate.get('NAV_BACK').subscribe((backText) => this.config.set('backButtonText', backText));
     }
 }
