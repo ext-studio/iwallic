@@ -68,34 +68,27 @@ export class Account {
         this.contract = new Contract(data['contract']);
         this.wif = data['wif'] || null;
     }
-    public static fromWIF(wif: string, pwd: string): Account {
-        const key = wallet.encrypt(wif, pwd);
-        const addr = getAddressFromWIF(wif);
-        return new Account({
-            key: key,
-            address: addr,
-            wif: wif,
-            contract: Contract.fromWallet(
-                wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif))
-            )
+    public static fromWIF(wif: string, pwd: string): Observable<Account> {
+        return Observable.fromPromise(wallet.encryptAsync(wif, pwd) as any).map((res) => {
+            const addr = getAddressFromWIF(wif);
+            return new Account({
+                key: res,
+                address: addr,
+                wif: wif,
+                contract: Contract.fromWallet(
+                    wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif))
+                )
+            });
         });
     }
     public Verify(pwd: string): Observable<any> {
-        return new Observable((observer) => {
-            setTimeout(() => {
-                try {
-                    const check = wallet.decrypt(this.key, pwd);
-                    if (check) {
-                        this.wif = check;
-                        observer.next(true);
-                        observer.complete();
-                    } else {
-                        observer.error('verify_failed');
-                    }
-                } catch {
-                    observer.error('verify_failed');
-                }
-            }, 200);
+        return Observable.fromPromise((wallet.decryptAsync(this.key, pwd) as any)).map((res: any) => {
+            if (res) {
+                this.wif = res;
+                return true;
+            } else {
+                throw 'verify_failed';
+            }
         });
     }
 }
@@ -135,10 +128,12 @@ export class Wallet {
         this.extra = nep6['extra'] || null;
         this.verified = nep6['verified'] || false;
     }
-    public static fromWIF(wif: string, pwd: string): Wallet {
-        const wal = new Wallet({accounts: [Account.fromWIF(wif, pwd)]});
-        wal.verified = true;
-        return wal;
+    public static fromWIF(wif: string, pwd: string): Observable<Wallet> {
+        return Account.fromWIF(wif, pwd).map((acc) => {
+            const wal = new Wallet({accounts: [acc]});
+            wal.verified = true;
+            return wal;
+        });
     }
     public Verify(pwd: string): Observable<any> {
         return this.account.Verify(pwd).map((res) => {
@@ -155,7 +150,7 @@ export class WalletService {
         private util: UtilService,
         private storage: Storage
     ) {
-        // console.log(wallet.decrypt(''));
+        //
     }
     public Verify(pwd: string, w?: Wallet): Observable<any> {
         if (!this.cached && !w) {
@@ -175,18 +170,13 @@ export class WalletService {
      * @param type resolve as WIF-key or NEP-6 JSON
      */
     public Import(text: string, pwd: string, type: 'NEP2' | 'NEP6'): Observable<any> {
-        return new Observable((observer) => {
-            setTimeout(() => {
-                if (type === 'NEP2') {
-                    observer.next(Wallet.fromWIF(text, pwd));
-                    observer.complete();
-                } else if (type === 'NEP6') {
-                    observer.error('unsupport');
-                } else {
-                    observer.error('type_error');
-                }
-            }, 200);
-        });
+        if (type === 'NEP2') {
+            return Wallet.fromWIF(text, pwd);
+        } else if (type === 'NEP6') {
+            return Observable.throw('unsupport');
+        } else {
+            return Observable.throw('type_error');
+        }
     }
     /**
      * export wallet as JSON file by name
@@ -201,13 +191,7 @@ export class WalletService {
      * generate and encrypt private key by neon-js
      */
     public Create(pwd: string = 'iwallic'): Observable<Wallet> {
-        return new Observable((observer) => {
-            setTimeout(() => {
-                const wif = wallet.getWIFFromPrivateKey(wallet.generatePrivateKey());
-                observer.next(Wallet.fromWIF(wif, pwd));
-                observer.complete();
-            }, 200);
-        });
+        return Wallet.fromWIF(wallet.getWIFFromPrivateKey(wallet.generatePrivateKey()), pwd);
     }
 
     /**
