@@ -62,7 +62,7 @@ export class TransactionService {
             `${this.rpc.apiUrl}/api/iwallic`,
             {
                 method: 'getutxoes',
-                params: [from, 'NEO']
+                params: [from, asset]
             }
         ).map((res: any) => {
             if (res.code === 200) {
