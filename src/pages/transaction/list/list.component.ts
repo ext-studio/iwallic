@@ -37,7 +37,7 @@ export class TxListComponent implements OnInit {
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.getTxList();
-                infiniteScroll.complete();
+                resolve();
             }, 500);
         });
     }
@@ -45,14 +45,15 @@ export class TxListComponent implements OnInit {
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
             this.page = 1;
-            this.enabled = false;
+            this.items = [];
+            this.enabled = true;
             this.getTxList();
             refresher.complete();
         }, 500);
     }
 
     public getTxList() {
-        this.http.post(this.global.apiAddr + '/api/iwallic',
+        this.http.post(this.global.apiDomain + '/api/iwallic',
             { 'method': 'getaccounttxes', 'params': [this.page, this.pageSize, this.address] }).subscribe(res => {
                 if (res['result']) {
                     if (res['result']['data'] != null) {
@@ -68,7 +69,7 @@ export class TxListComponent implements OnInit {
                     this.enabled = false;
                 }
             }, (err) => {
-                this.global.Alert('REQUESTFAILED');
+                this.global.Alert('REQUESTFAILED').subscribe();
             });
         return;
     }

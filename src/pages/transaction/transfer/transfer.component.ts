@@ -12,11 +12,12 @@ export class TxTransferComponent implements OnInit {
     public isfocus: boolean = false;
     public toaddr: string = '';
     public wallet: Wallet;
-    public transferValue: number;
+    public amount: number;
     public asset: string;
     public assetName: string;
     public assetBalance: number = 0;
     public wrongTips: string = '';
+    public isNEP5: boolean = true;
     constructor(
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
@@ -40,7 +41,7 @@ export class TxTransferComponent implements OnInit {
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
-            this.global.Alert('UNKNOWN');
+            this.global.Alert('UNKNOWN').subscribe();
         });
     }
 
@@ -53,53 +54,79 @@ export class TxTransferComponent implements OnInit {
 
     public enterPwd() {
         if (this.toaddr.length !== 34) {
-            this.wrongTips = 'WRONG_ADDRESS';
+            this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
             return;
         }
-        if (this.transferValue) {
-            if (parseFloat(this.transferValue.toString()) > parseFloat(this.assetBalance.toString())) {
-                this.wrongTips = 'EXCEEDET_AVAILABLE_BALANCE';
+        if (this.amount) {
+            if (parseFloat(this.amount.toString()) > parseFloat(this.assetBalance.toString())) {
+                this.wrongTips = 'TRANSACTION_TRANSFER_EXCEEDETBALANCE';
                 return;
             }
         } else {
-            this.wrongTips = 'NO_AMOUNT';
+            this.wrongTips = 'TRANSACTION_TRANSFER_NOAMOUNT';
             return;
         }
-        const check =  this.input.open(this.navCtrl, 'ENTER');
+        const check = this.input.open(this.navCtrl, 'ENTER');
         check.subscribe((res) => {
             if (!res) {
                 return;
             }
-            const load = this.load.create({ content: 'Verifying' });
-            load.present();
-            this.wallet.Verify(res).subscribe((wres) => {
-                load.dismiss();
-                const txLoad = this.load.create({ content: 'transfer' });
-                this.tx.Transfer(
-                    this.wallet.account.address,
-                    this.wallet.account.wif,
-                    this.toaddr,
-                    this.transferValue,
-                    this.asset,
-                    this.assetName
-                ).subscribe((xres) => {
-                    txLoad.dismiss();
-                    if (xres) {
-                        this.navCtrl.pop({
-                            animate: false
+            this.global.LoadI18N('LOADING_VERIFY').subscribe((load) => {
+                this.wallet.Verify(res).subscribe((wres) => {
+                    load.dismiss();
+                    this.global.LoadI18N('LOADING_TRANSFER').subscribe((transferLoad) => {
+                        // this.tx.Transfer(
+                        //     this.wallet.account.address,
+                        //     this.wallet.account.wif,
+                        //     this.toaddr,
+                        //     this.amount,
+                        //     this.asset,
+                        //     this.assetName
+                        // ).subscribe((xres) => {
+                        //     transferLoad.dismiss();
+                            // if (xres) {
+                            //     this.navCtrl.pop({
+                            //         animate: false
+                            //     });
+                            //     this.navCtrl.push(TxSuccessComponent);
+                            // } else {
+                            //     this.alert.create({title: 'Error'}).present();
+                            // }
+                        // }, (err) => {
+                        //     this.alert.create({title: 'Error'}).present();
+                        //     transferLoad.dismiss();
+                        // });
+                        if (this.asset.length > 40) {
+                            this.isNEP5 = false;
+                        }
+                        this.tx.Send(
+                            this.wallet.account.address,
+                            this.toaddr,
+                            this.amount,
+                            this.wallet.account.wif,
+                            this.asset,
+                            this.isNEP5
+                        ).subscribe((xres) => {
+                            transferLoad.dismiss();
+                            if (xres['result']) {
+                                this.navCtrl.pop({
+                                    animate: false
+                                });
+                                this.navCtrl.push(TxSuccessComponent);
+                            } else {
+                                this.alert.create({title: 'Error'}).present();
+                            }
+                            return;
+                        }, (err) => {
+                            this.alert.create({title: 'Error'}).present();
+                            transferLoad.dismiss();
                         });
-                        this.navCtrl.push(TxSuccessComponent);
-                    } else {
-                        this.alert.create({title: 'Error'}).present();
-                    }
-                }, (err) => {
-                    this.alert.create({title: 'Error'}).present();
-                    txLoad.dismiss();
+                        return true;
+                    });
+                }, (werr) => {
+                    load.dismiss();
+                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
                 });
-                return true;
-            }, (werr) => {
-                load.dismiss();
-                this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
             });
         });
     }

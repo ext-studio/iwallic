@@ -38,7 +38,7 @@ export class WalletBackupComponent implements OnInit {
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
-            this.global.Alert('UNKNOWN');
+            this.global.Alert('UNKNOWN').subscribe();
         });
         this.navBar.backButtonClick = () => {
             if (this.verified) {
@@ -65,16 +65,16 @@ export class WalletBackupComponent implements OnInit {
             if (!res) {
                 return;
             }
-            const load = this.load.create({content: 'Verifying'});
-            load.present();
-            this.wallet.Verify(res).subscribe((wres) => {
-                this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
-                this.verified = true;
-                this.shown = true;
-                load.dismiss();
-            }, (werr) => {
-                load.dismiss();
-                this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
+            this.global.LoadI18N('LOADING_VERIFY').subscribe((load) => {
+                this.wallet.Verify(res).subscribe((wres) => {
+                    this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
+                    this.verified = true;
+                    this.shown = true;
+                    load.dismiss();
+                }, (werr) => {
+                    load.dismiss();
+                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN').subscribe();
+                });
             });
         });
     }

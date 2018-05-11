@@ -3,7 +3,7 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController, MenuController, NavController, Config } from 'ionic-angular';
+import { AlertController, LoadingController, MenuController, NavController, Config, IonicApp } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
 import { GlobalService, Translate } from '../core';
@@ -47,7 +47,8 @@ export class AppComponent {
         private vcRef: ViewContainerRef,
         private config: Config,
         private translate: Translate,
-        private toast: ToastController
+        private toast: ToastController,
+        private app: IonicApp
     ) {
         this.initializeApp();
     }
@@ -73,7 +74,14 @@ export class AppComponent {
             });
 
             this.platform.registerBackButtonAction(() => {
-                if (this.menu.isOpen()) {
+                if (this.global.masks.length) {
+                    //
+                } else if (this.global.popups.length) {
+                    const popup = this.global.popups.pop();
+                    if (popup && popup.dismiss) {
+                        popup.dismiss();
+                    }
+                } else if (this.menu.isOpen()) {
                     this.menu.close();
                 } else if (this.nav.canGoBack()) {
                     this.nav.pop();

@@ -50,11 +50,11 @@ export class AssetListComponent implements OnInit {
     }
 
     public getAssetList() {
-        this.http.post(this.global.apiAddr + '/api/iwallic',
+        this.http.post(this.global.apiDomain + '/api/iwallic',
             { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
                 this.loading = false;
                 if (res['result'] === undefined) {
-                    this.global.Alert('REQUESTFAILED');
+                    this.global.Alert('REQUESTFAILED').subscribe();
                     return;
                 }
                 this.assetList = res['result'];
@@ -66,7 +66,7 @@ export class AssetListComponent implements OnInit {
                     }
                 }
             }, (err) => {
-                this.global.Alert('REQUESTFAILED');
+                this.global.Alert('REQUESTFAILED').subscribe();
             });
     }
 

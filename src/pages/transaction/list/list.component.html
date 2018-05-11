@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>{{ 'TRANSACTION' | translate }}</ion-title>
+        <ion-title>{{ 'TRANSACTION_LIST_TRANSACTION' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -26,12 +26,12 @@
         </ion-item>
     </ion-list>
 
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="enabled">
+    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" [enabled]="enabled">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'NO_TRANSACTION' | translate }}</ion-label>
+    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'TRANSACTION_LIST_NORANSACTION' | translate }}</ion-label>
 
 </ion-content>

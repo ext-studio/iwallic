@@ -11,8 +11,8 @@
     <ion-list margin-vertical>
         <ion-item-group>
             <ion-item>
-                <ion-label>Language</ion-label>
-                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()">
+                <ion-label>{{'SYSTEM_SETTING_LANGUAGE' | translate}}</ion-label>
+                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()" [selectOptions]="">
                     <ion-option value="sys">{{'SETTING_LANG_SYSTEM' | translate}}</ion-option>
                     <ion-option value="en">English</ion-option>
                     <ion-option value="cn">中文简体</ion-option>
@@ -20,9 +20,9 @@
                 </ion-select>
             </ion-item>
             <ion-item>
-                <ion-label>Theme</ion-label>
+                <ion-label>{{'SYSTEM_SETTING_THEME' | translate}}</ion-label>
                 <ion-select [(ngModel)]="theme" interface="action-sheet">
-                    <ion-option value="default">Default</ion-option>
+                    <ion-option value="default">{{'SYSTEM_SETTING_THEMEDEFAULT' | translate}}</ion-option>
                 </ion-select>
             </ion-item>
         </ion-item-group>
