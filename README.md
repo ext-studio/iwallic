@@ -81,3 +81,6 @@ path | desc
 * only new created wallet should ask to backup
 * back button in browsers
 * created new wallet, click copy btn then back to gate page
+
+* wallet verify time (sync)
+* transaction

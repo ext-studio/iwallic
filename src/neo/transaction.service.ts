@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../core';
-import { api, ASSET } from '.';
+import { api, ASSET, tx as neonTX, wallet, u, sc } from '.';
 import { RPCService } from './rpc.service';
-import { Transaction } from './models/transaction';
+import { Transaction, TxType, serializeTx } from './models/transaction';
+import { ec as EC } from 'elliptic';
 
 @Injectable()
 export class TransactionService {
@@ -29,17 +30,34 @@ export class TransactionService {
         amount: number,
         wif: string,
         asset: string,
-        isNEP5: boolean = false
+        isNEP5: boolean = false,
+        remark?: string
     ): Observable<any> {
-        // if asset
-        //  prepare tx can be spent
-        //  generate inputs
-        //  generate outputs
-        //  sign
-        // if NEP-5
-        //  just push scripts
-        //  sign
-        // const tx = Transaction.forContract([], {value: amount, addr: target, asset: asset});
+        if (isNEP5) {
+            const newTX = Transaction.forNEP5Contract(sc.createScript({
+                scriptHash: asset.slice(2),
+                operation: 'transfer',
+                args: [
+                    u.reverseHex(wallet.getScriptHashFromAddress(from)),
+                    u.reverseHex(wallet.getScriptHashFromAddress(to)),
+                    sc.ContractParam.byteArray(new u.Fixed8(amount), 'fixed8')
+                ]
+            }), wallet.getScriptHashFromAddress(from));
+            const invocationScript = '40' +
+                wallet.generateSignature(this.serializeTx(newTX, false), wallet.getPrivateKeyFromWIF(wif));
+            const verificationScript =  '21' + wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif)) + 'ac';
+            newTX.scripts.push({ invocationScript, verificationScript });
+            if (remark) {
+                newTX.addRemark(remark);
+            }
+            console.log(newTX);
+            return this.http.post(`${this.rpc.rpcUrl}`, {
+                jsonrpc: '2.0',
+                method: 'sendrawtransaction',
+                params: [this.serializeTx(newTX, true)],
+                id: 1
+            });
+        }
         return this.http.post(
             `${this.rpc.apiUrl}/api/iwallic`,
             {
@@ -53,11 +71,38 @@ export class TransactionService {
                 throw res.message;
             }
         }).switchMap((res) => {
-            return new Observable((observer) => {
-                observer.next(Transaction.forContract(res, from, to, amount, ASSET.NEO));
+            const newTX = Transaction.forContract(res, from, to, amount, ASSET.NEO);
+            if (remark) {
+                newTX.addRemark(remark);
+            }
+            const invocationScript = '40' +
+                wallet.generateSignature(this.serializeTx(newTX, false), wallet.getPrivateKeyFromWIF(wif));
+            const verificationScript =  '21' + wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif)) + 'ac';
+            newTX.scripts.push({ invocationScript, verificationScript });
+            return this.http.post(`${this.rpc.rpcUrl}`, {
+                jsonrpc: '2.0',
+                method: 'sendrawtransaction',
+                params: [this.serializeTx(newTX, true)],
+                id: 1
             });
         });
     }
+
+    public serializeTx(tx: Transaction, signed: boolean = false) {
+        return serializeTx(tx, signed);
+    }
+
+    private generateSignature (tx, privateKey) {
+        // const msgHash = u.sha256(tx);
+        // const msgHashHex = Buffer.from(msgHash, 'hex');
+        // let elliptic = new EC('p256');
+        // const sig = elliptic.sign(msgHashHex, privateKey, null);
+        // const signature = Buffer.concat([
+        //   sig.r.toArrayLike(Buffer, 'be', 32),
+        //   sig.s.toArrayLike(Buffer, 'be', 32)
+        // ]);
+        // return signature.toString('hex');
+      }
 
     /**
      * Claim GAS for address

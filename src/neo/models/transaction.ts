@@ -1,4 +1,4 @@
-import { api, rpc, u, wallet, tx as ntx } from '@cityofzion/neon-js';
+import { api, rpc, u, wallet, tx as ntx, sc } from '@cityofzion/neon-js';
 
 export const TxVersion = {
     'CLAIM': 0,
@@ -24,8 +24,8 @@ export class Output {
 }
 
 export class Script {
-    public invocation: string;
-    public verification: string;
+    public invocationScript: string;
+    public verificationScript: string;
 }
 
 export class Transaction {
@@ -68,6 +68,7 @@ export class Transaction {
         let curr = 0;
         for (const tx of utxo) {
             const value = valueStr2Num(tx.value);
+            console.log(tx.value, value);
             curr += value;
             vin.push({prevIndex: tx.n, prevHash: tx.txid.slice(2)});
             if (curr >= amount) {
@@ -78,6 +79,7 @@ export class Transaction {
         if (payback < 0) {
             throw 'not_enouogh';
         }
+        console.log(payback, curr, amount);
         if (payback > 0) {
             vout.push({value: payback, asset: asset, scriptHash: wallet.getScriptHashFromAddress(from)});
         }
@@ -85,16 +87,28 @@ export class Transaction {
             vin, vout
         });
     }
-    public addAttr(usage: number, data: string) {
+    public static forNEP5Contract(
+        script: string,
+        from: string
+    ): Transaction {
+        script = script + 'f1';
+        const tx = new Transaction({
+            script: script,
+            type: TxType.INVOCATION,
+            version: TxVersion.INVOCATION
+        });
+        tx.addNEP5(from);
+        return tx;
+    }
+    public addRemark(data: string) {
         // usage Remark
         // data string
-        this.attributes.push({usage, data});
+        this.attributes.push({usage: 0xf0, data: u.str2hexstring(data)});
     }
-}
-
-export function valueStr2Num(str: string): number {
-    console.log(parseFloat(str));
-    return 1;
+    public addNEP5(data: string) {
+        this.attributes.push({usage: 0x20, data: u.reverseHex(data)});
+        this.attributes.push({usage: 0xf1, data: u.reverseHex(u.str2hexstring('from iwallic' + new Date().getTime()))});
+    }
 }
 
 export function serializeTx(tx: Transaction, signed: boolean): string {
@@ -151,10 +165,14 @@ export function serializeTx(tx: Transaction, signed: boolean): string {
     if (signed && tx.scripts && tx.scripts.length > 0) {
         out += u.num2VarInt(tx.scripts.length);
         for (const script of tx.scripts) {
-            const invoLength = u.num2VarInt(script.invocation.length / 2);
-            const veriLength = u.num2VarInt(script.verification.length / 2);
-            out += invoLength + script.invocation + veriLength + script.verification;
+            const invoLength = u.num2VarInt(script.invocationScript.length / 2);
+            const veriLength = u.num2VarInt(script.verificationScript.length / 2);
+            out += invoLength + script.invocationScript + veriLength + script.verificationScript;
         }
     }
     return out;
+}
+
+export function valueStr2Num(str: string): number {
+    return parseFloat(str);
 }
