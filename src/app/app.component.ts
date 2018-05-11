@@ -74,19 +74,19 @@ export class AppComponent {
             });
 
             this.platform.registerBackButtonAction(() => {
-                if (this.menu.isOpen()) {
-                    this.menu.close();
-                } else if (this.nav.canGoBack()) {
-                    this.nav.pop();
-                } else if (this.leaving) {
-                    this.platform.exitApp();
-                } else if (this.global.masks.length) {
+                if (this.global.masks.length) {
                     //
                 } else if (this.global.popups.length) {
                     const popup = this.global.popups.pop();
                     if (popup && popup.dismiss) {
                         popup.dismiss();
                     }
+                } else if (this.menu.isOpen()) {
+                    this.menu.close();
+                } else if (this.nav.canGoBack()) {
+                    this.nav.pop();
+                } else if (this.leaving) {
+                    this.platform.exitApp();
                 } else {
                     this.leaving = true;
                     this.global.ToastI18N('TOAST_EXISTAPP').subscribe((res) => {
