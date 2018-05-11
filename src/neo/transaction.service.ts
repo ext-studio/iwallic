@@ -85,7 +85,6 @@ export class TransactionService {
         if (remark) {
             tx.addRemark(remark);
         }
-        console.log(tx);
         return this.http.post(`${this.global.rpcDomain}`, {
             jsonrpc: '2.0',
             method: 'sendrawtransaction',

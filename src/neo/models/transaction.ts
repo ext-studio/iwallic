@@ -93,7 +93,7 @@ export class Transaction {
         const vin: Input[] = [];
         const vout: Output[] = [{
             asset: asset,
-            value: 0 + amount,
+            value: amount,
             scriptHash: wallet.getScriptHashFromAddress(to)
         }];
         let curr = 0;
