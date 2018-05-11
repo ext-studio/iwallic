@@ -17,7 +17,7 @@ export class TxTransferComponent implements OnInit {
     public assetName: string;
     public assetBalance: number = 0;
     public wrongTips: string = '';
-    public isNEP5: boolean = false;
+    public isNEP5: boolean = true;
     constructor(
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
