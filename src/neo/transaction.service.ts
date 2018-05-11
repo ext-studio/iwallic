@@ -7,6 +7,8 @@ import { Transaction, TxType, UTXO } from './models/transaction';
 
 @Injectable()
 export class TransactionService {
+    private usedUTXO: UTXO[] = [];
+    private unconfirmedUTXO: UTXO[] = [];
 
     constructor(
         private http: HttpClient,
@@ -47,7 +49,25 @@ export class TransactionService {
             return this.signNSendTX(newTX, wif, remark);
         }
         return this.getUTXO(from, asset)
-            .switchMap((utxos) => this.signNSendTX(Transaction.forContract(utxos, from, to, amount, asset), wif));
+            .switchMap((utxos) => {
+                newTX = Transaction.forContract(utxos, from, to, amount, asset);
+                return this.signNSendTX(newTX, wif);
+            }).map((rs) => {
+                if (rs && rs.result) {
+                    for (let i = 0; i < newTX.vout.length; i++) {
+                        this.unconfirmedUTXO.push({
+                            hash: newTX.hash,
+                            value: newTX.vout[i].value,
+                            index: i,
+                            asset: newTX.vout[i].asset
+                        });
+                    }
+                    for (const tx of newTX.vin) {
+                        this.usedUTXO.push({hash: tx.prevHash, index: tx.prevIndex, asset: asset, value: 0});
+                    }
+                }
+                return rs;
+            });
     }
 
     /**
@@ -70,6 +90,22 @@ export class TransactionService {
             } else {
                 throw res.message;
             }
+        }).map((utxos: UTXO[]) => {
+            for (let i = 0; i < this.usedUTXO.length; i++) {
+                const index = utxos.findIndex((e) => e.hash === this.usedUTXO[i].hash && e.index === this.usedUTXO[i].index);
+                if (index >= 0) {
+                    utxos.splice(index, 1);
+                } else {
+                    this.usedUTXO.splice(i, 1);
+                }
+            }
+            for (const tx of this.unconfirmedUTXO) {
+                const index = utxos.findIndex((e) => e.hash === tx.hash && e.index === tx.index);
+                if (index >= 0) {
+                    this.unconfirmedUTXO.splice(index, 1);
+                }
+            }
+            return utxos;
         });
     }
 
