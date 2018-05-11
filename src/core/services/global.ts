@@ -4,7 +4,7 @@ import {
     AlertController, LoadingController, Alert, Loading, Platform, NavController, Config, ToastController
 } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { UtilService, WalletService } from '../../neo';
+import { WalletService } from '../../neo';
 // import { Clipboard } from '@ionic-native/clipboard';
 import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
@@ -12,7 +12,8 @@ import { Translate } from './translate';
 
 @Injectable()
 export class GlobalService {
-    public apiDomain: string = 'http://127.0.0.1:9999';
+    public apiDomain: string = 'http://192.168.1.90:8080';
+    public rpcDomain: string = 'http://192.168.1.23:20332';
     public apiAddr: string = 'http://192.168.1.39:8080';
     public popups: any[] = [];
     public masks: any[] = [];
@@ -23,7 +24,6 @@ export class GlobalService {
         private trans: Translate,
         private platform: Platform,
         private storage: Storage,
-        private wallet: WalletService,
         private config: Config,
         private toast: ToastController
     ) {}

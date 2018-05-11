@@ -2,18 +2,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../core';
-import { api, ASSET, tx as neonTX, wallet, u, sc } from '.';
-import { RPCService } from './rpc.service';
-import { Transaction, TxType, serializeTx } from './models/transaction';
-import { ec as EC } from 'elliptic';
+import { api, wallet, u, sc } from '.';
+import { Transaction, TxType, UTXO } from './models/transaction';
 
 @Injectable()
 export class TransactionService {
 
     constructor(
         private http: HttpClient,
-        // private global: GlobalService,
-        private rpc: RPCService
+        private global: GlobalService
     ) { }
 
     /**
@@ -33,8 +30,9 @@ export class TransactionService {
         isNEP5: boolean = false,
         remark?: string
     ): Observable<any> {
+        let newTX: Transaction;
         if (isNEP5) {
-            const newTX = Transaction.forNEP5Contract(sc.createScript({
+            newTX = Transaction.forNEP5Contract(sc.createScript({
                 scriptHash: asset.slice(2),
                 operation: 'transfer',
                 args: [
@@ -43,66 +41,51 @@ export class TransactionService {
                     sc.ContractParam.byteArray(new u.Fixed8(amount), 'fixed8')
                 ]
             }), wallet.getScriptHashFromAddress(from));
-            const invocationScript = '40' +
-                wallet.generateSignature(this.serializeTx(newTX, false), wallet.getPrivateKeyFromWIF(wif));
-            const verificationScript =  '21' + wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif)) + 'ac';
-            newTX.scripts.push({ invocationScript, verificationScript });
-            if (remark) {
-                newTX.addRemark(remark);
-            }
-            console.log(newTX);
-            return this.http.post(`${this.rpc.rpcUrl}`, {
-                jsonrpc: '2.0',
-                method: 'sendrawtransaction',
-                params: [this.serializeTx(newTX, true)],
-                id: 1
-            });
+            return this.signNSendTX(newTX, wif, remark);
         }
+        return this.getUTXO(from, asset)
+            .switchMap((utxos) => this.signNSendTX(Transaction.forContract(utxos, from, to, amount, asset), wif));
+    }
+
+    /**
+     * Get unspent UTXO from api
+     */
+    private getUTXO(addr: string, asset: string): Observable<UTXO[]> {
         return this.http.post(
-            `${this.rpc.apiUrl}/api/iwallic`,
+            `${this.global.apiDomain}/api/iwallic`,
             {
                 method: 'getutxoes',
-                params: [from, asset]
+                params: [addr, asset]
             }
         ).map((res: any) => {
             if (res.code === 200) {
-                return res.result;
+                res.result = res.result || [];
+                return (res.result as any[]).map((tx) => new UTXO(tx));
             } else {
                 throw res.message;
             }
-        }).switchMap((res) => {
-            const newTX = Transaction.forContract(res, from, to, amount, ASSET.NEO);
-            if (remark) {
-                newTX.addRemark(remark);
-            }
-            const invocationScript = '40' +
-                wallet.generateSignature(this.serializeTx(newTX, false), wallet.getPrivateKeyFromWIF(wif));
-            const verificationScript =  '21' + wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif)) + 'ac';
-            newTX.scripts.push({ invocationScript, verificationScript });
-            return this.http.post(`${this.rpc.rpcUrl}`, {
-                jsonrpc: '2.0',
-                method: 'sendrawtransaction',
-                params: [this.serializeTx(newTX, true)],
-                id: 1
-            });
         });
     }
 
-    public serializeTx(tx: Transaction, signed: boolean = false) {
-        return serializeTx(tx, signed);
+    /**
+     * Sign the transaction and send to RPC
+     * Will move to RPCService soon.
+     */
+    private signNSendTX(tx: Transaction, wif: string, remark?: string): Observable<any> {
+        const invocationScript = '40' +
+            wallet.generateSignature(tx.serielize(), wallet.getPrivateKeyFromWIF(wif));
+        const verificationScript =  '21' + wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif)) + 'ac';
+        tx.scripts.push({ invocationScript, verificationScript });
+        if (remark) {
+            tx.addRemark(remark);
+        }
+        return this.http.post(`${this.global.rpcDomain}`, {
+            jsonrpc: '2.0',
+            method: 'sendrawtransaction',
+            params: [tx.serielize(true)],
+            id: 1
+        });
     }
-
-    private generateSignature (tx, privateKey) {
-        // const msgHash = u.sha256(tx);
-        // const msgHashHex = Buffer.from(msgHash, 'hex');
-        // let elliptic = new EC('p256');
-        // const sig = elliptic.sign(msgHashHex, privateKey, null);
-        // const signature = Buffer.concat([
-        //   sig.r.toArrayLike(Buffer, 'be', 32),
-        //   sig.s.toArrayLike(Buffer, 'be', 32)
-        // ]);
-        // return signature.toString('hex');
-      }
 
     /**
      * Claim GAS for address
