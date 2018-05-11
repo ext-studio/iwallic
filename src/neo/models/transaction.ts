@@ -91,7 +91,11 @@ export class Transaction {
         asset: string
     ): Transaction {
         const vin: Input[] = [];
-        const vout: Output[] = [{asset: asset, value: amount, scriptHash: wallet.getScriptHashFromAddress(to)}];
+        const vout: Output[] = [{
+            asset: asset,
+            value: 0 + amount,
+            scriptHash: wallet.getScriptHashFromAddress(to)
+        }];
         let curr = 0;
         for (const tx of utxo) {
             curr += tx.value;
