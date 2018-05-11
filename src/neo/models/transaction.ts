@@ -27,8 +27,14 @@ export class UTXO {
         data: any
     ) {
         this.index = data['n'];
-        this.asset = data['asset'];
+        this.asset = data['assetId'];
+        if (this.asset && this.asset.length === 66) {
+            this.asset = this.asset.slice(2);
+        }
         this.hash = data['txid'];
+        if (this.hash && this.hash.length === 66) {
+            this.hash = this.hash.slice(2);
+        }
         this.value = parseFloat(data['value']);
     }
 }
@@ -89,7 +95,7 @@ export class Transaction {
         let curr = 0;
         for (const tx of utxo) {
             curr += tx.value;
-            vin.push({prevIndex: tx.index, prevHash: tx.hash.slice(2)});
+            vin.push({prevIndex: tx.index, prevHash: tx.hash});
             if (curr >= amount) {
                 break;
             }

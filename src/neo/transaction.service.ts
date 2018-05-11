@@ -30,10 +30,13 @@ export class TransactionService {
         isNEP5: boolean = false,
         remark?: string
     ): Observable<any> {
+        if (asset.length === 42 || asset.length === 66) {
+            asset = asset.slice(2);
+        }
         let newTX: Transaction;
         if (isNEP5) {
             newTX = Transaction.forNEP5Contract(sc.createScript({
-                scriptHash: asset.slice(2),
+                scriptHash: asset,
                 operation: 'transfer',
                 args: [
                     u.reverseHex(wallet.getScriptHashFromAddress(from)),
@@ -51,6 +54,9 @@ export class TransactionService {
      * Get unspent UTXO from api
      */
     private getUTXO(addr: string, asset: string): Observable<UTXO[]> {
+        if (asset.length === 64) {
+            asset = '0x' + asset;
+        }
         return this.http.post(
             `${this.global.apiDomain}/api/iwallic`,
             {
