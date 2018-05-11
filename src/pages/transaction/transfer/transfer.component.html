@@ -14,7 +14,7 @@
             <button clear ion-button item-end (click)="qrScan()"><img class="scan" src="assets/transaction/icon_scan.png"></button>
         </ion-item>
         <ion-item>
-            <ion-input type="number" placeholder="{{ 'TRANSACTION_TRANSFER_AMOUNT' | translate }}" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="transferValue" ></ion-input>
+            <ion-input type="number" placeholder="{{ 'TRANSACTION_TRANSFER_AMOUNT' | translate }}" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="amount" ></ion-input>
             <ion-note item-end *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>

@@ -12,11 +12,12 @@ export class TxTransferComponent implements OnInit {
     public isfocus: boolean = false;
     public toaddr: string = '';
     public wallet: Wallet;
-    public transferValue: number;
+    public amount: number;
     public asset: string;
     public assetName: string;
     public assetBalance: number = 0;
     public wrongTips: string = '';
+    public isNEP5: boolean = false;
     constructor(
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
@@ -56,8 +57,8 @@ export class TxTransferComponent implements OnInit {
             this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
             return;
         }
-        if (this.transferValue) {
-            if (parseFloat(this.transferValue.toString()) > parseFloat(this.assetBalance.toString())) {
+        if (this.amount) {
+            if (parseFloat(this.amount.toString()) > parseFloat(this.assetBalance.toString())) {
                 this.wrongTips = 'TRANSACTION_TRANSFER_EXCEEDETBALANCE';
                 return;
             }
@@ -65,7 +66,7 @@ export class TxTransferComponent implements OnInit {
             this.wrongTips = 'TRANSACTION_TRANSFER_NOAMOUNT';
             return;
         }
-        const check =  this.input.open(this.navCtrl, 'ENTER');
+        const check = this.input.open(this.navCtrl, 'ENTER');
         check.subscribe((res) => {
             if (!res) {
                 return;
@@ -74,16 +75,40 @@ export class TxTransferComponent implements OnInit {
                 this.wallet.Verify(res).subscribe((wres) => {
                     load.dismiss();
                     this.global.LoadI18N('LOADING_TRANSFER').subscribe((transferLoad) => {
-                        this.tx.Transfer(
+                        // this.tx.Transfer(
+                        //     this.wallet.account.address,
+                        //     this.wallet.account.wif,
+                        //     this.toaddr,
+                        //     this.amount,
+                        //     this.asset,
+                        //     this.assetName
+                        // ).subscribe((xres) => {
+                        //     transferLoad.dismiss();
+                            // if (xres) {
+                            //     this.navCtrl.pop({
+                            //         animate: false
+                            //     });
+                            //     this.navCtrl.push(TxSuccessComponent);
+                            // } else {
+                            //     this.alert.create({title: 'Error'}).present();
+                            // }
+                        // }, (err) => {
+                        //     this.alert.create({title: 'Error'}).present();
+                        //     transferLoad.dismiss();
+                        // });
+                        if (this.asset.length > 40) {
+                            this.isNEP5 = false;
+                        }
+                        this.tx.Send(
                             this.wallet.account.address,
-                            this.wallet.account.wif,
                             this.toaddr,
-                            this.transferValue,
+                            this.amount,
+                            this.wallet.account.wif,
                             this.asset,
-                            this.assetName
+                            this.isNEP5
                         ).subscribe((xres) => {
                             transferLoad.dismiss();
-                            if (xres) {
+                            if (xres['result']) {
                                 this.navCtrl.pop({
                                     animate: false
                                 });
@@ -91,6 +116,7 @@ export class TxTransferComponent implements OnInit {
                             } else {
                                 this.alert.create({title: 'Error'}).present();
                             }
+                            return;
                         }, (err) => {
                             this.alert.create({title: 'Error'}).present();
                             transferLoad.dismiss();
