@@ -53,7 +53,7 @@ export class TxListComponent implements OnInit {
     }
 
     public getTxList() {
-        this.http.post(this.global.apiAddr + '/api/iwallic',
+        this.http.post(this.global.apiDomain + '/api/iwallic',
             { 'method': 'getaccounttxes', 'params': [this.page, this.pageSize, this.address] }).subscribe(res => {
                 if (res['result']) {
                     if (res['result']['data'] != null) {

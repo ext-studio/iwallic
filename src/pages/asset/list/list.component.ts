@@ -50,7 +50,7 @@ export class AssetListComponent implements OnInit {
     }
 
     public getAssetList() {
-        this.http.post(this.global.apiAddr + '/api/iwallic',
+        this.http.post(this.global.apiDomain + '/api/iwallic',
             { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
                 this.loading = false;
                 if (res['result'] === undefined) {

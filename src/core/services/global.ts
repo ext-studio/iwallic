@@ -14,7 +14,6 @@ import { Translate } from './translate';
 export class GlobalService {
     public apiDomain: string = 'http://192.168.1.90:8080';
     public rpcDomain: string = 'http://192.168.1.23:20332';
-    public apiAddr: string = 'http://192.168.1.39:8080';
     public popups: any[] = [];
     public masks: any[] = [];
     constructor(
