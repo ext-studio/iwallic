@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RPCService } from './rpc.service';
-import { TransactionService } from './transaction.service';
-import { UtilService } from './util.service';
-import { WalletService } from './wallet.service';
+import { RPCService } from './services/rpc.service';
+import { TransactionService } from './services/transaction.service';
+import { UtilService } from './services/util.service';
+import { WalletService } from './services/wallet.service';
 
 @NgModule({
     imports: [],

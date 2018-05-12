@@ -13,7 +13,7 @@ import { ValueTransformer } from '@angular/compiler/src/util';
     templateUrl: 'list.component.html'
 })
 export class AssetListComponent implements OnInit {
-    public assetList: any = [];
+    public assetList: any[] = [];
     public address: string = '';
     public neoValue: number = 0;
     public backuped: boolean = false;
@@ -51,11 +51,7 @@ export class AssetListComponent implements OnInit {
 
     public resolveAssetList(list: any[]) {
         this.assetList = list;
-        for (let i = 0; i < this.assetList.length; i++) {
-            if (this.assetList[i]['name'] === 'NEO') {
-                this.neoValue = this.assetList[i]['balance'];
-            }
-        }
+        this.neoValue = this.assetList.find((e) => e.name === 'NEO').balance;
     }
 
     public jumpDetail(token: string, name: string, value: number) {

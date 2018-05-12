@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../core';
-import { api, wallet, u, sc } from '.';
-import { Transaction, TxType, UTXO } from './models/transaction';
+import { GlobalService } from '../../core';
+import { api, wallet, u, sc } from '../.';
+import { Transaction, TxType, UTXO } from '../models/transaction';
 
 @Injectable()
 export class TransactionService {
