@@ -27,10 +27,11 @@ import { TransactionState } from './states/transaction';
 })
 export class CoreModule {
     constructor(
-        private block: BlockState
+        private block: BlockState,
+        private balance: BalanceState
     ) {
         this.block.listen().subscribe((res) => {
-            // refresh all state data here
+            this.balance.fetchSilent();
         });
     }
 }
