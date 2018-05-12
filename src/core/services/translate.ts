@@ -1,4 +1,4 @@
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService as NgTranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Config } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
@@ -7,11 +7,11 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/observable';
 
 @Injectable()
-export class Translate {
+export class TranslateService {
     private _current: string;
     constructor(
         private storage: Storage,
-        private translate: TranslateService,
+        private translate: NgTranslateService,
         private config: Config
     ) {}
     public Current(): Observable<string> {

@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService as NgTranslateService } from '@ngx-translate/core';
 import {
-    AlertController, LoadingController, Alert, Loading, Platform, NavController, Config, ToastController
+    AlertController, LoadingController, Loading, ToastController
 } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { WalletService } from '../../neo';
-// import { Clipboard } from '@ionic-native/clipboard';
 import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
-import { Translate } from './translate';
 
 @Injectable()
 export class GlobalService {
@@ -19,11 +16,7 @@ export class GlobalService {
     constructor(
         private alert: AlertController,
         private loading: LoadingController,
-        private translate: TranslateService,
-        private trans: Translate,
-        private platform: Platform,
-        private storage: Storage,
-        private config: Config,
+        private ngTranslate: NgTranslateService,
         private toast: ToastController
     ) {}
     /**
@@ -45,7 +38,7 @@ export class GlobalService {
         }
     }
     public LoadI18N(msg: string): Observable<Loading> {
-        return this.translate.get(msg).switchMap((res) => {
+        return this.ngTranslate.get(msg).switchMap((res) => {
             return new Observable<Loading>((observer) => {
                 const load = this.loading.create({content: res});
                 this.masks.push(load);
@@ -59,7 +52,7 @@ export class GlobalService {
         });
     }
     public ToastI18N(msg: string, duration: number = 2000): Observable<any> {
-        return this.translate.get(msg).switchMap((res) => {
+        return this.ngTranslate.get(msg).switchMap((res) => {
             return new Observable<any>((observer) => {
                 const toast = this.toast.create({message: res, duration: duration});
                 this.popups.push(toast);
@@ -78,7 +71,7 @@ export class GlobalService {
         ok?: string,
         no?: string
     }): Observable<any> {
-        return this.translate.get(
+        return this.ngTranslate.get(
             [config['title'], config['content'], config['ok'], config['no']].filter((e) => !!e)
         ).switchMap((res) => {
             return new Observable<any>((observer) => {

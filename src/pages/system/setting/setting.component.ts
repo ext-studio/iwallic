@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Translate, GlobalService } from '../../../core';
+import { TranslateService, GlobalService } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
 
 @Component({
@@ -12,13 +12,13 @@ export class SystemSettingComponent implements OnInit {
     public theme = 'default';
     @ViewChild(Select) public select: Select;
     constructor(
-        private trans: Translate,
+        private translate: TranslateService,
         private nav: NavController,
         private global: GlobalService
     ) { }
 
     public ngOnInit() {
-        this.trans.Current().subscribe((res) => {
+        this.translate.Current().subscribe((res) => {
             console.log(res);
             this.oldLang = this.lang = res;
         });
@@ -28,7 +28,7 @@ export class SystemSettingComponent implements OnInit {
     }
     public langChange() {
         if (this.oldLang !== this.lang) {
-            this.trans.Switch(this.lang);
+            this.translate.Switch(this.lang);
         }
     }
     public ionViewWillLeave() {

@@ -142,6 +142,7 @@ export class WalletService {
     }
 
     public Backup() {
+        this.cached.backup = true;
         this.storage.get('wallet').then((res) => {
             res['backup'] = true;
             this.storage.set('wallet', res);

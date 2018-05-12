@@ -5,7 +5,7 @@ import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 import { QRScanner } from '@ionic-native/qr-scanner';
 import { AppComponent } from './app.component';
-import { CoreModule, Translate } from '../core';
+import { CoreModule } from '../core';
 import { NEOModule } from '../neo';
 import { SharedModule } from '../shared';
 import {
