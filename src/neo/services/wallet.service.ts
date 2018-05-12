@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { wallet, UtilService } from '.';
+import { wallet, UtilService } from '../';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
@@ -8,8 +8,8 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
 import * as sha from 'sha.js';
-import { WalletCreateComponent } from '../pages';
-import { Wallet } from './models/wallet';
+import { WalletCreateComponent } from '../../pages';
+import { Wallet } from '../models/wallet';
 
 export function getAddressFromWIF(wif: string): string {
     return wallet.getAddressFromScriptHash(

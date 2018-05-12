@@ -6,7 +6,9 @@ import { PopupInputService } from './services/popup-input';
 import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
 
+import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
+import { TransactionState } from './states/transaction';
 
 @NgModule({
     imports: [
@@ -20,7 +22,15 @@ import { BalanceState } from './states/balance';
     declarations: [],
     providers: [
         GlobalService, PopupInputService, ReadFileService, TranslateService,
-        BalanceState
+        BlockState, BalanceState, TransactionState
     ]
 })
-export class CoreModule {}
+export class CoreModule {
+    constructor(
+        private block: BlockState
+    ) {
+        this.block.listen().subscribe((res) => {
+            // refresh all state data here
+        });
+    }
+}
