@@ -38,6 +38,8 @@ export class BalanceState {
         return new Promise((resolve) => {
             if (address) {
                 this.address = address;
+            } else if (this._loading) {
+                return;
             }
             this._loading = true;
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {
@@ -57,6 +59,24 @@ export class BalanceState {
                 this.$error.next('request_error');
                 resolve();
             });
+        });
+    }
+    public fetchSilent() {
+        if (this._loading) {
+            return;
+        }
+        this.http.post(`${this.global.apiDomain}/api/iwallic`, {
+            method: 'getaddrassets',
+            params: [this.address]
+        }).subscribe((res: any) => {
+            if (res && res.code === 200) {
+                this._balance = res.result || [];
+                this.$balance.next(this._balance);
+            } else {
+                this.$error.next(res && res.msg || 'unknown_error');
+            }
+        }, (err) => {
+            this.$error.next('request_error');
         });
     }
 }
