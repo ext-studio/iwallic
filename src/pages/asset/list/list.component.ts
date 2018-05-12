@@ -3,8 +3,8 @@ import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { WalletBackupComponent, AssetDetailComponent, TxReceiptComponent } from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
-import { WalletService } from '../../../neo';
-import { GlobalService } from '../../../core';
+import { WalletService, Wallet } from '../../../neo';
+import { GlobalService, BalanceState } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 
 
@@ -18,7 +18,6 @@ export class AssetListComponent implements OnInit {
     public neoValue: number = 0;
     public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
-    public loading: boolean = true;
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -26,48 +25,37 @@ export class AssetListComponent implements OnInit {
         private global: GlobalService,
         private navctrl: NavController,
         private alert: AlertController,
-        private platform: Platform
+        public balance: BalanceState
     ) { }
 
-    public ionViewDidEnter() {
-        this.storage.get('wallet').then((res) => {
-            this.backuped = (!res['backup']);
-        });
-    }
-
     public ngOnInit() {
-        this.wallet.Get().subscribe((res) => {
-            this.address = res.account.address;
-            this.getAssetList();
+        this.wallet.Get().subscribe((wal: Wallet) => {
+            this.backuped = wal.backup;
+            this.address = wal.address;
+            this.balance.get(this.address).subscribe((res) => {
+                this.resolveAssetList(res);
+            });
+            this.balance.error().subscribe((res) => {
+                this.global.Alert('REQUESTFAILED').subscribe();
+            });
         });
     }
 
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
-            this.getAssetList();
-            refresher.complete();
+            this.balance.fetch().then(() => {
+                refresher.complete();
+            });
         }, 500);
     }
 
-    public getAssetList() {
-        this.http.post(this.global.apiDomain + '/api/iwallic',
-            { 'method': 'getaddrassets', 'params': [this.address] }).subscribe(res => {
-                this.loading = false;
-                if (res['result'] === undefined) {
-                    this.global.Alert('REQUESTFAILED').subscribe();
-                    return;
-                }
-                this.assetList = res['result'];
-                if (this.assetList) {
-                    for (let i = 0; i < this.assetList.length; i++) {
-                        if (this.assetList[i]['name'] === 'NEO') {
-                            this.neoValue = this.assetList[i]['balance'];
-                        }
-                    }
-                }
-            }, (err) => {
-                this.global.Alert('REQUESTFAILED').subscribe();
-            });
+    public resolveAssetList(list: any[]) {
+        this.assetList = list;
+        for (let i = 0; i < this.assetList.length; i++) {
+            if (this.assetList[i]['name'] === 'NEO') {
+                this.neoValue = this.assetList[i]['balance'];
+            }
+        }
     }
 
     public jumpDetail(token: string, name: string, value: number) {

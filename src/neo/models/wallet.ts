@@ -86,6 +86,7 @@ export class Wallet {
     public scrypt = { n: 16384, r: 8, p: 8 };
     public accounts: Account[] = [];
     public extra: string = null;
+    public backup: boolean = false;
     public get wif() {
         if (!this.verified) {
             return null;
@@ -114,6 +115,7 @@ export class Wallet {
         }
         this.extra = nep6['extra'] || null;
         this.verified = nep6['verified'] || false;
+        this.backup = nep6['backup'] || false;
     }
     public static fromWIF(wif: string, pwd: string): Observable<Wallet> {
         return Account.fromWIF(wif, pwd).map((acc) => {

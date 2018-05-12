@@ -21,18 +21,18 @@
 </ion-header>
 
 <ion-content center>
-    <div text-center  padding margin-vertical *ngIf="loading">
+    <div text-center  padding margin-vertical *ngIf="balance.loading">
          <ion-spinner ></ion-spinner>
     </div>
-    <ion-list *ngIf="!loading">
+    <ion-list *ngIf="!balance.loading">
         <ion-item *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.balance)">
             <span class="asset-type">{{ asset.name }}</span>
             <span item-end>{{ asset.balance }}</span>
         </ion-item>
     </ion-list>
     
-    <ion-label *ngIf="assetList == null && !loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
-    <ion-refresher  *ngIf="!loading" (ionRefresh)="doRefresh($event)">
+    <ion-label *ngIf="!assetList?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
+    <ion-refresher  *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 

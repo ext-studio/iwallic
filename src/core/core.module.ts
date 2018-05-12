@@ -4,7 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { PopupInputService } from './services/popup-input';
 import { ReadFileService } from './services/readfile';
-import { Translate } from './services/translate';
+import { TranslateService } from './services/translate';
+
+import { BalanceState } from './states/balance';
 
 @NgModule({
     imports: [
@@ -17,7 +19,8 @@ import { Translate } from './services/translate';
     exports: [],
     declarations: [],
     providers: [
-        GlobalService, PopupInputService, ReadFileService, Translate
+        GlobalService, PopupInputService, ReadFileService, TranslateService,
+        BalanceState
     ]
 })
 export class CoreModule {}

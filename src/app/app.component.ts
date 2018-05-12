@@ -6,9 +6,8 @@ import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController, MenuController, NavController, Config, IonicApp } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
-import { GlobalService, Translate } from '../core';
+import { GlobalService, TranslateService } from '../core';
 import { WalletService } from '../neo';
-import { TranslateService } from '@ngx-translate/core';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
@@ -46,7 +45,7 @@ export class AppComponent {
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
         private config: Config,
-        private translate: Translate,
+        private translate: TranslateService,
         private toast: ToastController,
         private app: IonicApp
     ) {
