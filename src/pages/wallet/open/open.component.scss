@@ -19,4 +19,7 @@ wallet-open {
     input.text-input[disabled] {
         opacity: 1;
     }
+    .or {
+        color: map-get($colors, primary);
+    }
 }

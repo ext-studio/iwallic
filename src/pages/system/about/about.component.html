@@ -3,22 +3,22 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>About iWallic</ion-title>
+        <ion-title>{{'SYSTEM_ABOUT_TITLE' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     
     <ion-list margin-vertical>
-        <button ion-item>
-            <ion-label>Check new version</ion-label>
+        <button ion-item (click)="checkVersion()">
+            <ion-label>{{'SYSTEM_ABOUT_VERSION' | translate}}</ion-label>
         </button>
         <ion-item>
-            <ion-label>Version</ion-label>
+            <ion-label>{{'SYSTEM_ABOUT_CURRENT' | translate}}</ion-label>
             <ion-note item-end>Pikachu!</ion-note>
         </ion-item>
-        <button ion-item>
-            <ion-label>Disclaimer</ion-label>
+        <button ion-item (click)="disclaimer()">
+            <ion-label>{{'SYSTEM_ABOUT_DISCLAIMER' | translate}}</ion-label>
         </button>
     </ion-list>
 </ion-content>

@@ -3,28 +3,28 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Helpers</ion-title>
+        <ion-title>{{'SYSTEM_HELPER_TITLE' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
     <ion-list>
         <ion-item-group margin-vertical>
-            <button ion-item>
-                <ion-label>Wallet guide</ion-label>
+            <button ion-item (click)="wallet()">
+                <ion-label>{{'SYSTEM_HELPER_WALLET' | translate}}</ion-label>
             </button>
-            <button ion-item>
-                <ion-label>Transaction guide</ion-label>
+            <button ion-item (click)="transaction()">
+                <ion-label>{{'SYSTEM_HELPER_TRANSACTION' | translate}}</ion-label>
             </button>
         </ion-item-group>
 
         <ion-item-group margin-vertical>
-            <ion-item>
-                <ion-label>Community</ion-label>
+            <ion-item (click)="community()">
+                <ion-label>{{'SYSTEM_HELPER_COMMUNITY' | translate}}</ion-label>
                 <ion-note item-end>Telegram</ion-note>
             </ion-item>
-            <ion-item>
-                <ion-label>Contact</ion-label>
+            <ion-item (click)="contact()">
+                <ion-label>{{'SYSTEM_HELPER_CONTACT' | translate}}</ion-label>
                 <ion-note item-end>contact@ext.earth</ion-note>
             </ion-item>
         </ion-item-group>

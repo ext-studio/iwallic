@@ -1,28 +1,26 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>{{ 'WALLET_OPEN_PWD' | translate  }}</ion-title>
+        <ion-title>{{ 'WALLET_PWD_TITLE' | translate  }}</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content>
-    <div class="tip primary" padding>
-        You need to set a cipher to keep your private key and transactions in safe.
-        iWallic will never save your cipher, nor to help you find it back. So do keep it in mind.
-    </div>
+    <div class="tip primary" padding>{{ 'WALLET_PWD_TIP' | translate  }}</div>
 
     <ion-list margin-vertical>
         <ion-item>
-            <ion-label color="primary" fixed>Set a Password</ion-label>
-            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="pwd"></ion-input>
+            <ion-label color="primary" fixed>{{ 'WALLET_PWD_SET' | translate  }}</ion-label>
+            <ion-input placeholder="{{ 'WALLET_PWD_SET_PH' | translate  }}" type="password" [(ngModel)]="pwd"></ion-input>
         </ion-item>
     
         <ion-item>
-            <ion-label color="primary" fixed>Confirm password</ion-label>
-            <ion-input placeholder="Tap to enter." type="password" [(ngModel)]="rePwd"></ion-input>
+            <ion-label color="primary" fixed>{{ 'WALLET_PWD_CONFIRM' | translate  }}</ion-label>
+            <ion-input placeholder="{{ 'WALLET_PWD_CONFIRM_PH' | translate  }}" type="password" [(ngModel)]="rePwd"></ion-input>
         </ion-item>
     </ion-list>
-    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>Two cipher inconsistencies</p>
+    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>{{ 'WALLET_PWD_MISMATCH' | translate  }}</p>
+    <p class="error" *ngIf="pwd && pwd.length < 6" text-sm margin>{{'WALLET_PWD_TOOSHORT' | translate}}</p>
     <div padding margin-vertical>
-        <button ion-button block (click)="create()" [disabled]="!check()">Create wallet</button>
+        <button ion-button block (click)="create()" [disabled]="!check()">{{ 'WALLET_PWD_CREATE' | translate  }}</button>
     </div>
 </ion-content>

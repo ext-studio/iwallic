@@ -55,10 +55,8 @@ export class GlobalService {
         return this.ngTranslate.get(msg).switchMap((res) => {
             return new Observable<any>((observer) => {
                 const toast = this.toast.create({message: res, duration: duration});
-                this.popups.push(toast);
                 toast.present();
                 toast.onDidDismiss(() => {
-                    this.popups.splice(this.popups.findIndex((e: any) => e.id && (e.id === toast.id)), 1);
                     observer.next();
                     observer.complete();
                 });

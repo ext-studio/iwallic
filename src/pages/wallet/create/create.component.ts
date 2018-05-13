@@ -1,35 +1,17 @@
-import {
-    Component, OnInit, ComponentFactoryResolver, ViewContainerRef,
-    ViewEncapsulation
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { WalletService, wallet as w, Wallet } from '../../../neo';
-import { GlobalService, PopupInputService } from '../../../core';
-import { PopupInputComponent, flyUp, mask } from '../../../shared';
-import { NavController, MenuController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { WalletService, Wallet } from '../../../neo';
+import { GlobalService } from '../../../core';
+import { NavController, MenuController, NavParams } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
-
-/**
- * only once display when created a new wallet
- * display qrcode of new WIF
- * ask to backup
- * ask to set password
- * link to home
- *
- * generate qrcode of wif
- */
 
 @Component({
     selector: 'wallet-create',
-    templateUrl: 'create.component.html',
-    animations: [
-        flyUp, mask
-    ]
+    templateUrl: 'create.component.html'
 })
 export class WalletCreateComponent implements OnInit {
     public shown: boolean = true;
     public newWallet: Wallet;
-    public wif: string;
     public copied: boolean;
     public pwd: string;
     constructor(
@@ -37,11 +19,7 @@ export class WalletCreateComponent implements OnInit {
         private global: GlobalService,
         private navCtrl: NavController,
         private menu: MenuController,
-        private vcRef: ViewContainerRef,
-        private input: PopupInputService,
-        private loading: LoadingController,
-        private navParams: NavParams,
-        private alert: AlertController
+        private navParams: NavParams
     ) {
         //
     }

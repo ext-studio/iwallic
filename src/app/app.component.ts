@@ -15,7 +15,7 @@ import {
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
-import { PopupInputService } from '../core';
+import { PopupInputService, BlockState, BalanceState } from '../core';
 import { Observable } from 'rxjs/observable';
 
 @Component({
@@ -47,7 +47,9 @@ export class AppComponent {
         private config: Config,
         private translate: TranslateService,
         private toast: ToastController,
-        private app: IonicApp
+        private app: IonicApp,
+        private block: BlockState,
+        private balance: BalanceState
     ) {
         this.initializeApp();
     }
@@ -69,6 +71,19 @@ export class AppComponent {
                     this.nav.setRoot(WalletVerifyComponent);
                 } else {
                     this.nav.setRoot(WalletGateComponent);
+                }
+            });
+
+            this.block.listen().subscribe((res) => {
+                const curr = this.nav.getActive();
+                if (!curr) {
+                    return;
+                }
+                console.log(curr.name);
+                switch (curr.name) {
+                    case 'AssetListComponent':
+                    this.balance.fetchSilent();
+                    break;
                 }
             });
 

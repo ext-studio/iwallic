@@ -1,22 +1,17 @@
 popup-input {
-    .title {
-        text-align: center;
-        color: #969696;
-    }
-    .pwd {
-        text-align: center;
-        outline: none;
-        border: none;
-        font-size: 24px;
-        font-weight: 600;
+    .input {
+        border: 1px solid map-get($colors, primary);
         color: map-get($colors, primary);
-        width: 100%;
-        margin: 32px 0 16px 0;
+        border-radius: 4px;box-sizing: border-box;
+        background: #f3f3f3;
+    }
+    input {
         letter-spacing: 3px;
     }
-
-    input::placeholder {
+    .input input::placeholder {
         color: map-get($colors, primary);
-        opacity: 0.5;
+    }
+    .error {
+        color: map-get($colors, danger);
     }
 }
