@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService } from '../../../core';
-import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { WalletCreateComponent } from '../create/create.component';
-import { NavController, MenuController, LoadingController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 
 @Component({
     selector: 'wallet-pwd',
     templateUrl: 'pwd.component.html'
 })
 export class WalletPwdComponent implements OnInit {
-    public pwd;
-    public rePwd;
+    public pwd: string;
+    public rePwd: string;
     constructor(
-        private navCtrl: NavController,
-        private load: LoadingController
+        private navCtrl: NavController
     ) { }
 
     public ngOnInit() {

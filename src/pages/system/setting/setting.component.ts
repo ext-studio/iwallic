@@ -19,12 +19,8 @@ export class SystemSettingComponent implements OnInit {
 
     public ngOnInit() {
         this.translate.Current().subscribe((res) => {
-            console.log(res);
             this.oldLang = this.lang = res;
         });
-        setInterval(() => {
-            console.log(this.select.isFocus());
-        }, 1000);
     }
     public langChange() {
         if (this.oldLang !== this.lang) {

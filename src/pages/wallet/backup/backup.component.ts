@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalService, PopupInputService } from '../../../core';
 import { WalletService, Wallet } from '../../../neo';
-import { NavController, MenuController, NavParams, AlertController, Navbar, LoadingController } from 'ionic-angular';
+import { NavController, Navbar } from 'ionic-angular';
 
 /**
  *  also as wallet backup page
@@ -24,14 +24,10 @@ export class WalletBackupComponent implements OnInit {
     public wallet: Wallet;
     public copied: boolean;
     constructor(
-        private navParams: NavParams,
         private global: GlobalService,
-        private alert: AlertController,
         private w: WalletService,
         private input: PopupInputService,
-        private vcRef: ViewContainerRef,
-        private nav: NavController,
-        private load: LoadingController
+        private nav: NavController
     ) { }
 
     public ngOnInit() {

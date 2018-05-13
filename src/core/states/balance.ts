@@ -62,7 +62,7 @@ export class BalanceState {
         });
     }
     public fetchSilent() {
-        if (this._loading) {
+        if (this._loading || !this.address) {
             return;
         }
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {

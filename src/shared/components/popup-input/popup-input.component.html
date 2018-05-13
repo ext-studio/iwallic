@@ -1,6 +1,6 @@
 <ion-content padding>
-    <div class="title">Verify your password of wallet.</div>
-    <input type="password" class="pwd" [(ngModel)]="pwd" placeholder="Tap to verify." />
-    <button ion-button block (click)="confirm()" [disabled]="!pwd?.length">Verify</button>
-    <button ion-button block clear (click)="cancel()">Cancel</button>
+    <ion-input class="input" type="password" margin-vertical text-center [(ngModel)]="pwd" placeholder="{{'SHARED_PASSWORD_VERIFY' | translate}}"></ion-input>
+    <!-- <p class="error" text-sm margin>{{(pwd && pwd.length < 6 ? 'SHARED_PASSWORD_TOOSHORT' : '') | translate}}</p> -->
+    <button ion-button block margin-vertical (click)="confirm()" [disabled]="!pwd?.length">{{'SHARED_PASSWORD_BTN' | translate}}</button>
+    <button ion-button block clear (click)="cancel()">{{'SHARED_PASSWORD_CANCEL' | translate}}</button>
 </ion-content>

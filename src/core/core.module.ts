@@ -5,6 +5,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { PopupInputService } from './services/popup-input';
 import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
+import { NavController } from 'ionic-angular';
 
 import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
@@ -25,13 +26,4 @@ import { TransactionState } from './states/transaction';
         BlockState, BalanceState, TransactionState
     ]
 })
-export class CoreModule {
-    constructor(
-        private block: BlockState,
-        private balance: BalanceState
-    ) {
-        this.block.listen().subscribe((res) => {
-            this.balance.fetchSilent();
-        });
-    }
-}
+export class CoreModule { }

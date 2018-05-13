@@ -47,10 +47,9 @@ const translateModuleConfig = {
     ],
     imports: [
         BrowserModule,
-        IonicModule.forRoot(AppComponent),
+        IonicModule.forRoot(AppComponent, {backButtonText: ''}),
         NEOModule, SharedModule,
         CoreModule,
-        // for i18n must place after CoreModule
         TranslateModule.forRoot(translateModuleConfig)
     ],
     bootstrap: [IonicApp],

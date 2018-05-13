@@ -1,9 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController, MenuController } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
-import { TransactionService } from '../../../neo';
-import { GlobalService, PopupInputService } from '../../../core';
 
 /**
  * wallet gate page
@@ -15,22 +12,12 @@ import { GlobalService, PopupInputService } from '../../../core';
     selector: 'wallet-gate',
     templateUrl: 'gate.component.html'
 })
-export class WalletGateComponent implements OnInit, OnDestroy {
+export class WalletGateComponent implements OnInit {
     public openPage = WalletOpenComponent;
     public createPage = WalletPwdComponent;
-    constructor(
-        private navCtrl: NavController,
-        private menu: MenuController,
-        private global: GlobalService,
-        private input: PopupInputService,
-        private transaction: TransactionService
-    ) { }
+    constructor() { }
 
     public ngOnInit() {
-        //
-    }
-
-    public ngOnDestroy() {
         //
     }
 }

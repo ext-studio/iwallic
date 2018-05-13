@@ -1,19 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
 import { WalletService, Wallet, TransactionService, ASSET } from '../../../neo';
-import { PopupInputComponent, flyUp, mask } from '../../../shared';
 import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
-import { File } from '@ionic-native/file';
-import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import { Subscription } from 'rxjs/Subscription';
-
-/**
- * currently only support wif wallet
- * the coming version will be compatible to a NEP-6 json wallet
- */
 
 @Component({
     selector: 'wallet-open',
@@ -25,28 +16,17 @@ export class WalletOpenComponent implements OnInit {
     public rePwd: string;
     public importing: boolean = false;
     constructor(
-        private vcRef: ViewContainerRef,
         private navCtrl: NavController,
         private input: PopupInputService,
         private global: GlobalService,
         private wallet: WalletService,
         private alert: AlertController,
         private file: ReadFileService,
-        private load: LoadingController,
-        private transaction: TransactionService
+        private load: LoadingController
     ) { }
 
     public ngOnInit() {
-        // this.transaction.Send(
-        //     'ARL6itN8Cp9FvTMc58sbbWTXCCgSMMaSoz',
-        //     'AYhN4WsU147R4fjchqGtdBA33DBJQhd4qo',
-        //     1,
-        //     'L25ryXBTMewXXYffgszTomgn4qmsgLgDHQnerhSZ7sStdLN8JBSZ',
-        //     ASSET.NEO,
-        //     false
-        // ).subscribe((res) => {
-        //     console.log(res);
-        // });
+        //
     }
 
     public enterPwd() {
@@ -84,19 +64,19 @@ export class WalletOpenComponent implements OnInit {
         });
     }
     public fromNEP6() {
-        const load = this.load.create({content: 'Verify'});
         this.file.read().switchMap((json) => {
             const w = new Wallet(json);
             if (!w.wif) {
                 return this.input.open(this.navCtrl, 'ENTER').switchMap((pwd) => {
                     if (pwd) {
-                        load.present();
-                        return this.wallet.Verify(pwd, w).map(() => {
-                            load.dismiss();
-                            return w;
-                        }).catch((e) => {
-                            load.dismiss();
-                            return Observable.throw(e);
+                        return this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
+                            return this.wallet.Verify(pwd, w).map(() => {
+                                load.dismiss();
+                                return w;
+                            }).catch((e) => {
+                                load.dismiss();
+                                return Observable.throw(e);
+                            });
                         });
                     } else {
                         return Observable.throw('need_verify');
