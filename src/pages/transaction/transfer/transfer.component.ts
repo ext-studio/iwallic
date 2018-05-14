@@ -96,7 +96,7 @@ export class TxTransferComponent implements OnInit {
                         //     this.alert.create({title: 'Error'}).present();
                         //     transferLoad.dismiss();
                         // });
-                        if (this.asset.length > 40) {
+                        if (this.asset.length > 42) {
                             this.isNEP5 = false;
                         }
                         this.tx.Send(
