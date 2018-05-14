@@ -51,7 +51,8 @@ export class AssetListComponent implements OnInit {
 
     public resolveAssetList(list: any[]) {
         this.assetList = list;
-        this.neoValue = this.assetList.find((e) => e.name === 'NEO').balance;
+        const neo = list.find((e) => e.name === 'NEO');
+        this.neoValue = neo ? neo.balance : 0;
     }
 
     public jumpDetail(token: string, name: string, value: number) {

@@ -21,6 +21,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -68,6 +69,7 @@ const translateModuleConfig = {
         Camera,
         QRScanner,
         File,
+        ThemeableBrowser,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

@@ -79,7 +79,6 @@ export class AppComponent {
                 if (!curr) {
                     return;
                 }
-                console.log(curr.name);
                 switch (curr.name) {
                     case 'AssetListComponent':
                     this.balance.fetchSilent();
@@ -132,6 +131,7 @@ export class AppComponent {
                 this.wallet.Close();
                 this.menu.close();
                 this.nav.setRoot(WalletGateComponent);
+                this.balance.clear();
             }
         });
     }
