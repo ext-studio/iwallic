@@ -30,7 +30,6 @@ export class TxListComponent implements OnInit {
         this.wallet.Get().subscribe((wal) => {
             this.address = wal.account.address;
             this.transcation.get(wal.address).subscribe((res) => {
-                console.log(res);
                 this.items = res;
             });
         });
