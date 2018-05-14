@@ -7,7 +7,8 @@ import { GlobalService } from '../services/global';
 @Injectable()
 export class BlockState {
     private interval: number;
-    private _block: any;
+    private _block: number = 0;
+    private _last: number = 0;
     private _loading: boolean = false;
     private $listen: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
@@ -21,23 +22,27 @@ export class BlockState {
                 if (this._loading) {
                     return;
                 }
-                this.fetch();
-            }, 10000);
-            this.fetch();
+                if (new Date().getTime() - this._last > 20000) {
+                    this.fetch();
+                }
+            }, 4000);
         }
         return this.$listen.publish().refCount();
     }
     public fetch(): Promise<any> {
         this._loading = true;
         return new Promise((resolve) => {
-            this.http.post(`${this.global.apiDomain}/api/index`, {method: 'queryallcounts'}).subscribe((res: any) => {
+            this.http.post(`${this.global.apiDomain}/api/iwallic`, {method: 'getblocktime'}).subscribe((res: any) => {
                 if (res && res.code === 200) {
-                    const newBlock = res.result.blockCounts || 0;
-                    if (newBlock === 0) {
+                    if (
+                        res.result && res.result.lastBlockIndex && res.result.time &&
+                        this._block !== res.result.lastBlockIndex
+                    ) {
+                        this._block = res.result.lastBlockIndex;
+                        this._last = res.result.time * 1000;
+                        this.$listen.next(res.result);
+                    } else {
                         this.$error.next(res && res.msg || 'block_error');
-                    } else if (this._block !== newBlock) {
-                        this._block = newBlock;
-                        this.$listen.next(newBlock);
                     }
                 } else {
                     this.$error.next(res && res.msg || 'unknown_error');
