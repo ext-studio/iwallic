@@ -24,11 +24,6 @@ To run in a native device(connect by usb or wifi by adb):
 yarn native
 ```
 
-## Commonds
-
-Common commands are list in ``package.json``'s ``scripts`` param.
-
-### Build
 To just build web outputs:
 
 ```
@@ -48,39 +43,28 @@ yarn build:apk
 * Use ``npm install`` only. It means do not use ``yarn`` when install packages.
 * For running commands(run, build and publish e.g), ``yarn`` is recommended.
 
-## About Project
-
-path | desc
--|-
-/resources | native icon/splash settings
-/src | project source code
-/www | web outputs
-/platforms | native outputs
-/plugins | native plugins(cordova)
-
 ## About Modules
 
 * Wallet
 * * Create
 * * Import
+* * Import from NEP-6
 * * Backup
-* * Password Protect
-* * NEP-6 Support (to do)
 * Asset
 * * List
-* Transaction (to do)
-* NEO (to do)
+* * History for single asset
+* Transaction
+* * Transfer
+* * History
+* System
+* * Language switch
+* * Theme switch (to do)
+* * Helpers (to do)
+* * Version control (to do)
 
-## Todoes
+## Tips
 
-* Copy result in recept page.
-
-* font-color of list item (setting helper .eg)
-* wallet backup (move to Pikachu (support NEP-2/NEP-6))
-* tips when created new wallet
-* only new created wallet should ask to backup
-* back button in browsers
-* created new wallet, click copy btn then back to gate page
-
-* wallet verify time (sync)
-* transaction
+### When will assets/transaction data refresh
+* Enter new wallet
+* New block comes
+* Pull down to refresh
