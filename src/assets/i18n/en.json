@@ -22,6 +22,7 @@
   "ALERT_CONTENT_IMPORTFAILED": "Import failed.",
   "ALERT_CONTENT_WALLETVERIFY": "Verify failed.",
   "ALERT_CONTENT_IMPORTNEP6": "Import failed, please check your wallet file. (Only support NEP-6 JSON file)",
+  "ALERT_CONTENT_TXFAILED": "Transaction failed.",
   "ALERT_OK_SURE": "Sure",
   "ALERT_NO_CANCEL": "Cancel",
   "TOAST_EXISTAPP": "Touch again to exit.",

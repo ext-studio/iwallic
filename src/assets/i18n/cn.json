@@ -22,6 +22,7 @@
   "ALERT_CONTENT_IMPORTFAILED": "导入失败",
   "ALERT_CONTENT_WALLETVERIFY": "验证钱包失败",
   "ALERT_CONTENT_IMPORTNEP6": "导入失败, 请确保你导入的是 NEP-6 钱包文件",
+  "ALERT_CONTENT_TXFAILED": "交易失败",
   "ALERT_OK_SURE": "确定",
   "ALERT_NO_CANCEL": "取消",
   "TOAST_EXISTAPP": "再次点击退出钱包",

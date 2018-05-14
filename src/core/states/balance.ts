@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../services/global';
 import { HttpClient } from '@angular/common/http';
+import 'rxjs/add/operator/startWith';
 
 /**
  * for state management of assets & balances of an address
@@ -29,16 +30,20 @@ export class BalanceState {
         } else if (!this._balance) {
             this.fetch(address || this.address);
         }
+        if (this._balance) {
+            return this.$balance.publish().refCount().startWith(this._balance);
+        }
         return this.$balance.publish().refCount();
     }
     public error(): Observable<any> {
         return this.$error.publish().refCount();
     }
     public fetch(address?: string): Promise<any> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             if (address) {
                 this.address = address;
             } else if (this._loading) {
+                reject('loading');
                 return;
             }
             this._loading = true;

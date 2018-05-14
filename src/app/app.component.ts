@@ -15,8 +15,7 @@ import {
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
-import { PopupInputService, BlockState, BalanceState } from '../core';
-import { Observable } from 'rxjs/observable';
+import { PopupInputService, BlockState, BalanceState, TransactionState } from '../core';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -49,7 +48,8 @@ export class AppComponent {
         private toast: ToastController,
         private app: IonicApp,
         private block: BlockState,
-        private balance: BalanceState
+        private balance: BalanceState,
+        private transaction: TransactionState
     ) {
         this.initializeApp();
     }
@@ -82,6 +82,9 @@ export class AppComponent {
                 switch (curr.name) {
                     case 'AssetListComponent':
                     this.balance.fetchSilent();
+                    break;
+                    case 'TxListComponent':
+                    this.transaction.fetchSilent();
                     break;
                 }
             });

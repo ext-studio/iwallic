@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, Refresher, Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../../../core';
+import { GlobalService, TransactionState } from '../../../core';
 import { WalletService, TransactionService } from '../../../neo';
 
 
@@ -21,34 +21,36 @@ export class TxListComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         private platform: Platform,
-        private transcation: TransactionService
+        public transcation: TransactionState
     ) { }
 
     public ngOnInit() {
         const tempsize = (((this.platform.height() - 44) / 60) + 1).toString();
         this.pageSize = parseInt(tempsize, 0);
-        this.wallet.Get().subscribe((res) => {
-            this.address = res.account.address;
-            this.getTxList();
+        this.wallet.Get().subscribe((wal) => {
+            this.address = wal.account.address;
+            this.transcation.get(wal.address).subscribe((res) => {
+                console.log(res);
+                this.items = res;
+            });
         });
     }
 
-    public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                this.getTxList();
-                resolve();
-            }, 500);
-        });
+    public loadMore() {
+        return this.transcation.fetch(true);
+        // return new Promise((resolve) => {
+        //     setTimeout(() => {
+        //         this.getTxList();
+        //         resolve();
+        //     }, 500);
+        // });
     }
 
     public doRefresh(refresher: Refresher) {
         setTimeout(() => {
-            this.page = 1;
-            this.items = [];
-            this.enabled = true;
-            this.getTxList();
-            refresher.complete();
+            this.transcation.fetch().then(() => {
+                refresher.complete();
+            });
         }, 500);
     }
 

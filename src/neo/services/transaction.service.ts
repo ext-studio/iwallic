@@ -65,8 +65,10 @@ export class TransactionService {
                     for (const tx of newTX.vin) {
                         this.usedUTXO.push({hash: tx.prevHash, index: tx.prevIndex, asset: asset, value: 0});
                     }
+                    return {txid: newTX.hash, value: amount};
+                } else {
+                    throw 'transaction_failed';
                 }
-                return rs;
             });
     }
 

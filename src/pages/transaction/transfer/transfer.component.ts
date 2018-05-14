@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { PopupInputService, GlobalService } from '../../../core';
+import { PopupInputService, GlobalService, TransactionState } from '../../../core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
 import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
@@ -27,7 +27,8 @@ export class TxTransferComponent implements OnInit {
         private tx: TransactionService,
         private load: LoadingController,
         private w: WalletService,
-        private alert: AlertController
+        private alert: AlertController,
+        private txState: TransactionState
     ) {
         if (this.navParams.get('addr')) {
             this.toaddr = this.navParams.get('addr');
@@ -108,18 +109,19 @@ export class TxTransferComponent implements OnInit {
                             this.isNEP5
                         ).subscribe((xres) => {
                             transferLoad.dismiss();
-                            if (xres['result']) {
-                                this.navCtrl.pop({
-                                    animate: false
-                                });
-                                this.navCtrl.push(TxSuccessComponent);
-                            } else {
-                                this.alert.create({title: 'Error'}).present();
-                            }
+                            this.txState.push(this.assetName, xres.txid, xres.value);
+                            this.navCtrl.pop({
+                                animate: false
+                            });
+                            this.navCtrl.push(TxSuccessComponent);
                             return;
                         }, (err) => {
-                            this.alert.create({title: 'Error'}).present();
                             transferLoad.dismiss();
+                            this.global.AlertI18N({
+                                title: 'ALERT_TITLE_WARN',
+                                content: 'ALERT_CONTENT_TXFAILED',
+                                ok: 'ALERT_OK_SURE'
+                            });
                         });
                         return true;
                     });

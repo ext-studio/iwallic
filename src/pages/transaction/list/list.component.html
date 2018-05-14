@@ -26,12 +26,9 @@
         </ion-item>
     </ion-list>
 
-    <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" [enabled]="enabled">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+    <div class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
+    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'TRANSACTION_LIST_NORANSACTION' | translate }}</ion-label>
+    <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'TRANSACTION_LIST_NORANSACTION' | translate }}</ion-label>
-
 </ion-content>
