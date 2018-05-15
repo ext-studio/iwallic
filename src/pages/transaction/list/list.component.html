@@ -22,12 +22,10 @@
             </ion-grid>
            
            
-            <!-- <span class="num">{{ i.value }}{{ i.name }}</span> -->
         </ion-item>
     </ion-list>
 
     <div class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
-    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'TRANSACTION_LIST_NORANSACTION' | translate }}</ion-label>
     <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
