@@ -121,9 +121,8 @@ export class TxTransferComponent implements OnInit {
                                 title: 'ALERT_TITLE_WARN',
                                 content: 'ALERT_CONTENT_TXFAILED',
                                 ok: 'ALERT_OK_SURE'
-                            });
+                            }).subscribe();
                         });
-                        return true;
                     });
                 }, (werr) => {
                     load.dismiss();

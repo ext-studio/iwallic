@@ -22,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
+import { IColorDirective, IBgDirective, ThemePipe } from './skin';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -44,7 +45,8 @@ const translateModuleConfig = {
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
         WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent, // wallet
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
-        ScanAddrComponent
+        ScanAddrComponent,
+        IColorDirective, IBgDirective, ThemePipe
     ],
     imports: [
         BrowserModule,

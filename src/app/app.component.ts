@@ -50,11 +50,9 @@ export class AppComponent {
         private app: IonicApp,
         private block: BlockState,
         private balance: BalanceState,
-        private transaction: TransactionState,
-        private themeService: ThemeService
+        private transaction: TransactionState
     ) {
         this.initializeApp();
-        this.themeService.getActiveTheme().subscribe(val => this.selectedTheme = val);
     }
 
     private initializeApp() {
@@ -138,6 +136,7 @@ export class AppComponent {
                 this.menu.close();
                 this.nav.setRoot(WalletGateComponent);
                 this.balance.clear();
+                this.transaction.clear();
             }
         });
     }

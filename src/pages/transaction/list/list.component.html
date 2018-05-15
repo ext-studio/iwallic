@@ -25,7 +25,9 @@
         </ion-item>
     </ion-list>
 
-    <div class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
+    <div class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
+        {{(!items?.length ? 'TRANSACTION_LIST_NORANSACTION' : transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NOMORE' : 'TRANSACTION_LIST_LOADMORE') | translate}}
+    </div>
     <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

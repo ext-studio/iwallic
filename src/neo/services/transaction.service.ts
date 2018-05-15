@@ -32,6 +32,9 @@ export class TransactionService {
         isNEP5: boolean = false,
         remark?: string
     ): Observable<any> {
+        if (amount <= 0) {
+            return Observable.throw('invalid_amount');
+        }
         if (asset.length === 42 || asset.length === 66) {
             asset = asset.slice(2);
         }

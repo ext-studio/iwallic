@@ -161,6 +161,10 @@ export class TransactionState {
         this._transaction.unshift({ name: name, txid: txid, value: '-' + value.toString(), unconfirmed: true });
         this.$transaction.next(this._transaction);
     }
+    public clear() {
+        this._transaction = undefined;
+        this.address = undefined;
+    }
     private request(page: number, pageSize: number, address: string, asset: string): Observable<any> {
         if (asset) {
             return this.http.post(this.global.apiDomain + '/api/iwallic', {
