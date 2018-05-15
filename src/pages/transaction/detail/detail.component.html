@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default2' | theme | async">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -7,6 +7,6 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding ibg="default" icolor="font">
     tx detail page
 </ion-content>

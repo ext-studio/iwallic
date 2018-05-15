@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default2' | theme | async">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -7,23 +7,23 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
-    <ion-list>
+<ion-content ibg="default" icolor="font">
+    <ion-list ibg="default" icolor="font">
         <ion-item-group margin-vertical>
-            <button ion-item (click)="wallet()">
+            <button [color]="'default2' | theme | async" ion-item (click)="wallet()">
                 <ion-label>{{'SYSTEM_HELPER_WALLET' | translate}}</ion-label>
             </button>
-            <button ion-item (click)="transaction()">
+            <button [color]="'default2' | theme | async" ion-item (click)="transaction()">
                 <ion-label>{{'SYSTEM_HELPER_TRANSACTION' | translate}}</ion-label>
             </button>
         </ion-item-group>
 
         <ion-item-group margin-vertical>
-            <ion-item (click)="community()">
+            <ion-item ibg="default2" icolor="font" (click)="community()">
                 <ion-label>{{'SYSTEM_HELPER_COMMUNITY' | translate}}</ion-label>
                 <ion-note item-end>Telegram</ion-note>
             </ion-item>
-            <ion-item (click)="contact()">
+            <ion-item ibg="default2" icolor="font" (click)="contact()">
                 <ion-label>{{'SYSTEM_HELPER_CONTACT' | translate}}</ion-label>
                 <ion-note item-end>contact@ext.earth</ion-note>
             </ion-item>

@@ -1,10 +1,10 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default2' | theme | async">
         <ion-title>{{ 'WALLET_PWD_TITLE' | translate  }}</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content ibg="default" icolor="font">
     <div class="tip primary" padding>{{ 'WALLET_PWD_TIP' | translate  }}</div>
 
     <ion-list margin-vertical>

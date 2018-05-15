@@ -1,10 +1,10 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default2' | theme | async">
         <ion-title>{{'WALLET_CREATE_TITLE' | translate}}</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding ibg="default" icolor="font">
     <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wif"></ngx-qrcode> -->
     <img id="wallet-qrcode" />
     <div class="title">

@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default2' | theme | async">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -7,7 +7,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content ibg="default" icolor="font">
     <ion-list margin-vertical>
         <ion-item>
             <ion-label color="primary">{{'WALLET_OPEN_YOURWIF' | translate}}</ion-label>
