@@ -68,3 +68,15 @@ yarn build:apk
 * Enter new wallet
 * New block comes
 * Pull down to refresh
+
+## Todos
+
+* **skin switch**
+* **more btn style**
+* **transaction for single asset**
+* **password change**
+* GAS Claim
+* a transfer btn in asset list page
+* wallet export as JSON file *delay*
+* read addr from clipboard *delay*
+* Version check *delay*
