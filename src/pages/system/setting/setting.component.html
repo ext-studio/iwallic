@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default' | theme | async">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -7,10 +7,10 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content ibg="default" icolor="font">
     <ion-list margin-vertical>
         <ion-item-group>
-            <ion-item>
+            <ion-item ibg="default" icolor="font">
                 <ion-label>{{'SYSTEM_SETTING_LANGUAGE' | translate}}</ion-label>
                 <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()" [selectOptions]="">
                     <ion-option value="sys">{{'SETTING_LANG_SYSTEM' | translate}}</ion-option>
@@ -19,7 +19,7 @@
                     <!-- <ion-option value="tw">中文繁體</ion-option> -->
                 </ion-select>
             </ion-item>
-            <ion-item>
+            <ion-item ibg="default" icolor="font">
                 <ion-label>{{'SYSTEM_SETTING_THEME' | translate}}</ion-label>
                 <ion-select [(ngModel)]="selectedTheme" interface="action-sheet" (ngModelChange)="toggleAppTheme()">
                     <ion-option value="light">{{'SYSTEM_SETTING_THEMEDEFAULT' | translate}}</ion-option>

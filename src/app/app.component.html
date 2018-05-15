@@ -1,12 +1,12 @@
 <ion-menu [content]="content">
     <ion-header>
-        <ion-toolbar>
+        <ion-toolbar [color]="'default' | theme | async">
             <img class="sidemenu-logo" src="assets/app/logo.png" />
         </ion-toolbar>
     </ion-header>
-    <ion-content>
+    <ion-content ibg="default">
         <ion-list>
-            <button class="sidemenu-item" ion-item (click)="pushPage(BackupPage)">
+            <button icolor="font" [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(BackupPage)">
                 <img src="assets/app/comon_nav_icon_backup@2x.png" />
                 {{'APP_MENU_BACKUP' | translate}}
             </button>
@@ -14,23 +14,23 @@
                 <img src="assets/app/comon_nav_icon_Import@2x.png" />
                 {{'APP_MENU_IMPORT' | translate}}
             </button> -->
-            <button class="sidemenu-item" ion-item (click)="pushPage(TransactionPage)">
+            <button icolor="font" [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(TransactionPage)">
                 <img src="assets/app/comon_nav_icon_Record@2x.png" />
                 {{'APP_MENU_TRANSACTION' | translate}}
             </button>
-            <button class="sidemenu-item" ion-item (click)="pushPage(SettingPage)">
+            <button icolor="font" [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(SettingPage)">
                 <img src="assets/app/comon_nav_icon_set@2x.png" />
                 {{'APP_MENU_SETTING' | translate}}
             </button>
-            <button class="sidemenu-item" ion-item (click)="pushPage(HelperPage)">
+            <button icolor="font" [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(HelperPage)">
                 <img src="assets/app/comon_nav_icon_Help@2x.png" />
                 {{'APP_MENU_HELPER' | translate}}
             </button>
-            <button class="sidemenu-item" ion-item (click)="pushPage(AboutPage)">
+            <button icolor="font" [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(AboutPage)">
                 <img src="assets/app/comon_nav_icon_info@2x.png" />
                 {{'APP_MENU_ABOUT' | translate}}
             </button>
-            <button class="sidemenu-item" ion-item (click)="signOut()">
+            <button icolor="font" [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="signOut()">
                 <img src="assets/app/comon_nav_icon_Logout@2x.png" />
                 {{'APP_MENU_SIGNOUT' | translate}}
             </button>

@@ -8,17 +8,21 @@ import { Observable } from 'rxjs/Observable';
 
 const skin = {
     light: {
-        primary:    '#3e64ad',
-        secondary:  '#3e8fad',
-        danger:     '#ab4e4e',
-        default:    '#282939',
-        default2:   '#333448',
-        line:       '#88adf4',
-        line2:      '#dfedf2',
-        font:       'rgba(255, 255, 255, 0.85)',
-        font2:      'rgba(255, 255, 255, 0.85)'
+        light:      '#ffffff',
+        dark:       '#000000',
+        primary:    '#488aff',
+        secondary:  '#32db64',
+        danger:     '#f53d3d',
+        default:    '#ffffff',
+        default2:   '#f3f3f3',
+        line:       '#969696',
+        line2:      '#bbbbbb',
+        font:       '#000000',
+        font2:      '#4f4f4f'
     },
     dark: {
+        light:      '#ffffff',
+        dark:       '#000000',
         primary:    '#3e64ad',
         secondary:  '#3e8fad',
         danger:     '#ab4e4e',
@@ -27,7 +31,7 @@ const skin = {
         line:       '#88adf4',
         line2:      '#dfedf2',
         font:       'rgba(255, 255, 255, 0.85)',
-        font2:      'rgba(255, 255, 255, 0.85)'
+        font2:      '#9398b2'
     }
 };
 
@@ -83,6 +87,34 @@ export class IBgDirective implements OnChanges {
             skin[this.skin]
         ) {
             this.elemRef.nativeElement.style.backgroundColor = skin[this.skin][changes.ibg.currentValue];
+        }
+    }
+}
+
+@Directive({
+    selector: '[iborder]'
+})
+export class IBorderDirective implements OnChanges {
+    private skin: string;
+    @Input() public ibg: string;
+    constructor(
+        private elemRef: ElementRef,
+        private theme: ThemeService
+    ) {
+        this.theme.get().subscribe((res) => {
+            this.skin = res;
+            if (skin[this.skin]) {
+                this.elemRef.nativeElement.style.borderColor = skin[this.skin][this.ibg];
+            }
+        });
+    }
+    public ngOnChanges(changes: SimpleChanges) {
+        if (
+            changes.ibg &&
+            changes.ibg.previousValue !== changes.ibg.currentValue &&
+            skin[this.skin]
+        ) {
+            this.elemRef.nativeElement.style.borderColor = skin[this.skin][changes.ibg.currentValue];
         }
     }
 }

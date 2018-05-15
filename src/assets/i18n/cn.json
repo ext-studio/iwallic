@@ -41,7 +41,7 @@
   "WALLET_BACKUP_COPY": "点击复制",
   "WALLET_BACKUP_COPIED": "复制完成 !",
   "WALLET_BACKUP_BACKED": "我已完成备份",
-  "WALLET_BACKUP_TIP": "点击验证密码以展示你的私钥. 然后你可以将私钥复制或打印到纸上. 不要仅使用截图方式来备份, 否则钱包将很容易随着你的设备丢失而丢失.",
+  "WALLET_BACKUP_TIP": "点击验证密码以展示你的私钥. 然后你可以将私钥复制或打印到纸上. 不要使用截图方式来备份, 否则钱包将很容易随着你的设备丢失而丢失.",
   "WALLET_PWD_TITLE": "设置密码",
   "WALLET_PWD_TIP": "你必须设置一个密码来保证你私钥的安全. iWallic不会收集你的密码, 也无法帮助你找回密码. 所以请牢记你的密码.",
   "WALLET_PWD_SET": "设置密码",

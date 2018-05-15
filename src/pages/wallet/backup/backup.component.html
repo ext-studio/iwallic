@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar [color]="'default' | theme | async">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
@@ -7,10 +7,10 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding ibg="default" icolor="font">
     <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wallet?.wif"></ngx-qrcode> -->
     <img id="wallet-qrcode" [hidden]="!verified" />
-    <div class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
+    <div ibg="default2" class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
         <img src="assets/wallet/btn_img_click@2x.png" class="tip" />
     </div>
     <div class="title">
@@ -18,10 +18,10 @@
         <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
         <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" src="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
-    <input *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
-    <input *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
+    <input ibg="default" *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
+    <input ibg="default" *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
     <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_BACKUP_COPIED' : 'WALLET_BACKUP_COPY') | translate}}</button>
 
     <button *ngIf="shown" class="btn copy" ion-button (click)="leaveConfirm()">{{'WALLET_BACKUP_BACKED' | translate}}</button>
-    <p class="tip" text-sm>{{'WALLET_BACKUP_TIP' | translate}}</p>
+    <p icolor="danger" class="tip" text-sm>{{'WALLET_BACKUP_TIP' | translate}}</p>
 </ion-content>
