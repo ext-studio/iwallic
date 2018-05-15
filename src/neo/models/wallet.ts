@@ -76,6 +76,9 @@ export class Account {
             } else {
                 throw 'verify_failed';
             }
+        }).catch((err) => {
+            console.log(err);
+            return Observable.throw('verify_failed');
         });
     }
 }

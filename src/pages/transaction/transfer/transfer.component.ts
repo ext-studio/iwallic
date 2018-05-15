@@ -127,7 +127,7 @@ export class TxTransferComponent implements OnInit {
                     });
                 }, (werr) => {
                     load.dismiss();
-                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN');
+                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN').subscribe();
                 });
             });
         });
@@ -139,5 +139,10 @@ export class TxTransferComponent implements OnInit {
             assetName: this.assetName,
             assetBalance: this.assetBalance
         });
+    }
+
+    public clear() {
+        this.amount = null;
+        this.toaddr = '';
     }
 }

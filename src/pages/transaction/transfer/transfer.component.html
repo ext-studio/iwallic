@@ -10,7 +10,7 @@
 <ion-content>
     <ion-list>
         <ion-item>
-            <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_TARGET' | translate }}" [value]="toaddr" [(ngModel)]="toaddr"></ion-input>
+            <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_TARGET' | translate }}" [(ngModel)]="toaddr"></ion-input>
             <button clear ion-button item-end (click)="qrScan()"><img class="scan" src="assets/transaction/icon_scan.png"></button>
         </ion-item>
         <ion-item>
@@ -18,13 +18,14 @@
             <ion-note item-end *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>
+    <p class="wrong" float-left>{{ wrongTips | translate }}</p>
+    <button clear float-right ion-button (click)="clear()">{{'TRANSACTION_TRANSFER_CLEAR' | translate}}</button>
     <!-- <ion-list class="note">
         <ion-item>
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_NOTE' | translate }}"></ion-input>
         </ion-item>
     </ion-list> -->
-    <p class="wrong">{{ wrongTips | translate }}</p>
-    <div padding>
+    <div padding style="margin-top: 48px;">
         <button ion-button block round (click)="enterPwd()">{{ 'TRANSACTION_TRANSFER_SUBMIT' | translate }}</button>
     </div>
 </ion-content>
