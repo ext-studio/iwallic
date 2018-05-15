@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 import { AlertController, LoadingController, MenuController, NavController, Config, IonicApp } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
-import { GlobalService, TranslateService } from '../core';
+import { GlobalService, TranslateService, ThemeService } from '../core';
 import { WalletService } from '../neo';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
@@ -30,6 +30,7 @@ export class AppComponent {
     public AboutPage = SystemAboutComponent;
     private rootPage: any;
     private leaving: boolean = false;
+    private selectedTheme: String;
 
     constructor(
         private platform: Platform,
@@ -49,9 +50,11 @@ export class AppComponent {
         private app: IonicApp,
         private block: BlockState,
         private balance: BalanceState,
-        private transaction: TransactionState
+        private transaction: TransactionState,
+        private themeService: ThemeService
     ) {
         this.initializeApp();
+        this.themeService.getActiveTheme().subscribe(val => this.selectedTheme = val);
     }
 
     private initializeApp() {

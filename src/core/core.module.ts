@@ -5,11 +5,13 @@ import { IonicStorageModule } from '@ionic/storage';
 import { PopupInputService } from './services/popup-input';
 import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
+import { ThemeService } from './services/theme';
 import { NavController } from 'ionic-angular';
 
 import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
 import { TransactionState } from './states/transaction';
+
 
 @NgModule({
     imports: [
@@ -23,7 +25,7 @@ import { TransactionState } from './states/transaction';
     declarations: [],
     providers: [
         GlobalService, PopupInputService, ReadFileService, TranslateService,
-        BlockState, BalanceState, TransactionState
+        BlockState, BalanceState, TransactionState, ThemeService
     ]
 })
 export class CoreModule { }

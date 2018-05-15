@@ -21,8 +21,9 @@
             </ion-item>
             <ion-item>
                 <ion-label>{{'SYSTEM_SETTING_THEME' | translate}}</ion-label>
-                <ion-select [(ngModel)]="theme" interface="action-sheet">
-                    <ion-option value="default">{{'SYSTEM_SETTING_THEMEDEFAULT' | translate}}</ion-option>
+                <ion-select [(ngModel)]="selectedTheme" interface="action-sheet" (ngModelChange)="toggleAppTheme()">
+                    <ion-option value="default-theme">{{'SYSTEM_SETTING_THEMEDEFAULT' | translate}}</ion-option>
+                    <ion-option value="dark-theme">黑夜</ion-option>
                 </ion-select>
             </ion-item>
         </ion-item-group>
