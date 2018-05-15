@@ -64,63 +64,58 @@ export class TransactionState {
         }
         return new Promise((resolve, reject) => {
             if (this._loading) {
-                reject('loading');
+                resolve();
                 return;
             }
             this._loading = true;
             // get tx of all assets
-            if (!this.asset) {
-                this.request(
-                    isNext ? this.page + 1 : 1, this.pageSize, this.address, this.asset
-                ).switchMap((rs: {data: any[], page: number, pageSize: number, total: number}) => {
-                    const newCount = rs.total - this._total;
-                    // get older tx
-                    if (isNext) {
-                        if (newCount < 0) {
-                            // less tx
-                            return Observable.throw('no_need');
-                        } else if (newCount === 0) {
-                            // no new tx
-                            return Observable.of(rs);
-                        } else {
-                            // has new tx, count real current page
-                            this._page = Math.floor(rs.total / rs.pageSize) + 1;
-                            return this.request(
-                                // new tx takes a whole page or not
-                                newCount % this.pageSize > 0 ? this.page : this._page + 1,
-                                this.pageSize, this.address, this.asset
-                            );
-                        }
+            this.request(
+                isNext ? this.page + 1 : 1, this.pageSize, this.address, this.asset
+            ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+                const newCount = rs.total - this._total;
+                // get older tx
+                if (isNext) {
+                    if (newCount < 0) {
+                        // less tx
+                        return Observable.throw('no_need');
+                    } else if (newCount === 0) {
+                        // no new tx
+                        return Observable.of(rs);
                     } else {
-                        if (newCount <= 0) {
-                            // less tx
-                            return Observable.throw('no_need');
-                        }
-                        if (this._total === 0 || newCount <= this._pageSize) {
-                            // new tx less than page size
-                            return Observable.of(rs);
-                        } else {
-                            // new tx over page size, need fetching those unfetched
-                            return this.request(1, newCount, this.address, this.asset);
-                        }
+                        // has new tx, count real current page
+                        this._page = Math.floor(rs.total / rs.pageSize) + 1;
+                        return this.request(
+                            // new tx takes a whole page or not
+                            newCount % this.pageSize > 0 ? this.page : this._page + 1,
+                            this.pageSize, this.address, this.asset
+                        );
                     }
-                }).subscribe((rs: {data: any[], page: number, pageSize: number, total: number}) => {
-                    this.mergeTx(rs, isNext);
-                    this._loading = false;
-                    this.$transaction.next(this._transaction);
-                    resolve();
-                }, (err) => {
-                    console.log(err);
-                    this._loading = false;
-                    if (err !== 'no_need') {
-                        this.$error.next(typeof err === 'string' ? err : 'request_error');
+                } else {
+                    if (newCount <= 0) {
+                        // less tx
+                        return Observable.throw('no_need');
                     }
-                    resolve();
-                });
-            } else {
-                this.$error.next('completing');
+                    if (this._total === 0 || newCount <= this._pageSize) {
+                        // new tx less than page size
+                        return Observable.of(rs);
+                    } else {
+                        // new tx over page size, need fetching those unfetched
+                        return this.request(1, newCount, this.address, this.asset);
+                    }
+                }
+            }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+                this.mergeTx(rs, isNext);
+                this._loading = false;
+                this.$transaction.next(this._transaction);
                 resolve();
-            }
+            }, (err) => {
+                console.log(err);
+                this._loading = false;
+                if (err !== 'no_need') {
+                    this.$error.next(typeof err === 'string' ? err : 'request_error');
+                }
+                resolve();
+            });
         });
     }
     public fetchSilent() {
@@ -131,7 +126,7 @@ export class TransactionState {
         if (!this.asset) {
             this.request(
                 1, this.pageSize, this.address, this.asset
-            ).switchMap((rs: {data: any[], page: number, pageSize: number, total: number}) => {
+            ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
                 const newCount = rs.total - this._total;
                 if (newCount <= 0) {
                     // less tx
@@ -144,7 +139,7 @@ export class TransactionState {
                     // new tx over page size, need fetching those unfetched
                     return this.request(1, newCount, this.address, this.asset);
                 }
-            }).subscribe((rs: {data: any[], page: number, pageSize: number, total: number}) => {
+            }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
                 this.mergeTx(rs);
                 this.$transaction.next(this._transaction);
             }, (err) => {
@@ -163,12 +158,22 @@ export class TransactionState {
         if (txid.length === 64) {
             txid = '0x' + txid;
         }
-        this._transaction.unshift({name: name, txid: txid, value: '-' + value.toString(), unconfirmed: true});
+        this._transaction.unshift({ name: name, txid: txid, value: '-' + value.toString(), unconfirmed: true });
         this.$transaction.next(this._transaction);
     }
     private request(page: number, pageSize: number, address: string, asset: string): Observable<any> {
         if (asset) {
-            return Observable.throw('completing');
+            return this.http.post(this.global.apiDomain + '/api/iwallic', {
+                method: 'getassettxes',
+                params: [page, pageSize, address, asset]
+            }).map((res: any) => {
+                if (res && res.code === 200) {
+                    return res.result;
+                } else {
+                    throw res && res.msg || 'unknown_error';
+                }
+            });
+            // return Observable.throw('completing');
         }
         return this.http.post(this.global.apiDomain + '/api/iwallic', {
             method: 'getaccounttxes',
@@ -183,7 +188,7 @@ export class TransactionState {
     }
     // unshift or concact tx
     // replace unfonfirmed tx if matched
-    private mergeTx(rs: {data: any[], page: number, pageSize: number, total: number}, isOlder: boolean = false) {
+    private mergeTx(rs: { data: any[], page: number, pageSize: number, total: number }, isOlder: boolean = false) {
         this._total = rs.total;
         if (!this._transaction || !this._transaction.length) {
             this._transaction = rs.data;

@@ -14,23 +14,24 @@
     </div>
     <h5>{{ 'ASSET_DETAIL_RECENTTRANSACTION' | translate }}</h5>
     <hr>
-    <!-- <ion-list class="tx-list">
-        <ion-item *ngFor="let i of items" [ngClass]="{'payment' : i % 2 == 0, 'revenue': i % 2 == 1}">
-            <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i % 2 == 0">
-            <img src="assets/asset/record_icon_revenue.png" alt="" *ngIf="i % 2 == 1">
-            <span>xxxxxxxxx</span>
-            <span class="num"> 
-                {{ i }}
-            </span>
+    <ion-list class="tx-list">
+        <ion-item *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
+            <ion-grid>
+                <ion-row>
+                    <ion-col col-9>
+                        <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">
+                        <img src="assets/asset/record_icon_revenue.png" alt="" *ngIf="i.value > 0">{{ i.txid }}
+                    </ion-col>
+                    <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
+                </ion-row>
+            </ion-grid>
         </ion-item>
-    </ion-list> -->
-    <ion-label style="color:#646163;font-size: 16px;" text-center>{{ 'ASSET_DETAIL_DEVELOPMENT' | translate }}</ion-label>
-    <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="enabled">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+    </ion-list>
+    <div class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
+    <ion-label *ngIf="items.length == 0" text-center class="no-assets">{{ 'TRANSACTION_LIST_NORANSACTION' | translate }}</ion-label>
+    <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
-    </ion-refresher> -->
+    </ion-refresher>
 
 </ion-content>
 

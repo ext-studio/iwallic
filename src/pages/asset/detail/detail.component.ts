@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, NavController, NavParams, Refresher, Platform } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
+import { WalletService } from '../../../neo';
+import { TransactionState } from '../../../core';
 
 @Component({
     selector: 'asset-detail',
-    templateUrl: 'detail.component.html'
+    templateUrl: 'detail.component.html',
+    providers: [TransactionState]
 })
 export class AssetDetailComponent implements OnInit {
     public items: any = [];
@@ -13,39 +16,28 @@ export class AssetDetailComponent implements OnInit {
     public token: string;
     public assetName: string;
     public assetBalance: number = 0;
-    public enabled: boolean = true;
-    public pageSize: number = 5;
+    public address: string;
     constructor(
         private navCtrl: NavController,
         private navParams: NavParams,
-        private platform: Platform
+        private platform: Platform,
+        private wallet: WalletService,
+        private transcation: TransactionState
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
         this.assetName = this.navParams.get('name');
         this.assetBalance = this.navParams.get('assetBalance');
-        const tempsize = (((this.platform.height() - 230 - 44 - 20) / 60) + 1).toString();
-        this.pageSize = parseInt(tempsize, 0);
-        for (let i = 0; i < this.pageSize; i++) {
-            this.items.push(this.items.length);
-        }
-    }
-
-    public doInfinite(infiniteScroll: InfiniteScroll): Promise<any> {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                for (let i = 0; i < this.pageSize; i++) {
-                    this.items.push(this.items.length);
-                }
-                infiniteScroll.complete();
-            }, 500);
+        this.wallet.Get().subscribe((wal) => {
+            this.address = wal.account.address;
+            this.transcation.get(wal.address, this.token).subscribe((res) => {
+                this.items = res;
+            });
         });
     }
 
-    public doRefresh(refresher: Refresher) {
-        setTimeout(() => {
-            refresher.complete();
-        }, 500);
+    public loadMore() {
+        return this.transcation.fetch(true);
     }
 
     public jumpTx() {
@@ -54,5 +46,13 @@ export class AssetDetailComponent implements OnInit {
             assetName: this.assetName,
             assetBalance: this.assetBalance
         });
+    }
+
+    public doRefresh(refresher: Refresher) {
+        setTimeout(() => {
+            this.transcation.fetch().then(() => {
+                refresher.complete();
+            });
+        }, 500);
     }
 }

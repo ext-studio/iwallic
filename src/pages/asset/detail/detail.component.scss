@@ -48,6 +48,11 @@ asset-detail {
                 float: right;
             }
         }
+        ion-col {
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
     }
     ion-footer {
         ion-row {
