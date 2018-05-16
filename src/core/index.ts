@@ -8,4 +8,3 @@ export { ThemeService } from './services/theme';
 export { BalanceState } from './states/balance';
 export { TransactionState } from './states/transaction';
 export { BlockState } from './states/block';
-

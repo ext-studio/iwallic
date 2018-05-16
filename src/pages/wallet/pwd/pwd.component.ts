@@ -23,6 +23,6 @@ export class WalletPwdComponent implements OnInit {
         this.navCtrl.setRoot(WalletCreateComponent, {pwd: this.pwd});
     }
     public check() {
-        return this.pwd && this.pwd === this.rePwd;
+        return this.pwd && this.pwd.length > 5 && this.pwd === this.rePwd;
     }
 }

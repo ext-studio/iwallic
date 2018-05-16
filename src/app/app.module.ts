@@ -7,7 +7,6 @@ import { QRScanner } from '@ionic-native/qr-scanner';
 import { AppComponent } from './app.component';
 import { CoreModule } from '../core';
 import { NEOModule } from '../neo';
-import { SharedModule } from '../shared';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
@@ -22,10 +21,6 @@ import { HttpClient } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
-import {
-    IColorDirective, IBgDirective, ThemePipe,
-    IBorderDirective, ImgPipe
-} from './skin';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -46,15 +41,14 @@ const translateModuleConfig = {
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
-        WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent, // wallet
+        WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
-        ScanAddrComponent,
-        IColorDirective, IBgDirective, ThemePipe, IBorderDirective, ImgPipe
+        ScanAddrComponent
     ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(AppComponent, {backButtonText: ''}),
-        NEOModule, SharedModule,
+        NEOModule,
         CoreModule,
         TranslateModule.forRoot(translateModuleConfig)
     ],

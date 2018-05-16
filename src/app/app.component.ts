@@ -57,16 +57,9 @@ export class AppComponent {
 
     private initializeApp() {
         this.platform.ready().then(() => {
-            const loader = this.loading.create();
-            loader.present();
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
-            this.translate.Init();
             this.wallet.Get().subscribe(() => {
-                loader.dismiss();
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
-                loader.dismiss();
                 console.log(err);
                 if (err === 'need_verify') {
                     this.nav.setRoot(WalletVerifyComponent);
@@ -74,6 +67,9 @@ export class AppComponent {
                     this.nav.setRoot(WalletGateComponent);
                 }
             });
+            this.statusBar.styleDefault();
+            this.splashScreen.hide();
+            this.translate.Init();
 
             this.block.listen().subscribe((res) => {
                 const curr = this.nav.getActive();

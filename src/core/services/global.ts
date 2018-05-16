@@ -39,8 +39,8 @@ export class GlobalService {
             return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_UNKNOWN', ok: 'ALERT_OK_SURE'});
         }
     }
-    public LoadI18N(msg: string): Observable<Loading> {
-        return this.ngTranslate.get(msg).switchMap((res) => {
+    public LoadI18N(msg?: string): Observable<Loading> {
+        return (msg ? this.ngTranslate.get(msg) : Observable.of('')).switchMap((res) => {
             return new Observable<Loading>((observer) => {
                 const load = this.loading.create({content: res, cssClass: `load-${this.theme.current()}`});
                 this.masks.push(load);

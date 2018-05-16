@@ -1,6 +1,0 @@
-<ion-content padding>
-    <ion-input class="input" type="password" margin-vertical text-center [(ngModel)]="pwd" placeholder="{{'SHARED_PASSWORD_VERIFY' | translate}}"></ion-input>
-    <!-- <p class="error" text-sm margin>{{(pwd && pwd.length < 6 ? 'SHARED_PASSWORD_TOOSHORT' : '') | translate}}</p> -->
-    <button ion-button block margin-vertical (click)="confirm()" [disabled]="!pwd?.length">{{'SHARED_PASSWORD_BTN' | translate}}</button>
-    <button ion-button block clear (click)="cancel()">{{'SHARED_PASSWORD_CANCEL' | translate}}</button>
-</ion-content>

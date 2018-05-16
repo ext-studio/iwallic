@@ -1,17 +1,11 @@
 popup-input {
     .input {
-        border: 1px solid map-get($colors, primary);
-        color: map-get($colors, primary);
         border-radius: 4px;box-sizing: border-box;
-        background: #f3f3f3;
     }
     input {
         letter-spacing: 3px;
     }
     .input input::placeholder {
         color: map-get($colors, primary);
-    }
-    .error {
-        color: map-get($colors, danger);
     }
 }

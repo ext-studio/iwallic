@@ -7,22 +7,37 @@ import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
 import { ThemeService } from './services/theme';
 import { NavController } from 'ionic-angular';
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from 'ionic-angular';
 
 import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
 import { TransactionState } from './states/transaction';
+import { PopupInputComponent } from './directives/popup-input/popup-input.component';
+import { IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe } from './directives/skin';
 
 
 @NgModule({
     imports: [
+        CommonModule, FormsModule,
+        IonicModule,
         IonicStorageModule.forRoot({
             name: '__iwallicdb',
             driverOrder: ['indexeddb', 'sqlite', 'websql']
         }),
-        HttpClientModule
+        HttpClientModule,
+        TranslateModule.forChild()
     ],
-    exports: [],
-    declarations: [],
+    exports: [
+        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe
+    ],
+    declarations: [
+        PopupInputComponent,
+        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe
+    ],
+    entryComponents: [PopupInputComponent],
     providers: [
         GlobalService, PopupInputService, ReadFileService, TranslateService,
         BlockState, BalanceState, TransactionState, ThemeService

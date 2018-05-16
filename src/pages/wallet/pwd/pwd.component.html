@@ -4,23 +4,23 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content ibg="default" icolor="font">
-    <div class="tip primary" padding>{{ 'WALLET_PWD_TIP' | translate  }}</div>
+<ion-content ibg="default" icolor="font" iborder="line">
+    <div ibg="primary" icolor="light" iborder="line" padding>{{ 'WALLET_PWD_TIP' | translate  }}</div>
 
     <ion-list margin-vertical>
-        <ion-item>
+        <ion-item ibg="default2" icolor="font" iborder="line">
             <ion-label color="primary" fixed>{{ 'WALLET_PWD_SET' | translate  }}</ion-label>
             <ion-input placeholder="{{ 'WALLET_PWD_SET_PH' | translate  }}" type="password" [(ngModel)]="pwd"></ion-input>
         </ion-item>
     
-        <ion-item>
+        <ion-item ibg="default2" icolor="font" iborder="line">
             <ion-label color="primary" fixed>{{ 'WALLET_PWD_CONFIRM' | translate  }}</ion-label>
             <ion-input placeholder="{{ 'WALLET_PWD_CONFIRM_PH' | translate  }}" type="password" [(ngModel)]="rePwd"></ion-input>
         </ion-item>
     </ion-list>
-    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>{{ 'WALLET_PWD_MISMATCH' | translate  }}</p>
-    <p class="error" *ngIf="pwd && pwd.length < 6" text-sm margin>{{'WALLET_PWD_TOOSHORT' | translate}}</p>
+    <p icolor="danger" *ngIf="pwd && rePwd && !check()" text-sm margin>{{ 'WALLET_PWD_MISMATCH' | translate  }}</p>
+    <p icolor="danger" *ngIf="pwd && pwd.length < 6" text-sm margin>{{'WALLET_PWD_TOOSHORT' | translate}}</p>
     <div padding margin-vertical>
-        <button ion-button block (click)="create()" [disabled]="!check()">{{ 'WALLET_PWD_CREATE' | translate  }}</button>
+        <button [color]="'primary' | theme | async" ion-button block (click)="create()" [disabled]="!check()">{{ 'WALLET_PWD_CREATE' | translate  }}</button>
     </div>
 </ion-content>

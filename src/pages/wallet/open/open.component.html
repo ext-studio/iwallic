@@ -7,33 +7,34 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content ibg="default" icolor="font">
+<ion-content ibg="default" icolor="font" iborder="line">
     <ion-list margin-vertical>
-        <ion-item>
+        <ion-item ibg="default2" icolor="font" iborder="line">
             <ion-label color="primary">{{'WALLET_OPEN_YOURWIF' | translate}}</ion-label>
             <ion-textarea rows="4" placeholder="{{'WALLET_OPEN_YOURWIF_PH' | translate}}" type="text" [(ngModel)]="wif"></ion-textarea>
         </ion-item>
     </ion-list>
-    <p class="error" *ngIf="wif && !checkWIF()" text-sm margin>{{'WALLET_OPEN_YOURWIF_TIP' | translate}}</p>
+    <p icolor="danger" *ngIf="wif && !checkWIF()" text-sm margin>{{'WALLET_OPEN_YOURWIF_TIP' | translate}}</p>
 
     <ion-list margin-vertical>
-        <ion-item>
+        <ion-item ibg="default2" icolor="font" iborder="line">
             <ion-label color="primary" fixed>{{'WALLET_OPEN_PWD' | translate}}</ion-label>
             <ion-input placeholder="{{'WALLET_OPEN_PWD_PH' | translate}}" type="password" [(ngModel)]="pwd"></ion-input>
         </ion-item>
     
-        <ion-item>
+        <ion-item ibg="default2" icolor="font" iborder="line">
             <ion-label color="primary" fixed>{{'WALLET_OPEN_REPWD' | translate}}</ion-label>
             <ion-input placeholder="{{'WALLET_OPEN_REPWD_PH' | translate}}" type="password" [(ngModel)]="rePwd"></ion-input>
         </ion-item>
     </ion-list>
-    <p class="error" *ngIf="pwd && rePwd && !check()" text-sm margin>{{'WALLET_OPEN_PWDTIP' | translate}}</p>
+    <p icolor="danger" *ngIf="pwd && rePwd && !check()" text-sm margin>{{'WALLET_OPEN_PWDTIP' | translate}}</p>
+    <p icolor="danger" *ngIf="pwd && pwd.length < 6" text-sm margin>{{'WALLET_PWD_TOOSHORT' | translate}}</p>
     <div padding margin-vertical>
-        <button ion-button block (click)="import()" [disabled]="!check() || !checkWIF()">
+        <button [color]="'primary' | theme | async" ion-button block (click)="import()" [disabled]="!check() || !checkWIF()">
             <span *ngIf="!importing">{{'WALLET_OPEN_IMPORT' | translate}}</span>
             <ion-spinner *ngIf="importing"></ion-spinner>
         </button>
-        <div class="or" margin-vertical text-center>{{'WALLET_OPEN_OR' | translate}}</div>
-        <button ion-button block outline (click)="fromNEP6()">{{'WALLET_OPEN_FILE' | translate}}</button>
+        <div icolor="primary" margin-vertical text-center>{{'WALLET_OPEN_OR' | translate}}</div>
+        <button [color]="'primary' | theme | async" ion-button block outline (click)="fromNEP6()">{{'WALLET_OPEN_FILE' | translate}}</button>
     </div>
 </ion-content>

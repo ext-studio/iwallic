@@ -101,7 +101,7 @@ export class WalletOpenComponent implements OnInit {
         });
     }
     public check() {
-        return this.pwd && this.pwd === this.rePwd;
+        return this.pwd && this.pwd.length > 5 && this.pwd === this.rePwd;
     }
     public checkWIF() {
         return this.wif && this.wallet.CheckWIF(this.wif);

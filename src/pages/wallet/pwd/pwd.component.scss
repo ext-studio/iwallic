@@ -2,16 +2,6 @@ wallet-pwd {
     .input-cover{
         display: none;
     }
-    .tip {
-        background: map-get($colors, primary);
-        color: map-get($colors, light);
-    }
-    .error {
-        color: map-get($colors, danger);
-    }
-    .scroll-content {
-        background: #f3f3f3;
-    }
     ion-label[fixed] {
         flex: 0 0 140px;
         width: 140px;

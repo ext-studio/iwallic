@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef, ViewChildren
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { ThemeService } from '../core';
+import { ThemeService } from '../services/theme';
 import { Observable } from 'rxjs/Observable';
 
 const skin = {

@@ -1,5 +1,5 @@
 import { Injectable, ComponentFactoryResolver, ComponentRef } from '@angular/core';
-import { PopupInputComponent } from '../../shared';
+import { PopupInputComponent } from '../directives/popup-input/popup-input.component';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { NavController } from 'ionic-angular';
