@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content ibg="default" >
-    <div class="top" style="background: url('assets/asset/detail_bg_img.png')  no-repeat center; background-size: cover">
+    <div class="top" [style.backgroundImage]="'url(' + ('assets/asset/detail_bg_img.png' | isrc | async) + ')'">
         <h5>{{ 'ASSET_DETAIL_YOUR' | translate }} {{ assetName }} {{ 'ASSET_DETAIL_ASSET' | translate }}</h5>
         <p>{{ assetBalance }}</p>
     </div>
@@ -19,13 +19,13 @@
             <ion-grid>
                 <ion-row *ngIf="i.value <= 0" icolor="font">
                     <ion-col col-9>
-                        <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">{{ i.txid }}
+                        <img isrc="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">{{ i.txid }}
                     </ion-col>
                     <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
                 </ion-row>
                 <ion-row *ngIf="i.value > 0" icolor="danger">
                     <ion-col col-9>
-                        <img src="assets/asset/record_icon_revenue.png" alt="">{{ i.txid }}
+                        <img isrc="assets/asset/record_icon_revenue.png" alt="">{{ i.txid }}
                     </ion-col>
                     <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
                 </ion-row>
@@ -43,7 +43,7 @@
     <ion-row>
         <ion-col ibg="primary" >
             <button ion-col-6 (click)="jumpTx()">
-                <img src="assets/asset/detailspage_btn_icon_payment.png" alt="">
+                <img isrc="assets/asset/detailspage_btn_icon_payment.png" alt="">
                 <span>{{ 'ASSET_DETAIL_TRANSFER' | translate }}</span>
             </button>
         </ion-col>
