@@ -3,6 +3,10 @@
         <button ion-button menuToggle [color]="'primary' | theme | async">
             <ion-icon name="menu"></ion-icon>
         </button>
+        <button ion-button class="transfer-btn" (click)="jumpTransfer()" >
+            <img class="transfer-btn" src="assets/asset/btn_transfer.png" alt="">
+        </button>
+       
     </ion-navbar>
     <div class="header-content" center text-center [style.backgroundImage]="'url(' + ('assets/asset/list_bg_img.png' | isrc | async) + ')'">
         <div class="title">

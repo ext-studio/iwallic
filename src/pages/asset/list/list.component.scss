@@ -8,6 +8,11 @@ asset-list {
     .nav-bar {
         position: absolute;
         top: 0;
+        .transfer-btn {
+            height: 26px;
+            background: transparent;
+            float: right;
+        }
     }
     .header-box::after {
         background-size: 0;

@@ -59,6 +59,10 @@ export class AssetListComponent implements OnInit {
         });
     }
 
+    public jumpTransfer() {
+        return;
+    }
+
     public addAsset() {
         this.alert.create({ subTitle: 'Coming soon' }).present();
     }
