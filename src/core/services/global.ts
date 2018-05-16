@@ -6,6 +6,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
+import { ThemeService } from './theme';
 
 @Injectable()
 export class GlobalService {
@@ -17,7 +18,8 @@ export class GlobalService {
         private alert: AlertController,
         private loading: LoadingController,
         private ngTranslate: NgTranslateService,
-        private toast: ToastController
+        private toast: ToastController,
+        private theme: ThemeService
     ) {}
     /**
      * Internal Alert by given type
@@ -40,7 +42,7 @@ export class GlobalService {
     public LoadI18N(msg: string): Observable<Loading> {
         return this.ngTranslate.get(msg).switchMap((res) => {
             return new Observable<Loading>((observer) => {
-                const load = this.loading.create({content: res});
+                const load = this.loading.create({content: res, cssClass: `load-${this.theme.current()}`});
                 this.masks.push(load);
                 load.present();
                 load.onDidDismiss(() => {
@@ -54,7 +56,7 @@ export class GlobalService {
     public ToastI18N(msg: string, duration: number = 2000): Observable<any> {
         return this.ngTranslate.get(msg).switchMap((res) => {
             return new Observable<any>((observer) => {
-                const toast = this.toast.create({message: res, duration: duration});
+                const toast = this.toast.create({message: res, duration: duration, cssClass: `toast-${this.theme.current()}`});
                 toast.present();
                 toast.onDidDismiss(() => {
                     observer.next();
@@ -86,7 +88,8 @@ export class GlobalService {
                 const alert = this.alert.create({
                     title: res[config['title']],
                     subTitle: res[config['content']],
-                    buttons: btns
+                    buttons: btns,
+                    cssClass: `alert-${this.theme.current()}`
                 });
                 this.popups.push(alert);
                 alert.present();

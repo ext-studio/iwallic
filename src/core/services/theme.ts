@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ThemeService {
+    public default: string = 'light';
     private _theme: string;
     private $theme: Subject<String> = new Subject();
 
@@ -12,10 +13,10 @@ export class ThemeService {
         private storage: Storage
     ) {
         this.storage.get('theme').then((res) => {
-            this._theme = res || 'light';
+            this._theme = res || this.default;
             this.$theme.next(this._theme);
         }).catch((err) => {
-            this._theme = 'light';
+            this._theme = this.default;
             this.$theme.next(this._theme);
         });
     }
@@ -30,5 +31,9 @@ export class ThemeService {
         this.storage.set('theme', theme);
         this._theme = theme;
         this.$theme.next(this._theme);
+    }
+
+    public current() {
+        return this._theme || this.default;
     }
 }

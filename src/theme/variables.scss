@@ -67,6 +67,50 @@ $colors: (
   dark-font2:      #9398b2
 );
 
+.alert-light {
+  .alert-wrapper {
+    background-color: map-get($colors, light-default) !important;
+    color: map-get($colors, light-font2);
+    button{
+        color: map-get($colors, light-font);
+    }
+  }
+}
+.load-light {
+  .loading-wrapper {
+    background-color: map-get($colors, light-default) !important;
+    color: map-get($colors, light-font) !important;
+  }
+}
+.toast-light {
+  .toast-wrapper {
+    background-color: map-get($colors, light-dark) !important;
+    color: map-get($colors, light-light);
+  }
+}
+
+.alert-dark {
+  .alert-wrapper {
+    background-color: map-get($colors, dark-default) !important;
+    color: map-get($colors, dark-font);
+    button{
+        color: map-get($colors, dark-font2);
+    }
+  }
+}
+.load-dark {
+  .loading-wrapper {
+    background-color: map-get($colors, dark-default) !important;
+    color: map-get($colors, dark-font) !important;
+  }
+}
+.toast-dark {
+  .toast-wrapper {
+    background-color: map-get($colors, dark-primary) !important;
+    color: map-get($colors, dark-font);
+  }
+}
+
 
 // App iOS Variables
 // --------------------------------------------------

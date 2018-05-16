@@ -132,3 +132,16 @@ export class ThemePipe implements PipeTransform {
         return this.theme.get().map((res => `${res}-${value}`));
     }
 }
+
+@Pipe({
+    name: 'img'
+})
+export class ImgPipe implements PipeTransform {
+    private skin: string;
+    constructor(
+        private theme: ThemeService
+    ) {}
+    public transform(value: Observable<string>): any {
+        return this.theme.get().map((res => `${res}.${value}`));
+    }
+}

@@ -9,7 +9,7 @@ import { NavController, Select } from 'ionic-angular';
 export class SystemSettingComponent implements OnInit {
     private oldLang: string = 'sys';
     public lang = 'sys';
-    public selectedTheme: String = 'light';
+    public selectedTheme: String = this.themeService.default;
     @ViewChild(Select) public select: Select;
     constructor(
         private translate: TranslateService,
@@ -37,7 +37,7 @@ export class SystemSettingComponent implements OnInit {
         if (this.selectedTheme === 'dark') {
             this.themeService.set('dark');
         } else {
-            this.themeService.set('light');
+            this.themeService.set(this.themeService.default);
         }
     }
 }

@@ -24,7 +24,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 import {
     IColorDirective, IBgDirective, ThemePipe,
-    IBorderDirective
+    IBorderDirective, ImgPipe
 } from './skin';
 
 // for i18n
@@ -49,7 +49,7 @@ const translateModuleConfig = {
         WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent, // wallet
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
         ScanAddrComponent,
-        IColorDirective, IBgDirective, ThemePipe, IBorderDirective
+        IColorDirective, IBgDirective, ThemePipe, IBorderDirective, ImgPipe
     ],
     imports: [
         BrowserModule,
