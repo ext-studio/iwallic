@@ -158,3 +158,6 @@ $colors: (
 @import "noto-sans";
 
 $menu-width: 225px;
+ion-item .item-inner {
+  border-bottom-color: inherit !important;
+}

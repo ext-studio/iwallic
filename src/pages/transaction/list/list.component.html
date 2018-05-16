@@ -9,7 +9,7 @@
 
 <ion-content ibg="default" icolor="font">
     <ion-list>
-        <ion-item ibg="default2" *ngFor="let i of items">
+        <ion-item iborder="font2" ibg="default2" icolor="font" *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
                 
             <ion-grid>
                 <ion-row *ngIf="i.value <= 0" icolor="font">

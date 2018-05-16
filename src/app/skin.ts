@@ -1,6 +1,6 @@
 import {
     Directive, Input, OnChanges, SimpleChanges, ElementRef, Pipe, PipeTransform,
-    ChangeDetectorRef
+    ChangeDetectorRef, ViewChildren
 } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ThemeService } from '../core';
@@ -77,33 +77,6 @@ export class IBgDirective implements OnChanges {
             this.skin = res;
             if (skin[this.skin]) {
                 this.elemRef.nativeElement.style.backgroundColor = skin[this.skin][this.ibg];
-            }
-        });
-    }
-    public ngOnChanges(changes: SimpleChanges) {
-        if (
-            changes.ibg &&
-            changes.ibg.previousValue !== changes.ibg.currentValue &&
-            skin[this.skin]
-        ) {
-            this.elemRef.nativeElement.style.backgroundColor = skin[this.skin][changes.ibg.currentValue];
-        }
-    }
-}
-
-@Directive({
-    selector: '[iborder]'
-})
-export class IBorderDirective implements OnChanges {
-    private skin: string;
-    @Input() public ibg: string;
-    constructor(
-        private elemRef: ElementRef,
-        private theme: ThemeService
-    ) {
-        this.theme.get().subscribe((res) => {
-            this.skin = res;
-            if (skin[this.skin]) {
                 this.elemRef.nativeElement.style.borderColor = skin[this.skin][this.ibg];
             }
         });
@@ -114,7 +87,43 @@ export class IBorderDirective implements OnChanges {
             changes.ibg.previousValue !== changes.ibg.currentValue &&
             skin[this.skin]
         ) {
+            this.elemRef.nativeElement.style.backgroundColor = skin[this.skin][changes.ibg.currentValue];
             this.elemRef.nativeElement.style.borderColor = skin[this.skin][changes.ibg.currentValue];
+        }
+    }
+}
+
+@Directive({
+    selector: '[iborder]'
+})
+export class IBorderDirective implements OnChanges {
+    private skin: string;
+    @Input() public iborder: string;
+    @ViewChildren('[class.item-inner]') public vChildren: any;
+    constructor(
+        private elemRef: ElementRef,
+        private theme: ThemeService
+    ) {
+        this.theme.get().subscribe((res) => {
+            this.skin = res;
+            if (skin[this.skin]) {
+                this.elemRef.nativeElement.style.borderColor = skin[this.skin][this.iborder];
+                // const find: HTMLCollection = this.elemRef.nativeElement.getElementsByClassName('item-inner');
+                // console.log(this.vChildren);
+            }
+        });
+    }
+    public ngOnChanges(changes: SimpleChanges) {
+        if (
+            changes.iborder &&
+            changes.iborder.previousValue !== changes.iborder.currentValue &&
+            skin[this.skin]
+        ) {
+            this.elemRef.nativeElement.style.borderColor = skin[this.skin][changes.iborder.currentValue];
+            // const find: HTMLCollection = this.elemRef.nativeElement.getElementsByClassName('item-inner');
+            // if (find && find.item(0)) {
+            //     (find.item(0) as any).style.borderColor = `${skin[this.skin][changes.ibg.currentValue]} !important`;
+            // }
         }
     }
 }
