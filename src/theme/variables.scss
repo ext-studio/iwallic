@@ -49,8 +49,8 @@ $colors: (
   light-danger:     #f53d3d,
   light-default:    #f4f4f4,
   light-default2:   #ffffff,
-  light-line:       #969696,
-  light-line2:      #bbbbbb,
+  light-line:       #eeeeee,
+  light-line2:      #969696,
   light-font:       rgba(0, 0, 0, 0.85),
   light-font2:      #4f4f4f,
 
@@ -61,7 +61,7 @@ $colors: (
   dark-danger:     #ab4e4e,
   dark-default:    #282939,
   dark-default2:   #333448,
-  dark-line:       #88adf4,
+  dark-line:       #55566a,
   dark-line2:      #dfedf2,
   dark-font:       rgba(255, 255, 255, 0.85),
   dark-font2:      #9398b2
@@ -70,9 +70,9 @@ $colors: (
 .alert-light {
   .alert-wrapper {
     background-color: map-get($colors, light-default) !important;
-    color: map-get($colors, light-font2);
+    color: map-get($colors, light-font2) !important;
     button{
-        color: map-get($colors, light-font);
+        color: map-get($colors, light-font) !important;
     }
   }
 }
@@ -85,16 +85,19 @@ $colors: (
 .toast-light {
   .toast-wrapper {
     background-color: map-get($colors, light-dark) !important;
-    color: map-get($colors, light-light);
+    color: map-get($colors, light-light) !important;
   }
 }
 
 .alert-dark {
   .alert-wrapper {
     background-color: map-get($colors, dark-default) !important;
-    color: map-get($colors, dark-font);
+    color: map-get($colors, dark-font) !important;
+    border: 1px solid map-get($colors, dark-default2);
+    border-color: map-get($colors, dark-default2) !important;
     button{
-        color: map-get($colors, dark-font2);
+        color: map-get($colors, dark-font2) !important;
+        border-color: map-get($colors, dark-default2) !important;
     }
   }
 }
@@ -107,7 +110,7 @@ $colors: (
 .toast-dark {
   .toast-wrapper {
     background-color: map-get($colors, dark-primary) !important;
-    color: map-get($colors, dark-font);
+    color: map-get($colors, dark-font) !important;
   }
 }
 
@@ -158,6 +161,17 @@ $colors: (
 @import "noto-sans";
 
 $menu-width: 225px;
-ion-item .item-inner {
-  border-bottom-color: inherit !important;
+.item-inner {
+  border-color: inherit !important;
+}
+.scroll-content {
+  border-color: inherit !important;
+}
+.alert-sub-title {
+  color: inherit !important;
+}
+button.activated {
+  opacity: 0.8;
+  color: inherit !important;
+  background-color: inherit !important;
 }

@@ -20,12 +20,12 @@
     <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>
 
-<ion-content center ibg="default">
+<ion-content center ibg="default" iborder="line">
     <div text-center padding margin-vertical *ngIf="balance.loading">
          <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
     <ion-list *ngIf="!balance.loading">
-        <ion-item iborder="font2" ibg="default2" icolor="font" *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.balance)">
+        <ion-item iborder="line" ibg="default2" icolor="font" *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.balance)">
             <span class="asset-type" icolor="font">{{ asset.name }}</span>
             <span item-end icolor="font">{{ asset.balance }}</span>
         </ion-item>

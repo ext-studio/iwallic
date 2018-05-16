@@ -15,7 +15,7 @@ const skin = {
         danger:     '#f53d3d',
         default:    '#f4f4f4',
         default2:   '#ffffff',
-        line:       '#969696',
+        line:       '#dddddd',
         line2:      '#bbbbbb',
         font:       '#000000',
         font2:      '#4f4f4f'
@@ -28,7 +28,7 @@ const skin = {
         danger:     '#ab4e4e',
         default:    '#282939',
         default2:   '#333448',
-        line:       '#88adf4',
+        line:       '#55566a',
         line2:      '#dfedf2',
         font:       'rgba(255, 255, 255, 0.85)',
         font2:      '#9398b2'
@@ -77,7 +77,6 @@ export class IBgDirective implements OnChanges {
             this.skin = res;
             if (skin[this.skin]) {
                 this.elemRef.nativeElement.style.backgroundColor = skin[this.skin][this.ibg];
-                this.elemRef.nativeElement.style.borderColor = skin[this.skin][this.ibg];
             }
         });
     }
@@ -88,7 +87,6 @@ export class IBgDirective implements OnChanges {
             skin[this.skin]
         ) {
             this.elemRef.nativeElement.style.backgroundColor = skin[this.skin][changes.ibg.currentValue];
-            this.elemRef.nativeElement.style.borderColor = skin[this.skin][changes.ibg.currentValue];
         }
     }
 }
@@ -108,8 +106,6 @@ export class IBorderDirective implements OnChanges {
             this.skin = res;
             if (skin[this.skin]) {
                 this.elemRef.nativeElement.style.borderColor = skin[this.skin][this.iborder];
-                // const find: HTMLCollection = this.elemRef.nativeElement.getElementsByClassName('item-inner');
-                // console.log(this.vChildren);
             }
         });
     }
@@ -120,10 +116,6 @@ export class IBorderDirective implements OnChanges {
             skin[this.skin]
         ) {
             this.elemRef.nativeElement.style.borderColor = skin[this.skin][changes.iborder.currentValue];
-            // const find: HTMLCollection = this.elemRef.nativeElement.getElementsByClassName('item-inner');
-            // if (find && find.item(0)) {
-            //     (find.item(0) as any).style.borderColor = `${skin[this.skin][changes.ibg.currentValue]} !important`;
-            // }
         }
     }
 }

@@ -7,10 +7,9 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content ibg="default" icolor="font">
+<ion-content ibg="default" iborder="line">
     <ion-list>
-        <ion-item iborder="font2" ibg="default2" icolor="font" *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
-                
+        <ion-item iborder="line" ibg="default2" icolor="font" *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
             <ion-grid>
                 <ion-row *ngIf="i.value <= 0" icolor="font">
                     <ion-col col-9>
@@ -25,12 +24,10 @@
                     <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
                 </ion-row>
             </ion-grid>
-           
-           
         </ion-item>
     </ion-list>
 
-    <div icolor="font" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
+    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
         {{(!items?.length ? 'TRANSACTION_LIST_NORANSACTION' : transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NOMORE' : 'TRANSACTION_LIST_LOADMORE') | translate}}
     </div>
     <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
