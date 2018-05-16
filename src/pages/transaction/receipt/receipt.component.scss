@@ -1,9 +1,13 @@
 transaction-receipt {
+    .header-md::after, .tabs-md[tabsPlacement="top"] > .tabbar::after, .footer-md::before, .tabs-md[tabsPlacement="bottom"] > .tabbar::before {
+        background-image: none;
+    }
     .toolbar-title {
         color: white !important;
     }
     ion-content {
-        background: linear-gradient(#42bfee, #3f76de);
+        // background: linear-gradient(#42bfee, #3f76de);
+        background: linear-gradient(#23488f, #287998);
         .address-bg {
             height: 434px;
             margin-top: 30px;
