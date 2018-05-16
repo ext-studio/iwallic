@@ -51,25 +51,30 @@ export class ScanAddrComponent implements OnInit {
             })
             .catch((e: any) => console.log('Error is', e));
     }
+    public ionViewWillLeave() {
+        this.qrScanner.disableLight();
+        this.qrScanner.useBackCamera();
+        this.hideCamera();
+    }
+
     public dismiss(): void {
         this.viewCtrl.dismiss();
     }
     public toggleLight() {
-        this.light = !this.light;
         if (this.light) {
             this.qrScanner.disableLight();
         } else {
             this.qrScanner.enableLight();
-
         }
+        this.light = !this.light;
     }
     public toggleCamera() {
-        this.frontCamera = !this.frontCamera;
         if (this.frontCamera) {
             this.qrScanner.useBackCamera();
         } else {
             this.qrScanner.useFrontCamera();
         }
+        this.frontCamera = !this.frontCamera;
     }
     public showCamera() {
         (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'transparent';
