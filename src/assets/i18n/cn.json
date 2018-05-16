@@ -30,7 +30,7 @@
   "LOADING_VERIFY": "正在验证...",
   "LOADING_CREATING": "正在创建...",
   "LOADING_TRANSFER": "转账中...",
-  "SHARED_PASSWORD_VERIFY": "点此验证密码",
+  "SHARED_PASSWORD_VERIFY": "点此输入密码",
   "SHARED_PASSWORD_BTN": "验证",
   "SHARED_PASSWORD_CANCEL": "取消",
   "SHARED_PASSWORD_TOOSHORT": "密码长度至少为6位",
