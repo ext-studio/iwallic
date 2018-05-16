@@ -42,13 +42,13 @@
 <ion-footer>
     <ion-row>
         <ion-col ibg="primary" >
-            <button icolor="font" ion-col-6 (click)="jumpTx()">
+            <button ion-col-6 (click)="jumpTx()">
                 <img src="assets/asset/detailspage_btn_icon_payment.png" alt="">
                 <span>{{ 'ASSET_DETAIL_TRANSFER' | translate }}</span>
             </button>
         </ion-col>
         <ion-col ibg="primary">
-            <button icolor="font" ion-col-6 [navPush]="receipt">
+            <button ion-col-6 [navPush]="receipt">
                 <img src="assets/asset/detailspage_btn_icon_QRcode.png" alt="">
                 <span>{{ 'ASSET_DETAIL_RECEIPT' | translate }}</span>
             </button>
