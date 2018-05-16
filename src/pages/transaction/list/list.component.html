@@ -30,7 +30,7 @@
     <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
         {{(!items?.length ? 'TRANSACTION_LIST_NORANSACTION' : transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NOMORE' : 'TRANSACTION_LIST_LOADMORE') | translate}}
     </div>
-    <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content icolor="font"></ion-refresher-content>
+    <ion-refresher  *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content icolor="primary"></ion-refresher-content>
     </ion-refresher>
 </ion-content>

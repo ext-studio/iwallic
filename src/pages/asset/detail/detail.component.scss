@@ -2,6 +2,9 @@ asset-detail {
     .refresher-pulling-icon, .refresher-refreshing-icon {
         color: inherit;
     }
+    .refresher-refreshing .spinner-ios line, .refresher-refreshing .spinner-ios-small line, .refresher-refreshing .spinner-crescent circle {
+        stroke: #3e64ad;
+    }
     ion-content {
         .top {
             height: 230px;

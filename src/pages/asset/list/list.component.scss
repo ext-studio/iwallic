@@ -2,6 +2,10 @@ asset-list {
     .refresher-pulling-icon, .refresher-refreshing-icon {
         color: inherit;
     }
+    .refresher-refreshing .spinner-ios line, .refresher-refreshing .spinner-ios-small line, .refresher-refreshing .spinner-crescent circle {
+        color: inherit;
+        stroke: #3e64ad;
+    }
     .nav-bar {
         position: absolute;
         top: 0;
