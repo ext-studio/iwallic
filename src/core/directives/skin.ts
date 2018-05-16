@@ -120,6 +120,38 @@ export class IBorderDirective implements OnChanges {
     }
 }
 
+@Directive({
+    selector: '[isrc]'
+})
+export class ISrcDirective implements OnChanges {
+    private skin: string;
+    @Input() public isrc: string;
+    constructor(
+        private elemRef: ElementRef,
+        private theme: ThemeService
+    ) {
+        this.theme.get().subscribe((res) => {
+            this.skin = res;
+            if (this.isrc) {
+                this.elemRef.nativeElement.src = this.solveSrc(res, this.isrc);
+            }
+        });
+    }
+    public ngOnChanges(changes: SimpleChanges) {
+        if (
+            changes.isrc &&
+            changes.isrc.previousValue !== changes.isrc.currentValue &&
+            this.skin
+        ) {
+            this.elemRef.nativeElement.src = this.solveSrc(this.skin, changes.isrc.currentValue);
+        }
+    }
+    private solveSrc(theme: string, src: string): string {
+        const index = src.lastIndexOf('/') + 1;
+        return src.slice(0, index) + theme + '.' + src.slice(index);
+    }
+}
+
 // tslint:disable-next-line:use-pipe-transform-interface
 @Pipe({
     name: 'theme'

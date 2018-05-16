@@ -99,6 +99,10 @@ $colors: (
         color: map-get($colors, dark-font2) !important;
         border-color: map-get($colors, dark-default2) !important;
     }
+    button.activated {
+      color: map-get($colors, dark-font);
+      background-color: map-get($colors, dark-default2);
+    }
   }
 }
 .load-dark {
@@ -172,6 +176,4 @@ $menu-width: 225px;
 }
 button.activated {
   opacity: 0.8 !important;
-  // color: inherit !important;
-  // background-color: inherit !important;
 }

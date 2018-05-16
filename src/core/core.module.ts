@@ -16,7 +16,10 @@ import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
 import { TransactionState } from './states/transaction';
 import { PopupInputComponent } from './directives/popup-input/popup-input.component';
-import { IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe } from './directives/skin';
+import {
+    IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
+    ISrcDirective
+} from './directives/skin';
 
 
 @NgModule({
@@ -31,11 +34,13 @@ import { IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe } f
         TranslateModule.forChild()
     ],
     exports: [
-        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe
+        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
+        ISrcDirective
     ],
     declarations: [
         PopupInputComponent,
-        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe
+        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
+        ISrcDirective
     ],
     entryComponents: [PopupInputComponent],
     providers: [
