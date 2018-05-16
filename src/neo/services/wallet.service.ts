@@ -7,9 +7,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
-import * as sha from 'sha.js';
 import { WalletCreateComponent } from '../../pages';
 import { Wallet } from '../models/wallet';
+import { Subject } from 'rxjs/Subject';
 
 export function getAddressFromWIF(wif: string): string {
     return wallet.getAddressFromScriptHash(
@@ -23,6 +23,12 @@ export function getAddressFromWIF(wif: string): string {
 
 @Injectable()
 export class WalletService {
+    public get address(): string {
+        return this.cached && this.cached.address;
+    }
+    public get backup(): boolean {
+        return this.cached && this.cached.backup;
+    }
     private cached: Wallet;
     constructor(
         private util: UtilService,
@@ -127,19 +133,6 @@ export class WalletService {
     public CheckWIF(wif: string): boolean {
         return wallet.isWIF(wif);
     }
-    /**
-     * Check if password matches opened wallet.
-     * @param key password
-     */
-    public Match(key: string): Promise<any> {
-        return this.storage.get('wallet').then((res: any): any => {
-            if (res && (res['key'] === this.shaEncode(key))) {
-                return Promise.resolve(true);
-            } else {
-                return Promise.reject('not_match');
-            }
-        });
-    }
 
     public Backup() {
         this.cached.backup = true;
@@ -147,9 +140,5 @@ export class WalletService {
             res['backup'] = true;
             this.storage.set('wallet', res);
         });
-    }
-
-    private shaEncode(key: string): string {
-        return sha('sha256').update(key).digest('hex');
     }
 }

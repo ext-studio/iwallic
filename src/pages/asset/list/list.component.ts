@@ -21,7 +21,7 @@ export class AssetListComponent implements OnInit {
     constructor(
         private http: HttpClient,
         private storage: Storage,
-        private wallet: WalletService,
+        public wallet: WalletService,
         private global: GlobalService,
         private navctrl: NavController,
         private alert: AlertController,
@@ -29,15 +29,11 @@ export class AssetListComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.wallet.Get().subscribe((wal: Wallet) => {
-            this.backuped = wal.backup;
-            this.address = wal.address;
-            this.balance.get(this.address).subscribe((res) => {
-                this.resolveAssetList(res);
-            });
-            this.balance.error().subscribe((res) => {
-                this.global.Alert('REQUESTFAILED').subscribe();
-            });
+        this.balance.get(this.wallet.address).subscribe((res) => {
+            this.resolveAssetList(res);
+        });
+        this.balance.error().subscribe((res) => {
+            this.global.Alert('REQUESTFAILED').subscribe();
         });
     }
 

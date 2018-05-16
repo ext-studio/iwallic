@@ -18,7 +18,7 @@ import { TransactionState } from './states/transaction';
 import { PopupInputComponent } from './directives/popup-input/popup-input.component';
 import {
     IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-    ISrcDirective
+    ISrcDirective, ISrcPipe
 } from './directives/skin';
 
 
@@ -35,12 +35,12 @@ import {
     ],
     exports: [
         IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-        ISrcDirective
+        ISrcDirective, ISrcPipe
     ],
     declarations: [
         PopupInputComponent,
         IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-        ISrcDirective
+        ISrcDirective, ISrcPipe
     ],
     entryComponents: [PopupInputComponent],
     providers: [

@@ -4,7 +4,7 @@
             <ion-icon name="menu"></ion-icon>
         </button>
     </ion-navbar>
-    <div class="header-content" center text-center style="background: url('assets/asset/list_bg_img.png') no-repeat center; background-size: cover">
+    <div class="header-content" center text-center [style.backgroundImage]="'url(' + ('assets/asset/list_bg_img.png' | isrc | async) + ')'">
         <div class="title">
             <span>{{'ASSET_LIST_TITLE' | translate}}</span>
             <img src="assets/asset/icon_QRcode.png" alt="" [navPush]="receipt">
@@ -15,7 +15,7 @@
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips" *ngIf="backuped" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p>
+        <p class="warn-tips" *ngIf="!wallet.backup" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p>
     </div>
     <!-- <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()"> -->
 </ion-header>

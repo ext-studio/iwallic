@@ -152,6 +152,20 @@ export class ISrcDirective implements OnChanges {
     }
 }
 
+@Pipe({
+    name: 'isrc'
+})
+export class ISrcPipe implements PipeTransform {
+    private skin: string;
+    constructor(
+        private theme: ThemeService
+    ) {}
+    public transform(value: string): any {
+        const index = value.lastIndexOf('/') + 1;
+        return this.theme.get().map(((res) => value.slice(0, index) + res + '.' + value.slice(index))).startWith('/');
+    }
+}
+
 // tslint:disable-next-line:use-pipe-transform-interface
 @Pipe({
     name: 'theme'
@@ -161,8 +175,8 @@ export class ThemePipe implements PipeTransform {
     constructor(
         private theme: ThemeService
     ) {}
-    public transform(value: Observable<string>): any {
-        return this.theme.get().map((res => `${res}-${value}`));
+    public transform(value: string): any {
+        return this.theme.get().map((res) => `${res}-${value}`);
     }
 }
 
