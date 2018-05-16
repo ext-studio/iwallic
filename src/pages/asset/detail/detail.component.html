@@ -7,43 +7,48 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content ibg="default">
     <div class="top" style="background: url('assets/asset/detail_bg_img.png')  no-repeat center; background-size: cover">
         <h5>{{ 'ASSET_DETAIL_YOUR' | translate }} {{ assetName }} {{ 'ASSET_DETAIL_ASSET' | translate }}</h5>
         <p>{{ assetBalance }}</p>
     </div>
-    <h5>{{ 'ASSET_DETAIL_RECENTTRANSACTION' | translate }}</h5>
-    <hr>
+    <h5  icolor="font">{{ 'ASSET_DETAIL_RECENTTRANSACTION' | translate }}</h5>
+    <hr  icolor="font">
     <ion-list class="tx-list">
-        <ion-item *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
+        <ion-item ibg="default2" icolor="font" *ngFor="let i of items">
             <ion-grid>
-                <ion-row>
+                <ion-row *ngIf="i.value <= 0" icolor="font">
                     <ion-col col-9>
-                        <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">
-                        <img src="assets/asset/record_icon_revenue.png" alt="" *ngIf="i.value > 0">{{ i.txid }}
+                        <img src="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">{{ i.txid }}
+                    </ion-col>
+                    <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
+                </ion-row>
+                <ion-row *ngIf="i.value > 0" icolor="danger">
+                    <ion-col col-9>
+                        <img src="assets/asset/record_icon_revenue.png" alt="">{{ i.txid }}
                     </ion-col>
                     <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
                 </ion-row>
             </ion-grid>
         </ion-item>
     </ion-list>
-    <div class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
+    <div  icolor="font" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
     <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
+        <ion-refresher-content icolor="font"></ion-refresher-content>
     </ion-refresher>
 
 </ion-content>
 
 <ion-footer>
     <ion-row>
-        <ion-col>
-            <button ion-col-6 (click)="jumpTx()">
+        <ion-col ibg="primary" >
+            <button icolor="font" ion-col-6 (click)="jumpTx()">
                 <img src="assets/asset/detailspage_btn_icon_payment.png" alt="">
                 <span>{{ 'ASSET_DETAIL_TRANSFER' | translate }}</span>
             </button>
         </ion-col>
-        <ion-col>
-            <button ion-col-6 [navPush]="receipt">
+        <ion-col ibg="primary">
+            <button icolor="font" ion-col-6 [navPush]="receipt">
                 <img src="assets/asset/detailspage_btn_icon_QRcode.png" alt="">
                 <span>{{ 'ASSET_DETAIL_RECEIPT' | translate }}</span>
             </button>

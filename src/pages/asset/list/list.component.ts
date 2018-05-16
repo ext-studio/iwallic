@@ -38,13 +38,6 @@ export class AssetListComponent implements OnInit {
             this.balance.error().subscribe((res) => {
                 this.global.Alert('REQUESTFAILED').subscribe();
             });
-            setTimeout(() => {
-                this.global.LoadI18N(`UNKNOWN`).subscribe((res) => {
-                    setTimeout(() => {
-                        res.dismiss();
-                    }, 2000);
-                });
-            }, 1000);
         });
     }
 

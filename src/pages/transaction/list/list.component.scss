@@ -1,15 +1,12 @@
 transaction-list {
+    .refresher-pulling-icon, .refresher-refreshing-icon {
+        color: inherit;
+    }
     ion-content {
         ion-item {
             height: 60px;
             line-height: 60px;
             font-size: 13px;
-            &.revenue {
-                color: #d95959; 
-            }
-            &.payment {
-                color: #646163
-            }
             img {
                 width: 25px;
                 height: 25px;

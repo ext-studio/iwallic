@@ -31,9 +31,10 @@
         </ion-item>
     </ion-list>
     
-    <ion-label *ngIf="!assetList?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
-    <ion-refresher *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
+    <ion-label icolor="font" *ngIf="!assetList?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
+    <ion-refresher  *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content icolor="font" pullingIcon="arrow-dropdown">
+        </ion-refresher-content>
     </ion-refresher>
 
 </ion-content>

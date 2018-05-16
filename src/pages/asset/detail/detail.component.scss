@@ -1,4 +1,7 @@
 asset-detail {
+    .refresher-pulling-icon, .refresher-refreshing-icon {
+        color: inherit;
+    }
     ion-content {
         .top {
             height: 230px;
@@ -32,12 +35,6 @@ asset-detail {
             height: 60px;
             line-height: 60px;
             font-size: 13px;
-            &.payment {
-                color: #646163
-            }
-            &.revenue {
-                color: #d95959; 
-            }
             img {
                 width: 25px;
                 height: 25px;
@@ -57,7 +54,6 @@ asset-detail {
     ion-footer {
         ion-row {
             height: 50px;
-            background: #558aef;
         }
         ion-col {
             height: 100%;
@@ -66,7 +62,6 @@ asset-detail {
                 width: 100%;
                 height: 100%;
                 text-align: center;
-                color: white;
                 font-size: 15px;
                 line-height: 40px;
                 background: transparent;    
