@@ -8,22 +8,22 @@
 </ion-header>
 
 <ion-content ibg="default" icolor="font">
-    <ion-list ibg="default" icolor="font">
+    <ion-list>
         <ion-item-group margin-vertical>
-            <button [color]="'default2' | theme | async" ion-item (click)="wallet()">
+            <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="wallet()">
                 <ion-label>{{'SYSTEM_HELPER_WALLET' | translate}}</ion-label>
             </button>
-            <button [color]="'default2' | theme | async" ion-item (click)="transaction()">
+            <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="transaction()">
                 <ion-label>{{'SYSTEM_HELPER_TRANSACTION' | translate}}</ion-label>
             </button>
         </ion-item-group>
 
         <ion-item-group margin-vertical>
-            <ion-item ibg="default2" icolor="font" (click)="community()">
+            <ion-item ibg="default2" icolor="font" iborder="line" (click)="community()">
                 <ion-label>{{'SYSTEM_HELPER_COMMUNITY' | translate}}</ion-label>
                 <ion-note item-end>Telegram</ion-note>
             </ion-item>
-            <ion-item ibg="default2" icolor="font" (click)="contact()">
+            <ion-item ibg="default2" icolor="font" iborder="line" (click)="contact()">
                 <ion-label>{{'SYSTEM_HELPER_CONTACT' | translate}}</ion-label>
                 <ion-note item-end>contact@ext.earth</ion-note>
             </ion-item>
