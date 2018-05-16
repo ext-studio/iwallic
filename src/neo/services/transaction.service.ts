@@ -49,7 +49,13 @@ export class TransactionService {
                     sc.ContractParam.byteArray(new u.Fixed8(amount), 'fixed8')
                 ]
             }), wallet.getScriptHashFromAddress(from));
-            return this.signNSendTX(newTX, wif, remark);
+            return this.signNSendTX(newTX, wif, remark).map((rs) => {
+                if (rs && rs.result) {
+                    return {txid: newTX.hash, value: amount};
+                } else {
+                    throw 'transaction_failed';
+                }
+            });
         }
         return this.getUTXO(from, asset)
             .switchMap((utxos) => {

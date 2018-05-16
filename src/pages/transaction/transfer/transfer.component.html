@@ -18,7 +18,7 @@
             <ion-note item-end *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>
-    <p class="wrong" float-left>{{ wrongTips | translate }}</p>
+    <p class="wrong" float-left *ngIf="addr?.length || amount">{{ wrongTips | translate }}</p>
     <button clear float-right ion-button (click)="clear()">{{'TRANSACTION_TRANSFER_CLEAR' | translate}}</button>
     <!-- <ion-list class="note">
         <ion-item>
