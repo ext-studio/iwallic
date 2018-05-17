@@ -9,6 +9,13 @@
 
 <ion-content ibg="default" >
     <ion-list>
+        <ion-item iborder="line"  ibg="default2"  *ngIf="ischoose" class="choose-asset">
+            <select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
+                <!-- <option (value)="i.assetId" *ngFor="let i of assetList">{{ i.name }}</option> -->
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+        </ion-item>
         <ion-item ibg="default2" iborder="line" icolor="font">
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_TARGET' | translate }}" [(ngModel)]="toaddr"></ion-input>
             <button clear ion-button item-end (click)="qrScan()"><img class="scan" src="assets/transaction/icon_scan.png"></button>

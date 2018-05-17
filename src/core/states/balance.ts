@@ -16,7 +16,7 @@ export class BalanceState {
     }
     private _loading: boolean = false;
     private address: string;
-    private _balance: any[];
+    public _balance: any[];
     private $balance: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
     constructor(

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { PopupInputService, GlobalService, TransactionState } from '../../../core';
+import { PopupInputService, GlobalService, TransactionState, BalanceState } from '../../../core';
 import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
 import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
@@ -18,6 +18,9 @@ export class TxTransferComponent implements OnInit {
     public assetBalance: number = 0;
     public wrongTips: string = '';
     public isNEP5: boolean = true;
+    public ischoose: boolean = true;
+    public assetList: any[] = [];
+    public select: any;
     constructor(
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
@@ -28,22 +31,40 @@ export class TxTransferComponent implements OnInit {
         private load: LoadingController,
         private w: WalletService,
         private alert: AlertController,
-        private txState: TransactionState
+        private txState: TransactionState,
+        private balanceState: BalanceState
     ) {
         if (this.navParams.get('addr')) {
             this.toaddr = this.navParams.get('addr');
         }
-        this.asset = this.navParams.get('asset');
-        this.assetName = this.navParams.get('assetName');
-        this.assetBalance = this.navParams.get('assetBalance');
+        if (this.navParams.get('asset')) {
+            this.asset = this.navParams.get('asset');
+        }
+        if (this.assetName = this.navParams.get('assetName')) {
+            this.asset = this.assetName = this.navParams.get('assetName');
+        }
+        if (this.assetBalance = this.navParams.get('assetBalance')) {
+            this.asset = this.assetBalance = this.navParams.get('assetBalance');
+        }
     }
 
     public ngOnInit() {
+        if (this.asset) {
+            this.ischoose = false;
+        } else {
+            this.assetList = this.balanceState._balance;
+            console.log(this.assetList);
+        }
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
             this.global.Alert('UNKNOWN').subscribe();
         });
+    }
+
+    public assetChange() {
+        console.log(this.asset);
+        console.log(this.balanceState._balance.find((e) => e.assetId === this.asset).balance);
     }
 
     public focusNum() {
@@ -85,14 +106,14 @@ export class TxTransferComponent implements OnInit {
                         //     this.assetName
                         // ).subscribe((xres) => {
                         //     transferLoad.dismiss();
-                            // if (xres) {
-                            //     this.navCtrl.pop({
-                            //         animate: false
-                            //     });
-                            //     this.navCtrl.push(TxSuccessComponent);
-                            // } else {
-                            //     this.alert.create({title: 'Error'}).present();
-                            // }
+                        // if (xres) {
+                        //     this.navCtrl.pop({
+                        //         animate: false
+                        //     });
+                        //     this.navCtrl.push(TxSuccessComponent);
+                        // } else {
+                        //     this.alert.create({title: 'Error'}).present();
+                        // }
                         // }, (err) => {
                         //     this.alert.create({title: 'Error'}).present();
                         //     transferLoad.dismiss();
