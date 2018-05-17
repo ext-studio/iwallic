@@ -53,7 +53,6 @@ export class TxTransferComponent implements OnInit {
             this.ischoose = false;
         } else {
             this.assetList = this.balanceState._balance;
-            console.log(this.assetList);
         }
         this.w.Get().subscribe((res) => {
             this.wallet = res;
@@ -63,8 +62,7 @@ export class TxTransferComponent implements OnInit {
     }
 
     public assetChange() {
-        console.log(this.asset);
-        console.log(this.balanceState._balance.find((e) => e.assetId === this.asset).balance);
+        this.assetBalance = this.assetList.find((e) => e.assetId === this.asset).balance;
     }
 
     public focusNum() {

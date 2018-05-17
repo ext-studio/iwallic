@@ -7,21 +7,29 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content ibg="default" >
+<ion-content ibg="default">
     <ion-list>
-        <ion-item iborder="line"  ibg="default2"  *ngIf="ischoose" class="choose-asset">
-            <select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
-                <!-- <option (value)="i.assetId" *ngFor="let i of assetList">{{ i.name }}</option> -->
-                <option value="1">1</option>
-                <option value="2">2</option>
-            </select>
+        <ion-item iborder="line" ibg="default2" *ngIf="ischoose" class="choose-asset">
+            <ion-row icolor="font">
+                <ion-col col-5>
+                    <label>{{ 'TRANSACTION_TRANSFER_CHOOSEASSET' | translate }}</label>
+                </ion-col>
+                <ion-col col-7>
+                    <select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
+                        <option [value]="i.assetId" *ngFor="let i of assetList">{{ i.name }}</option>
+                    </select>
+                </ion-col>
+            </ion-row>
         </ion-item>
         <ion-item ibg="default2" iborder="line" icolor="font">
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_TARGET' | translate }}" [(ngModel)]="toaddr"></ion-input>
-            <button clear ion-button item-end (click)="qrScan()"><img class="scan" src="assets/transaction/icon_scan.png"></button>
+            <button clear ion-button item-end (click)="qrScan()">
+                <img class="scan" src="assets/transaction/icon_scan.png">
+            </button>
         </ion-item>
-        <ion-item iborder="line"  ibg="default2" icolor="font">
-            <ion-input type="number" placeholder="{{ 'TRANSACTION_TRANSFER_AMOUNT' | translate }}" (focus)="focusNum()" (blur)="blurNum()" [(ngModel)]="amount" ></ion-input>
+        <ion-item iborder="line" ibg="default2" icolor="font">
+            <ion-input type="number" placeholder="{{ 'TRANSACTION_TRANSFER_AMOUNT' | translate }}" (focus)="focusNum()" (blur)="blurNum()"
+                [(ngModel)]="amount"></ion-input>
             <ion-note item-end *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
         </ion-item>
     </ion-list>
@@ -32,7 +40,7 @@
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_NOTE' | translate }}"></ion-input>
         </ion-item>
     </ion-list> -->
-    <div padding style="margin-top: 48px;" >
+    <div padding style="margin-top: 48px;">
         <button ibg="primary" ion-button block round (click)="enterPwd()">{{ 'TRANSACTION_TRANSFER_SUBMIT' | translate }}</button>
     </div>
 </ion-content>
