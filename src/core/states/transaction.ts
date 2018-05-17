@@ -154,7 +154,6 @@ export class TransactionState {
     }
     // push unconfirmed tx into list
     public push(name: string, txid: string, value: number) {
-        console.log(txid);
         this._transaction = this._transaction || [];
         if (txid.length === 64) {
             txid = '0x' + txid;

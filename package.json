@@ -12,7 +12,8 @@
     "native": "ionic cordova run android --device",
     "emulator": "ionic cordova emulate android",
     "build:apk": "ionic cordova build android --prod",
-    "clean:all": "rimraf ./.sourcemaps ./platforms ./plugins ./www"
+    "clean:all": "rimraf ./.sourcemaps ./platforms ./plugins ./www",
+    "http": "http-server ./www --p 8100"
   },
   "dependencies": {
     "@angular/animations": "5.2.9",
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.1.8",
     "codelyzer": "4.2.1",
+    "http-server": "^0.11.1",
     "rimraf": "^2.6.2",
     "typescript": "~2.6.2"
   },
