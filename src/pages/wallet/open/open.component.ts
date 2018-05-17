@@ -57,7 +57,7 @@ export class WalletOpenComponent implements OnInit {
         }
         this.importing = true;
         this.wallet.Import(this.wif, this.pwd, 'NEP2').subscribe((res) => {
-            this.wallet.Save(res);
+            this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             this.global.AlertI18N({content: 'ALERT_CONTENT_IMPORTFAILED'}).subscribe();
@@ -85,7 +85,7 @@ export class WalletOpenComponent implements OnInit {
             }
             return Observable.of(w);
         }).subscribe((res) => {
-            this.wallet.Save(res);
+            this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             console.log(err);

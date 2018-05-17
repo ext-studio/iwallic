@@ -88,6 +88,12 @@ export class WalletService {
         this.storage.set('wallet', data);
     }
 
+    public SaveBackup(data: Wallet): void {
+        data.backup = true;
+        this.cached = data;
+        this.storage.set('wallet', data);
+    }
+
     /**
      * get currently opened wallet
      * if not in cache, open from storaged NEP-6 wallet
