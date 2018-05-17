@@ -50,11 +50,10 @@ export class TxTransferComponent implements OnInit {
     }
 
     public ngOnInit() {
-        if (this.platform.is('mobileweb')) {
+        if (this.platform.is('mobileweb') || this.platform.is('core')) {
             this.isScan = false;
         }
         this.assetList = this.balanceState._balance;
-        console.log(this.assetList);
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
