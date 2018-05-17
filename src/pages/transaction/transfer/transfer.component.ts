@@ -53,7 +53,11 @@ export class TxTransferComponent implements OnInit {
         if (this.platform.is('mobileweb') || this.platform.is('core')) {
             this.isScan = false;
         }
-        this.assetList = this.balanceState._balance;
+        this.balanceState.get(this.w.address).subscribe((res) => {
+            this.assetList = res;
+            const value = res.find((e) => e.assetId === this.asset);
+            this.assetBalance = value ? value.balance : 0;
+        });
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {

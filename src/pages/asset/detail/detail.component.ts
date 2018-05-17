@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, NavController, NavParams, Refresher, Platform } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
-import { TransactionState } from '../../../core';
+import { TransactionState, BalanceState } from '../../../core';
 
 @Component({
     selector: 'asset-detail',
@@ -22,12 +22,16 @@ export class AssetDetailComponent implements OnInit {
         private navParams: NavParams,
         private platform: Platform,
         private wallet: WalletService,
-        private transcation: TransactionState
+        private transcation: TransactionState,
+        private balanceState: BalanceState
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
         this.assetName = this.navParams.get('name');
-        this.assetBalance = this.navParams.get('assetBalance');
+        this.balanceState.get(this.wallet.address).subscribe((res) => {
+            const value = res.find((e) => e.assetId === this.token);
+            this.assetBalance = value ? value.balance : this.navParams.get('assetBalance');
+        });
         this.wallet.Get().subscribe((wal) => {
             this.address = wal.account.address;
             this.transcation.get(wal.address, this.token).subscribe((res) => {
