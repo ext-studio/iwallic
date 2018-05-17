@@ -9,13 +9,13 @@
 
 <ion-content ibg="default">
     <ion-list>
-        <ion-item iborder="line" ibg="default2" *ngIf="ischoose" class="choose-asset">
+        <ion-item iborder="line" ibg="default2" class="choose-asset">
             <ion-row icolor="font">
                 <ion-col col-5>
                     <label>{{ 'TRANSACTION_TRANSFER_CHOOSEASSET' | translate }}</label>
                 </ion-col>
                 <ion-col col-7>
-                    <select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
+                    <select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()" n>
                         <option [value]="i.assetId" *ngFor="let i of assetList">{{ i.name }}</option>
                     </select>
                 </ion-col>

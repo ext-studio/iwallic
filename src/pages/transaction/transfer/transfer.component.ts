@@ -18,7 +18,6 @@ export class TxTransferComponent implements OnInit {
     public assetBalance: number = 0;
     public wrongTips: string = '';
     public isNEP5: boolean = true;
-    public ischoose: boolean = true;
     public assetList: any[] = [];
     public select: any;
     constructor(
@@ -49,11 +48,7 @@ export class TxTransferComponent implements OnInit {
     }
 
     public ngOnInit() {
-        if (this.asset) {
-            this.ischoose = false;
-        } else {
-            this.assetList = this.balanceState._balance;
-        }
+        this.assetList = this.balanceState._balance;
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
