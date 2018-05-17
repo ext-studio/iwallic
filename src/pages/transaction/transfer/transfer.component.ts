@@ -40,11 +40,11 @@ export class TxTransferComponent implements OnInit {
         if (this.navParams.get('asset')) {
             this.asset = this.navParams.get('asset');
         }
-        if (this.assetName = this.navParams.get('assetName')) {
-            this.asset = this.assetName = this.navParams.get('assetName');
+        if (this.navParams.get('assetName')) {
+            this.assetName = this.assetName = this.navParams.get('assetName');
         }
-        if (this.assetBalance = this.navParams.get('assetBalance')) {
-            this.asset = this.assetBalance = this.navParams.get('assetBalance');
+        if (this.navParams.get('assetBalance')) {
+            this.assetBalance = this.assetBalance = this.navParams.get('assetBalance');
         }
     }
 
