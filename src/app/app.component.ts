@@ -11,6 +11,7 @@ import { WalletService } from '../neo';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+    WalletPwdComponent, WalletCreateComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
@@ -77,10 +78,15 @@ export class AppComponent {
                     return;
                 }
                 switch (curr.component) {
-                    case AssetListComponent:
-                    this.balance.fetchSilent();
-                    break;
+                    case TxDetailComponent:
                     case TxListComponent:
+                    case TxReceiptComponent:
+                    case TxTransferComponent:
+                    case TxSuccessComponent:
+                    case AssetListComponent:
+                    case AssetAttachComponent:
+                    case AssetDetailComponent:
+                    this.balance.fetchSilent();
                     this.transaction.fetchSilent();
                     break;
                 }

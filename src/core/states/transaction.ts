@@ -122,35 +122,30 @@ export class TransactionState {
         if (this.loading || !this.address) {
             return;
         }
-        // get tx of all assets
-        if (!this.asset) {
-            this.request(
-                1, this.pageSize, this.address, this.asset
-            ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
-                const newCount = rs.total - this._total;
-                if (newCount <= 0) {
-                    // less tx
-                    return Observable.throw('no_need');
-                }
-                if (this._total === 0 || newCount <= this._pageSize) {
-                    // new tx less than page size
-                    return Observable.of(rs);
-                } else {
-                    // new tx over page size, need fetching those unfetched
-                    return this.request(1, newCount, this.address, this.asset);
-                }
-            }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
-                this.mergeTx(rs);
-                this.$transaction.next(this._transaction);
-            }, (err) => {
-                if (err === 'no_need') {
-                    return;
-                }
-                this.$error.next(typeof err === 'string' ? err : 'request_error');
-            });
-        } else {
-            this.$error.next('completing');
-        }
+        this.request(
+            1, this.pageSize, this.address, this.asset
+        ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+            const newCount = rs.total - this._total;
+            if (newCount <= 0) {
+                // less tx
+                return Observable.throw('no_need');
+            }
+            if (this._total === 0 || newCount <= this._pageSize) {
+                // new tx less than page size
+                return Observable.of(rs);
+            } else {
+                // new tx over page size, need fetching those unfetched
+                return this.request(1, newCount, this.address, this.asset);
+            }
+        }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+            this.mergeTx(rs);
+            this.$transaction.next(this._transaction);
+        }, (err) => {
+            if (err === 'no_need') {
+                return;
+            }
+            this.$error.next(typeof err === 'string' ? err : 'request_error');
+        });
     }
     // push unconfirmed tx into list
     public push(name: string, txid: string, value: number) {
