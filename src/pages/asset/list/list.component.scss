@@ -13,6 +13,9 @@ asset-list {
             background: transparent;
             float: right;
             box-shadow: none;
+            &:hover {
+                background: transparent;
+            }
         }
     }
     .header-box::after {
