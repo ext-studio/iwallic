@@ -76,11 +76,11 @@ export class AppComponent {
                 if (!curr) {
                     return;
                 }
-                switch (curr.name) {
-                    case 'AssetListComponent':
+                switch (curr.component) {
+                    case AssetListComponent:
                     this.balance.fetchSilent();
                     break;
-                    case 'TxListComponent':
+                    case TxListComponent:
                     this.transaction.fetchSilent();
                     break;
                 }
@@ -111,7 +111,7 @@ export class AppComponent {
     }
 
     public pushPage(page: any) {
-        if (this.nav.getActive().name === 'AssetListComponent') {
+        if (this.nav.getActive().component === AssetListComponent) {
             this.nav.push(page);
         } else {
             this.nav.pop({animate: false});
