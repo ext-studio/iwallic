@@ -10,20 +10,14 @@
 <ion-content ibg="default">
     <ion-list>
         <ion-item iborder="line" ibg="default2" class="choose-asset">
-            <ion-row icolor="font">
-                <ion-col col-5>
-                    <label>{{ 'TRANSACTION_TRANSFER_CHOOSEASSET' | translate }}</label>
-                </ion-col>
-                <ion-col col-7>
-                    <select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()" n>
-                        <option [value]="i.assetId" *ngFor="let i of assetList">{{ i.name }}</option>
-                    </select>
-                </ion-col>
-            </ion-row>
+            <ion-label  icolor="font">{{ 'TRANSACTION_TRANSFER_CHOOSEASSET' | translate }}</ion-label>
+            <ion-select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
+                <ion-option [value]="i.assetId" *ngFor="let i of assetList">{{ i.name }}</ion-option>
+            </ion-select>
         </ion-item>
         <ion-item ibg="default2" iborder="line" icolor="font">
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_TARGET' | translate }}" [(ngModel)]="toaddr"></ion-input>
-            <button clear ion-button item-end (click)="qrScan()">
+            <button *ngIf="isScan" clear ion-button item-end (click)="qrScan()">
                 <img class="scan" src="assets/transaction/icon_scan.png">
             </button>
         </ion-item>

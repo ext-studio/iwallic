@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { PopupInputService, GlobalService, TransactionState, BalanceState } from '../../../core';
-import { NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
 import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
 
@@ -20,6 +20,7 @@ export class TxTransferComponent implements OnInit {
     public isNEP5: boolean = true;
     public assetList: any[] = [];
     public select: any;
+    public isScan: boolean = true;
     constructor(
         private input: PopupInputService,
         private vcRef: ViewContainerRef,
@@ -31,7 +32,8 @@ export class TxTransferComponent implements OnInit {
         private w: WalletService,
         private alert: AlertController,
         private txState: TransactionState,
-        private balanceState: BalanceState
+        private balanceState: BalanceState,
+        private platform: Platform
     ) {
         if (this.navParams.get('addr')) {
             this.toaddr = this.navParams.get('addr');
@@ -48,7 +50,11 @@ export class TxTransferComponent implements OnInit {
     }
 
     public ngOnInit() {
+        if (this.platform.is('mobileweb')) {
+            this.isScan = false;
+        }
         this.assetList = this.balanceState._balance;
+        console.log(this.assetList);
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
