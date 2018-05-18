@@ -18,6 +18,7 @@ export class AssetListComponent implements OnInit {
     public neoValue: number = 0;
     public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
+    public isRefresh: boolean = true;
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -38,9 +39,11 @@ export class AssetListComponent implements OnInit {
     }
 
     public doRefresh(refresher: Refresher) {
+        this.isRefresh = false;
         setTimeout(() => {
             this.balance.fetch().then(() => {
                 refresher.complete();
+                this.isRefresh = true;
             });
         }, 500);
     }

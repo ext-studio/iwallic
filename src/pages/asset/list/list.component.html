@@ -25,7 +25,7 @@
 </ion-header>
 
 <ion-content center ibg="default" iborder="line">
-    <div text-center padding margin-vertical *ngIf="balance.loading">
+    <div text-center padding margin-vertical *ngIf="balance.loading && isloading">
          <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
     <ion-list *ngIf="!balance.loading">
@@ -34,7 +34,6 @@
             <span item-end icolor="font">{{ asset.balance }}</span>
         </ion-item>
     </ion-list>
-    
     <ion-label icolor="font" *ngIf="!assetList?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
     <ion-refresher  *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content icolor="primary">
