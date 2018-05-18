@@ -69,13 +69,6 @@ export class TxTransferComponent implements OnInit {
         this.assetBalance = this.assetList.find((e) => e.assetId === this.asset).balance;
     }
 
-    public focusNum() {
-        this.isfocus = true;
-    }
-    public blurNum() {
-        this.isfocus = false;
-    }
-
     public enterPwd() {
         if (this.toaddr.length !== 34) {
             this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
@@ -99,27 +92,6 @@ export class TxTransferComponent implements OnInit {
                 this.wallet.Verify(res).subscribe((wres) => {
                     load.dismiss();
                     this.global.LoadI18N('LOADING_TRANSFER').subscribe((transferLoad) => {
-                        // this.tx.Transfer(
-                        //     this.wallet.account.address,
-                        //     this.wallet.account.wif,
-                        //     this.toaddr,
-                        //     this.amount,
-                        //     this.asset,
-                        //     this.assetName
-                        // ).subscribe((xres) => {
-                        //     transferLoad.dismiss();
-                        // if (xres) {
-                        //     this.navCtrl.pop({
-                        //         animate: false
-                        //     });
-                        //     this.navCtrl.push(TxSuccessComponent);
-                        // } else {
-                        //     this.alert.create({title: 'Error'}).present();
-                        // }
-                        // }, (err) => {
-                        //     this.alert.create({title: 'Error'}).present();
-                        //     transferLoad.dismiss();
-                        // });
                         if (this.asset.length > 42) {
                             this.isNEP5 = false;
                         }
@@ -166,5 +138,10 @@ export class TxTransferComponent implements OnInit {
     public clear() {
         this.amount = null;
         this.toaddr = '';
+    }
+
+    public clearAmount() {
+        console.log(111);
+        this.amount = null;
     }
 }

@@ -22,9 +22,10 @@
             </button>
         </ion-item>
         <ion-item iborder="line" ibg="default2" icolor="font">
-            <ion-input type="number" placeholder="{{ 'TRANSACTION_TRANSFER_AMOUNT' | translate }}" (focus)="focusNum()" (blur)="blurNum()"
+            <ion-input type="number" placeholder="{{ 'TRANSACTION_TRANSFER_AMOUNT' | translate }}" (focus)="isfocus=true" (blur)="isfocus=false"
                 [(ngModel)]="amount"></ion-input>
-            <ion-note item-end *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
+            <ion-note item-right *ngIf="isfocus">{{ 'TRANSACTION_TRANSFER_BALANCE' | translate }}：{{ assetBalance }}</ion-note>
+            <button ibg="default2" icolor="font" clear item-end (click)="clearAmount()" *ngIf="amount"><ion-icon name="close"></ion-icon></button>
         </ion-item>
     </ion-list>
     <p class="wrong" float-left *ngIf="addr?.length || amount">{{ wrongTips | translate }}</p>

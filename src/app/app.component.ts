@@ -78,16 +78,17 @@ export class AppComponent {
                     return;
                 }
                 switch (curr.component) {
-                    case TxDetailComponent:
+                    // case TxReceiptComponent:
+                    // case TxSuccessComponent:
+                    // case AssetAttachComponent:
                     case TxListComponent:
-                    case TxReceiptComponent:
-                    case TxTransferComponent:
-                    case TxSuccessComponent:
-                    case AssetListComponent:
-                    case AssetAttachComponent:
                     case AssetDetailComponent:
-                    this.balance.fetchSilent();
                     this.transaction.fetchSilent();
+                    // tslint:disable-next-line:no-switch-case-fall-through
+                    case TxDetailComponent:
+                    case TxTransferComponent:
+                    case AssetListComponent:
+                    this.balance.fetchSilent();
                     break;
                 }
             });
