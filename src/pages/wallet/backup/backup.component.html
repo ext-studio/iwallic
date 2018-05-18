@@ -11,12 +11,12 @@
     <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wallet?.wif"></ngx-qrcode> -->
     <img id="wallet-qrcode" [hidden]="!verified" />
     <div ibg="default2" class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
-        <img src="assets/wallet/btn_img_click@2x.png" class="tip" />
+        <img isrc="assets/wallet/btn_img_click@2x.png" class="tip" />
     </div>
     <div class="title">
         {{'WALLET_BACKUP_YOURWIF' | translate}}
-        <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
-        <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" src="assets/wallet/backups_btn_display_n@2x.png" />
+        <img *ngIf="shown" (click)="shown = false" isrc="assets/wallet/backups_btn_display_s@2x.png" />
+        <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" isrc="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
     <input ibg="default" *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
     <input ibg="default" *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
