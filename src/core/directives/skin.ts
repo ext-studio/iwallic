@@ -178,11 +178,7 @@ export class ThemePipe implements PipeTransform {
         private theme: ThemeService
     ) {}
     public transform(value: string): any {
-        return this.theme.get().map((res) => {
-            console.log(`${res}-${value}`);
-            return `${res}-${value}`;
-        }
-        );
+        return this.theme.get().map((res) => `${res}-${value}`);
     }
 }
 
