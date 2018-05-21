@@ -15,6 +15,7 @@ const skin = {
         danger:     '#f53d3d',
         default:    '#f4f4f4',
         default2:   '#ffffff',
+        default3:   '#ffffff',
         line:       '#dddddd',
         line2:      '#bbbbbb',
         font:       '#000000',
@@ -28,6 +29,7 @@ const skin = {
         danger:     '#ab4e4e',
         default:    '#282939',
         default2:   '#333448',
+        default3:   '#282939',
         line:       '#55566a',
         line2:      '#dfedf2',
         font:       'rgba(255, 255, 255, 0.85)',
@@ -176,7 +178,11 @@ export class ThemePipe implements PipeTransform {
         private theme: ThemeService
     ) {}
     public transform(value: string): any {
-        return this.theme.get().map((res) => `${res}-${value}`);
+        return this.theme.get().map((res) => {
+            console.log(`${res}-${value}`);
+            return `${res}-${value}`;
+        }
+        );
     }
 }
 

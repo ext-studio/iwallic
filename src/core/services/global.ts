@@ -10,8 +10,8 @@ import { ThemeService } from './theme';
 
 @Injectable()
 export class GlobalService {
-    public apiDomain: string = 'http://192.168.1.90:8080';
-    public rpcDomain: string = 'http://192.168.1.23:20332';
+    public apiDomain: string = 'http://192.168.1.39:7001';
+    public rpcDomain: string = 'http://192.168.1.20:10332';
     // public apiDomain: string = 'http://149.28.17.215:8080';
     // public rpcDomain: string = 'http://47.52.16.229:50000';
     public popups: any[] = [];
