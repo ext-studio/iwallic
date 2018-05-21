@@ -7,10 +7,10 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding ibg="default" icolor="font">
+<ion-content padding ibg="default3" icolor="font">
     <!-- <ngx-qrcode qrc-element-type="img" [qrc-value] = "wallet?.wif"></ngx-qrcode> -->
     <img id="wallet-qrcode" [hidden]="!verified" />
-    <div ibg="default2" class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
+    <div ibg="default4" class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
         <img isrc="assets/wallet/btn_img_click@2x.png" class="tip" />
     </div>
     <div class="title">
