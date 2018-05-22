@@ -8,8 +8,11 @@ asset-list {
     .nav-bar {
         position: absolute;
         top: 0;
+        button.transfer-btn {
+            margin-right: 11px;
+        }
         .transfer-btn {
-            height: 26px;
+            height: 24px;
             background: transparent;
             float: right;
             box-shadow: none;
