@@ -3,10 +3,31 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>添加资产</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    asset attach page
+<ion-content center ibg="default3">
+    <ion-list>
+        <ion-item ibg="default3" iborder="line" icolor="font">
+            <ion-label>
+                <h3>NEO</h3>
+                <div>
+                    <p>slkjsldfj</p>
+                    <p>sldjfslkdjf</p>
+                </div>
+            </ion-label>
+            <ion-toggle [(ngModel)]="chooseList[0]" (ionChange)="changeChoose($event)"></ion-toggle>
+        </ion-item>
+        <ion-item ibg="default3" iborder="line" icolor="font">
+            <ion-label>
+                <h3>GAS</h3>
+                <div>
+                    <p>slkjsldfj</p>
+                    <p>sldjfslkdjf</p>
+                </div>
+            </ion-label>
+            <ion-toggle [(ngModel)]="chooseList[1]" (ionChange)="changeChoose($event)"></ion-toggle>
+        </ion-item>
+    </ion-list>
 </ion-content>

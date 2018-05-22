@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
-import { WalletBackupComponent, AssetDetailComponent, TxReceiptComponent, TxTransferComponent } from '../../../pages';
+import { WalletBackupComponent, AssetDetailComponent,
+    TxReceiptComponent, TxTransferComponent, AssetAttachComponent } from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService, Wallet } from '../../../neo';
 import { GlobalService, BalanceState } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
+import { attachEmbeddedView } from '@angular/core/src/view';
 
 
 @Component({
@@ -68,7 +70,7 @@ export class AssetListComponent implements OnInit {
     }
 
     public addAsset() {
-        this.alert.create({ subTitle: 'Coming soon' }).present();
+        this.navctrl.push(AssetAttachComponent);
     }
 
     public walletBackup() {
