@@ -32,7 +32,9 @@
             </ion-grid>
         </ion-item>
     </ion-list>
-    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
+    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
+        {{(transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NORANSACTION' : 'TRANSACTION_LIST_LOADMORE') | translate}}
+    </div>
     <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content icolor="primary"></ion-refresher-content>
     </ion-refresher>

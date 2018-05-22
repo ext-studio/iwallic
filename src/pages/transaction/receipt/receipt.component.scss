@@ -5,9 +5,16 @@ transaction-receipt {
     .toolbar-title {
         color: white !important;
     }
+    ion-header {
+        ion-navbar {
+            button {
+                color: white !important;
+            }
+        }
+    }
     ion-content {
         // background: linear-gradient(#42bfee, #3f76de);
-        background: linear-gradient(#3ba8d1, #214587);
+        background: linear-gradient(#2ec1e4, #355eaa);
         .address-bg {
             height: 434px;
             margin-top: 30px;
@@ -35,6 +42,9 @@ transaction-receipt {
             button {
                 min-width: 150px;
                 margin-top: 48px;
+                background: #558aef;
+                color: white;
+
             }
         }
     }

@@ -6,6 +6,9 @@ asset-detail {
         stroke: #3e64ad;
     }
     ion-content {
+        .scroll-content {
+            border: none !important;
+        }
         .top {
             height: 230px;
             width: 100%;
