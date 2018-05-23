@@ -6,10 +6,13 @@ asset-attach {
                 h3 {
                     display: inline-block;
                     vertical-align: middle;
+                    font-size: 20px !important;
                 }
-                div {
+                .info {
+                    margin-left: 14px;
                     display: inline-block;
                     vertical-align: middle;
+                    font-size: 12px !important;
                 }
             }
         }

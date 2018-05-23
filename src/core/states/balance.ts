@@ -49,7 +49,7 @@ export class BalanceState {
             this._loading = true;
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {
                 method: 'getaddrassets',
-                params: [this.address]
+                params: [this.address, 1]
             }).subscribe((res: any) => {
                 this._loading = false;
                 if (res && res.code === 200) {

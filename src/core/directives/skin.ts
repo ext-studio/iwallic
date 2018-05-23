@@ -20,7 +20,8 @@ const skin = {
         line:       '#dddddd',
         line2:      '#bbbbbb',
         font:       '#000000',
-        font2:      '#4f4f4f'
+        font2:      '#c6c6c6',
+        font3:      '#8a8789',
     },
     dark: {
         light:      '#ffffff',
@@ -35,7 +36,8 @@ const skin = {
         line:       '#55566a',
         line2:      '#dfedf2',
         font:       'rgba(255, 255, 255, 0.85)',
-        font2:      '#9398b2'
+        font2:      '#9398b2',
+        font3:      '#595e79',
     }
 };
 

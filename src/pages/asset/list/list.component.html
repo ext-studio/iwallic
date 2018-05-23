@@ -30,7 +30,7 @@
     </div>
     <ion-list *ngIf="!balance.loading">
         <ion-item iborder="line" ibg="default3" icolor="font" *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.name, asset.balance)">
-            <span class="asset-type" icolor="font">{{ asset.name }}</span>
+            <span class="asset-type" icolor="font">{{ asset.symbol }}</span>
             <span item-end icolor="font">{{ asset.balance }}</span>
         </ion-item>
     </ion-list>
