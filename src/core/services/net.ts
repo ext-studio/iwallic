@@ -7,8 +7,8 @@ export const NetList = {
         RPC: 'http://192.168.1.23:20332'
     },
     Main: {
-        API: 'http://192.168.1.90:8080',
-        RPC: 'http://192.168.1.23:20332'
+        API: ' 47.75.174.167:8001',
+        RPC: 'http://seed2.neo.org:10332'
     },
     Priv: {
         API: 'http://192.168.1.90:8080',
@@ -21,7 +21,7 @@ export const NetList = {
 
 @Injectable()
 export class NetService {
-    public current: 'Main' | 'Test' | 'Priv' = 'Main';
+    public current: 'Main' | 'Test' | 'Priv' = 'Priv';
     private currNet = NetList['Priv'];
     constructor(
         private storage: Storage
