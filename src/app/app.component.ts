@@ -81,6 +81,7 @@ export class AppComponent {
                     // case TxReceiptComponent:
                     // case TxSuccessComponent:
                     // case AssetAttachComponent:
+                    case SystemSettingComponent:
                     case TxListComponent:
                     case AssetDetailComponent:
                     this.transaction.fetchSilent();

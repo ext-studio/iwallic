@@ -21,13 +21,15 @@ export const NetList = {
 
 @Injectable()
 export class NetService {
+    public current: 'Main' | 'Test' | 'Priv' = 'Main';
     private currNet = NetList['Priv'];
     constructor(
         private storage: Storage
     ) {
         this.storage.get('net').then((res) => {
             if (res) {
-                this.currNet = res;
+                this.currNet = NetList[res];
+                this.current = res;
             }
         });
     }
@@ -36,6 +38,7 @@ export class NetService {
     }
     public switch(net: 'Main' | 'Test' | 'Priv') {
         this.currNet = NetList[net];
-        this.storage.set('net', this.currNet);
+        this.current = net;
+        this.storage.set('net', net);
     }
 }
