@@ -14,14 +14,14 @@ export class TransactionService {
         private http: HttpClient,
         private global: GlobalService
     ) {
-        this.http.post(`${this.global.rpcDomain}`, {
-            jsonrpc: '2.0',
-            method: 'getblock',
-            params: [7261, 1], // 7229 7261
-            id: 1
-          }).subscribe((res) => {
-            console.log(res);
-        });
+        // this.http.post(`${this.global.rpcDomain}`, {
+        //     jsonrpc: '2.0',
+        //     method: 'getblock',
+        //     params: [7261, 1], // 7229 7261
+        //     id: 1
+        //   }).subscribe((res) => {
+        //     console.log(res);
+        // });
     }
 
     /**

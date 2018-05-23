@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GlobalService } from './services/global';
+import { NetService } from './services/net';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { PopupInputService } from './services/popup-input';
@@ -45,7 +46,7 @@ import {
     entryComponents: [PopupInputComponent],
     providers: [
         GlobalService, PopupInputService, ReadFileService, TranslateService,
-        BlockState, BalanceState, TransactionState, ThemeService
+        BlockState, BalanceState, TransactionState, ThemeService, NetService
     ]
 })
 export class CoreModule { }

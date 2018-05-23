@@ -7,13 +7,10 @@ import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
+import { NetService } from './net';
 
 @Injectable()
 export class GlobalService {
-    public apiDomain: string = 'http://192.168.1.90:8080';
-    public rpcDomain: string = 'http://192.168.1.23:20332';
-    // public apiDomain: string = 'http://149.28.17.215:8080';
-    // public rpcDomain: string = 'http://47.52.16.229:50000';
     public popups: any[] = [];
     public masks: any[] = [];
     constructor(
@@ -21,8 +18,15 @@ export class GlobalService {
         private loading: LoadingController,
         private ngTranslate: NgTranslateService,
         private toast: ToastController,
-        private theme: ThemeService
+        private theme: ThemeService,
+        private net: NetService
     ) {}
+    public get apiDomain(): string {
+        return this.net.get('API');
+    }
+    public rpcDomain(): string {
+        return this.net.get('RPC');
+    }
     /**
      * Internal Alert by given type
      * leave empty to unknown error
