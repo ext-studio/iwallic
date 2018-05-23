@@ -9,7 +9,15 @@
 
 <ion-content ibg="default3" iborder="line">
     <ion-list>
-        <ion-item iborder="line" ibg="default3" icolor="font" *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
+        <ion-item iborder="line" ibg="default3" [icolor]="i.value <= 0 ? 'font' : 'danger'" *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
+            <ion-avatar item-start>
+                <img [isrc]="i.value <= 0 ? 'assets/asset/record_icon_payment.png' : 'assets/asset/record_icon_revenue.png'" />
+            </ion-avatar>
+            <h2>{{ i.value }} {{ i.name }}</h2>
+            <p>{{ i.txid }}</p>
+            <ion-note item-end icolor="primary" *ngIf="i?.unconfirmed">{{'TRANSACTION_LIST_UNCONFIRMED' | translate}}</ion-note>
+        </ion-item>
+        <!-- <ion-item iborder="line" ibg="default3" icolor="font" *ngFor="let i of items" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
             <ion-grid>
                 <ion-row *ngIf="i.value <= 0" icolor="font">
                     <ion-col col-9>
@@ -25,7 +33,7 @@
                     <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
                 </ion-row>
             </ion-grid>
-        </ion-item>
+        </ion-item> -->
     </ion-list>
 
     <div icolor="font2" margin-vertical padding text-sm text-center (click)="loadMore()">
