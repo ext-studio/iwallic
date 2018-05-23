@@ -20,13 +20,9 @@ export class TransactionState {
     public get total(): number {
         return this._total;
     }
-    public get unconfirmed(): any[] {
-        return this._unconfirmed;
-    }
     public get nomore(): boolean {
         return (this.total / this.pageSize) < this.page;
     }
-    private _unconfirmed: any[] = [];
     private _page: number = 1;
     private _pageSize: number = 10;
     private _total: number = 0;

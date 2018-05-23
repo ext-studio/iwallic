@@ -15,7 +15,8 @@
                     <ion-col col-9>
                         <img isrc="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">{{ i.txid }}
                     </ion-col>
-                    <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
+                    <ion-col *ngIf="!i?.unconfirmed" text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
+                    <ion-col *ngIf="i?.unconfirmed" icolor="primary" text-right col-3 class="num">{{'TRANSACTION_LIST_UNCONFIRMED' | translate}}</ion-col>
                 </ion-row>
                 <ion-row *ngIf="i.value > 0" icolor="danger">
                     <ion-col col-9>
@@ -27,7 +28,7 @@
         </ion-item>
     </ion-list>
 
-    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
+    <div icolor="font2" margin-vertical padding text-sm text-center (click)="loadMore()">
         {{(!items?.length ? 'TRANSACTION_LIST_NORANSACTION' : transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NOMORE' : 'TRANSACTION_LIST_LOADMORE') | translate}}
     </div>
     <ion-refresher  *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">

@@ -24,7 +24,7 @@ export class TxListComponent implements OnInit {
     public ngOnInit() {
         this.wallet.Get().subscribe((wal) => {
             this.address = wal.account.address;
-            this.transcation.get(wal.address).subscribe((res) => {
+            this.transcation.get(wal.address).subscribe((res: any[]) => {
                 this.items = res;
             });
         });
