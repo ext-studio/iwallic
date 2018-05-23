@@ -35,7 +35,7 @@ export class WalletCreateComponent implements OnInit {
             this.wallet.Create(this.pwd).subscribe((res: Wallet) => {
                 load.dismiss();
                 this.newWallet = res;
-                this.global.getQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
+                this.global.GenerateQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
             }, (err) => {
                 load.dismiss();
                 console.log(err);

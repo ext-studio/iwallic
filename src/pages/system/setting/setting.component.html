@@ -12,7 +12,7 @@
         <ion-item-group>
             <ion-item ibg="default2" icolor="font" iborder="line">
                 <ion-label>{{'SYSTEM_SETTING_LANGUAGE' | translate}}</ion-label>
-                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()" [selectOptions]="">
+                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()">
                     <ion-option value="sys">{{'SETTING_LANG_SYSTEM' | translate}}</ion-option>
                     <ion-option value="en">English</ion-option>
                     <ion-option value="cn">中文简体</ion-option>

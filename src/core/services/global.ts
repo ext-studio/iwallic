@@ -25,10 +25,10 @@ export class GlobalService {
     ) {}
     /**
      * Internal Alert by given type
-     * UNKNOWN to unknown error
+     * leave empty to unknown error
      * @param type internal alert type
      */
-    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD' | 'REQUESTFAILED'): Observable<any> {
+    public Alert(type: 'UNKNOWN' | 'INVALIDWIF' | 'WRONGPWD' | 'REQUESTFAILED' = 'UNKNOWN'): Observable<any> {
         switch (type) {
             case 'INVALIDWIF':
             return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_INVALIDWIF', ok: 'ALERT_OK_SURE'});
@@ -41,6 +41,11 @@ export class GlobalService {
             return this.AlertI18N({title: 'ALERT_TITLE_CAUTION', content: 'ALERT_CONTENT_UNKNOWN', ok: 'ALERT_OK_SURE'});
         }
     }
+
+    /**
+     * Make a load bar supporting translate
+     * @param msg translate key
+     */
     public LoadI18N(msg?: string): Observable<Loading> {
         return (msg ? this.ngTranslate.get(msg) : Observable.of('')).switchMap((res) => {
             return new Observable<Loading>((observer) => {
@@ -55,6 +60,12 @@ export class GlobalService {
             });
         });
     }
+
+    /**
+     * Make a toast supporting translate
+     * @param msg translate key
+     * @param duration during time
+     */
     public ToastI18N(msg: string, duration: number = 2000): Observable<any> {
         return this.ngTranslate.get(msg).switchMap((res) => {
             return new Observable<any>((observer) => {
@@ -67,6 +78,11 @@ export class GlobalService {
             });
         });
     }
+
+    /**
+     * Make an alert supporting translate
+     * @param config alert config
+     */
     public AlertI18N(config: {
         title?: string,
         content?: string,
@@ -109,15 +125,11 @@ export class GlobalService {
         });
     }
 
+    /**
+     * Copy the value of an input DOM
+     * @param selector the dom taken value to copy
+     */
     public Copy(selector: string): Promise<any> {
-        // if (this.platform.is('core') || this.platform.is('mobileweb')) {
-            return this.copyForBrowser(selector);
-        // } else {
-        //     return this.clipBoard.copy(document.getElementById(selector).innerText);
-        // }
-    }
-
-    private copyForBrowser(selector: string): Promise<any> {
         return new Promise((res, rej) => {
             const target: any = window.document.getElementById(selector);
             if (window.navigator.userAgent.toLowerCase().match(/ipad|ipod|iphone/i)) {
@@ -133,7 +145,7 @@ export class GlobalService {
                 s.removeAllRanges();
                 s.addRange(range);
 
-                target.setSelectionRange(0, 999999); // A big number, to cover anything that could be inside the element.
+                target.setSelectionRange(0, 999999);
 
                 if (document.execCommand('copy')) {
                     res();
@@ -153,11 +165,14 @@ export class GlobalService {
         });
     }
 
-    public SHAEncode(str: string): string {
-        return str;
-    }
-
-    public getQRCode(domId: any, data: any, width: number, logo: any = 'assets/app/logo.png' ) {
+    /**
+     * Generate qrcode with specified data
+     * @param domId which dom to set qrcode src
+     * @param data text data
+     * @param width image size
+     * @param logo logo in the center
+     */
+    public GenerateQRCode(domId: any, data: any, width: number, logo: any = 'assets/app/logo.png' ) {
         const qrcode = document.getElementById(domId);
         QrCodeWithLogo.toImage({
             image: qrcode,
