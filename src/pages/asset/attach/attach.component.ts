@@ -25,7 +25,7 @@ export class AssetAttachComponent implements OnInit {
             this.getAssetList();
         });
         return;
-     }
+    }
 
     public changeChoose(event) {
         console.log(event);
