@@ -9,6 +9,8 @@ import { GlobalService, BalanceState, NetService } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { attachEmbeddedView } from '@angular/core/src/view';
 
+import Neon, { api } from '@cityofzion/neon-js';
+
 
 @Component({
     selector: 'asset-list',
@@ -23,6 +25,7 @@ export class AssetListComponent implements OnInit {
     public isRefresh: boolean = true;
     public isloading: boolean = true;
     public selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
+    public claimGasBalance: number = 0;
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -35,6 +38,12 @@ export class AssetListComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
+        // Neon.get.claims('MainNet', this.wallet.address).then((res) => {
+        //     console.log(res.claims);
+        // });
+        // api.neonDB.getMaxClaimAmount('MainNet', this.wallet.address).then((res) => {
+        //     console.log(res);
+        // });
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.resolveAssetList(res);
         });
@@ -80,5 +89,9 @@ export class AssetListComponent implements OnInit {
 
     public walletBackup() {
         this.navctrl.push(WalletBackupComponent);
+    }
+
+    public claimGas() {
+        return;
     }
 }

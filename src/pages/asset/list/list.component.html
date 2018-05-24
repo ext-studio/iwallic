@@ -3,10 +3,10 @@
         <button ion-button menuToggle color="white">
             <ion-icon name="menu"></ion-icon>
         </button>
-        <button  class="transfer-btn" (click)="jumpTransfer()" >
+        <button class="transfer-btn" (click)="jumpTransfer()">
             <img class="transfer-btn" src="assets/asset/btn_transfer.png" alt="">
         </button>
-       
+
     </ion-navbar>
     <div class="header-content" center text-center [style.backgroundImage]="'url(' + ('assets/asset/list_bg_img.png' | isrc | async) + ')'">
         <div class="title">
@@ -19,14 +19,18 @@
             </span>
             <span class="unit">NEO</span>
         </div>
-        <p class="warn-tips" *ngIf="!wallet.backup" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p>
+        <p class="warn-tips" *ngIf="!wallet.backup" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p>   
+        <img *ngIf="selectedNet == 'Main'" src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
     </div>
-    <img *ngIf="selectedNet == 'Main'" src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
+    <div class="claim-gas" text-center (click)="claimGas()">
+        <p class="gas-balance">{{ 'APP_COMING' | translate }}</p>
+        <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p>
+    </div>
 </ion-header>
 
 <ion-content center ibg="default3" iborder="line">
     <div text-center padding margin-vertical *ngIf="balance.loading && isloading">
-         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
+        <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
     <ion-list *ngIf="!balance.loading">
         <ion-item iborder="line" ibg="default3" icolor="font" *ngFor="let asset of assetList" (click)="jumpDetail(asset.assetId, asset.symbol, asset.balance)">
@@ -35,7 +39,7 @@
         </ion-item>
     </ion-list>
     <ion-label icolor="font" *ngIf="!assetList?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
-    <ion-refresher  *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
+    <ion-refresher *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content icolor="primary">
         </ion-refresher-content>
     </ion-refresher>

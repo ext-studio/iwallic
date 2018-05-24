@@ -70,6 +70,7 @@
   "WALLET_OPEN_FILE": "导入NEP-6钱包",
   "SETTING_LANG_SYSTEM": "跟随系统",
   "ASSET_LIST_TITLE": "我的资产",
+  "ASSET_LIST_CLAIMGAS": "提取 GAS",
   "ASSET_LIST_NOBACKED": "钱包未备份",
   "ASSET_LIST_NOASSETS": "暂无资产",
   "ASSET_LIST_ADDASSETS": "添加资产",

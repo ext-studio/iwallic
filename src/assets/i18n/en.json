@@ -70,6 +70,7 @@
   "WALLET_OPEN_FILE": "Import NEP-6 wallet",
   "SETTING_LANG_SYSTEM": "System",
   "ASSET_LIST_TITLE": "My assets",
+  "ASSET_LIST_CLAIMGAS": "Claim GAS",
   "ASSET_LIST_NOBACKED": "Wallet not backed up",
   "ASSET_LIST_NOASSETS": "No Assets",
   "ASSET_LIST_ADDASSETS": "Add Assets",

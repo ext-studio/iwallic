@@ -27,6 +27,7 @@ asset-list {
     .header-content {
         background-repeat: no-repeat;
         background-position: center;
+        position: relative;
         height: 230px;
         width: 100%;
         color: white;
@@ -60,14 +61,33 @@ asset-list {
         }
     }
 
-    .add-asset {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        bottom: -20px;
-        right: 16px;
-        z-index: 100;
+    .claim-gas {
+        height: 80px;
+        background: #699af8;
+        color: rgba(255, 255, 255, 0.85);
+        margin: 0;
+        padding-top: 16px;
+        p {
+            margin: 0;
+        }
+        .gas-balance {
+            font-size: 20px;
+        }
+        .claim-info {
+            font-size: 10px;
+            margin-top: 5px;
+        }
     }
+
+    .add-asset {
+        width: 27px;
+        height: 27px;
+        bottom: -20px;
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+    }
+
 
     ion-item {
         height: 80px;
