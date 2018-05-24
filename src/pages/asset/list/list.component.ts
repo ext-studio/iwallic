@@ -5,7 +5,7 @@ import { WalletBackupComponent, AssetDetailComponent,
     TxReceiptComponent, TxTransferComponent, AssetAttachComponent } from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService, Wallet } from '../../../neo';
-import { GlobalService, BalanceState } from '../../../core';
+import { GlobalService, BalanceState, NetService } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { attachEmbeddedView } from '@angular/core/src/view';
 
@@ -21,6 +21,7 @@ export class AssetListComponent implements OnInit {
     public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
+    public selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
     constructor(
         private http: HttpClient,
         private storage: Storage,
@@ -28,7 +29,8 @@ export class AssetListComponent implements OnInit {
         private global: GlobalService,
         private navctrl: NavController,
         private alert: AlertController,
-        public balance: BalanceState
+        public balance: BalanceState,
+        private net: NetService
     ) { }
 
     public ngOnInit() {

@@ -17,7 +17,7 @@
                     <p icolor="font2">{{ item.assetId }}</p>
                 </div>
             </ion-label>
-            <ion-toggle *ngIf="i > 3" [(ngModel)]="chooseList[i]" (ionChange)="changeChoose($event)"></ion-toggle>
+            <ion-toggle *ngIf="i > 3" [(ngModel)]="chooseList[i]['choose']" (ionChange)="changeChoose($event, i)"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

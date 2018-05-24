@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../services/global';
 import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/startWith';
 
 /**
@@ -21,7 +22,8 @@ export class BalanceState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private global: GlobalService,
-        private http: HttpClient
+        private http: HttpClient,
+        private storage: Storage
     ) { }
     public get(address?: string): Observable<any> {
         if (address && this.address !== address) {
@@ -50,10 +52,16 @@ export class BalanceState {
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {
                 method: 'getaddrassets',
                 params: [this.address, 1]
+            }).switchMap((res: any) => {
+                if (res && res.code === 200) {
+                    return this.getAssetChooseList(res.result);
+                } else {
+                    return Observable.of(false);
+                }
             }).subscribe((res: any) => {
                 this._loading = false;
-                if (res && res.code === 200) {
-                    this._balance = res.result || [];
+                if (res) {
+                    this._balance = res || [];
                     this.$balance.next(this._balance);
                 } else {
                     this.$error.next(res && res.msg || 'unknown_error');
@@ -73,15 +81,55 @@ export class BalanceState {
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'getaddrassets',
             params: [this.address, 1]
-        }).subscribe((res: any) => {
+        }).switchMap((res: any) => {
             if (res && res.code === 200) {
-                this._balance = res.result || [];
+                return this.getAssetChooseList(res.result);
+            } else {
+                return Observable.of(false);
+            }
+        }).subscribe((res: any) => {
+            if (res) {
+                this._balance = res || [];
                 this.$balance.next(this._balance);
             } else {
                 this.$error.next(res && res.msg || 'unknown_error');
             }
         }, (err) => {
             this.$error.next('request_error');
+        });
+    }
+    public getAssetChooseList(result: any[]): Observable <any> {
+        return new Observable<any>((observer) => {
+            this.storage.get('MainAssetList').then((res) => {
+                if (res) {
+                    for (const i of res) {
+                        if (i.choose) {
+                            if (result.findIndex((e) => e.assetId === i.assetId) < 0) {
+                                result.push({
+                                    'symbol': i.symbol,
+                                    'name': i.name,
+                                    'assetId': i.assetId,
+                                    'balance': 0
+                                });
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            if (result.findIndex((e) => e.assetId === i.assetId) >= 0) {
+                                const arrayIndex = result.findIndex((e) => e.assetId === i.assetId);
+                                result.splice(arrayIndex, 1);
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+                    observer.next(result);
+                    observer.complete();
+                } else {
+                    observer.next(result);
+                    observer.complete();
+                }
+            });
         });
     }
     public clear() {

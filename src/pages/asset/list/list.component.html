@@ -21,7 +21,7 @@
         </div>
         <p class="warn-tips" *ngIf="!wallet.backup" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p>
     </div>
-    <img src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
+    <img *ngIf="selectedNet == 'Priv'" src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
 </ion-header>
 
 <ion-content center ibg="default3" iborder="line">
