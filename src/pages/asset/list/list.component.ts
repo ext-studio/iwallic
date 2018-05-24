@@ -21,6 +21,7 @@ export class AssetListComponent implements OnInit {
     public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
+    public isloading: boolean = true;
     public selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
     constructor(
         private http: HttpClient,
@@ -31,7 +32,12 @@ export class AssetListComponent implements OnInit {
         private alert: AlertController,
         public balance: BalanceState,
         private net: NetService
-    ) { }
+    ) {}
+
+    public ionViewDidEnter() {
+        this.selectedNet = this.net.current;
+        console.log(this.selectedNet);
+    }
 
     public ngOnInit() {
         this.balance.get(this.wallet.address).subscribe((res) => {
@@ -45,8 +51,10 @@ export class AssetListComponent implements OnInit {
     public doRefresh(refresher: Refresher) {
         this.isRefresh = false;
         setTimeout(() => {
+            this.isloading = false;
             this.balance.fetch().then(() => {
                 refresher.complete();
+                this.isloading = true;
                 this.isRefresh = true;
             });
         }, 500);

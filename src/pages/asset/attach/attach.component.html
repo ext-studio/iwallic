@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content center ibg="default3">
-    <!-- <div text-center padding margin-vertical *ngIf="balance.loading">
+    <div text-center padding margin-vertical *ngIf="isloading">
         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
-    </div> -->
+    </div>
     <ion-list>
         <ion-item ibg="default3" iborder="line" icolor="font" *ngFor="let item of assetList; let i = index">
             <ion-label>

@@ -13,6 +13,7 @@ export class AssetAttachComponent implements OnInit {
     public chooseList: any[] = [];
     public assetList: any[] = [];
     public address: string;
+    public isloading: boolean = true;
     constructor(
         private http: HttpClient,
         private global: GlobalService,
@@ -64,6 +65,7 @@ export class AssetAttachComponent implements OnInit {
                     }
                 }
             }
+            this.isloading = false;
         }, (err) => {
             this.global.Alert('REQUESTFAILED').subscribe();
         });
