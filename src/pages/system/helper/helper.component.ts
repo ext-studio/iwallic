@@ -16,7 +16,8 @@ const options: ThemeableBrowserOptions = {
     },
     closeButton: {
         wwwImage: '/assets/icon/close.png',
-        align: 'left'
+        align: 'left',
+        wwwImageDensity: 2
     },
     backButtonCanClose: true
 };
