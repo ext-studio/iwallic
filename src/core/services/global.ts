@@ -24,7 +24,7 @@ export class GlobalService {
     public get apiDomain(): string {
         return this.net.get('API');
     }
-    public rpcDomain(): string {
+    public get rpcDomain(): string {
         return this.net.get('RPC');
     }
     /**

@@ -141,7 +141,6 @@ export class TxTransferComponent implements OnInit {
     }
 
     public clearAmount() {
-        console.log(111);
         this.amount = null;
     }
 }
