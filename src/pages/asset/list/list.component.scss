@@ -27,7 +27,6 @@ asset-list {
     .header-content {
         background-repeat: no-repeat;
         background-position: center;
-        position: relative;
         height: 230px;
         width: 100%;
         color: white;
@@ -82,10 +81,9 @@ asset-list {
     .add-asset {
         width: 27px;
         height: 27px;
-        bottom: -20px;
         position: absolute;
         right: 18px;
-        bottom: 18px;
+        bottom: 98px;
     }
 
 
