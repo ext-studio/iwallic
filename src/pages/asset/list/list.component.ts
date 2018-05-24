@@ -34,11 +34,6 @@ export class AssetListComponent implements OnInit {
         private net: NetService
     ) {}
 
-    public ionViewDidEnter() {
-        this.selectedNet = this.net.current;
-        console.log(this.selectedNet);
-    }
-
     public ngOnInit() {
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.resolveAssetList(res);
