@@ -27,7 +27,7 @@ export class AssetDetailComponent implements OnInit {
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
-        this.assetName = this.navParams.get('name');
+        this.assetName = this.navParams.get('symbol');
         this.balanceState.get(this.wallet.address).subscribe((res) => {
             const value = res.find((e) => e.assetId === this.token);
             this.assetBalance = value ? value.balance : this.navParams.get('assetBalance');
