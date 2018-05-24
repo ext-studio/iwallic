@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../services/global';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { NetService } from '../services/net';
 import 'rxjs/add/operator/startWith';
 
 /**
@@ -20,10 +21,12 @@ export class BalanceState {
     private _balance: any[];
     private $balance: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
+    private selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
     constructor(
         private global: GlobalService,
         private http: HttpClient,
-        private storage: Storage
+        private storage: Storage,
+        private net: NetService
     ) { }
     public get(address?: string): Observable<any> {
         if (address && this.address !== address) {
@@ -101,7 +104,7 @@ export class BalanceState {
     public getAssetChooseList(result: any[]): Observable <any> {
         return new Observable<any>((observer) => {
             this.storage.get('MainAssetList').then((res) => {
-                if (res) {
+                if (res && `${this.net.current}` === 'Main') {
                     for (const i of res) {
                         if (i.choose) {
                             if (result.findIndex((e) => e.assetId === i.assetId) < 0) {
