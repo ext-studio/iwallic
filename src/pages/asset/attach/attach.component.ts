@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../../../core';
+import { GlobalService, BalanceState } from '../../../core';
 import { WalletService } from '../../../neo';
 import { Storage } from '@ionic/storage';
 
@@ -18,6 +18,7 @@ export class AssetAttachComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         private storage: Storage,
+        public balance: BalanceState,
     ) { }
 
     public ngOnInit() {
@@ -35,6 +36,7 @@ export class AssetAttachComponent implements OnInit {
 
     public changeChoose(event, index) {
         this.storage.set('MainAssetList', this.chooseList);
+        this.balance.fetch();
     }
 
     public getAssetList() {
