@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService, GlobalService, ThemeService, NetService, BlockState } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
+import { AssetListComponent } from '../../asset/list/list.component';
 
 @Component({
     selector: 'system-setting',
@@ -47,5 +48,8 @@ export class SystemSettingComponent implements OnInit {
     public toggleAppNet() {
         this.net.switch(this.selectedNet);
         this.block.fetch(true);
+        setTimeout(() => {
+            this.nav.setRoot(AssetListComponent);
+        }, 200);
     }
 }
