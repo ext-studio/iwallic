@@ -61,10 +61,10 @@ export class AssetListComponent implements OnInit {
         this.neoValue = neo ? neo.balance : 0;
     }
 
-    public jumpDetail(token: string, name: string, value: number) {
+    public jumpDetail(token: string, symbol: string, value: number) {
         this.navctrl.push(AssetDetailComponent, {
             token: token,
-            name: name,
+            symbol: symbol,
             assetBalance: value
         });
     }

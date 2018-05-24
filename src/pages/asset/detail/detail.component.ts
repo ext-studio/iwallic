@@ -14,7 +14,7 @@ export class AssetDetailComponent implements OnInit {
     public receipt = TxReceiptComponent;
     public transfer = TxTransferComponent;
     public token: string;
-    public assetName: string;
+    public assetSymbol: string;
     public assetBalance: number = 0;
     public address: string;
     constructor(
@@ -27,7 +27,7 @@ export class AssetDetailComponent implements OnInit {
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
-        this.assetName = this.navParams.get('symbol');
+        this.assetSymbol = this.navParams.get('symbol');
         this.balanceState.get(this.wallet.address).subscribe((res) => {
             const value = res.find((e) => e.assetId === this.token);
             this.assetBalance = value ? value.balance : this.navParams.get('assetBalance');
@@ -47,7 +47,7 @@ export class AssetDetailComponent implements OnInit {
     public jumpTx() {
         this.navCtrl.push(TxTransferComponent, {
             asset: this.token,
-            assetName: this.assetName,
+            assetSymbol: this.assetSymbol,
             assetBalance: this.assetBalance
         });
     }

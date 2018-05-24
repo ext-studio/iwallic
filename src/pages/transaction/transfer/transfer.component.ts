@@ -14,7 +14,7 @@ export class TxTransferComponent implements OnInit {
     public wallet: Wallet;
     public amount: number;
     public asset: string;
-    public assetName: string;
+    public assetSymbol: string;
     public assetBalance: number = 0;
     public wrongTips: string = '';
     public isNEP5: boolean = true;
@@ -41,8 +41,8 @@ export class TxTransferComponent implements OnInit {
         if (this.navParams.get('asset')) {
             this.asset = this.navParams.get('asset');
         }
-        if (this.navParams.get('assetName')) {
-            this.assetName = this.assetName = this.navParams.get('assetName');
+        if (this.navParams.get('assetSymbol')) {
+            this.assetSymbol = this.assetSymbol = this.navParams.get('assetSymbol');
         }
         if (this.navParams.get('assetBalance')) {
             this.assetBalance = this.assetBalance = this.navParams.get('assetBalance');
@@ -104,7 +104,7 @@ export class TxTransferComponent implements OnInit {
                             this.isNEP5
                         ).subscribe((xres) => {
                             transferLoad.dismiss();
-                            this.txState.push(this.assetName, xres.txid, xres.value);
+                            this.txState.push(this.assetSymbol, xres.txid, xres.value);
                             this.navCtrl.pop({
                                 animate: false
                             });
@@ -130,7 +130,7 @@ export class TxTransferComponent implements OnInit {
     public qrScan() {
         this.navCtrl.push(ScanAddrComponent, {
             asset: this.asset,
-            assetName: this.assetName,
+            assetSymbol: this.assetSymbol,
             assetBalance: this.assetBalance
         });
     }

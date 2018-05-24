@@ -34,7 +34,7 @@ export class ScanAddrComponent implements OnInit {
                             animate: false,
                             addr: text,
                             asset: this.navParams.get('asset'),
-                            assetName: this.navParams.get('assetName'),
+                            assetSymbol: this.navParams.get('assetSymbol'),
                             assetBalance: this.navParams.get('assetBalance')
                         });
                         this.navCtrl.pop({animate: false});
