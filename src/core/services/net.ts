@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 export const NetList = {
     Test: {
-        API: 'http://192.168.1.90:8080',
-        RPC: 'http://192.168.1.23:20332'
+        API: 'http://47.75.174.167:8002',
+        RPC: 'http://seed2.neo.org:20332'
     },
     Main: {
-        API: ' 47.75.174.167:8001',
+        API: 'http://47.75.174.167:8001',
         RPC: 'http://seed2.neo.org:10332'
     },
     Priv: {
@@ -16,21 +18,27 @@ export const NetList = {
     }
 };
 
-// public apiDomain: string = 'http://149.28.17.215:8080';
-// public rpcDomain: string = 'http://47.52.16.229:50000';
-
 @Injectable()
 export class NetService {
-    public current: 'Main' | 'Test' | 'Priv' = 'Priv';
-    private currNet = NetList['Priv'];
+    public current: 'Main' | 'Test' | 'Priv';
+    private currNet;
     constructor(
         private storage: Storage
-    ) {
-        this.storage.get('net').then((res) => {
+    ) { }
+    public Init(): Observable<any> {
+        return Observable.fromPromise(this.storage.get('net')).map((res) => {
             if (res) {
                 this.currNet = NetList[res];
                 this.current = res;
+            } else {
+                this.currNet = NetList['Main'];
+                this.current = 'Main';
             }
+            return;
+        }).catch(() => {
+            this.currNet = NetList['Main'];
+            this.current = 'Main';
+            return Observable.of();
         });
     }
     public get(type: 'API' | 'RPC' = 'API'): string {

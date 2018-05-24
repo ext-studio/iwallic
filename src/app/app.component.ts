@@ -16,7 +16,7 @@ import {
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
     ScanAddrComponent
 } from '../pages';
-import { PopupInputService, BlockState, BalanceState, TransactionState } from '../core';
+import { PopupInputService, BlockState, BalanceState, TransactionState, NetService } from '../core';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -51,14 +51,15 @@ export class AppComponent {
         private app: IonicApp,
         private block: BlockState,
         private balance: BalanceState,
-        private transaction: TransactionState
+        private transaction: TransactionState,
+        private net: NetService
     ) {
         this.initializeApp();
     }
 
     private initializeApp() {
         this.platform.ready().then(() => {
-            this.wallet.Get().subscribe(() => {
+            this.wallet.Get().switchMap(() => this.net.Init()).subscribe(() => {
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
                 console.log(err);
