@@ -59,7 +59,7 @@ export class AppComponent {
 
     private initializeApp() {
         this.platform.ready().then(() => {
-            this.wallet.Get().switchMap(() => this.net.Init()).subscribe(() => {
+            this.net.Init().switchMap(() => this.wallet.Get()).subscribe(() => {
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
                 console.log(err);
