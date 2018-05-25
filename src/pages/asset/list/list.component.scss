@@ -31,6 +31,8 @@ asset-list {
         width: 100%;
         color: white;
         background-size: cover;
+        position: relative;
+        z-index: -1;
         .title {
             padding-top: 90px;
             span {
@@ -83,7 +85,7 @@ asset-list {
         height: 27px;
         position: absolute;
         right: 18px;
-        bottom: 98px;
+        bottom: 18px;
     }
 
 
