@@ -21,6 +21,7 @@ export class ScanAddrComponent implements OnInit {
     }
 
     public ngOnInit() {
+        this.showCamera();
         this.qrScanner.prepare()
             .then((status: QRScannerStatus) => {
                 if (status.authorized) {
@@ -77,12 +78,10 @@ export class ScanAddrComponent implements OnInit {
         this.frontCamera = !this.frontCamera;
     }
     public showCamera() {
-        (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'rgba(255, 255, 255, 0)';
-        (window.document.getElementsByTagName('ion-app')[0] as any).style.backgroundColor = 'rgba(255, 255, 255, 0)';
+        (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'transparent';
     }
     public hideCamera() {
         (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'white';
-        (window.document.getElementsByTagName('ion-app')[0] as any).style.backgroundColor = 'white';
     }
 
 }
