@@ -77,7 +77,7 @@ $colors: (
 .alert-light {
   .alert-wrapper {
     background-color: map-get($colors, light-default) !important;
-    color: map-get($colors, light-font2) !important;
+    color: map-get($colors, light-font) !important;
     button{
         color: map-get($colors, light-font) !important;
     }

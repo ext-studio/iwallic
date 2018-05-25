@@ -60,9 +60,11 @@ export class AppComponent {
     private initializeApp() {
         this.platform.ready().then(() => {
             this.net.Init().switchMap(() => this.wallet.Get()).subscribe(() => {
+                this.menu.enable(true, 'iwallic-menu');
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
                 console.log(err);
+                this.menu.enable(false, 'iwallic-menu');
                 if (err === 'need_verify') {
                     this.nav.setRoot(WalletVerifyComponent);
                 } else {
@@ -137,6 +139,7 @@ export class AppComponent {
             no: 'ALERT_NO_CANCEL'
         }).subscribe((res) => {
             if (res) {
+                this.menu.enable(false, 'iwallic-menu');
                 this.wallet.Close();
                 this.menu.close();
                 this.nav.setRoot(WalletGateComponent);

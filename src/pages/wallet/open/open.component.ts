@@ -22,7 +22,8 @@ export class WalletOpenComponent implements OnInit {
         private wallet: WalletService,
         private alert: AlertController,
         private file: ReadFileService,
-        private load: LoadingController
+        private load: LoadingController,
+        private menu: MenuController
     ) { }
 
     public ngOnInit() {
@@ -57,6 +58,7 @@ export class WalletOpenComponent implements OnInit {
         }
         this.importing = true;
         this.wallet.Import(this.wif, this.pwd, 'NEP2').subscribe((res) => {
+            this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
@@ -85,6 +87,7 @@ export class WalletOpenComponent implements OnInit {
             }
             return Observable.of(w);
         }).subscribe((res) => {
+            this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {

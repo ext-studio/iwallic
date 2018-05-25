@@ -25,7 +25,6 @@ export class WalletCreateComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.menu.swipeEnable(false);
         this.pwd = this.navParams.get('pwd');
         if (!this.pwd) {
             this.global.Alert('UNKNOWN').subscribe();
@@ -44,10 +43,6 @@ export class WalletCreateComponent implements OnInit {
         });
     }
 
-    public home() {
-        this.navCtrl.setRoot(AssetListComponent);
-    }
-
     public copy() {
         this.global.Copy('wif-copy').then((res) => {
             this.copied = true;
@@ -64,6 +59,7 @@ export class WalletCreateComponent implements OnInit {
             no: 'ALERT_NO_CANCEL'
         }).subscribe((res) => {
             if (res) {
+                this.menu.enable(true, 'iwallic-menu');
                 this.wallet.Save(this.newWallet);
                 this.navCtrl.setRoot(AssetListComponent);
             }
