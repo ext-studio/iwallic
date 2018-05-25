@@ -79,9 +79,12 @@ export class ScanAddrComponent implements OnInit {
     }
     public showCamera() {
         (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'transparent';
+        (window.document.getElementsByClassName('nav-decor')[0] as any).style.background = 'transparent';
     }
     public hideCamera() {
         (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'white';
+        (window.document.getElementsByClassName('nav-decor')[0] as any).style.background = 'white';
+
     }
 
 }

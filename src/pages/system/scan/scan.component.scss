@@ -1,23 +1,19 @@
 scan {
     ion-content {
-		background: none transparent !important;
-		background-color: none transparent !important;
+		background: transparent !important;
+		background-color: transparent !important;
 		overflow: hidden;
     }
-    ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-decor {
-		background: none transparent !important; 
-		background-color: none transparent !important;
-	}
 	ion-app.md,ion-app.ios {
-		background: none transparent !important;
-		background-color: none transparent !important;
+		background: transparent !important;
+		background-color: transparent !important;
 	}
     .content-md {
-		background: none transparent !important;
-		background-color: none transparent !important;
+		background: transparent !important;
+		background-color: transparent !important;
 	}
     .qrscanner {
-		background: none transparent !important; 
+		background: transparent !important; 
 		height: 100%;
         &-area {
 			width: 100%;
