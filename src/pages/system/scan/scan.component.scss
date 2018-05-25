@@ -1,6 +1,7 @@
 scan {
     ion-content {
-        background: none transparent !important;
+		background: none transparent !important;
+		opacity: 0 !important;
     }
     ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-decor {
 		background: transparent none !important; 
@@ -9,9 +10,11 @@ scan {
 	ion-app.md,ion-app.ios {
 		background: none transparent !important;
 		background-color: none transparent !important;
+		opacity: 0 !important;
 	}
     .content-md {
 		background-color: transparent none !important;
+		opacity: 0 !important;
 	}
 	ion-content {
 		overflow: hidden;
