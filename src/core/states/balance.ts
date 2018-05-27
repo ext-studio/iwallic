@@ -16,6 +16,7 @@ export class BalanceState {
     public get loading(): boolean {
         return this._loading;
     }
+    public unconfirmedClaim: string;
     private _loading: boolean = false;
     private address: string;
     private _balance: any[];

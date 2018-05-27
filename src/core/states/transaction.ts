@@ -144,12 +144,18 @@ export class TransactionState {
         });
     }
     // push unconfirmed tx into list
-    public push(name: string, txid: string, value: number) {
+    public push(name: string, txid: string, value: number, isClaim: boolean = false) {
         this._transaction = this._transaction || [];
         if (txid.length === 64) {
             txid = '0x' + txid;
         }
-        this._transaction.unshift({ name: name, txid: txid, value: '-' + value.toString(), unconfirmed: true });
+        this._transaction.unshift({
+            name: name,
+            txid: txid,
+            value: `${isClaim ? '' : '-'}${value}`,
+            unconfirmed: true,
+            isClaim
+        });
         this.$transaction.next(this._transaction);
     }
     public clear() {

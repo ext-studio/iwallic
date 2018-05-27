@@ -8,7 +8,7 @@ import {
 } from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
 import { WalletService, Wallet, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, NetService } from '../../../core';
+import { GlobalService, BalanceState, NetService, TransactionState } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { attachEmbeddedView } from '@angular/core/src/view';
 
@@ -36,7 +36,8 @@ export class AssetListComponent implements OnInit {
         private navctrl: NavController,
         public balance: BalanceState,
         private net: NetService,
-        private tx: TransactionService
+        private tx: TransactionService,
+        private txState: TransactionState
     ) {}
 
     public ngOnInit() {
@@ -45,7 +46,11 @@ export class AssetListComponent implements OnInit {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
             this.neoValue = neo ? neo.balance : 0;
-            if (this.neoValue > 0) {
+            // this.checkClaim('0x3691d90256c4f55f26bf6c23c4a12dec1bde00b0e54b76f2938f4687d3df0245');
+            // fetch only when has NEO & has not unconfirmed claim
+            if (this.balance.unconfirmedClaim) {
+                this.checkClaim(this.balance.unconfirmedClaim);
+            } else if (this.neoValue > 0) {
                 this.fetchClaim();
             }
         });
@@ -92,6 +97,9 @@ export class AssetListComponent implements OnInit {
             this.tx.ClaimGAS(this.claim, this.wallet.wif).subscribe((res) => {
                 load.dismiss();
                 console.log(res);
+                this.txState.push('GAS', res.txid, res.value, true);
+                this.balance.unconfirmedClaim = res.txid;
+                this.claim.unSpentClaim = 0;
                 // call for new claim
                 // when new NEO spent, update again
                 this.navctrl.push(TxSuccessComponent);
@@ -129,6 +137,27 @@ export class AssetListComponent implements OnInit {
         }).subscribe((res) => {
             res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
             this.claim = res;
+        }, (err) => {
+            console.log(err);
+        });
+    }
+
+    private checkClaim(txid: string) {
+        if (txid.length === 64) {
+            txid = '0x' + txid;
+        }
+        this.http.post(`${this.global.apiDomain}/api/transactions`, {
+            method: 'gettxbytxid',
+            params: [txid]
+        }).map((res: any) => {
+            if (res && res.code === 200) {
+                return res.result;
+            } else {
+                throw 'not_confirmed';
+            }
+        }).subscribe((res) => {
+            this.balance.unconfirmedClaim = undefined;
+            this.fetchClaim();
         }, (err) => {
             console.log(err);
         });
