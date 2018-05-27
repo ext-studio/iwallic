@@ -26,6 +26,9 @@ export class WalletService {
     public get address(): string {
         return this.cached && this.cached.address;
     }
+    public get wif(): string {
+        return this.cached && this.cached.wif;
+    }
     public get backup(): boolean {
         return this.cached && this.cached.backup;
     }

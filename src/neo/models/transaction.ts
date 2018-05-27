@@ -1,4 +1,5 @@
-import { api, rpc, u, wallet, tx as ntx, sc } from '@cityofzion/neon-js';
+import { ASSET } from './const';
+import { u, wallet } from '..';
 
 export const TxVersion = {
     'CLAIM': 0,
@@ -56,18 +57,6 @@ export class Script {
 }
 
 export class Transaction {
-    constructor(data?: any) {
-        data = data || {};
-        this.type = data['type'] || TxType.CONTRACT;
-        this.script = data['script'] || null;
-        this.claims = data['claims'] || [];
-        this.vin = data['vin'] || [];
-        this.vout = data['vout'] || [];
-        this.gas = data['gas'] || 0;
-        this.scripts = data['scripts'] || [];
-        this.version = data['version'] || TxVersion.CONTRACT;
-        this.attributes = data['attributes'] || [];
-    }
     public get hash(): string {
         return u.reverseHex(u.hash256(this.serielize()));
     }
@@ -80,6 +69,18 @@ export class Transaction {
     public scripts: Script[] = [];
     public vin: Input[] = [];
     public vout: Output[] = [];
+    constructor(data?: any) {
+        data = data || {};
+        this.type = data['type'] || this.type;
+        this.script = data['script'] || null;
+        this.claims = data['claims'] || [];
+        this.vin = data['vin'] || [];
+        this.vout = data['vout'] || [];
+        this.gas = data['gas'] || 0;
+        this.scripts = data['scripts'] || [];
+        this.version = data['version'] || TxVersion.CONTRACT;
+        this.attributes = data['attributes'] || [];
+    }
     public static deserialize(hexTx: string): Transaction {
         return new Transaction();
     }
@@ -128,6 +129,17 @@ export class Transaction {
         tx.addNEP5(from);
         return tx;
     }
+    public static forClaim(claims: any[], value: number, to: string): Transaction {
+        return new Transaction({
+            type: TxType.CLAIM,
+            claims: claims.map((c) => ({prevHash: c.txid, prevIndex: c.index})),
+            vout: [{
+                asset: ASSET.GAS,
+                value: value,
+                scriptHash: wallet.getScriptHashFromAddress(to)
+            }]
+        });
+    }
     public addRemark(data: string) {
         // usage Remark
         // data string
@@ -163,6 +175,12 @@ export class Transaction {
             case TxType.CLAIM:
             let outClaim = u.num2VarInt(this.claims.length);
             for (const claim of this.claims) {
+                if (typeof claim.prevIndex === 'string') {
+                    claim.prevIndex = parseInt(claim.prevIndex, 0);
+                }
+                if (claim.prevHash.length === 66) {
+                    claim.prevHash = claim.prevHash.slice(2);
+                }
                 outClaim += u.reverseHex(claim.prevHash) + u.reverseHex(u.num2hexstring(claim.prevIndex, 2));
             }
             return outClaim;
@@ -209,6 +227,9 @@ export class Transaction {
         let rs = u.num2VarInt(this.vout.length);
         for (const output of this.vout) {
             const value = new u.Fixed8(output.value).toReverseHex();
+            if (output.asset.length === 66) {
+                output.asset = output.asset.slice(2);
+            }
             rs += u.reverseHex(output.asset) + value + u.reverseHex(output.scriptHash);
         }
         return rs;

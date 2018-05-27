@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../../core';
-import { api, wallet, u, sc } from '../.';
+import { api, wallet, u, sc } from '..';
 import { Transaction, TxType, UTXO } from '../models/transaction';
 
 @Injectable()
@@ -14,14 +14,7 @@ export class TransactionService {
         private http: HttpClient,
         private global: GlobalService
     ) {
-        // this.http.post(`${this.global.rpcDomain}`, {
-        //     jsonrpc: '2.0',
-        //     method: 'getblock',
-        //     params: [7261, 1], // 7229 7261
-        //     id: 1
-        //   }).subscribe((res) => {
-        //     console.log(res);
-        // });
+        //
     }
 
     /**
@@ -94,8 +87,21 @@ export class TransactionService {
      * Claim GAS for address
      * @param wif who will claim
      */
-    public ClaimGAS(wif: string): Observable<any> {
-        return Observable.throw('completing');
+    public ClaimGAS(claim: any, wif: string): Observable<any> {
+        const tx = Transaction.forClaim(claim.claims, claim.unSpentClaim, claim.address);
+        return this.signNSendTX(tx, wif).map((res) => {
+            if (res && res.result) {
+                this.unconfirmedUTXO.push({
+                    hash: tx.hash,
+                    value: tx.vout[0].value,
+                    index: 0,
+                    asset: tx.vout[0].asset
+                });
+                return {txid: tx.hash, value: claim.unSpentClaim};
+            } else {
+                throw 'transaction_failed';
+            }
+        });
     }
 
     /**

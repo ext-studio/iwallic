@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
-import { WalletBackupComponent, AssetDetailComponent,
-    TxReceiptComponent, TxTransferComponent, AssetAttachComponent } from '../../../pages';
+import {
+    WalletBackupComponent, AssetDetailComponent,
+    TxReceiptComponent, TxTransferComponent, AssetAttachComponent,
+    TxSuccessComponent
+} from '../../../pages';
 import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
-import { WalletService, Wallet } from '../../../neo';
+import { WalletService, Wallet, TransactionService } from '../../../neo';
 import { GlobalService, BalanceState, NetService } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { attachEmbeddedView } from '@angular/core/src/view';
@@ -17,35 +20,34 @@ import Neon, { api } from '@cityofzion/neon-js';
     templateUrl: 'list.component.html'
 })
 export class AssetListComponent implements OnInit {
-    public assetList: any[] = [];
-    public address: string = '';
+    public assets: any[] = [];
+    public claim: any;
     public neoValue: number = 0;
-    public backuped: boolean = false;
+    // public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
     public isloading: boolean = true;
-    public selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
     public claimGasBalance: number = 0;
+    public selectedNet: 'Main' | 'Test' | 'Priv';
     constructor(
         private http: HttpClient,
-        private storage: Storage,
         public wallet: WalletService,
         private global: GlobalService,
         private navctrl: NavController,
-        private alert: AlertController,
         public balance: BalanceState,
-        private net: NetService
+        private net: NetService,
+        private tx: TransactionService
     ) {}
 
     public ngOnInit() {
-        // Neon.get.claims('MainNet', this.wallet.address).then((res) => {
-        //     console.log(res.claims);
-        // });
-        // api.neonDB.getMaxClaimAmount('MainNet', this.wallet.address).then((res) => {
-        //     console.log(res);
-        // });
+        this.selectedNet = this.net.current;
         this.balance.get(this.wallet.address).subscribe((res) => {
-            this.resolveAssetList(res);
+            this.assets = res;
+            const neo = res.find((e) => e.name === 'NEO');
+            this.neoValue = neo ? neo.balance : 0;
+            if (this.neoValue > 0) {
+                this.fetchClaim();
+            }
         });
         this.balance.error().subscribe((res) => {
             this.global.Alert('REQUESTFAILED').subscribe();
@@ -62,12 +64,6 @@ export class AssetListComponent implements OnInit {
                 this.isRefresh = true;
             });
         }, 500);
-    }
-
-    public resolveAssetList(list: any[]) {
-        this.assetList = list;
-        const neo = list.find((e) => e.name === 'NEO');
-        this.neoValue = neo ? neo.balance : 0;
     }
 
     public jumpDetail(token: string, symbol: string, value: number) {
@@ -87,11 +83,54 @@ export class AssetListComponent implements OnInit {
         this.navctrl.push(AssetAttachComponent);
     }
 
-    public walletBackup() {
-        this.navctrl.push(WalletBackupComponent);
-    }
+    // public walletBackup() {
+    //     this.navctrl.push(WalletBackupComponent);
+    // }
 
     public claimGas() {
-        return;
+        this.global.LoadI18N('LOADING_TRANSFER').subscribe((load) => {
+            this.tx.ClaimGAS(this.claim, this.wallet.wif).subscribe((res) => {
+                load.dismiss();
+                console.log(res);
+                // call for new claim
+                // when new NEO spent, update again
+                this.navctrl.push(TxSuccessComponent);
+            }, (err) => {
+                load.dismiss();
+                console.log(err);
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_WARN',
+                    content: 'ALERT_CONTENT_TXFAILED',
+                    ok: 'ALERT_OK_SURE'
+                }).subscribe();
+            });
+        });
+    }
+
+    private resolveAssetList(list: any[]) {
+        this.assets = list;
+        const neo = list.find((e) => e.name === 'NEO');
+        this.neoValue = neo ? neo.balance : 0;
+        if (this.neoValue > 0) {
+            this.fetchClaim();
+        }
+    }
+
+    private fetchClaim() {
+        this.http.post(`${this.global.apiDomain}/api/iwallic`, {
+            method: 'getclaim',
+            params: [this.wallet.address]
+        }).map((res: any) => {
+            if (res && res.code === 200) {
+                return res.result;
+            } else {
+                throw res.message || 'unknown';
+            }
+        }).subscribe((res) => {
+            res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
+            this.claim = res;
+        }, (err) => {
+            console.log(err);
+        });
     }
 }

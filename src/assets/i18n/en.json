@@ -74,6 +74,7 @@
   "ASSET_LIST_NOBACKED": "Wallet not backed up",
   "ASSET_LIST_NOASSETS": "No Assets",
   "ASSET_LIST_ADDASSETS": "Add Assets",
+  "ASSET_LIST_UNSPENTCLAIM": "GAS to claim",
   "ASSET_DETAIL_ASSET": "Asset",
   "ASSET_DETAIL_YOUR": "Your",
   "ASSET_DETAIL_RECENTTRANSACTION": "Recent transaction records",
