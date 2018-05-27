@@ -56,6 +56,7 @@ export class ScanAddrComponent implements OnInit {
         this.qrScanner.disableLight();
         this.qrScanner.useBackCamera();
         this.qrScanner.hide();
+        this.qrScanner.destroy();
         this.hideCamera();
     }
 
