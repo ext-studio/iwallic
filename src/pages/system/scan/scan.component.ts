@@ -53,10 +53,9 @@ export class ScanAddrComponent implements OnInit {
             .catch((e: any) => console.log('Error is', e));
     }
     public ionViewWillLeave() {
-        alert(1);
         this.qrScanner.disableLight();
         this.qrScanner.useBackCamera();
-        scanSub.unsubscribe();
+        this.qrScanner.hide();
         this.hideCamera();
     }
 
