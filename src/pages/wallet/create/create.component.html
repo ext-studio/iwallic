@@ -9,8 +9,8 @@
     <img id="wallet-qrcode" ibg="default2" />
     <div class="title">
         {{'WALLET_CREATE_YOURWIF' | translate}}
-        <img *ngIf="shown" (click)="shown = false" src="assets/wallet/backups_btn_display_s@2x.png" />
-        <img *ngIf="!shown" (click)="shown = true" src="assets/wallet/backups_btn_display_n@2x.png" />
+        <img *ngIf="shown" (click)="shown = false" isrc="assets/wallet/backups_btn_display_s@2x.png" />
+        <img *ngIf="!shown" (click)="shown = true" isrc="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
     <input icolor="font" ibg="default" *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="newWallet?.wif" />
     <input icolor="font" ibg="default" *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
