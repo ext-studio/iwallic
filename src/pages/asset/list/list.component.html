@@ -22,13 +22,13 @@
         <!-- <p class="warn-tips" *ngIf="!wallet.backup" (click)="walletBackup()">{{'ASSET_LIST_NOBACKED' | translate}}</p> -->
         <img *ngIf="selectedNet == 'Main'" src="assets/asset/btn_add.png" class="add-asset" (click)="addAsset()">
     </div>
-    <div *ngIf="claim && claim.unSpentClaim" class="claim-gas" text-center (click)="claimGas()">
-        <p class="gas-balance">{{ 'ASSET_LIST_UNSPENTCLAIM' | translate }}: {{claim?.unSpentClaim}}</p>
-        <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p>
-    </div>
 </ion-header>
 
 <ion-content center ibg="default3" iborder="line">
+    <div *ngIf="claim && claim.unSpentClaim" class="claim-gas" text-center (click)="claimGas()">
+            <p class="gas-balance">{{ 'ASSET_LIST_UNSPENTCLAIM' | translate }}: {{claim?.unSpentClaim}}</p>
+            <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p>
+        </div>  
     <div text-center padding margin-vertical *ngIf="balance.loading && isloading">
         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
