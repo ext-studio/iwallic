@@ -59,6 +59,8 @@ export class AppComponent {
 
     private initializeApp() {
         this.platform.ready().then(() => {
+            this.nav.swipeBackEnabled = true;
+            this.menu.swipeEnable(false, 'iwallic-menu');
             this.net.Init().switchMap(() => this.wallet.Get()).subscribe(() => {
                 this.menu.enable(true, 'iwallic-menu');
                 this.nav.setRoot(AssetListComponent);
