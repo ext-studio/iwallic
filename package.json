@@ -12,6 +12,7 @@
     "native": "ionic cordova run android --device",
     "emulator": "ionic cordova emulate android",
     "apk": "ionic cordova build android --prod",
+    "apk:run": "ionic cordova run android",
     "ios": "ionic cordova build ios --prod",
     "clean:all": "rimraf ./.sourcemaps ./platforms ./plugins ./www",
     "http": "http-server ./www --p 8100"

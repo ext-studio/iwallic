@@ -6,7 +6,10 @@ import {
     TxReceiptComponent, TxTransferComponent, AssetAttachComponent,
     TxSuccessComponent
 } from '../../../pages';
-import { InfiniteScroll, NavController, Refresher, AlertController, Platform } from 'ionic-angular';
+import {
+    InfiniteScroll, NavController, Refresher, AlertController,
+    Platform, MenuController
+} from 'ionic-angular';
 import { WalletService, Wallet, TransactionService } from '../../../neo';
 import { GlobalService, BalanceState, NetService, TransactionState } from '../../../core';
 import { ValueTransformer } from '@angular/compiler/src/util';
@@ -37,7 +40,9 @@ export class AssetListComponent implements OnInit {
         public balance: BalanceState,
         private net: NetService,
         private tx: TransactionService,
-        private txState: TransactionState
+        private txState: TransactionState,
+        private menu: MenuController,
+        private plaftorm: Platform
     ) {}
 
     public ngOnInit() {
@@ -57,6 +62,7 @@ export class AssetListComponent implements OnInit {
         this.balance.error().subscribe((res) => {
             this.global.Alert('REQUESTFAILED').subscribe();
         });
+        this.menu.swipeEnable(true, 'iwallic-menu');
     }
 
     public doRefresh(refresher: Refresher) {
