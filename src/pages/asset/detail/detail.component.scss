@@ -5,27 +5,36 @@ asset-detail {
     .refresher-refreshing .spinner-ios line, .refresher-refreshing .spinner-ios-small line, .refresher-refreshing .spinner-crescent circle {
         stroke: #3e64ad;
     }
+    .nav-bar {
+        position: absolute;
+        top: 0;
+    }
+    .top {
+        height: 230px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        padding-top: 80px;
+        background-size: cover;        
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: -1;
+
+        h5 {
+            font-size: 15px;
+            margin: 0;
+        }
+        p {
+            margin: 0;
+            font-size: 25px;
+            margin-top: 10px;
+        }
+    }
     ion-content {
         .scroll-content {
             border: none !important;
         }
-        .top {
-            height: 230px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            padding-top: 80px;
-            background-size: cover;
-            h5 {
-                font-size: 15px;
-                margin: 0;
-            }
-            p {
-                margin: 0;
-                font-size: 25px;
-                margin-top: 10px;
-            }
-        }
+
         h5 {
             font-size: 13px;
             text-align: center;

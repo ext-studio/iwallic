@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams, NavController, ViewController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { TxTransferComponent } from '../../../pages';
+import { GlobalService } from '../../../core';
 
 @Component({
     selector: 'scan',
@@ -17,6 +18,7 @@ export class ScanAddrComponent implements OnInit {
         private navParams: NavParams,
         private qrScanner: QRScanner,
         private viewCtrl: ViewController,
+        private global: GlobalService
     ) {
     }
 
@@ -27,20 +29,7 @@ export class ScanAddrComponent implements OnInit {
                 if (status.authorized) {
                     this.qrScanner.show();
                     this.showCamera();
-                    const scanSub = this.qrScanner.scan().subscribe((text: string) => {
-                        this.qrScanner.hide(); // hide camera preview
-                        scanSub.unsubscribe(); // stop scanning
-                        this.hideCamera();
-                        this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1 , TxTransferComponent, {
-                            animate: false,
-                            addr: text,
-                            asset: this.navParams.get('asset'),
-                            assetSymbol: this.navParams.get('assetSymbol'),
-                            assetBalance: this.navParams.get('assetBalance')
-                        });
-                        this.navCtrl.pop({animate: false});
-                        this.navCtrl.pop();
-                    });
+                    this.scanAddress();
                 } else if (status.denied) {
                     this.navCtrl.pop();
                     // camera permission was permanently denied
@@ -86,7 +75,41 @@ export class ScanAddrComponent implements OnInit {
     public hideCamera() {
         (window.document.getElementsByTagName('ion-app')[0] as any).style.background = 'white';
         (window.document.getElementsByClassName('nav-decor')[0] as any).style.background = 'white';
+    }
 
+    public isAddress(text: string): boolean {
+        const reg = new RegExp('^([a-zA-Z0-9]){34}$');
+        const addressFlag = reg.test(text);
+        if (!addressFlag) {
+            this.global.AlertI18N({
+                title: 'ALERT_TITLE_WARN',
+                content: 'ALERT_CONTENT_ADDRESSERROR',
+                ok: 'ALERT_OK_SURE'
+            }).subscribe((res) => {
+                this.scanAddress();
+            });
+        }
+        return addressFlag;
+    }
+
+    public scanAddress() {
+        const scanSub = this.qrScanner.scan().subscribe((text: string) => {
+            if (!this.isAddress(text)) {
+                return ;
+            }
+            this.qrScanner.hide(); // hide camera preview
+            scanSub.unsubscribe(); // stop scanning
+            this.hideCamera();
+            this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1 , TxTransferComponent, {
+                animate: false,
+                addr: text,
+                asset: this.navParams.get('asset'),
+                assetSymbol: this.navParams.get('assetSymbol'),
+                assetBalance: this.navParams.get('assetBalance')
+            });
+            this.navCtrl.pop({animate: false});
+            this.navCtrl.pop();
+        });
     }
 
 }
