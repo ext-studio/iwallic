@@ -21,6 +21,7 @@ import { HttpClient } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
+import { Clipboard } from '@ionic-native/clipboard';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -69,6 +70,7 @@ const translateModuleConfig = {
         QRScanner,
         File,
         ThemeableBrowser,
+        Clipboard,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

@@ -29,6 +29,7 @@
     "@angular/platform-browser-dynamic": "5.2.10",
     "@cityofzion/neon-js": "^3.8.0",
     "@ionic-native/camera": "^4.7.0",
+    "@ionic-native/clipboard": "^4.7.0",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/file": "^4.7.0",
     "@ionic-native/qr-scanner": "^4.7.0",
@@ -40,6 +41,7 @@
     "@ngx-translate/http-loader": "^2.0.1",
     "cordova-android": "7.0.0",
     "cordova-browser": "5.0.3",
+    "cordova-clipboard": "^1.2.1",
     "cordova-ios": "4.5.4",
     "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-compat": "^1.2.0",
@@ -79,7 +81,8 @@
       "cordova-sqlite-storage": {},
       "cordova-plugin-file": {},
       "cordova-plugin-qrscanner": {},
-      "cordova-plugin-themeablebrowser": {}
+      "cordova-plugin-themeablebrowser": {},
+      "cordova-clipboard": {}
     },
     "platforms": [
       "browser",
