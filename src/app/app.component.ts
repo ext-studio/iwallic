@@ -33,7 +33,7 @@ export class AppComponent {
 
     constructor(
         private platform: Platform,
-        private statusBar: StatusBar,
+        // private statusBar: StatusBar,
         private splashScreen: SplashScreen,
         private global: GlobalService,
         private wallet: WalletService,
@@ -50,7 +50,6 @@ export class AppComponent {
     private initializeApp() {
         this.platform.ready().then(() => {
             this.initSwipe();
-            this.statusBar.styleLightContent();
             this.initConfig();
             this.initBackBtn();
             this.initListen();
