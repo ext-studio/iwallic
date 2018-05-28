@@ -131,7 +131,8 @@ export class TxTransferComponent implements OnInit {
         this.navCtrl.push(ScanAddrComponent, {
             asset: this.asset,
             assetSymbol: this.assetSymbol,
-            assetBalance: this.assetBalance
+            assetBalance: this.assetBalance,
+            type: 'address'
         });
     }
 

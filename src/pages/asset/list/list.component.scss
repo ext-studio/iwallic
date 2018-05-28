@@ -67,7 +67,7 @@ asset-list {
         background: #699af8;
         color: rgba(255, 255, 255, 0.85);
         margin: 0;
-        padding-top: 16px;
+        line-height: 80px;
         p {
             margin: 0;
         }
@@ -90,15 +90,20 @@ asset-list {
 
 
     ion-item {
-        height: 80px;
-        line-height: 80px;
+        height: 90px;
+        line-height: 90px;
+        padding: 0 !important;
         span {
             color: #3c373b;
-            font-size: 20px;
+            font-size: 21px;
         }
         .asset-type {
-            font-size: 18px;
             color: #646163;
+            margin-left: 20px;
+        }
+        .asset-balance {
+            float: right;
+            margin-right: 4px;
         }
     }
     

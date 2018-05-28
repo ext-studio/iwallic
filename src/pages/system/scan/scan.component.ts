@@ -12,6 +12,7 @@ export class ScanAddrComponent implements OnInit {
 
     protected light: boolean = false;
     protected frontCamera: boolean = false;
+    private scanType: string = 'address';
 
     constructor(
         private navCtrl: NavController,
@@ -29,7 +30,11 @@ export class ScanAddrComponent implements OnInit {
                 if (status.authorized) {
                     this.qrScanner.show();
                     this.showCamera();
-                    this.scanAddress();
+                    if (this.scanType === 'address') {
+                        this.scanAddress();
+                    } else {
+                        this.scanWIF();
+                    }
                 } else if (status.denied) {
                     this.navCtrl.pop();
                     // camera permission was permanently denied
@@ -95,21 +100,25 @@ export class ScanAddrComponent implements OnInit {
     public scanAddress() {
         const scanSub = this.qrScanner.scan().subscribe((text: string) => {
             if (!this.isAddress(text)) {
-                return ;
+                return;
             }
             this.qrScanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
             this.hideCamera();
-            this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1 , TxTransferComponent, {
+            this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1, TxTransferComponent, {
                 animate: false,
                 addr: text,
                 asset: this.navParams.get('asset'),
                 assetSymbol: this.navParams.get('assetSymbol'),
                 assetBalance: this.navParams.get('assetBalance')
             });
-            this.navCtrl.pop({animate: false});
+            this.navCtrl.pop({ animate: false });
             this.navCtrl.pop();
         });
+    }
+
+    public scanWIF() {
+        return;
     }
 
 }

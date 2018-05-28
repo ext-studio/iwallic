@@ -27,7 +27,7 @@
 <ion-content center ibg="default3" iborder="primary">
     <div *ngIf="claim && claim.unSpentClaim" class="claim-gas" text-center (click)="claimGas()">
             <p class="gas-balance">{{ 'ASSET_LIST_UNSPENTCLAIM' | translate }}: {{claim?.unSpentClaim}}</p>
-            <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p>
+            <!-- <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p> -->
         </div>  
     <div text-center padding margin-vertical *ngIf="balance.loading && isloading">
         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
@@ -35,7 +35,7 @@
     <ion-list *ngIf="!balance.loading">
         <ion-item iborder="line" ibg="default3" icolor="font" *ngFor="let asset of assets" (click)="jumpDetail(asset.assetId, asset.symbol, asset.balance)">
             <span class="asset-type" icolor="font">{{ asset.symbol }}</span>
-            <span item-end icolor="font">{{ asset.balance }}</span>
+            <span class="asset-balance" icolor="font">{{ asset.balance }}</span>
         </ion-item>
     </ion-list>
     <ion-label icolor="font" *ngIf="!assets?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
