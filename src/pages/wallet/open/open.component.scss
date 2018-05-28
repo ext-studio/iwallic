@@ -9,4 +9,13 @@ wallet-open {
     input.text-input[disabled] {
         opacity: 1;
     }
+    .scan-btn {
+        height: 24px;
+        background: transparent;
+        float: right;
+        box-shadow: none;
+        &:hover {
+            background: transparent;
+        }
+    }
 }

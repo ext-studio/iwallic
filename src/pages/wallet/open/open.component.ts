@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
 import { WalletService, Wallet, TransactionService, ASSET } from '../../../neo';
-import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, MenuController, AlertController, LoadingController, NavParams } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
+import { ScanComponent } from '../../../pages';
 
 @Component({
     selector: 'wallet-open',
@@ -23,8 +24,13 @@ export class WalletOpenComponent implements OnInit {
         private alert: AlertController,
         private file: ReadFileService,
         private load: LoadingController,
-        private menu: MenuController
-    ) { }
+        private menu: MenuController,
+        private navparams: NavParams
+    ) {
+        if (this.navparams.get('wif')) {
+            this.wif = this.navparams.get('wif');
+        }
+    }
 
     public ngOnInit() {
         //
@@ -108,5 +114,11 @@ export class WalletOpenComponent implements OnInit {
     }
     public checkWIF() {
         return this.wif && this.wallet.CheckWIF(this.wif);
+    }
+
+    public qrScan() {
+        this.navCtrl.push(ScanComponent, {
+            type: 'WIF'
+        });
     }
 }

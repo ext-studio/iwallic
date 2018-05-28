@@ -14,7 +14,7 @@ import {
     WalletPwdComponent, WalletCreateComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
-    ScanAddrComponent
+    ScanComponent
 } from '../pages';
 import { PopupInputService, BlockState, BalanceState, TransactionState, NetService } from '../core';
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { PopupInputService, GlobalService, TransactionState, BalanceState } from '../../../core';
 import { NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
-import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
+import { ScanComponent, TxSuccessComponent } from '../../../pages';
 
 @Component({
     selector: 'transaction-transfer',
@@ -128,7 +128,7 @@ export class TxTransferComponent implements OnInit {
     }
 
     public qrScan() {
-        this.navCtrl.push(ScanAddrComponent, {
+        this.navCtrl.push(ScanComponent, {
             asset: this.asset,
             assetSymbol: this.assetSymbol,
             assetBalance: this.assetBalance,
