@@ -50,7 +50,7 @@ export class AppComponent {
     private initializeApp() {
         this.platform.ready().then(() => {
             this.initSwipe();
-            this.statusBar.styleDefault();
+            this.statusBar.styleLightContent();
             this.initConfig();
             this.initBackBtn();
             this.initListen();
