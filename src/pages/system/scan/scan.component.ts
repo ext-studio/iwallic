@@ -101,18 +101,19 @@ export class ScanComponent implements OnInit {
         }
         return addressFlag;
     }
-    public checkWif(text: string) {
-        if (!text && !this.wallet.CheckWIF(text)) {
+    public checkWIF(text: string) {
+        if (!text || !this.wallet.CheckWIF(text)) {
             this.global.AlertI18N({
                 title: 'ALERT_TITLE_WARN',
                 content: 'ALERT_CONTENT_WIFERROR',
                 ok: 'ALERT_OK_SURE'
             }).subscribe((res) => {
-                this.scanAddress();
+                this.scanWIF();
                 return false;
             });
+        } else {
+             return true;
         }
-        return true;
 
     }
 
@@ -138,7 +139,7 @@ export class ScanComponent implements OnInit {
 
     public scanWIF() {
         const scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            if (!this.checkAddress(text)) {
+            if (!this.checkWIF(text)) {
                 return;
             }
             this.qrScanner.hide(); // hide camera preview
