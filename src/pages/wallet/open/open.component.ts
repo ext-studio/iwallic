@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService, PopupInputService, ReadFileService, ScannerService } from '../../../core';
 import { WalletService, Wallet, ASSET } from '../../../neo';
-import { NavController, MenuController } from 'ionic-angular';
+import { NavController, MenuController, Platform } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -15,6 +15,7 @@ export class WalletOpenComponent implements OnInit {
     public pwd: string;
     public rePwd: string;
     public importing: boolean = false;
+    public isScan: boolean = true;
     constructor(
         private navCtrl: NavController,
         private input: PopupInputService,
@@ -22,11 +23,14 @@ export class WalletOpenComponent implements OnInit {
         private wallet: WalletService,
         private menu: MenuController,
         private scanner: ScannerService,
-        private file: ReadFileService
+        private file: ReadFileService,
+        private platform: Platform
     ) { }
 
     public ngOnInit() {
-        //
+        if (this.platform.is('mobileweb') || this.platform.is('core')) {
+            this.isScan = false;
+        }
     }
     public import() {
         if (!this.check() || !this.checkWIF()) {
