@@ -7,12 +7,12 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content center ibg="default3">
+<ion-content center ibg="default2">
     <div text-center padding margin-vertical *ngIf="isloading">
         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
     <ion-list>
-        <ion-item ibg="default3" iborder="line" icolor="font" *ngFor="let item of assetList; let i = index">
+        <ion-item ibg="default2" iborder="line" icolor="font" *ngFor="let item of assetList; let i = index">
             <ion-label>
                 <h3>{{ item.symbol }}</h3>
                 <div class="info" icolor="font2">

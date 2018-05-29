@@ -1,12 +1,12 @@
 <ion-menu id="iwallic-menu" [content]="content">
     <ion-header class="menu-list-header">
-        <ion-toolbar [color]="'default3' | theme | async">
+        <ion-toolbar [color]="'default2' | theme | async">
             <img class="sidemenu-logo" src="assets/app/logo.png" />
         </ion-toolbar>
     </ion-header>
-    <ion-content ibg="default3" icolor="font">
+    <ion-content ibg="default2" icolor="font">
         <ion-list class="menu-list">
-            <button iborder="default3" icolor="font" [color]="'default3' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(BackupPage)">
+            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(BackupPage)">
                 <img isrc="assets/app/backup.png" />
                 {{'APP_MENU_BACKUP' | translate}}
             </button>
@@ -14,23 +14,23 @@
                 <img src="assets/app/comon_nav_icon_Import@2x.png" />
                 {{'APP_MENU_IMPORT' | translate}}
             </button> -->
-            <button iborder="default3" icolor="font" [color]="'default3' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(TransactionPage)">
+            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(TransactionPage)">
                 <img isrc="assets/app/transaction.png" />
                 {{'APP_MENU_TRANSACTION' | translate}}
             </button>
-            <button iborder="line" icolor="font" [color]="'default3' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(SettingPage)">
+            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(SettingPage)">
                 <img isrc="assets/app/setting.png" />
                 {{'APP_MENU_SETTING' | translate}}
             </button>
-            <button iborder="default3" icolor="font" [color]="'default3' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(HelperPage)">
+            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(HelperPage)">
                 <img isrc="assets/app/helpers.png" />
                 {{'APP_MENU_HELPER' | translate}}
             </button>
-            <button iborder="line" icolor="font" [color]="'default3' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(AboutPage)">
+            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(AboutPage)">
                 <img isrc="assets/app/about.png" />
                 {{'APP_MENU_ABOUT' | translate}}
             </button>
-            <button iborder="line" icolor="font" [color]="'default3' | theme | async" class="sidemenu-item" ion-item (click)="signOut()">
+            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="signOut()">
                 <img isrc="assets/app/signout.png" />
                 {{'APP_MENU_SIGNOUT' | translate}}
             </button>

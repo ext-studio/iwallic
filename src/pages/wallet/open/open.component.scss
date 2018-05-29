@@ -18,4 +18,11 @@ wallet-open {
             background: transparent;
         }
     }
+    ion-item {
+        // border-bottom: none !important;
+        border-top: none !important;
+    }
+    ion-list ion-item:last-child {
+        border-bottom: none !important;
+    }
 }
