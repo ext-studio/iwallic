@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewContainerRef } from '@angular/core';
-import { NavParams, NavController } from 'ionic-angular';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { NavParams, NavController, IonicTapInput } from 'ionic-angular';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -7,6 +7,7 @@ import { Subject } from 'rxjs/Subject';
     templateUrl: 'popup-input.component.html'
 })
 export class PopupInputComponent implements OnInit {
+    @ViewChild('pwdInput') public pwdInput: IonicTapInput;
     public pwd: string;
     private $enter: Subject<any>;
     constructor(
@@ -16,6 +17,9 @@ export class PopupInputComponent implements OnInit {
 
     public ngOnInit() {
         this.$enter = this.params.get('subject');
+        setTimeout(() => {
+            this.pwdInput.initFocus();
+        }, 500);
     }
 
     public confirm() {
