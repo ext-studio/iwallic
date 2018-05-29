@@ -21,11 +21,11 @@
         <ion-item-group margin-vertical>
             <ion-item ibg="default2" icolor="font" iborder="line" (click)="community()">
                 <ion-label>{{'SYSTEM_HELPER_COMMUNITY' | translate}}</ion-label>
-                <ion-note item-end>Telegram</ion-note>
+                <ion-note item-end>{{helpers?.community?.value}}</ion-note>
             </ion-item>
             <ion-item ibg="default2" icolor="font" iborder="line" (click)="contact()">
                 <ion-label>{{'SYSTEM_HELPER_CONTACT' | translate}}</ion-label>
-                <ion-note item-end>contact@ext.earth</ion-note>
+                <ion-note item-end>{{helpers?.contact?.data}}</ion-note>
             </ion-item>
         </ion-item-group>
     </ion-list>

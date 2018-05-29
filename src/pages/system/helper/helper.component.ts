@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../../../core';
-import { ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject } from '@ionic-native/themeable-browser';
+import { Config } from 'ionic-angular';
+import {
+    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+} from '@ionic-native/themeable-browser';
+import { AppVersion } from '@ionic-native/app-version';
 
 const options: ThemeableBrowserOptions = {
     statusbar: {
@@ -27,25 +32,49 @@ const options: ThemeableBrowserOptions = {
     templateUrl: 'helper.component.html'
 })
 export class SystemHelperComponent implements OnInit {
+    private helpers: any;
     constructor(
         private global: GlobalService,
-        private themeableBrowser: ThemeableBrowser
+        private themeableBrowser: ThemeableBrowser,
+        private http: HttpClient
     ) { }
 
-    public ngOnInit() { }
+    public ngOnInit() {
+        this.http.get(`assets/fork-helper.json`).subscribe((res) => {
+            console.log(res);
+            this.helpers = res;
+        });
+    }
     public wallet() {
-        // const browser: ThemeableBrowserObject = this.themeableBrowser.create('https://google.com', '_blank', options);
-        this.global.ToastI18N('APP_COMING').subscribe();
+        const walletGuide = this.helpers && this.helpers.walletGuide;
+        if (walletGuide && walletGuide.action === 'link' && walletGuide.enabled && walletGuide.data) {
+            const tb = this.themeableBrowser.create(walletGuide.data, '_blank', options);
+        } else {
+            this.global.ToastI18N('APP_COMING').subscribe();
+        }
     }
     public transaction() {
-        // const browser: ThemeableBrowserObject = this.themeableBrowser.create('https://github.com', '_blank', options);
-        this.global.ToastI18N('APP_COMING').subscribe();
+        const txGuide = this.helpers && this.helpers.transactionGuide;
+        if (txGuide && txGuide.action === 'link' && txGuide.enabled && txGuide.data) {
+            const tb = this.themeableBrowser.create(txGuide.data, '_blank', options);
+        } else {
+            this.global.ToastI18N('APP_COMING').subscribe();
+        }
     }
     public community() {
-        // const browser: ThemeableBrowserObject = this.themeableBrowser.create('https://bilibili.com', '_blank', options);
-        this.global.ToastI18N('APP_COMING').subscribe();
+        const community = this.helpers && this.helpers.community;
+        if (community && community.action === 'link' && community.enabled && community.data) {
+            const tb = this.themeableBrowser.create(community.data, '_blank', options);
+        } else {
+            this.global.ToastI18N('APP_COMING').subscribe();
+        }
     }
     public contact() {
-        // const browser: ThemeableBrowserObject = this.themeableBrowser.create('https://neo.org', '_blank', options);
+        const contact = this.helpers && this.helpers.contact;
+        if (contact && contact.action === 'email' && contact.enabled && contact.data) {
+            //
+        } else {
+            this.global.ToastI18N('APP_COMING').subscribe();
+        }
     }
 }

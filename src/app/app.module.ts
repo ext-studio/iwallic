@@ -21,6 +21,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 import { Clipboard } from '@ionic-native/clipboard';
+import { AppVersion } from '@ionic-native/app-version';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -61,13 +63,9 @@ const translateModuleConfig = {
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
     ],
     providers: [
-        StatusBar,
-        SplashScreen,
-        Camera,
-        QRScanner,
-        File,
-        ThemeableBrowser,
-        Clipboard,
+        StatusBar, SplashScreen,
+        Camera, QRScanner, File,
+        ThemeableBrowser, Clipboard, AppVersion, InAppBrowser,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })
