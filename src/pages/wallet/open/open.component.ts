@@ -37,14 +37,19 @@ export class WalletOpenComponent implements OnInit {
         }
         this.importing = true;
         this.wallet.Import(this.wif, this.pwd, 'NEP2').subscribe((res) => {
+            this.importing = false;
             this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             this.global.AlertI18N({content: 'ALERT_CONTENT_IMPORTFAILED'}).subscribe();
+            this.importing = false;
         });
     }
     public fromNEP6() {
+        if (this.importing) {
+            return;
+        }
         this.file.read().switchMap((json) => {
             const w = new Wallet(json);
             if (!w.wif) {
