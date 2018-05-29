@@ -1,4 +1,4 @@
-# iwallic
+# iWallic
 
 NEO thin wallet by ExChain teams.
 
