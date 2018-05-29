@@ -40,7 +40,7 @@ export class SystemHelperComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.http.get(`https://www.iwallic.com/assets/config/helper.json`).subscribe((res) => {
+        this.http.get(`https://iwallic.com/assets/config/helper.json`).subscribe((res) => {
             console.log(res);
             this.helpers = res;
         });
