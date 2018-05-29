@@ -5,7 +5,7 @@
         </button>
         <ion-row>
             <ion-title>{{'WALLET_OPEN_TITLE' | translate}}</ion-title>
-            <button item-end  class="scan-btn" (click)="qrScan()" *ngIf="isScan">
+            <button  class="scan-btn" (click)="qrScan()" *ngIf="isScan">
                 <img class="scan-btn" isrc="assets/transaction/icon_scan.png" alt="">
             </button>
         </ion-row>

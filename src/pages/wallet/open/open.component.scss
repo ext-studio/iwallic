@@ -2,6 +2,11 @@ wallet-open {
     .input-cover{
         display: none;
     }
+    ion-header {
+        ion-row {
+            justify-content: flex-end;
+        }
+    }
     ion-label[fixed] {
         flex: 0 0 140px;
         width: 140px;
@@ -12,7 +17,6 @@ wallet-open {
     .scan-btn {
         height: 24px;
         background: transparent;
-        float: right;
         box-shadow: none;
         &:hover {
             background: transparent;
