@@ -51,11 +51,7 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public jumpTx() {
-        this.navCtrl.push(TxTransferComponent, {
-            asset: this.token,
-            assetSymbol: this.assetSymbol,
-            assetBalance: this.assetBalance
-        });
+        this.navCtrl.push(TxTransferComponent, {asset: this.token});
     }
 
     public doRefresh(refresher: Refresher) {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { PopupInputService, GlobalService, TransactionState, BalanceState, ScannerService } from '../../../core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, NavParams } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
 import { TxSuccessComponent } from '../../../pages';
 
@@ -28,22 +28,31 @@ export class TxTransferComponent implements OnInit {
         private txState: TransactionState,
         private balanceState: BalanceState,
         private platform: Platform,
-        private scanner: ScannerService
+        private scanner: ScannerService,
+        private params: NavParams
     ) { }
 
     public ngOnInit() {
         if (this.platform.is('mobileweb') || this.platform.is('core')) {
             this.isScan = false;
         }
-        this.balanceState.get(this.w.address).subscribe((res) => {
+        this.asset = this.params.get('asset') || null;
+        this.balanceState.get().subscribe((res) => {
             this.assetList = res;
             const value = res.find((e) => e.assetId === this.asset);
             this.assetBalance = value ? value.balance : 0;
+            this.assetChange();
         });
     }
 
     public assetChange() {
-        this.assetBalance = this.assetList.find((e) => e.assetId === this.asset).balance;
+        if (!this.asset) {
+            return;
+        }
+        console.log(this.asset);
+        const asset = this.assetList.find((e) => e.assetId === this.asset);
+        this.assetBalance = asset && asset.balance;
+        this.assetSymbol = asset && asset.symbol;
     }
 
     public enterPwd() {
