@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NavParams, NavController, ViewController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { TxTransferComponent, WalletOpenComponent } from '../../../pages';
-import { GlobalService } from '../../../core';
-import { WalletService } from '../../../neo';
+import { GlobalService } from '../../services/global';
+import { Subject } from 'rxjs/Subject';
+import { wallet } from '@cityofzion/neon-js';
 
 @Component({
     selector: 'scan',
@@ -14,16 +15,17 @@ export class ScanComponent implements OnInit {
     protected light: boolean = false;
     protected frontCamera: boolean = false;
     private scanType: string = 'address';
+    private $enter: Subject<any>;
 
     constructor(
         private navCtrl: NavController,
         private navParams: NavParams,
         private qrScanner: QRScanner,
         private viewCtrl: ViewController,
-        private global: GlobalService,
-        private wallet: WalletService
+        private global: GlobalService
     ) {
         this.scanType = this.navParams.get('type');
+        this.$enter = this.navParams.get('subject');
     }
 
     public ngOnInit() {
@@ -33,20 +35,18 @@ export class ScanComponent implements OnInit {
                 if (status.authorized) {
                     this.qrScanner.show();
                     this.showCamera();
-                    if (this.scanType === 'address') {
+                    if (this.scanType === 'ADDRESS') {
                         this.scanAddress();
                     } else if (this.scanType === 'WIF') {
                         this.scanWIF();
                     } else {
                         this.global.Alert('UNKNOWN').subscribe();
+                        this.navCtrl.pop();
                     }
                 } else if (status.denied) {
                     this.navCtrl.pop();
-                    // camera permission was permanently denied
-                    // you must use QRScanner.openSettings() method to guide the user to the settings page
-                    // then they can grant the permission from there
                 } else {
-                    // permission was denied, but not permanently. You can ask for permission again at a later time.
+                    this.navCtrl.pop();
                 }
             })
             .catch((e: any) => console.log('Error is', e));
@@ -102,7 +102,7 @@ export class ScanComponent implements OnInit {
         return addressFlag;
     }
     public checkWIF(text: string) {
-        if (!text || !this.wallet.CheckWIF(text)) {
+        if (!text || !wallet.isWIF(text)) {
             this.global.AlertI18N({
                 title: 'ALERT_TITLE_WARN',
                 content: 'ALERT_CONTENT_WIFERROR',
@@ -114,7 +114,6 @@ export class ScanComponent implements OnInit {
         } else {
              return true;
         }
-
     }
 
     public scanAddress() {
@@ -122,17 +121,9 @@ export class ScanComponent implements OnInit {
             if (!this.checkAddress(text)) {
                 return;
             }
-            this.qrScanner.hide(); // hide camera preview
+            this.$enter.next(text);
+            this.$enter.complete();
             scanSub.unsubscribe(); // stop scanning
-            this.hideCamera();
-            this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1, TxTransferComponent, {
-                animate: false,
-                addr: text,
-                asset: this.navParams.get('asset'),
-                assetSymbol: this.navParams.get('assetSymbol'),
-                assetBalance: this.navParams.get('assetBalance')
-            });
-            this.navCtrl.pop({ animate: false });
             this.navCtrl.pop();
         });
     }
@@ -142,14 +133,9 @@ export class ScanComponent implements OnInit {
             if (!this.checkWIF(text)) {
                 return;
             }
-            this.qrScanner.hide(); // hide camera preview
+            this.$enter.next(text);
+            this.$enter.complete();
             scanSub.unsubscribe(); // stop scanning
-            this.hideCamera();
-            this.navCtrl.insert(this.navCtrl.indexOf(this.navCtrl.last()) - 1, WalletOpenComponent, {
-                animate: false,
-                wif: text,
-            });
-            this.navCtrl.pop({ animate: false });
             this.navCtrl.pop();
         });
     }

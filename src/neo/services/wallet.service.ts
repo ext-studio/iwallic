@@ -39,7 +39,7 @@ export class WalletService {
     ) {
         //
     }
-    public Verify(pwd: string, w?: Wallet): Observable<any> {
+    public Verify(pwd: string, w?: Wallet, skipSave?: boolean): Observable<any> {
         if (!this.cached && !w) {
             return Observable.throw('not_exist');
         }
@@ -47,7 +47,10 @@ export class WalletService {
             this.cached = w;
         }
         return this.cached.Verify(pwd).map((res) => {
-            this.Save(res);
+            if (!skipSave) {
+                console.log('skip_save');
+                this.Save(res);
+            }
             return res;
         });
     }

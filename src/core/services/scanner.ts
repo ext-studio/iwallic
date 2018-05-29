@@ -1,17 +1,18 @@
 import { Injectable, ComponentFactoryResolver, ComponentRef } from '@angular/core';
-import { PopupInputComponent } from '../directives/popup-input/popup-input.component';
+import { ScanComponent } from '../directives/scan/scan.component';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { NavController } from 'ionic-angular';
 
 @Injectable()
-export class PopupInputService {
+export class ScannerService {
     constructor() { }
     public open(
-        navCtrl: NavController
+        navCtrl: NavController,
+        type: 'ADDRESS' | 'WIF'
     ) {
         const $enter: Subject<any> = new Subject<any>();
-        navCtrl.push(PopupInputComponent, {subject: $enter});
+        navCtrl.push(ScanComponent, {subject: $enter, type: type});
         return $enter.asObservable();
     }
 }

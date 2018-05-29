@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, Refresher, Platform, ItemSliding } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService, TransactionState } from '../../../core';
-import { WalletService, TransactionService } from '../../../neo';
+import { WalletService } from '../../../neo';
 import { Clipboard } from '@ionic-native/clipboard';
 
 

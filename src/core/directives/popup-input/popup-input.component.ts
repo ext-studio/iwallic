@@ -7,7 +7,6 @@ import { Subject } from 'rxjs/Subject';
     templateUrl: 'popup-input.component.html'
 })
 export class PopupInputComponent implements OnInit {
-    public type = 'ENTER';
     public pwd: string;
     private $enter: Subject<any>;
     constructor(

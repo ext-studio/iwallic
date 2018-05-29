@@ -13,8 +13,7 @@ import {
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletPwdComponent, WalletCreateComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
-    ScanComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
 } from '../pages';
 import { PopupInputService, BlockState, BalanceState, TransactionState, NetService } from '../core';
 

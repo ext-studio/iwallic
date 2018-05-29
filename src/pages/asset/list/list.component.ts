@@ -102,7 +102,6 @@ export class AssetListComponent implements OnInit {
         this.global.LoadI18N('LOADING_TRANSFER').subscribe((load) => {
             this.tx.ClaimGAS(this.claim, this.wallet.wif).subscribe((res) => {
                 load.dismiss();
-                console.log(res);
                 this.txState.push('GAS', res.txid, res.value, true);
                 this.balance.unconfirmedClaim = res.txid;
                 this.claim.unSpentClaim = 0;

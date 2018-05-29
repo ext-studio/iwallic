@@ -57,7 +57,7 @@ export class WalletBackupComponent implements OnInit {
         if (this.verified) {
             return;
         }
-        this.input.open(this.nav, 'ENTER').subscribe((res) => {
+        this.input.open(this.nav).subscribe((res) => {
             if (!res) {
                 return;
             }

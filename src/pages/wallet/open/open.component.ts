@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
-import { WalletService, Wallet, TransactionService, ASSET } from '../../../neo';
-import { NavController, MenuController, AlertController, LoadingController, NavParams } from 'ionic-angular';
+import { GlobalService, PopupInputService, ReadFileService, ScannerService } from '../../../core';
+import { WalletService, Wallet, ASSET } from '../../../neo';
+import { NavController, MenuController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import { ScanComponent } from '../../../pages';
 
 @Component({
     selector: 'wallet-open',
@@ -21,39 +20,13 @@ export class WalletOpenComponent implements OnInit {
         private input: PopupInputService,
         private global: GlobalService,
         private wallet: WalletService,
-        private alert: AlertController,
-        private file: ReadFileService,
-        private load: LoadingController,
         private menu: MenuController,
-        private navparams: NavParams
-    ) {
-        if (this.navparams.get('wif')) {
-            this.wif = this.navparams.get('wif');
-        }
-    }
+        private scanner: ScannerService,
+        private file: ReadFileService
+    ) { }
 
     public ngOnInit() {
         //
-    }
-
-    public enterPwd() {
-        this.input.open(this.navCtrl, 'ENTER').subscribe((res) => {
-            if (res) {
-                this.pwd = res;
-                this.rePwd = '';
-                this.enterRePwd();
-            }
-        });
-    }
-    public enterRePwd() {
-        if (!this.pwd || !this.pwd.length) {
-            return;
-        }
-        this.input.open(this.navCtrl, 'CONFIRM').subscribe((res) => {
-            if (res) {
-                this.rePwd = res;
-            }
-        });
     }
     public import() {
         if (!this.check() || !this.checkWIF()) {
@@ -75,7 +48,7 @@ export class WalletOpenComponent implements OnInit {
         this.file.read().switchMap((json) => {
             const w = new Wallet(json);
             if (!w.wif) {
-                return this.input.open(this.navCtrl, 'ENTER').switchMap((pwd) => {
+                return this.input.open(this.navCtrl).switchMap((pwd) => {
                     if (pwd) {
                         return this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
                             return this.wallet.Verify(pwd, w).map(() => {
@@ -117,8 +90,10 @@ export class WalletOpenComponent implements OnInit {
     }
 
     public qrScan() {
-        this.navCtrl.push(ScanComponent, {
-            type: 'WIF'
+        this.scanner.open(this.navCtrl, 'WIF').subscribe((wif) => {
+            if (wif) {
+                this.wif = wif;
+            }
         });
     }
 }
