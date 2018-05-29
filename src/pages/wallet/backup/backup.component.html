@@ -18,8 +18,8 @@
         <img *ngIf="shown" (click)="shown = false" isrc="assets/wallet/backups_btn_display_s@2x.png" />
         <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" isrc="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
-    <input ibg="default" *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
-    <input ibg="default" *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
+    <input ibg="default2" *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="wallet?.wif" />
+    <input ibg="default2" *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
     <button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_BACKUP_COPIED' : 'WALLET_BACKUP_COPY') | translate}}</button>
 
     <button *ngIf="shown" class="btn copy" ion-button (click)="leaveConfirm()">{{'WALLET_BACKUP_BACKED' | translate}}</button>
