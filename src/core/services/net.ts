@@ -14,7 +14,7 @@ export class NetService {
         private http: HttpClient
     ) { }
     public Init(): Observable<any> {
-        return this.http.get(`assets/fork-net.json`).map((res) => {
+        return this.http.get(`https://www.iwallic.com/config/net.json`).map((res) => {
             this.netList = res;
             return;
         }).switchMap(() => Observable.fromPromise(this.storage.get('net'))).map((res) => {

@@ -45,7 +45,7 @@ export class SystemAboutComponent implements OnInit {
     public ngOnInit() {
         this.version.getVersionNumber().then((ver) => {
             this.verCurr = ver;
-            this.http.get(`assets/fork-version-check.json`).subscribe((res: any) => {
+            this.http.get(`https://www.iwallic.com/config/version.json`).subscribe((res: any) => {
                 this.ver = res;
                 if (res.version !== this.verCurr) {
                     this.global.AlertI18N({
