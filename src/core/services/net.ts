@@ -2,41 +2,32 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-
-export const NetList = {
-    Test: {
-        API: 'http://47.75.174.167:8002',
-        RPC: 'http://seed2.neo.org:20332'
-    },
-    Main: {
-        API: 'http://47.75.174.167:8001',
-        RPC: 'http://seed2.neo.org:10332'
-    },
-    Priv: {
-        API: 'http://192.168.1.90:8080',
-        RPC: 'http://192.168.1.23:20332'
-    }
-};
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class NetService {
     public current: 'Main' | 'Test' | 'Priv';
     private currNet;
+    private netList: any;
     constructor(
-        private storage: Storage
+        private storage: Storage,
+        private http: HttpClient
     ) { }
     public Init(): Observable<any> {
-        return Observable.fromPromise(this.storage.get('net')).map((res) => {
+        return this.http.get(`assets/fork-net.json`).map((res) => {
+            this.netList = res;
+            return;
+        }).switchMap(() => Observable.fromPromise(this.storage.get('net'))).map((res) => {
             if (res) {
-                this.currNet = NetList[res];
+                this.currNet = this.netList[res];
                 this.current = res;
             } else {
-                this.currNet = NetList['Main'];
+                this.currNet = this.netList['Main'];
                 this.current = 'Main';
             }
             return;
         }).catch(() => {
-            this.currNet = NetList['Main'];
+            this.currNet = this.netList['Main'];
             this.current = 'Main';
             return Observable.of();
         });
@@ -45,7 +36,7 @@ export class NetService {
         return this.currNet[type];
     }
     public switch(net: 'Main' | 'Test' | 'Priv') {
-        this.currNet = NetList[net];
+        this.currNet = this.netList[net];
         this.current = net;
         this.storage.set('net', net);
     }
