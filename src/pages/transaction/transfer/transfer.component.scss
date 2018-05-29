@@ -2,12 +2,6 @@ transaction-transfer {
     .input-cover {
         display: none;
     }
-    // ion-icon.icon-ios {
-    //     margin-bottom: 0 !important;
-    // }
-    // ion-icon.icon-md {
-    //     margin-bottom: 3px !important;
-    // }
     ion-content {
         .choose-asset {
             width: 100%;
@@ -27,14 +21,6 @@ transaction-transfer {
             &.note {
                 margin-bottom: 0 !important;
             }
-        }
-        .wrong {
-            color: #d95959;
-            font-size: 1.4rem;
-            margin: 0;
-            padding: 0;
-            padding-left: 16px;
-            margin-top: 16px;
         }
     }
     ion-list.list {

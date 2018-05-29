@@ -28,7 +28,7 @@
             <button ibg="default2" icolor="font" clear item-end (click)="clearAmount()" *ngIf="amount"><ion-icon name="close"></ion-icon></button>
         </ion-item>
     </ion-list>
-    <p class="wrong" float-left *ngIf="addr?.length || amount">{{ wrongTips | translate }}</p>
+    <p icolor="danger" margin text-sm float-left *ngIf="addr?.length || amount">{{ wrongTips | translate }}</p>
     <button clear float-right ion-button (click)="clear()">{{'TRANSACTION_TRANSFER_CLEAR' | translate}}</button>
     <div padding style="margin-top: 48px;">
         <button ibg="primary" ion-button block round (click)="enterPwd()">{{ 'TRANSACTION_TRANSFER_SUBMIT' | translate }}</button>

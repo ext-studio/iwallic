@@ -37,11 +37,15 @@ export class TxTransferComponent implements OnInit {
             this.isScan = false;
         }
         this.asset = this.params.get('asset') || null;
+        if (this.asset) {
+            const chosen = this.assetList.find((e) => e.assetId === this.asset);
+            this.assetBalance = chosen && chosen.balance;
+            this.assetSymbol = chosen && chosen.symbol;
+        }
         this.balanceState.get().subscribe((res) => {
             this.assetList = res;
             const value = res.find((e) => e.assetId === this.asset);
             this.assetBalance = value ? value.balance : 0;
-            this.assetChange();
         });
     }
 
@@ -49,7 +53,6 @@ export class TxTransferComponent implements OnInit {
         if (!this.asset) {
             return;
         }
-        console.log(this.asset);
         const asset = this.assetList.find((e) => e.assetId === this.asset);
         this.assetBalance = asset && asset.balance;
         this.assetSymbol = asset && asset.symbol;
