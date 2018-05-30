@@ -31,6 +31,7 @@ export class AssetListComponent implements OnInit {
     public isRefresh: boolean = true;
     public claimGasBalance: number = 0;
     public selectedNet: 'Main' | 'Test' | 'Priv';
+    private claimLoading: boolean = false;
     constructor(
         private http: HttpClient,
         public wallet: WalletService,
@@ -55,7 +56,9 @@ export class AssetListComponent implements OnInit {
             if (this.balance.unconfirmedClaim) {
                 this.checkClaim(this.balance.unconfirmedClaim);
             } else if (this.neoValue > 0) {
-                this.fetchClaim();
+                if (!this.claimLoading) {
+                    this.fetchClaim();
+                }
             }
         });
         this.balance.error().subscribe((res) => {
@@ -127,6 +130,7 @@ export class AssetListComponent implements OnInit {
     }
 
     private fetchClaim() {
+        this.claimLoading = true;
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'getclaim',
             params: [this.wallet.address]
@@ -139,8 +143,10 @@ export class AssetListComponent implements OnInit {
         }).subscribe((res) => {
             res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
             this.claim = res;
+            this.claimLoading = false;
         }, (err) => {
             console.log(err);
+            this.claimLoading = false;
         });
     }
 
