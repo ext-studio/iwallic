@@ -99,7 +99,7 @@ export class AssetListComponent implements OnInit {
     // }
 
     public claimGas() {
-        this.global.LoadI18N('LOADING_TRANSFER').subscribe((load) => {
+        this.global.LoadI18N('LOADING_CLAIMGAS').subscribe((load) => {
             this.tx.ClaimGAS(this.claim, this.wallet.wif).subscribe((res) => {
                 load.dismiss();
                 this.txState.push('GAS', res.txid, res.value, true);
@@ -107,13 +107,17 @@ export class AssetListComponent implements OnInit {
                 this.claim.unSpentClaim = 0;
                 // call for new claim
                 // when new NEO spent, update again
-                this.navctrl.push(TxSuccessComponent);
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_TIP',
+                    content: 'ALERT_CONTENT_ClAIMESUCCESS',
+                    ok: 'ALERT_OK_SURE'
+                }).subscribe();
             }, (err) => {
                 load.dismiss();
                 console.log(err);
                 this.global.AlertI18N({
                     title: 'ALERT_TITLE_WARN',
-                    content: 'ALERT_CONTENT_TXFAILED',
+                    content: 'ALERT_CONTENT_CLAIMFAILED',
                     ok: 'ALERT_OK_SURE'
                 }).subscribe();
             });

@@ -25,7 +25,7 @@ export class BlockState {
                 if (new Date().getTime() - this._last > 20000) {
                     this.fetch();
                 }
-            }, 4000);
+            }, 10000);
         }
         return this.$listen.publish().refCount();
     }
