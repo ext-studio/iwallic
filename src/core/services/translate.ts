@@ -1,6 +1,5 @@
 import { TranslateService as NgTranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { Config } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
@@ -11,8 +10,7 @@ export class TranslateService {
     private _current: string;
     constructor(
         private storage: Storage,
-        private translate: NgTranslateService,
-        private config: Config
+        private translate: NgTranslateService
     ) {}
     public Current(): Observable<string> {
         return new Observable((observer) => {

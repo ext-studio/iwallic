@@ -13,6 +13,6 @@ export class TxSuccessComponent implements OnInit {
     public ngOnInit() {}
 
     public returnRoot() {
-        this.nav.setRoot(AssetListComponent);
+        this.nav.popToRoot();
     }
 }

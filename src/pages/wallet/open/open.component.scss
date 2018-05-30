@@ -2,11 +2,31 @@ wallet-open {
     .input-cover{
         display: none;
     }
+    ion-header {
+        ion-row {
+            justify-content: flex-end;
+        }
+    }
     ion-label[fixed] {
         flex: 0 0 140px;
         width: 140px;
     }
     input.text-input[disabled] {
         opacity: 1;
+    }
+    .scan-btn {
+        height: 24px;
+        background: transparent;
+        box-shadow: none;
+        &:hover {
+            background: transparent;
+        }
+    }
+    ion-item {
+        // border-bottom: none !important;
+        border-top: none !important;
+    }
+    ion-list ion-item:last-child {
+        border-bottom: none !important;
     }
 }

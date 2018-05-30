@@ -20,7 +20,7 @@ export class TxReceiptComponent implements OnInit {
     public ngOnInit() {
         this.wallet.Get().subscribe((res) => {
             this.address = res.account.address;
-            this.global.getQRCode('qrcode', this.address, 200);
+            this.global.GenerateQRCode('qrcode', this.address, 200);
         });
     }
     public copy() {

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll, NavController, NavParams, Refresher, Platform } from 'ionic-angular';
+import {
+    InfiniteScroll, NavController, NavParams,
+    Refresher, Platform, ItemSliding
+} from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
-import { TransactionState } from '../../../core';
+import { TransactionState, BalanceState, GlobalService } from '../../../core';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @Component({
     selector: 'asset-detail',
@@ -14,7 +18,7 @@ export class AssetDetailComponent implements OnInit {
     public receipt = TxReceiptComponent;
     public transfer = TxTransferComponent;
     public token: string;
-    public assetName: string;
+    public assetSymbol: string;
     public assetBalance: number = 0;
     public address: string;
     constructor(
@@ -22,12 +26,18 @@ export class AssetDetailComponent implements OnInit {
         private navParams: NavParams,
         private platform: Platform,
         private wallet: WalletService,
-        private transcation: TransactionState
+        private transcation: TransactionState,
+        private balanceState: BalanceState,
+        private clipboard: Clipboard,
+        private global: GlobalService
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
-        this.assetName = this.navParams.get('name');
-        this.assetBalance = this.navParams.get('assetBalance');
+        this.assetSymbol = this.navParams.get('symbol');
+        this.balanceState.get(this.wallet.address).subscribe((res) => {
+            const value = res.find((e) => e.assetId === this.token);
+            this.assetBalance = value ? value.balance : this.navParams.get('assetBalance');
+        });
         this.wallet.Get().subscribe((wal) => {
             this.address = wal.account.address;
             this.transcation.get(wal.address, this.token).subscribe((res) => {
@@ -41,11 +51,7 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public jumpTx() {
-        this.navCtrl.push(TxTransferComponent, {
-            asset: this.token,
-            assetName: this.assetName,
-            assetBalance: this.assetBalance
-        });
+        this.navCtrl.push(TxTransferComponent, {asset: this.token});
     }
 
     public doRefresh(refresher: Refresher) {
@@ -54,5 +60,15 @@ export class AssetDetailComponent implements OnInit {
                 refresher.complete();
             });
         }, 500);
+    }
+
+    public copyTx(txid: string, item: ItemSliding) {
+        this.clipboard.copy(txid).then((res) => {
+            this.global.ToastI18N('TOAST_CONTENT_COPIED').subscribe();
+            item.close();
+        }, (err) => {
+            this.global.ToastI18N('TOAST_CONTENT_COPYFAILED').subscribe();
+            item.close();
+        });
     }
 }

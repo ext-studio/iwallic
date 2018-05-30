@@ -20,13 +20,9 @@ export class TransactionState {
     public get total(): number {
         return this._total;
     }
-    public get unconfirmed(): any[] {
-        return this._unconfirmed;
-    }
     public get nomore(): boolean {
         return (this.total / this.pageSize) < this.page;
     }
-    private _unconfirmed: any[] = [];
     private _page: number = 1;
     private _pageSize: number = 10;
     private _total: number = 0;
@@ -122,43 +118,44 @@ export class TransactionState {
         if (this.loading || !this.address) {
             return;
         }
-        // get tx of all assets
-        if (!this.asset) {
-            this.request(
-                1, this.pageSize, this.address, this.asset
-            ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
-                const newCount = rs.total - this._total;
-                if (newCount <= 0) {
-                    // less tx
-                    return Observable.throw('no_need');
-                }
-                if (this._total === 0 || newCount <= this._pageSize) {
-                    // new tx less than page size
-                    return Observable.of(rs);
-                } else {
-                    // new tx over page size, need fetching those unfetched
-                    return this.request(1, newCount, this.address, this.asset);
-                }
-            }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
-                this.mergeTx(rs);
-                this.$transaction.next(this._transaction);
-            }, (err) => {
-                if (err === 'no_need') {
-                    return;
-                }
-                this.$error.next(typeof err === 'string' ? err : 'request_error');
-            });
-        } else {
-            this.$error.next('completing');
-        }
+        this.request(
+            1, this.pageSize, this.address, this.asset
+        ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+            const newCount = rs.total - this._total;
+            if (newCount <= 0) {
+                // less tx
+                return Observable.throw('no_need');
+            }
+            if (this._total === 0 || newCount <= this._pageSize) {
+                // new tx less than page size
+                return Observable.of(rs);
+            } else {
+                // new tx over page size, need fetching those unfetched
+                return this.request(1, newCount, this.address, this.asset);
+            }
+        }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+            this.mergeTx(rs);
+            this.$transaction.next(this._transaction);
+        }, (err) => {
+            if (err === 'no_need') {
+                return;
+            }
+            this.$error.next(typeof err === 'string' ? err : 'request_error');
+        });
     }
     // push unconfirmed tx into list
-    public push(name: string, txid: string, value: number) {
+    public push(name: string, txid: string, value: number, isClaim: boolean = false) {
         this._transaction = this._transaction || [];
         if (txid.length === 64) {
             txid = '0x' + txid;
         }
-        this._transaction.unshift({ name: name, txid: txid, value: '-' + value.toString(), unconfirmed: true });
+        this._transaction.unshift({
+            name: name,
+            txid: txid,
+            value: `${isClaim ? '' : '-'}${value}`,
+            unconfirmed: true,
+            isClaim
+        });
         this.$transaction.next(this._transaction);
     }
     public clear() {

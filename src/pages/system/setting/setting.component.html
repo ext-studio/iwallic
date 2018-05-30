@@ -12,18 +12,25 @@
         <ion-item-group>
             <ion-item ibg="default2" icolor="font" iborder="line">
                 <ion-label>{{'SYSTEM_SETTING_LANGUAGE' | translate}}</ion-label>
-                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()" [selectOptions]="">
+                <ion-select [(ngModel)]="lang" interface="action-sheet" (ionChange)="langChange()">
                     <ion-option value="sys">{{'SETTING_LANG_SYSTEM' | translate}}</ion-option>
                     <ion-option value="en">English</ion-option>
                     <ion-option value="cn">中文简体</ion-option>
-                    <!-- <ion-option value="tw">中文繁體</ion-option> -->
                 </ion-select>
             </ion-item>
             <ion-item ibg="default2" icolor="font" iborder="line">
                 <ion-label>{{'SYSTEM_SETTING_THEME' | translate}}</ion-label>
-                <ion-select [(ngModel)]="selectedTheme" interface="action-sheet" (ngModelChange)="toggleAppTheme()">
+                <ion-select [(ngModel)]="selectedTheme" interface="action-sheet" (ionChange)="toggleAppTheme()">
                     <ion-option value="light">{{'SYSTEM_SETTING_THEMEDEFAULT' | translate}}</ion-option>
                     <ion-option value="dark">{{'SYSTEM_SETTING_THEMEDARK' | translate}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item ibg="default2" icolor="font" iborder="line">
+                <ion-label>{{'SYSTEM_SETTING_NET' | translate}}</ion-label>
+                <ion-select [(ngModel)]="selectedNet" interface="action-sheet" (ionChange)="toggleAppNet()">
+                    <ion-option value="Main">{{'SYSTEM_SETTING_MAINNET' | translate}}</ion-option>
+                    <ion-option value="Test">{{'SYSTEM_SETTING_TESTNET' | translate}}</ion-option>
+                    <!-- <ion-option value="Priv">{{'SYSTEM_SETTING_PRIVNET' | translate}}</ion-option> -->
                 </ion-select>
             </ion-item>
         </ion-item-group>

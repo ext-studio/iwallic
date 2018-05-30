@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Storage } from '@ionic/storage';
+import { StatusBar } from '@ionic-native/status-bar';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -10,10 +11,16 @@ export class ThemeService {
     private $theme: Subject<String> = new Subject();
 
     constructor(
+        private statusBar: StatusBar,
         private storage: Storage
     ) {
         this.storage.get('theme').then((res) => {
             this._theme = res || this.default;
+            if (this._theme === 'light') {
+                this.statusBar.styleDefault();
+            } else {
+                this.statusBar.styleLightContent();
+            }
             this.$theme.next(this._theme);
         }).catch((err) => {
             this._theme = this.default;
@@ -31,6 +38,7 @@ export class ThemeService {
         this.storage.set('theme', theme);
         this._theme = theme;
         this.$theme.next(this._theme);
+        this.statusBar.styleLightContent();
     }
 
     public current() {

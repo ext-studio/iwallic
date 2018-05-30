@@ -1,0 +1,23 @@
+{
+    "walletGuide": {
+        "action": "link",
+        "enabled": true,
+        "data": "https://bilibili.com"
+    },
+    "transactionGuide": {
+        "action": "link",
+        "enabled": true,
+        "data": "https://bilibili.com"
+    },
+    "community": {
+        "action": "link",
+        "enabled": false,
+        "value": "iWallic Forum",
+        "data": "https://bilibili.com"
+    },
+    "contact": {
+        "action": "email",
+        "enabled": true,
+        "data": "iwallic@outlook.com"
+    }
+}

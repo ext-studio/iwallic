@@ -1,38 +1,39 @@
-<ion-header>
-    <ion-navbar [color]="'default2' | theme | async">
+<ion-header  no-border class="header-box">
+    <ion-navbar transparent class="nav-bar" [color]="'default2' | theme | async">
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>{{ assetName }}</ion-title>
     </ion-navbar>
-</ion-header>
-
-<ion-content ibg="default" >
     <div class="top" [style.backgroundImage]="'url(' + ('assets/asset/detail_bg_img.png' | isrc | async) + ')'">
-        <h5>{{ 'ASSET_DETAIL_YOUR' | translate }} {{ assetName }} {{ 'ASSET_DETAIL_ASSET' | translate }}</h5>
+        <h5>{{ assetSymbol }}</h5>
         <p>{{ assetBalance }}</p>
     </div>
+</ion-header>
+
+<ion-content ibg="default2" >
     <h5 icolor="font">{{ 'ASSET_DETAIL_RECENTTRANSACTION' | translate }}</h5>
-    <hr ibg="default2" icolor="font">
+    <hr ibg="line" icolor="font">
     <ion-list class="tx-list">
-        <ion-item iborder="line" ibg="default2" icolor="font" *ngFor="let i of items">
-            <ion-grid>
-                <ion-row *ngIf="i.value <= 0" icolor="font">
-                    <ion-col col-9>
-                        <img isrc="assets/asset/record_icon_payment.png" alt="" *ngIf="i.value <= 0">{{ i.txid }}
-                    </ion-col>
-                    <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
-                </ion-row>
-                <ion-row *ngIf="i.value > 0" icolor="danger">
-                    <ion-col col-9>
-                        <img isrc="assets/asset/record_icon_revenue.png" alt="">{{ i.txid }}
-                    </ion-col>
-                    <ion-col text-right col-3 class="num">{{ i.value }}{{ i.name }}</ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-item>
+        <ion-item-sliding *ngFor="let i of items" #slidingItem>
+            <ion-item iborder="line" ibg="default2" [icolor]="i.value <= 0 ? 'font' : 'danger'" [ngClass]="{'payment' : i.value <= 0, 'revenue': i.value > 0}">
+                <ion-avatar item-start>
+                    <img [isrc]="i.value <= 0 ? 'assets/asset/record_icon_payment.png' : 'assets/asset/record_icon_revenue.png'" />
+                </ion-avatar>
+                <h2>{{ i.value }} {{ i.name }}</h2>
+                <p>{{ i.txid }}</p>
+                <ion-note item-end icolor="primary" *ngIf="i?.unconfirmed">{{'TRANSACTION_LIST_UNCONFIRMED' | translate}}</ion-note>
+            </ion-item>
+            <ion-item-options ibg="default2" iborder="line">
+                <button ion-button [color]="'primary' | theme | async" (click)="copyTx(i.txid, slidingItem)">
+                    <ion-icon name="copy"></ion-icon>
+                    {{'TRANSACTION_LIST_COPY' | translate}}
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
     </ion-list>
-    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">{{transcation.loading ? '加载中' : transcation.nomore ? '没有更多数据' : '加载更多'}}</div>
+    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
+        {{(transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NORANSACTION' : 'TRANSACTION_LIST_LOADMORE') | translate}}
+    </div>
     <ion-refresher *ngIf="!transcation.loading" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content icolor="primary"></ion-refresher-content>
     </ion-refresher>

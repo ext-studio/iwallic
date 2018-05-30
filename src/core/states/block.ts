@@ -29,7 +29,7 @@ export class BlockState {
         }
         return this.$listen.publish().refCount();
     }
-    public fetch(): Promise<any> {
+    public fetch(force: boolean = false): Promise<any> {
         this._loading = true;
         return new Promise((resolve) => {
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {method: 'getblocktime'}).subscribe((res: any) => {
@@ -40,6 +40,8 @@ export class BlockState {
                     ) {
                         this._block = res.result.lastBlockIndex;
                         this._last = res.result.time * 1000;
+                        this.$listen.next(res.result);
+                    } else if (force) {
                         this.$listen.next(res.result);
                     } else {
                         this.$error.next(res && res.msg || 'block_error');

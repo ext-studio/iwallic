@@ -12,8 +12,7 @@ import {
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
     WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
-    ScanAddrComponent
+    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
 } from '../pages';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -21,6 +20,9 @@ import { HttpClient } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
+import { Clipboard } from '@ionic-native/clipboard';
+import { AppVersion } from '@ionic-native/app-version';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -43,7 +45,6 @@ const translateModuleConfig = {
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
         WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
-        ScanAddrComponent
     ],
     imports: [
         BrowserModule,
@@ -59,16 +60,12 @@ const translateModuleConfig = {
         SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
         WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
-        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent,
-        ScanAddrComponent
+        TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
     ],
     providers: [
-        StatusBar,
-        SplashScreen,
-        Camera,
-        QRScanner,
-        File,
-        ThemeableBrowser,
+        StatusBar, SplashScreen,
+        Camera, QRScanner, File,
+        ThemeableBrowser, Clipboard, AppVersion, InAppBrowser,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

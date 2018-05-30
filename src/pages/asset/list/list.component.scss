@@ -8,8 +8,11 @@ asset-list {
     .nav-bar {
         position: absolute;
         top: 0;
+        button.transfer-btn {
+            margin-right: 11px;
+        }
         .transfer-btn {
-            height: 26px;
+            height: 24px;
             background: transparent;
             float: right;
             box-shadow: none;
@@ -26,8 +29,10 @@ asset-list {
         background-position: center;
         height: 230px;
         width: 100%;
-        color: #3c373b;
+        color: white;
         background-size: cover;
+        position: relative;
+        z-index: -1;
         .title {
             padding-top: 90px;
             span {
@@ -57,24 +62,48 @@ asset-list {
         }
     }
 
-    .add-asset {
-        width: 40xp;
-        height: 40px;
-        position: absolute;
-        bottom: -20px;
-        right: 30px;
-    }
-
-    ion-item {
+    .claim-gas {
         height: 80px;
+        background: #699af8;
+        color: rgba(255, 255, 255, 0.85);
+        margin: 0;
         line-height: 80px;
-        span {
-            color: #3c373b;
+        p {
+            margin: 0;
+        }
+        .gas-balance {
             font-size: 20px;
         }
+        .claim-info {
+            font-size: 10px;
+            margin-top: 5px;
+        }
+    }
+
+    .add-asset {
+        width: 27px;
+        height: 27px;
+        position: absolute;
+        right: 18px;
+        bottom: 18px;
+    }
+
+
+    ion-item {
+        height: 90px;
+        line-height: 90px;
+        padding: 0 !important;
+        span {
+            color: #3c373b;
+            font-size: 21px;
+        }
         .asset-type {
-            font-size: 18px;
             color: #646163;
+            margin-left: 20px;
+        }
+        .asset-balance {
+            float: right;
+            margin-right: 4px;
         }
     }
     

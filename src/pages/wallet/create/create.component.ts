@@ -25,7 +25,6 @@ export class WalletCreateComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.menu.swipeEnable(false);
         this.pwd = this.navParams.get('pwd');
         if (!this.pwd) {
             this.global.Alert('UNKNOWN').subscribe();
@@ -35,17 +34,13 @@ export class WalletCreateComponent implements OnInit {
             this.wallet.Create(this.pwd).subscribe((res: Wallet) => {
                 load.dismiss();
                 this.newWallet = res;
-                this.global.getQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
+                this.global.GenerateQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
             }, (err) => {
                 load.dismiss();
                 console.log(err);
                 this.global.Alert('UNKNOWN').subscribe();
             });
         });
-    }
-
-    public home() {
-        this.navCtrl.setRoot(AssetListComponent);
     }
 
     public copy() {
@@ -64,6 +59,7 @@ export class WalletCreateComponent implements OnInit {
             no: 'ALERT_NO_CANCEL'
         }).subscribe((res) => {
             if (res) {
+                this.menu.enable(true, 'iwallic-menu');
                 this.wallet.Save(this.newWallet);
                 this.navCtrl.setRoot(AssetListComponent);
             }

@@ -26,6 +26,9 @@ export class WalletService {
     public get address(): string {
         return this.cached && this.cached.address;
     }
+    public get wif(): string {
+        return this.cached && this.cached.wif;
+    }
     public get backup(): boolean {
         return this.cached && this.cached.backup;
     }
@@ -36,7 +39,7 @@ export class WalletService {
     ) {
         //
     }
-    public Verify(pwd: string, w?: Wallet): Observable<any> {
+    public Verify(pwd: string, w?: Wallet, skipSave?: boolean): Observable<any> {
         if (!this.cached && !w) {
             return Observable.throw('not_exist');
         }
@@ -44,7 +47,10 @@ export class WalletService {
             this.cached = w;
         }
         return this.cached.Verify(pwd).map((res) => {
-            this.Save(res);
+            if (!skipSave) {
+                console.log('skip_save');
+                this.Save(res);
+            }
             return res;
         });
     }
@@ -84,6 +90,12 @@ export class WalletService {
      * @param key wallet key to save
      */
     public Save(data: Wallet): void {
+        this.cached = data;
+        this.storage.set('wallet', data);
+    }
+
+    public SaveBackup(data: Wallet): void {
+        data.backup = true;
         this.cached = data;
         this.storage.set('wallet', data);
     }

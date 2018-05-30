@@ -3,10 +3,24 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>iwallic</ion-title>
+        <ion-title>{{ 'ASSET_LIST_ADDASSETS' | translate }}</ion-title>
     </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-    asset attach page
+<ion-content center ibg="default2">
+    <div text-center padding margin-vertical *ngIf="isloading">
+        <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
+    </div>
+    <ion-list>
+        <ion-item ibg="default2" iborder="line" icolor="font" *ngFor="let item of assetList; let i = index">
+            <ion-label>
+                <h3>{{ item.symbol }}</h3>
+                <div class="info" icolor="font2">
+                    <p icolor="font3">{{ item.name }}</p>
+                    <p icolor="font2">{{ item.assetId }}</p>
+                </div>
+            </ion-label>
+            <ion-toggle *ngIf="i > 3" [(ngModel)]="chooseList[i]['choose']" (ionChange)="changeChoose($event, i)"></ion-toggle>
+        </ion-item>
+    </ion-list>
 </ion-content>

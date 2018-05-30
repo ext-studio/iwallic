@@ -57,13 +57,13 @@ export class WalletBackupComponent implements OnInit {
         if (this.verified) {
             return;
         }
-        this.input.open(this.nav, 'ENTER').subscribe((res) => {
+        this.input.open(this.nav).subscribe((res) => {
             if (!res) {
                 return;
             }
             this.global.LoadI18N('LOADING_VERIFY').subscribe((load) => {
                 this.wallet.Verify(res).subscribe((wres) => {
-                    this.global.getQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
+                    this.global.GenerateQRCode('wallet-qrcode', this.wallet.wif, 160, 'assets/app/logo.png');
                     this.verified = true;
                     this.shown = true;
                     load.dismiss();

@@ -1,0 +1,10 @@
+{
+    "version": "0.0.1",
+    "tag": "Beta",
+    "link": "https://baidu.com",
+    "disclaimer": {
+        "action": "link",
+        "enabled": true,
+        "data": "https://google.com"
+    }
+}

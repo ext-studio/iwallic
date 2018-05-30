@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService, PopupInputService, ReadFileService } from '../../../core';
-import { WalletService, Wallet, TransactionService, ASSET } from '../../../neo';
-import { NavController, MenuController, AlertController, LoadingController } from 'ionic-angular';
+import { GlobalService, PopupInputService, ReadFileService, ScannerService } from '../../../core';
+import { WalletService, Wallet, ASSET } from '../../../neo';
+import { NavController, MenuController, Platform } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -15,38 +15,22 @@ export class WalletOpenComponent implements OnInit {
     public pwd: string;
     public rePwd: string;
     public importing: boolean = false;
+    public isScan: boolean = true;
     constructor(
         private navCtrl: NavController,
         private input: PopupInputService,
         private global: GlobalService,
         private wallet: WalletService,
-        private alert: AlertController,
+        private menu: MenuController,
+        private scanner: ScannerService,
         private file: ReadFileService,
-        private load: LoadingController
+        private platform: Platform
     ) { }
 
     public ngOnInit() {
-        //
-    }
-
-    public enterPwd() {
-        this.input.open(this.navCtrl, 'ENTER').subscribe((res) => {
-            if (res) {
-                this.pwd = res;
-                this.rePwd = '';
-                this.enterRePwd();
-            }
-        });
-    }
-    public enterRePwd() {
-        if (!this.pwd || !this.pwd.length) {
-            return;
+        if (this.platform.is('mobileweb') || this.platform.is('core')) {
+            this.isScan = false;
         }
-        this.input.open(this.navCtrl, 'CONFIRM').subscribe((res) => {
-            if (res) {
-                this.rePwd = res;
-            }
-        });
     }
     public import() {
         if (!this.check() || !this.checkWIF()) {
@@ -57,17 +41,23 @@ export class WalletOpenComponent implements OnInit {
         }
         this.importing = true;
         this.wallet.Import(this.wif, this.pwd, 'NEP2').subscribe((res) => {
-            this.wallet.Save(res);
+            this.importing = false;
+            this.menu.enable(true, 'iwallic-menu');
+            this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             this.global.AlertI18N({content: 'ALERT_CONTENT_IMPORTFAILED'}).subscribe();
+            this.importing = false;
         });
     }
     public fromNEP6() {
+        if (this.importing) {
+            return;
+        }
         this.file.read().switchMap((json) => {
             const w = new Wallet(json);
             if (!w.wif) {
-                return this.input.open(this.navCtrl, 'ENTER').switchMap((pwd) => {
+                return this.input.open(this.navCtrl).switchMap((pwd) => {
                     if (pwd) {
                         return this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
                             return this.wallet.Verify(pwd, w).map(() => {
@@ -85,7 +75,8 @@ export class WalletOpenComponent implements OnInit {
             }
             return Observable.of(w);
         }).subscribe((res) => {
-            this.wallet.Save(res);
+            this.menu.enable(true, 'iwallic-menu');
+            this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             console.log(err);
@@ -105,5 +96,13 @@ export class WalletOpenComponent implements OnInit {
     }
     public checkWIF() {
         return this.wif && this.wallet.CheckWIF(this.wif);
+    }
+
+    public qrScan() {
+        this.scanner.open(this.navCtrl, 'WIF').subscribe((wif) => {
+            if (wif) {
+                this.wif = wif;
+            }
+        });
     }
 }

@@ -1,0 +1,20 @@
+asset-attach {
+    ion-content {
+        ion-list {
+            ion-item {
+                height: 90px;
+                h3 {
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-size: 20px !important;
+                }
+                .info {
+                    margin-left: 14px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    font-size: 12px !important;
+                }
+            }
+        }
+    }
+}

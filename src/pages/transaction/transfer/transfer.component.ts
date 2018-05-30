@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { PopupInputService, GlobalService, TransactionState, BalanceState } from '../../../core';
-import { NavController, NavParams, LoadingController, AlertController, Platform } from 'ionic-angular';
+import { PopupInputService, GlobalService, TransactionState, BalanceState, ScannerService } from '../../../core';
+import { NavController, Platform, NavParams } from 'ionic-angular';
 import { WalletService, TransactionService, Wallet } from '../../../neo';
-import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
+import { TxSuccessComponent } from '../../../pages';
 
 @Component({
     selector: 'transaction-transfer',
@@ -11,65 +11,51 @@ import { ScanAddrComponent, TxSuccessComponent } from '../../../pages';
 export class TxTransferComponent implements OnInit {
     public isfocus: boolean = false;
     public toaddr: string = '';
-    public wallet: Wallet;
     public amount: number;
     public asset: string;
-    public assetName: string;
+    public assetSymbol: string;
     public assetBalance: number = 0;
     public wrongTips: string = '';
     public isNEP5: boolean = true;
     public assetList: any[] = [];
-    public select: any;
     public isScan: boolean = true;
     constructor(
         private input: PopupInputService,
-        private vcRef: ViewContainerRef,
         private global: GlobalService,
         private navCtrl: NavController,
-        private navParams: NavParams,
         private tx: TransactionService,
-        private load: LoadingController,
         private w: WalletService,
-        private alert: AlertController,
         private txState: TransactionState,
         private balanceState: BalanceState,
-        private platform: Platform
-    ) {
-        if (this.navParams.get('addr')) {
-            this.toaddr = this.navParams.get('addr');
-        }
-        if (this.navParams.get('asset')) {
-            this.asset = this.navParams.get('asset');
-        }
-        if (this.navParams.get('assetName')) {
-            this.assetName = this.assetName = this.navParams.get('assetName');
-        }
-        if (this.navParams.get('assetBalance')) {
-            this.assetBalance = this.assetBalance = this.navParams.get('assetBalance');
-        }
-    }
+        private platform: Platform,
+        private scanner: ScannerService,
+        private params: NavParams
+    ) { }
 
     public ngOnInit() {
         if (this.platform.is('mobileweb') || this.platform.is('core')) {
             this.isScan = false;
         }
-        this.assetList = this.balanceState._balance;
-        this.w.Get().subscribe((res) => {
-            this.wallet = res;
-        }, (err) => {
-            this.global.Alert('UNKNOWN').subscribe();
+        this.asset = this.params.get('asset') || null;
+        if (this.asset) {
+            const chosen = this.assetList.find((e) => e.assetId === this.asset);
+            this.assetBalance = chosen && chosen.balance;
+            this.assetSymbol = chosen && chosen.symbol;
+        }
+        this.balanceState.get().subscribe((res) => {
+            this.assetList = res;
+            const value = res.find((e) => e.assetId === this.asset);
+            this.assetBalance = value ? value.balance : 0;
         });
     }
 
     public assetChange() {
-        this.assetBalance = this.assetList.find((e) => e.assetId === this.asset).balance;
-    }
-
-    public focusNum() {
-        this.isfocus = true;
-    }
-    public blurNum() {
-        this.isfocus = false;
+        if (!this.asset) {
+            return;
+        }
+        const asset = this.assetList.find((e) => e.assetId === this.asset);
+        this.assetBalance = asset && asset.balance;
+        this.assetSymbol = asset && asset.symbol;
     }
 
     public enterPwd() {
@@ -86,49 +72,27 @@ export class TxTransferComponent implements OnInit {
             this.wrongTips = 'TRANSACTION_TRANSFER_NOAMOUNT';
             return;
         }
-        const check = this.input.open(this.navCtrl, 'ENTER');
-        check.subscribe((res) => {
-            if (!res) {
+        this.input.open(this.navCtrl).subscribe((pwd) => {
+            if (!pwd) {
                 return;
             }
             this.global.LoadI18N('LOADING_VERIFY').subscribe((load) => {
-                this.wallet.Verify(res).subscribe((wres) => {
+                this.w.Verify(pwd, null, true).subscribe((wres) => {
                     load.dismiss();
                     this.global.LoadI18N('LOADING_TRANSFER').subscribe((transferLoad) => {
-                        // this.tx.Transfer(
-                        //     this.wallet.account.address,
-                        //     this.wallet.account.wif,
-                        //     this.toaddr,
-                        //     this.amount,
-                        //     this.asset,
-                        //     this.assetName
-                        // ).subscribe((xres) => {
-                        //     transferLoad.dismiss();
-                        // if (xres) {
-                        //     this.navCtrl.pop({
-                        //         animate: false
-                        //     });
-                        //     this.navCtrl.push(TxSuccessComponent);
-                        // } else {
-                        //     this.alert.create({title: 'Error'}).present();
-                        // }
-                        // }, (err) => {
-                        //     this.alert.create({title: 'Error'}).present();
-                        //     transferLoad.dismiss();
-                        // });
                         if (this.asset.length > 42) {
                             this.isNEP5 = false;
                         }
                         this.tx.Send(
-                            this.wallet.account.address,
+                            this.w.address,
                             this.toaddr,
                             this.amount,
-                            this.wallet.account.wif,
+                            this.w.wif,
                             this.asset,
                             this.isNEP5
                         ).subscribe((xres) => {
                             transferLoad.dismiss();
-                            this.txState.push(this.assetName, xres.txid, xres.value);
+                            this.txState.push(this.assetSymbol, xres.txid, xres.value);
                             this.navCtrl.pop({
                                 animate: false
                             });
@@ -152,15 +116,19 @@ export class TxTransferComponent implements OnInit {
     }
 
     public qrScan() {
-        this.navCtrl.push(ScanAddrComponent, {
-            asset: this.asset,
-            assetName: this.assetName,
-            assetBalance: this.assetBalance
+        this.scanner.open(this.navCtrl, 'ADDRESS').subscribe((res) => {
+            if (res) {
+                this.toaddr = res;
+            }
         });
     }
 
     public clear() {
         this.amount = null;
         this.toaddr = '';
+    }
+
+    public clearAmount() {
+        this.amount = null;
     }
 }

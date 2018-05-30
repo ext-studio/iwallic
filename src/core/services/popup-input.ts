@@ -8,8 +8,7 @@ import { NavController } from 'ionic-angular';
 export class PopupInputService {
     constructor() { }
     public open(
-        navCtrl: NavController,
-        type: 'ENTER' | 'CONFIRM'
+        navCtrl: NavController
     ) {
         const $enter: Subject<any> = new Subject<any>();
         navCtrl.push(PopupInputComponent, {subject: $enter});
