@@ -24,6 +24,7 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="SplashScreenBackgroundColor" value="false" />
+    <preference name="orientation" value="portrait" />
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
     </feature>
