@@ -9,7 +9,7 @@ We will soon publish a whole ts sdk for neo thin wallet.
 * wallet service
 * transaction service
 * encode/decode utils
-* rpc service(for rpc api by ExChain team)
+* rpc service(for rpc api by iWallic Team)
 
 ## About wallet
 

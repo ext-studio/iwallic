@@ -1,6 +1,6 @@
 # iWallic
 
-NEO thin wallet by ExChain teams.
+NEO thin wallet by iWallic Team.
 
 ## Package manage
 
