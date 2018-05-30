@@ -1,7 +1,7 @@
 {
   "name": "iwallic",
   "version": "0.0.1",
-  "author": "ExChain",
+  "author": "iWallic Team",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
