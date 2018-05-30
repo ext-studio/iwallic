@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../../../core';
 import { AppVersion } from '@ionic-native/app-version';
+import { Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {
@@ -39,7 +40,8 @@ export class SystemAboutComponent implements OnInit {
         private version: AppVersion,
         private http: HttpClient,
         private themeableBrowser: ThemeableBrowser,
-        private iab: InAppBrowser
+        private iab: InAppBrowser,
+        private platform: Platform
     ) { }
 
     public ngOnInit() {
@@ -55,7 +57,11 @@ export class SystemAboutComponent implements OnInit {
                         no: 'ALERT_NO_CANCEL'
                     }).subscribe((confirm) => {
                         if (confirm) {
-                            this.iab.create(res.link, '_system').show();
+                            if (this.platform.is('ios')) {
+                                this.iab.create(res.ios, '_system').show();
+                            } else if (this.platform.is('android')) {
+                                this.iab.create(res.android, '_system').show();
+                            }
                         }
                     });
                 } else {
