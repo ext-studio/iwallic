@@ -56,6 +56,9 @@ export class WalletOpenComponent implements OnInit {
         }
         this.file.read().switchMap((json) => {
             const w = new Wallet(json);
+            if (!w.address || !w.accounts.length) {
+                return Observable.throw('not_nep6');
+            }
             if (!w.wif) {
                 return this.input.open(this.navCtrl).switchMap((pwd) => {
                     if (pwd) {

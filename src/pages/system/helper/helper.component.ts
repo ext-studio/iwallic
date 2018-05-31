@@ -61,6 +61,15 @@ export class SystemHelperComponent implements OnInit {
             this.global.ToastI18N('APP_COMING').subscribe();
         }
     }
+
+    public browser() {
+        const browser = this.helpers && this.helpers.browser;
+        if (browser && browser.action === 'link' && browser.enabled && browser.data) {
+            const tb = this.themeableBrowser.create(browser.data, '_blank', options);
+        } else {
+            this.global.ToastI18N('APP_COMING').subscribe();
+        }
+    }
     public community() {
         const community = this.helpers && this.helpers.community;
         if (community && community.action === 'link' && community.enabled && community.data) {

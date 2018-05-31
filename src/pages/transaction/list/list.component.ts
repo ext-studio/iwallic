@@ -4,7 +4,29 @@ import { HttpClient } from '@angular/common/http';
 import { GlobalService, TransactionState } from '../../../core';
 import { WalletService } from '../../../neo';
 import { Clipboard } from '@ionic-native/clipboard';
+import {
+    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+} from '@ionic-native/themeable-browser';
 
+const options: ThemeableBrowserOptions = {
+    statusbar: {
+        color: '#ffffffff'
+    },
+    toolbar: {
+        height: 44,
+        color: '#f0f0f0ff'
+    },
+    title: {
+        color: '#003264ff',
+        showPageTitle: true
+    },
+    closeButton: {
+        wwwImage: '/assets/icon/close.png',
+        align: 'left',
+        wwwImageDensity: 2
+    },
+    backButtonCanClose: true
+};
 
 @Component({
     selector: 'transaction-list',
@@ -20,7 +42,8 @@ export class TxListComponent implements OnInit {
         private wallet: WalletService,
         private platform: Platform,
         public transcation: TransactionState,
-        private clipboard: Clipboard
+        private clipboard: Clipboard,
+        private themeableBrowser: ThemeableBrowser
     ) { }
 
     public ngOnInit() {
@@ -52,5 +75,9 @@ export class TxListComponent implements OnInit {
             this.global.ToastI18N('TOAST_CONTENT_COPYFAILED').subscribe();
             item.close();
         });
+    }
+
+    public browse(txid: string) {
+        const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
     }
 }
