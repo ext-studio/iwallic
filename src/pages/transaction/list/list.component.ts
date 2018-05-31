@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InfiniteScroll, Refresher, Platform, ItemSliding } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService, TransactionState } from '../../../core';
+import { GlobalService, TransactionState, NetService } from '../../../core';
 import { WalletService } from '../../../neo';
 import { Clipboard } from '@ionic-native/clipboard';
 import {
@@ -43,7 +43,8 @@ export class TxListComponent implements OnInit {
         private platform: Platform,
         public transcation: TransactionState,
         private clipboard: Clipboard,
-        private themeableBrowser: ThemeableBrowser
+        private themeableBrowser: ThemeableBrowser,
+        private net: NetService
     ) { }
 
     public ngOnInit() {
@@ -78,6 +79,8 @@ export class TxListComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
+        if (this.net.current === 'Main') {
+            const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
+        }
     }
 }
