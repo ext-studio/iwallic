@@ -19,15 +19,10 @@
         </ion-item-group>
 
         <ion-item-group margin-vertical>
-            <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="browser()">
+            <ion-item ibg="default2" icolor="font" iborder="line" (click)="browser()">
                 <ion-label>{{'SYSTEM_HELPER_BROWSER' | translate}}</ion-label>
-            </button>
-            <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="transaction()">
-                <ion-label>{{'SYSTEM_HELPER_TRANSACTION' | translate}}</ion-label>
-            </button>
-        </ion-item-group>
-
-        <ion-item-group margin-vertical>
+                <ion-note item-end>{{helpers?.browser?.value}}</ion-note>
+            </ion-item>
             <ion-item ibg="default2" icolor="font" iborder="line" (click)="community()">
                 <ion-label>{{'SYSTEM_HELPER_COMMUNITY' | translate}}</ion-label>
                 <ion-note item-end>{{helpers?.community?.value}}</ion-note>
