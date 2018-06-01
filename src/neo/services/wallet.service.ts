@@ -160,8 +160,6 @@ export class WalletService {
             const strReg = new RegExp('^[0-9]*$');
             if (strReg.test(CryptoJS.AES.decrypt(enckey, pwd).toString())) {
                 const privateKey = CryptoJS.AES.decrypt(enckey, pwd).toString(CryptoJS.enc.Utf8);
-                console.log(wallet.getPublicKeyFromPrivateKey(privateKey));
-                console.log(publicKey);
                 if (publicKey === wallet.getPublicKeyFromPrivateKey(privateKey)) {
                     observable.next(wallet.getWIFFromPrivateKey(privateKey));
                     observable.complete();
