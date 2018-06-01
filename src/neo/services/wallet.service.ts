@@ -180,7 +180,7 @@ export class WalletService {
 
     public verifyNep2(enckey: any, publicKey: any, pwd: any): Observable<any> {
         return new Observable((observable) => {
-            const strReg = new RegExp('^[0-9]*$');
+            const strReg = new RegExp('^[0-9]+$');
             if (strReg.test(CryptoJS.AES.decrypt(enckey, pwd).toString()) && pwd.length > 3) {
                 const privateKey = CryptoJS.AES.decrypt(enckey, pwd).toString(CryptoJS.enc.Utf8);
                 if (publicKey === wallet.getPublicKeyFromPrivateKey(privateKey)) {
