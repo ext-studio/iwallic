@@ -33,7 +33,7 @@
   "ALERT_NO_CANCEL": "Cancel",
   "TOAST_EXISTAPP": "Touch again to exit.",
   "TOAST_CONTENT_COPIED": "Transaction id copied.",
-  "TOAST_CONTENT_COPYFAILED": "Copy failed.",
+  "TOAST_CONTENT_COPYFAILED": "Unsupport.",
   "LOADING_LOADING": "Loading...",
   "LOADING_VERIFY": "Verifying...",
   "LOADING_CREATING": "Creating...",

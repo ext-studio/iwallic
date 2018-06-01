@@ -33,6 +33,7 @@ const options: ThemeableBrowserOptions = {
 })
 export class SystemHelperComponent implements OnInit {
     private helpers: any;
+    private browsers: any;
     constructor(
         private global: GlobalService,
         private themeableBrowser: ThemeableBrowser,
@@ -42,6 +43,7 @@ export class SystemHelperComponent implements OnInit {
 
     public ngOnInit() {
         this.helpers = this.config.get().helpers;
+        this.browsers = this.config.get().browser;
     }
     public wallet() {
         const walletGuide = this.helpers && this.helpers.walletGuide;
@@ -61,9 +63,8 @@ export class SystemHelperComponent implements OnInit {
     }
 
     public browser() {
-        const browser = this.helpers && this.helpers.browser;
-        if (browser && browser.action === 'link' && browser.enabled && browser.data) {
-            const tb = this.themeableBrowser.create(browser.data, '_blank', options);
+        if (this.browsers && this.browsers.action === 'link' && this.browsers.enabled && this.browsers.data) {
+            const tb = this.themeableBrowser.create(this.browsers.data, '_blank', options);
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }

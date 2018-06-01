@@ -33,7 +33,7 @@
   "ALERT_NO_CANCEL": "取消",
   "TOAST_EXISTAPP": "再次点击退出钱包",
   "TOAST_CONTENT_COPIED": "已复制交易号",
-  "TOAST_CONTENT_COPYFAILED": "复制失败",
+  "TOAST_CONTENT_COPYFAILED": "不支持复制",
   "LOADING": "加载中...",
   "LOADING_VERIFY": "正在验证...",
   "LOADING_CREATING": "正在创建...",

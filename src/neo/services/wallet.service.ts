@@ -105,7 +105,18 @@ export class WalletService {
      * generate and encrypt private key by neon-js
      */
     public Create(pwd: string = 'iwallic'): Observable<Wallet> {
-        return Wallet.fromWIF(wallet.getWIFFromPrivateKey(wallet.generatePrivateKey()), pwd);
+        const newWif = wallet.getWIFFromPrivateKey(wallet.generatePrivateKey());
+        const addr = getAddressFromWIF(newWif);
+        return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
+            method: 'scryptaddr',
+            params: [addr, pwd]
+        }).map((rs: any) => {
+            if (rs && rs.code === 200) {
+                return rs.result;
+            } else {
+                throw 'verify_failed';
+            }
+        }).switchMap((scrypt) => Wallet.fromWIF(newWif, scrypt));
     }
 
     /**
