@@ -25,6 +25,7 @@
     <preference name="FadeSplashScreen" value="true" />
     <preference name="SplashScreenBackgroundColor" value="false" />
     <preference name="orientation" value="portrait" />
+    <preference name="loadUrlTimeoutValue" value="700000" />
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
     </feature>
