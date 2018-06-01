@@ -114,19 +114,27 @@ export class WalletOpenComponent implements OnInit {
      */
     private tryOTCWallet(json: any) {
         const privateKeyEncrypted = json['privateKeyEncrypted'];
-        const publicKey = json['publicKey'];
+        const publicKey = json['publicKeyCompressed'];
         return this.input.open(this.navCtrl)
         .switchMap((pwd) => pwd ?
         this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
-            return this.wallet.decryptNep2(privateKeyEncrypted, pwd).map((res) => {
+            return this.wallet.verifyNep2(privateKeyEncrypted, publicKey, pwd).map((res) => {
                 load.dismiss();
-                this.pwd = pwd;
-                this.rePwd = pwd;
-                this.wif = res;
-                return res;
+                if (res) {
+                    this.pwd = pwd;
+                    this.rePwd = pwd;
+                    this.wif = res;
+                    return res;
+                } else {
+                    return false;
+                }
             });
         }) : Observable.throw('need_verify')).subscribe((res) => {
-            this.import();
+            if (res) {
+                this.import();
+            } else {
+                this.global.Alert('WRONGPWD').subscribe();
+            }
         });
     }
 }
