@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../../../core';
+import { GlobalService, ConfigService } from '../../../core';
 import { Config } from 'ionic-angular';
 import {
     ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
@@ -33,17 +33,17 @@ const options: ThemeableBrowserOptions = {
 })
 export class SystemHelperComponent implements OnInit {
     private helpers: any;
+    private browsers: any;
     constructor(
         private global: GlobalService,
         private themeableBrowser: ThemeableBrowser,
-        private http: HttpClient
+        private http: HttpClient,
+        private config: ConfigService
     ) { }
 
     public ngOnInit() {
-        this.http.get(`https://iwallic.com/assets/config/helper.json`).subscribe((res) => {
-            console.log(res);
-            this.helpers = res;
-        });
+        this.helpers = this.config.get().helpers;
+        this.browsers = this.config.get().browser;
     }
     public wallet() {
         const walletGuide = this.helpers && this.helpers.walletGuide;
@@ -57,6 +57,14 @@ export class SystemHelperComponent implements OnInit {
         const txGuide = this.helpers && this.helpers.transactionGuide;
         if (txGuide && txGuide.action === 'link' && txGuide.enabled && txGuide.data) {
             const tb = this.themeableBrowser.create(txGuide.data, '_blank', options);
+        } else {
+            this.global.ToastI18N('APP_COMING').subscribe();
+        }
+    }
+
+    public browser() {
+        if (this.browsers && this.browsers.action === 'link' && this.browsers.enabled && this.browsers.data) {
+            const tb = this.themeableBrowser.create(this.browsers.data, '_blank', options);
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }

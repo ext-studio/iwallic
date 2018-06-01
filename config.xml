@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.iwallic.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.iwallic.app" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iWallic</name>
     <description>Best NEO thin wallet.</description>
     <author email="iwallic@outlook.com" href="https://iwallic.com/">iWallic Team</author>
@@ -24,10 +24,12 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="SplashScreenBackgroundColor" value="false" />
+    <preference name="orientation" value="portrait" />
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
     </feature>
     <platform name="android">
+        <preference name="loadUrlTimeoutValue" value="700000" />
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />

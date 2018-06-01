@@ -29,7 +29,7 @@
             <p class="gas-balance">{{ 'ASSET_LIST_UNSPENTCLAIM' | translate }}: {{claim?.unSpentClaim}}</p>
             <!-- <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p> -->
         </div>  
-    <div text-center padding margin-vertical *ngIf="balance.loading && isloading">
+    <div text-center padding margin-vertical *ngIf="balance.loading && isRefresh">
         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
     <ion-list *ngIf="!balance.loading">
@@ -39,7 +39,7 @@
         </ion-item>
     </ion-list>
     <ion-label icolor="font" *ngIf="!assets?.length && !balance.loading" text-center class="no-assets">{{'ASSET_LIST_NOASSETS' | translate}}</ion-label>
-    <ion-refresher *ngIf="!balance.loading" (ionRefresh)="doRefresh($event)">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content icolor="primary">
         </ion-refresher-content>
     </ion-refresher>

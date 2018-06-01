@@ -3,6 +3,7 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from './config';
 
 @Injectable()
 export class NetService {
@@ -11,10 +12,11 @@ export class NetService {
     private netList: any;
     constructor(
         private storage: Storage,
-        private http: HttpClient
+        private http: HttpClient,
+        private config: ConfigService
     ) { }
     public Init(): Observable<any> {
-        return this.http.get(`https://iwallic.com/assets/config/net.json`).map((res) => {
+        return Observable.of(this.config.get().net).map((res) => {
             this.netList = res;
             return;
         }).switchMap(() => Observable.fromPromise(this.storage.get('net'))).map((res) => {

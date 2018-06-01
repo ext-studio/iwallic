@@ -23,7 +23,7 @@ import {
     IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
     ISrcDirective, ISrcPipe
 } from './directives/skin';
-
+import { ConfigService } from './services/config';
 
 @NgModule({
     imports: [
@@ -49,7 +49,8 @@ import {
     providers: [
         GlobalService, PopupInputService, ScannerService,
         ReadFileService, TranslateService,
-        BlockState, BalanceState, TransactionState, ThemeService, NetService
+        BlockState, BalanceState, TransactionState,
+        ThemeService, NetService, ConfigService
     ]
 })
 export class CoreModule { }

@@ -29,9 +29,9 @@ export class AssetListComponent implements OnInit {
     // public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
-    public isloading: boolean = true;
     public claimGasBalance: number = 0;
     public selectedNet: 'Main' | 'Test' | 'Priv';
+    private claimLoading: boolean = false;
     constructor(
         private http: HttpClient,
         public wallet: WalletService,
@@ -56,7 +56,9 @@ export class AssetListComponent implements OnInit {
             if (this.balance.unconfirmedClaim) {
                 this.checkClaim(this.balance.unconfirmedClaim);
             } else if (this.neoValue > 0) {
-                this.fetchClaim();
+                if (!this.claimLoading) {
+                    this.fetchClaim();
+                }
             }
         });
         this.balance.error().subscribe((res) => {
@@ -68,10 +70,8 @@ export class AssetListComponent implements OnInit {
     public doRefresh(refresher: Refresher) {
         this.isRefresh = false;
         setTimeout(() => {
-            this.isloading = false;
             this.balance.fetch().then(() => {
                 refresher.complete();
-                this.isloading = true;
                 this.isRefresh = true;
             });
         }, 500);
@@ -99,7 +99,7 @@ export class AssetListComponent implements OnInit {
     // }
 
     public claimGas() {
-        this.global.LoadI18N('LOADING_TRANSFER').subscribe((load) => {
+        this.global.LoadI18N('LOADING_CLAIMGAS').subscribe((load) => {
             this.tx.ClaimGAS(this.claim, this.wallet.wif).subscribe((res) => {
                 load.dismiss();
                 this.txState.push('GAS', res.txid, res.value, true);
@@ -107,13 +107,17 @@ export class AssetListComponent implements OnInit {
                 this.claim.unSpentClaim = 0;
                 // call for new claim
                 // when new NEO spent, update again
-                this.navctrl.push(TxSuccessComponent);
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_TIP',
+                    content: 'ALERT_CONTENT_ClAIMESUCCESS',
+                    ok: 'ALERT_OK_SURE'
+                }).subscribe();
             }, (err) => {
                 load.dismiss();
                 console.log(err);
                 this.global.AlertI18N({
                     title: 'ALERT_TITLE_WARN',
-                    content: 'ALERT_CONTENT_TXFAILED',
+                    content: 'ALERT_CONTENT_CLAIMFAILED',
                     ok: 'ALERT_OK_SURE'
                 }).subscribe();
             });
@@ -130,6 +134,7 @@ export class AssetListComponent implements OnInit {
     }
 
     private fetchClaim() {
+        this.claimLoading = true;
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'getclaim',
             params: [this.wallet.address]
@@ -142,8 +147,10 @@ export class AssetListComponent implements OnInit {
         }).subscribe((res) => {
             res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
             this.claim = res;
+            this.claimLoading = false;
         }, (err) => {
             console.log(err);
+            this.claimLoading = false;
         });
     }
 

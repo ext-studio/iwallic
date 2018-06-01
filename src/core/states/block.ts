@@ -25,7 +25,7 @@ export class BlockState {
                 if (new Date().getTime() - this._last > 20000) {
                     this.fetch();
                 }
-            }, 4000);
+            }, 10000);
         }
         return this.$listen.publish().refCount();
     }
@@ -52,10 +52,11 @@ export class BlockState {
                 this._loading = false;
                 resolve();
             }, (err) => {
+                console.log(err);
                 this.$error.next(err);
                 this._loading = false;
                 resolve();
             });
-        });
+        }).catch(() => {});
     }
 }

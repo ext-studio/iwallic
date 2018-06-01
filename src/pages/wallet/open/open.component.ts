@@ -54,31 +54,34 @@ export class WalletOpenComponent implements OnInit {
         if (this.importing) {
             return;
         }
-        this.file.read().switchMap((json) => {
+        // this.global.LoadI18N('LOADING_VERIFY')
+        let json;
+        this.file.read().switchMap((res) => {
+            json = res;
             const w = new Wallet(json);
-            if (!w.wif) {
-                return this.input.open(this.navCtrl).switchMap((pwd) => {
-                    if (pwd) {
-                        return this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
-                            return this.wallet.Verify(pwd, w).map(() => {
-                                load.dismiss();
-                                return w;
-                            }).catch((e) => {
-                                load.dismiss();
-                                return Observable.throw(e);
-                            });
-                        });
-                    } else {
-                        return Observable.throw('need_verify');
-                    }
-                });
+            if (w.wif) {
+                return Observable.of(w);
             }
-            return Observable.of(w);
+                return this.input.open(this.navCtrl)
+                .switchMap((pwd) => pwd ?
+                this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
+                    return this.wallet.Verify(pwd, w).map((r) => {
+                        load.dismiss();
+                        return w;
+                    }).catch((e) => {
+                        load.dismiss();
+                        return Observable.throw(e);
+                    });
+                }) : Observable.throw('need_verify'));
         }).subscribe((res) => {
             this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
+            if (err === 'not_nep6') {
+                this.tryOTCWallet(json);
+                return;
+            }
             console.log(err);
             if (err === 'verify_failed') {
                 this.global.Alert('WRONGPWD').subscribe();
@@ -102,6 +105,35 @@ export class WalletOpenComponent implements OnInit {
         this.scanner.open(this.navCtrl, 'WIF').subscribe((wif) => {
             if (wif) {
                 this.wif = wif;
+            }
+        });
+    }
+
+    /**
+     * try to import from OTC wallet
+     */
+    private tryOTCWallet(json: any) {
+        const privateKeyEncrypted = json['privateKeyEncrypted'];
+        const publicKey = json['publicKeyCompressed'];
+        return this.input.open(this.navCtrl)
+        .switchMap((pwd) => pwd ?
+        this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
+            return this.wallet.verifyNep2(privateKeyEncrypted, publicKey, pwd).map((res) => {
+                load.dismiss();
+                if (res) {
+                    this.pwd = pwd;
+                    this.rePwd = pwd;
+                    this.wif = res;
+                    return res;
+                } else {
+                    return false;
+                }
+            });
+        }) : Observable.throw('need_verify')).subscribe((res) => {
+            if (res) {
+                this.import();
+            } else {
+                this.global.Alert('WRONGPWD').subscribe();
             }
         });
     }

@@ -19,6 +19,10 @@
         </ion-item-group>
 
         <ion-item-group margin-vertical>
+            <ion-item ibg="default2" icolor="font" iborder="line" (click)="browser()">
+                <ion-label>{{'SYSTEM_HELPER_BROWSER' | translate}}</ion-label>
+                <ion-note item-end>{{browsers?.value}}</ion-note>
+            </ion-item>
             <ion-item ibg="default2" icolor="font" iborder="line" (click)="community()">
                 <ion-label>{{'SYSTEM_HELPER_COMMUNITY' | translate}}</ion-label>
                 <ion-note item-end>{{helpers?.community?.value}}</ion-note>

@@ -5,8 +5,31 @@ import {
 } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
-import { TransactionState, BalanceState, GlobalService } from '../../../core';
+import { TransactionState, BalanceState, GlobalService, NetService, ConfigService } from '../../../core';
 import { Clipboard } from '@ionic-native/clipboard';
+import {
+    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+} from '@ionic-native/themeable-browser';
+
+const options: ThemeableBrowserOptions = {
+    statusbar: {
+        color: '#ffffffff'
+    },
+    toolbar: {
+        height: 44,
+        color: '#f0f0f0ff'
+    },
+    title: {
+        color: '#003264ff',
+        showPageTitle: true
+    },
+    closeButton: {
+        wwwImage: '/assets/icon/close.png',
+        align: 'left',
+        wwwImageDensity: 2
+    },
+    backButtonCanClose: true
+};
 
 @Component({
     selector: 'asset-detail',
@@ -29,7 +52,10 @@ export class AssetDetailComponent implements OnInit {
         private transcation: TransactionState,
         private balanceState: BalanceState,
         private clipboard: Clipboard,
-        private global: GlobalService
+        private global: GlobalService,
+        private themeableBrowser: ThemeableBrowser,
+        private net: NetService,
+        private config: ConfigService
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
@@ -70,5 +96,11 @@ export class AssetDetailComponent implements OnInit {
             this.global.ToastI18N('TOAST_CONTENT_COPYFAILED').subscribe();
             item.close();
         });
+    }
+
+    public browse(txid: string) {
+        if (this.net.current === 'Main') {
+            const b = this.themeableBrowser.create(this.config.get().browser.tx + txid, '_blank', options);
+        }
     }
 }

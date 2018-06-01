@@ -9,33 +9,9 @@ Currently use npm to install only. Or errors will occur when ``cordova build``.
 ## How to run
 
 ```
-ionic serve
-```
-
-To run in an emulator:
-
-```
-yarn emulator
-```
-
-To run in a native device(connect by usb or wifi by adb):
-
-```
-yarn native
-```
-
-To just build web outputs:
-
-```
-yarn build (--prod)
-```
-
-Add ``--prod`` to enable minify bundle.
-
-To build debug apk installer:
-
-```
-yarn build:apk
+ionic serve // local dev
+yarn apk // build apk output
+yarn ios // build XCode project output
 ```
 
 ### Use npm to install only
@@ -48,35 +24,16 @@ yarn build:apk
 * Wallet
 * * Create
 * * Import
-* * Import from NEP-6
+* * Import from JSON file(NEP-6)
 * * Backup
 * Asset
 * * List
-* * History for single asset
+* * Detail of single asset
+* * Claim GAS
 * Transaction
 * * Transfer
 * * History
 * System
 * * Language switch
-* * Theme switch (to do)
-* * Helpers (to do)
-* * Version control (to do)
-
-## Tips
-
-### When will assets/transaction data refresh
-* Enter new wallet
-* New block comes
-* Pull down to refresh
-
-## Todos
-
-* **skin switch**
-* **more btn style**
-* **transaction for single asset**
-* **password change**
-* GAS Claim
-* a transfer btn in asset list page
-* wallet export as JSON file *delay*
-* read addr from clipboard *delay*
-* Version check *delay*
+* * Theme switch
+* * Helpers
