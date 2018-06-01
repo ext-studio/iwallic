@@ -10,6 +10,7 @@ import { Storage } from '@ionic/storage';
 import { WalletCreateComponent } from '../../pages';
 import { Wallet } from '../models/wallet';
 import { Subject } from 'rxjs/Subject';
+import CryptoJS from 'crypto-js';
 
 export function getAddressFromWIF(wif: string): string {
     return wallet.getAddressFromScriptHash(
@@ -151,6 +152,13 @@ export class WalletService {
         this.storage.get('wallet').then((res) => {
             res['backup'] = true;
             this.storage.set('wallet', res);
+        });
+    }
+
+    public decryptNep2(enckey: any, pwd: any): Observable<any> {
+        return new Observable((observable) => {
+            const privateKey = CryptoJS.AES.decrypt(enckey, pwd).toString(CryptoJS.enc.Utf8);
+            observable.next(wallet.getWIFFromPrivateKey(privateKey));
         });
     }
 }

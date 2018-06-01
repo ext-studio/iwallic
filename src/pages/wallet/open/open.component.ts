@@ -113,12 +113,20 @@ export class WalletOpenComponent implements OnInit {
      * try to import from OTC wallet
      */
     private tryOTCWallet(json: any) {
-        // dismiss load after resolved
-        this.global.LoadI18N('LOADING_VERIFY').subscribe((load) => {
-            setTimeout(() => {
+        const privateKeyEncrypted = json['privateKeyEncrypted'];
+        const publicKey = json['publicKey'];
+        return this.input.open(this.navCtrl)
+        .switchMap((pwd) => pwd ?
+        this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
+            return this.wallet.decryptNep2(privateKeyEncrypted, pwd).map((res) => {
                 load.dismiss();
-                this.global.Alert('UNKNOWN').subscribe();
-            }, 2000);
+                this.pwd = pwd;
+                this.rePwd = pwd;
+                this.wif = res;
+                return res;
+            });
+        }) : Observable.throw('need_verify')).subscribe((res) => {
+            this.import();
         });
     }
 }
