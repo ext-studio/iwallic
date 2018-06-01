@@ -3,12 +3,27 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/publish';
 import 'rxjs/operators/refCount';
+import { Platform, AlertController } from 'ionic-angular';
+import { TranslateService as NgTranslateService } from '@ngx-translate/core';
+
 
 @Injectable()
 export class ReadFileService {
     private input: HTMLInputElement;
-    constructor() {}
+    constructor(
+        private platform: Platform,
+        private alert: AlertController,
+        private ngTranslate: NgTranslateService
+    ) {}
     public read(): Observable<any> {
+        if (this.platform.is('core')) {
+            return this.byInput();
+        } else {
+            return this.byCopy();
+        }
+    }
+
+    private byInput() {
         return new Observable((observer) => {
             this.input = window.document.createElement('input');
             this.input.type = 'file';
@@ -37,6 +52,51 @@ export class ReadFileService {
                 };
                 reader.readAsText(file);
             };
+        });
+    }
+
+    private byCopy() {
+        return this.ngTranslate.get([
+            'WALLET_OPEN_COPYTITLE', 'WALLET_OPEN_COPYPH', 'WALLET_OPEN_COPYCANCEL', 'WALLET_OPEN_COPYGO'
+        ]).switchMap((res) => {
+            return new Observable((observer) => {
+                const alert = this.alert.create({
+                    title: res['WALLET_OPEN_COPYTITLE'],
+                    inputs: [
+                      {
+                        name: 'content',
+                        placeholder: res['WALLET_OPEN_COPYPH'],
+                        type: 'password'
+                      }
+                    ],
+                    buttons: [
+                        {
+                            text: res['WALLET_OPEN_COPYCANCEL'],
+                            role: 'cancel',
+                            handler: data => {
+                                observer.complete();
+                            }
+                        },
+                        {
+                            text: res['WALLET_OPEN_COPYGO'],
+                            handler: data => {
+                                if (data && data.content) {
+                                    try {
+                                        const rs = JSON.parse(data.content);
+                                        observer.next(rs);
+                                        observer.complete();
+                                    } catch (e) {
+                                        observer.error('format_error');
+                                    }
+                                } else {
+                                    observer.error('format_error');
+                                }
+                            }
+                        }
+                    ]
+                });
+                alert.present();
+            });
         });
     }
 }
