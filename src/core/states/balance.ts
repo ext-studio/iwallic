@@ -76,7 +76,7 @@ export class BalanceState {
                 this.$error.next('request_error');
                 resolve();
             });
-        });
+        }).catch(() => {});
     }
     public fetchSilent() {
         if (this._loading || !this.address) {

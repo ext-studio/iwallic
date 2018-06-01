@@ -10,3 +10,4 @@ export { NetService } from './services/net';
 export { BalanceState } from './states/balance';
 export { TransactionState } from './states/transaction';
 export { BlockState } from './states/block';
+export { ConfigService } from './services/config';

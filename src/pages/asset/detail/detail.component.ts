@@ -5,7 +5,7 @@ import {
 } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
-import { TransactionState, BalanceState, GlobalService, NetService } from '../../../core';
+import { TransactionState, BalanceState, GlobalService, NetService, ConfigService } from '../../../core';
 import { Clipboard } from '@ionic-native/clipboard';
 import {
     ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
@@ -54,7 +54,8 @@ export class AssetDetailComponent implements OnInit {
         private clipboard: Clipboard,
         private global: GlobalService,
         private themeableBrowser: ThemeableBrowser,
-        private net: NetService
+        private net: NetService,
+        private config: ConfigService
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
@@ -99,7 +100,7 @@ export class AssetDetailComponent implements OnInit {
 
     public browse(txid: string) {
         if (this.net.current === 'Main') {
-            const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
+            const b = this.themeableBrowser.create(this.config.get().browser.tx + txid, '_blank', options);
         }
     }
 }

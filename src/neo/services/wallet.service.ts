@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { wallet, UtilService } from '../';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
@@ -7,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
+import { GlobalService } from '../../core';
 import { WalletCreateComponent } from '../../pages';
 import { Wallet } from '../models/wallet';
 import { Subject } from 'rxjs/Subject';
@@ -36,18 +38,30 @@ export class WalletService {
     private cached: Wallet;
     constructor(
         private util: UtilService,
-        private storage: Storage
+        private storage: Storage,
+        private http: HttpClient,
+        private global: GlobalService
     ) {
         //
     }
     public Verify(pwd: string, w?: Wallet, skipSave?: boolean): Observable<any> {
+        // scrypt
         if (!this.cached && !w) {
             return Observable.throw('not_exist');
         }
         if (w) {
             this.cached = w;
         }
-        return this.cached.Verify(pwd).map((res) => {
+        return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
+            method: 'scryptaddr',
+            params: [this.cached.address, pwd]
+        }).map((rs: any) => {
+            if (rs && rs.code === 200) {
+                return rs.result;
+            } else {
+                throw 'verify_failed';
+            }
+        }).switchMap((scrypt) => this.cached.Verify(scrypt)).map((res) => {
             if (!skipSave) {
                 console.log('skip_save');
                 this.Save(res);
@@ -62,7 +76,16 @@ export class WalletService {
      */
     public Import(text: string, pwd: string, type: 'NEP2' | 'NEP6'): Observable<any> {
         if (type === 'NEP2') {
-            return Wallet.fromWIF(text, pwd);
+            return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
+                method: 'scryptaddr',
+                params: [getAddressFromWIF(text), pwd]
+            }).map((rs: any) => {
+                if (rs && rs.code === 200) {
+                    return rs.result;
+                } else {
+                    throw 'verify_failed';
+                }
+            }).switchMap((scrypt) => Wallet.fromWIF(text, scrypt));
         } else if (type === 'NEP6') {
             return Observable.throw('unsupport');
         } else {

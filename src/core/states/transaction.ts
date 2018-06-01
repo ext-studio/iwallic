@@ -112,7 +112,7 @@ export class TransactionState {
                 }
                 resolve();
             });
-        });
+        }).catch(() => {});
     }
     public fetchSilent() {
         if (this.loading || !this.address) {

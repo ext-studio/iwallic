@@ -52,10 +52,11 @@ export class BlockState {
                 this._loading = false;
                 resolve();
             }, (err) => {
+                console.log(err);
                 this.$error.next(err);
                 this._loading = false;
                 resolve();
             });
-        });
+        }).catch(() => {});
     }
 }

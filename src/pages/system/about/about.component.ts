@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService } from '../../../core';
+import { GlobalService, ConfigService } from '../../../core';
 import { AppVersion } from '@ionic-native/app-version';
 import { Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
@@ -41,35 +41,31 @@ export class SystemAboutComponent implements OnInit {
         private http: HttpClient,
         private themeableBrowser: ThemeableBrowser,
         private iab: InAppBrowser,
-        private platform: Platform
+        private platform: Platform,
+        private config: ConfigService
     ) { }
 
     public ngOnInit() {
         this.version.getVersionNumber().then((ver) => {
             this.verCurr = ver;
-            this.http.get(`https://iwallic.com/assets/config/version.json`).subscribe((res: any) => {
-                this.ver = res;
-                if (res.version !== this.verCurr) {
-                    this.global.AlertI18N({
-                        title: 'ALERT_TITLE_TIP',
-                        content: 'ALERT_CONTENT_NEWVERSION',
-                        ok: 'ALERT_OK_UPDATE',
-                        no: 'ALERT_NO_CANCEL'
-                    }).subscribe((confirm) => {
-                        if (confirm) {
-                            if (this.platform.is('ios')) {
-                                this.iab.create(res.ios, '_system').show();
-                            } else if (this.platform.is('android')) {
-                                this.iab.create(res.android, '_system').show();
-                            }
+            if (this.config.get().version.code !== this.verCurr) {
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_TIP',
+                    content: 'ALERT_CONTENT_NEWVERSION',
+                    ok: 'ALERT_OK_UPDATE',
+                    no: 'ALERT_NO_CANCEL'
+                }).subscribe((confirm) => {
+                    if (confirm) {
+                        if (this.platform.is('ios')) {
+                            this.iab.create(this.config.get().version.ios, '_system').show();
+                        } else if (this.platform.is('android')) {
+                            this.iab.create(this.config.get().version.android, '_system').show();
                         }
-                    });
-                } else {
-                    console.log(`already latest`);
-                }
-            }, (err) => {
-                console.log(err);
-            });
+                    }
+                });
+            } else {
+                console.log(`already latest`);
+            }
         }).catch((err) => {
             console.log(err);
         });

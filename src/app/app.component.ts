@@ -15,7 +15,7 @@ import {
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
 } from '../pages';
-import { PopupInputService, BlockState, BalanceState, TransactionState, NetService } from '../core';
+import { PopupInputService, BlockState, BalanceState, TransactionState, NetService, ConfigService } from '../core';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -41,6 +41,7 @@ export class AppComponent {
         private block: BlockState,
         private balance: BalanceState,
         private transaction: TransactionState,
+        private config: ConfigService,
         private net: NetService
     ) {
         this.initializeApp();
@@ -134,7 +135,9 @@ export class AppComponent {
 
     private initConfig() {
         this.translate.Init();
-        this.net.Init().switchMap(() => this.wallet.Get()).subscribe(() => {
+        this.config.Init()
+        .switchMap(() => this.net.Init())
+        .switchMap(() => this.wallet.Get()).subscribe(() => {
             this.menu.enable(true, 'iwallic-menu');
             this.nav.setRoot(AssetListComponent);
         }, (err) => {

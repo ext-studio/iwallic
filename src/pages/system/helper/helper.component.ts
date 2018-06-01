@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../../../core';
+import { GlobalService, ConfigService } from '../../../core';
 import { Config } from 'ionic-angular';
 import {
     ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
@@ -36,14 +36,12 @@ export class SystemHelperComponent implements OnInit {
     constructor(
         private global: GlobalService,
         private themeableBrowser: ThemeableBrowser,
-        private http: HttpClient
+        private http: HttpClient,
+        private config: ConfigService
     ) { }
 
     public ngOnInit() {
-        this.http.get(`https://iwallic.com/assets/config/helper.json`).subscribe((res) => {
-            console.log(res);
-            this.helpers = res;
-        });
+        this.helpers = this.config.get().helpers;
     }
     public wallet() {
         const walletGuide = this.helpers && this.helpers.walletGuide;
