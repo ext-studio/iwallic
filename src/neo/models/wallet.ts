@@ -114,11 +114,18 @@ export class Wallet {
         this.scrypt.r = nep6['scrypt'] && (nep6['scrypt']['r'] || 8) || 8;
         this.scrypt.p = nep6['scrypt'] && (nep6['scrypt']['p'] || 8) || 8;
         for (const account of nep6['accounts'] || []) {
-            this.accounts.push(new Account(account));
+            const acc = new Account(account);
+            if (!acc.key && !acc.address) {
+                throw 'not_nep6';
+            }
+            this.accounts.push(acc);
         }
         this.extra = nep6['extra'] || null;
         this.verified = nep6['verified'] || false;
         this.backup = nep6['backup'] || false;
+        if (!this.accounts.length) {
+            throw 'not_nep6';
+        }
     }
     public static fromWIF(wif: string, pwd: string): Observable<Wallet> {
         return Account.fromWIF(wif, pwd).map((acc) => {
