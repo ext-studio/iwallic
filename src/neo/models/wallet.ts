@@ -6,7 +6,8 @@ import ECBMode from 'crypto-js/mode-ecb';
 import NoPadding from 'crypto-js/pad-nopadding';
 import SHA256 from 'crypto-js/sha256';
 import latin1Encoding from 'crypto-js/enc-latin1';
-import base58check from 'base58check';
+import bs58 from 'bs58';
+import encoding from 'text-encoding';
 
 export class Contract {
     public script: string;
@@ -75,7 +76,7 @@ export class Account {
                 { mode: ECBMode, padding: NoPadding }
             );
             const assembled = '0142' + 'e0' + addressHash + encrypted.ciphertext.toString();
-            const encryptedKey = base58check.encode(assembled, '0x');
+            const encryptedKey = bs58.encode(new encoding.TextEncoder().encode(assembled), 'hex');
             observer.next(new Account({
                 key: encryptedKey,
                 address: addr,
@@ -89,7 +90,7 @@ export class Account {
     }
     public Verify(scrypt: string): Observable<any> {
         return new Observable((observer) => {
-            const assembled = base58check.decode(this.key, 'hex');
+            const assembled = bs58.decode(this.key);
             const addressHash = (assembled.prefix + assembled.data).substr(6, 8);
             const encrypted = (assembled.prefix + assembled.data).substr(-64);
             const derived1 = scrypt.slice(0, 64);
