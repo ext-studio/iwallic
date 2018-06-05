@@ -155,11 +155,15 @@ export class TransactionService {
         if (remark) {
             tx.addRemark(remark);
         }
-        return this.http.post(`${this.global.rpcDomain}`, {
-            jsonrpc: '2.0',
+        return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'sendrawtransaction',
             params: [tx.serielize(true)],
-            id: 1
         });
+        // return this.http.post(`${this.global.rpcDomain}`, {
+        //     jsonrpc: '2.0',
+        //     method: 'sendrawtransaction',
+        //     params: [tx.serielize(true)],
+        //     id: 1
+        // });
     }
 }
