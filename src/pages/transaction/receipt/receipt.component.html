@@ -11,7 +11,7 @@
     <div class="address-bg" style="background: url('assets/asset/address_bg.png'); background-size: 100% 100%;">
         <img id="qrcode" src="" alt="">
         <h5>{{ 'TRANSACTION_RECEIPT_TARGET' | translate }}</h5>
-        <input readonly class="address" id="wallet-address" [value]="address">
+        <textarea readonly class="address" id="wallet-address" [value]="address"></textarea>
         <button ion-button round primary (click)="copy()">{{(copied ? 'TRANSACTION_RECEIPT_COPIED' : 'TRANSACTION_RECEIPT_COPY') | translate}}</button>
     </div>
 </ion-content>
