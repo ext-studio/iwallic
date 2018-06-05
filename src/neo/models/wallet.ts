@@ -8,6 +8,8 @@ import SHA256 from 'crypto-js/sha256';
 import latin1Encoding from 'crypto-js/enc-latin1';
 import bs58 from 'bs58';
 import encoding from 'text-encoding';
+import bs58check from 'bs58check';
+import { Buffer } from 'buffer';
 
 export class Contract {
     public script: string;
@@ -76,7 +78,7 @@ export class Account {
                 { mode: ECBMode, padding: NoPadding }
             );
             const assembled = '0142' + 'e0' + addressHash + encrypted.ciphertext.toString();
-            const encryptedKey = bs58.encode(new encoding.TextEncoder().encode(assembled), 'hex');
+            const encryptedKey = bs58check.encode(Buffer.from(assembled, 'hex'));
             observer.next(new Account({
                 key: encryptedKey,
                 address: addr,
@@ -90,9 +92,9 @@ export class Account {
     }
     public Verify(scrypt: string): Observable<any> {
         return new Observable((observer) => {
-            const assembled = bs58.decode(this.key);
-            const addressHash = (assembled.prefix + assembled.data).substr(6, 8);
-            const encrypted = (assembled.prefix + assembled.data).substr(-64);
+            const assembled = u.ab2hexstring(bs58check.decode(this.key));
+            const addressHash = assembled.substr(6, 8);
+            const encrypted = assembled.substr(-64);
             const derived1 = scrypt.slice(0, 64);
             const derived2 = scrypt.slice(64);
             const ciphertext = { ciphertext: hexEncoding.parse(encrypted), salt: '' };
@@ -104,6 +106,7 @@ export class Account {
                     wallet.getPublicKeyFromPrivateKey(privateKey)
                 )
             );
+            console.log(addr);
             const gotAH = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
             if (addressHash === gotAH) {
                 this.wif = wif;
