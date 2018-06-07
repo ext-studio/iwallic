@@ -1,21 +1,17 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
+import { Component, ViewChild } from '@angular/core';
+import { Nav, Platform, MenuController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController, MenuController, NavController, Config, IonicApp } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
-
-import { GlobalService, TranslateService, ThemeService } from '../core';
 import { WalletService } from '../neo';
 import {
-    AssetAttachComponent, AssetDetailComponent, AssetListComponent,
+    AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletPwdComponent, WalletCreateComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
+    TxDetailComponent, TxListComponent, TxTransferComponent
 } from '../pages';
-import { PopupInputService, BlockState, BalanceState, TransactionState, NetService, ConfigService } from '../core';
+import {
+    BlockState, BalanceState, TransactionState,
+    NetService, ConfigService, GlobalService, TranslateService
+} from '../core';
 
 @Component({
     templateUrl: 'app.component.html'

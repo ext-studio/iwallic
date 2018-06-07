@@ -3,7 +3,7 @@ import { NavController, MenuController } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { WalletOpenComponent } from '../open/open.component';
 import { WalletPwdComponent } from '../pwd/pwd.component';
-import { WalletService, Wallet } from '../../../neo';
+import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
 
 @Component({

@@ -22,7 +22,6 @@ export class BalanceState {
     private _balance: any[];
     private $balance: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
-    private selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
     constructor(
         private global: GlobalService,
         private http: HttpClient,

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/publish';
 import 'rxjs/operators/refCount';
 import { Platform, AlertController } from 'ionic-angular';

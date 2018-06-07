@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -8,10 +8,8 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from '../../core';
-import { WalletCreateComponent } from '../../pages';
 import { Wallet } from '../models/wallet';
-import { Subject } from 'rxjs/Subject';
-import { WALLET, AES } from '../utils';
+import { WALLET } from '../utils';
 import CryptoJS from 'crypto-js';
 
 @Injectable()

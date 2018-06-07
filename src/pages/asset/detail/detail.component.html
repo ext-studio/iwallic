@@ -1,8 +1,7 @@
 <ion-header no-border>
     <div class="top" [style.backgroundImage]="'url(' + ('assets/asset/detail_bg_img.png' | isrc | async) + ')'">
-        <ion-navbar transparent class="nav-bar" [color]=" 'dark' | theme | async">
-            {{  'dark' | theme | async }}
-            <button ion-button menuToggle color="white">
+        <ion-navbar transparent class="nav-bar" [color]=" 'primary' | theme | async">
+            <button ion-button menuToggle>
                 <ion-icon name="menu"></ion-icon>
             </button>
         </ion-navbar>

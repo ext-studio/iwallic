@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavParams, NavController, IonicTapInput } from 'ionic-angular';
 import { Subject } from 'rxjs/Subject';
 

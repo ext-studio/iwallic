@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PopupInputService, GlobalService, TransactionState, BalanceState, ScannerService } from '../../../core';
 import { NavController, Platform, NavParams } from 'ionic-angular';
-import { WalletService, TransactionService, Wallet } from '../../../neo';
+import { WalletService, TransactionService } from '../../../neo';
 import { TxSuccessComponent } from '../../../pages';
 
 @Component({

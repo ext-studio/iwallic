@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../../core';
-import { Transaction, TxType, UTXO } from '../models/transaction';
+import { Transaction, UTXO } from '../models/transaction';
 import { WALLET, HEX, SmartContract } from '../utils';
 
 @Injectable()

@@ -4,11 +4,10 @@ import {
     AlertController, LoadingController, Loading, ToastController
 } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
 import { NetService } from './net';
-import { Platform, ItemSliding } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { Clipboard } from '@ionic-native/clipboard';
 
 @Injectable()

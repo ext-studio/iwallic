@@ -24,7 +24,7 @@
     </div>
 </ion-header>
 
-<ion-content center ibg="default2" iborder="primary">
+<ion-content center ibg="default2" iborder="line">
     <div *ngIf="claim && claim.unSpentClaim" class="claim-gas" text-center (click)="claimGas()">
             <p class="gas-balance">{{ 'ASSET_LIST_UNSPENTCLAIM' | translate }}: {{claim?.unSpentClaim}}</p>
             <!-- <p class="claim-info">{{ 'ASSET_LIST_CLAIMGAS' | translate }}</p> -->

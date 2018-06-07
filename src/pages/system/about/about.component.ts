@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { GlobalService, ConfigService } from '../../../core';
 import { AppVersion } from '@ionic-native/app-version';
 import { Platform } from 'ionic-angular';
-import { HttpClient } from '@angular/common/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {
-    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+    ThemeableBrowser, ThemeableBrowserOptions
 } from '@ionic-native/themeable-browser';
 
 const options: ThemeableBrowserOptions = {
@@ -38,7 +37,6 @@ export class SystemAboutComponent implements OnInit {
     constructor(
         private global: GlobalService,
         private version: AppVersion,
-        private http: HttpClient,
         private themeableBrowser: ThemeableBrowser,
         private iab: InAppBrowser,
         private platform: Platform,

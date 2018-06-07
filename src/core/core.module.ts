@@ -8,7 +8,6 @@ import { ScannerService } from './services/scanner';
 import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
 import { ThemeService } from './services/theme';
-import { NavController } from 'ionic-angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

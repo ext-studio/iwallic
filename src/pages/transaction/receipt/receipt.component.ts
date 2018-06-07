@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Storage} from '@ionic/storage';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
 import { AlertController } from 'ionic-angular';
@@ -12,7 +11,6 @@ export class TxReceiptComponent implements OnInit {
     public address: string;
     public copied: boolean;
     constructor(
-        private storage: Storage,
         private wallet: WalletService,
         private global: GlobalService,
         private alert: AlertController,

@@ -1,8 +1,7 @@
 import {
-    Directive, Input, OnChanges, SimpleChanges, ElementRef, Pipe, PipeTransform,
-    ChangeDetectorRef, ViewChildren
+    Directive, Input, OnChanges, SimpleChanges,
+    ElementRef, Pipe, PipeTransform, ViewChildren
 } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { ThemeService } from '../services/theme';
 import { Observable } from 'rxjs/Observable';
 
@@ -158,7 +157,6 @@ export class ISrcDirective implements OnChanges {
     name: 'isrc'
 })
 export class ISrcPipe implements PipeTransform {
-    private skin: string;
     constructor(
         private theme: ThemeService
     ) {}
@@ -173,7 +171,6 @@ export class ISrcPipe implements PipeTransform {
     name: 'theme'
 })
 export class ThemePipe implements PipeTransform {
-    private skin: string;
     constructor(
         private theme: ThemeService
     ) {}
@@ -186,7 +183,6 @@ export class ThemePipe implements PipeTransform {
     name: 'img'
 })
 export class ImgPipe implements PipeTransform {
-    private skin: string;
     constructor(
         private theme: ThemeService
     ) {}

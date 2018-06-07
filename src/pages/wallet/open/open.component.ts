@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService, PopupInputService, ReadFileService, ScannerService } from '../../../core';
-import { WalletService, Wallet, ASSET } from '../../../neo';
+import { WalletService, Wallet } from '../../../neo';
 import { NavController, MenuController, Platform } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { Observable } from 'rxjs/Observable';
