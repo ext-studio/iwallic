@@ -8,6 +8,8 @@ import NoPadding from 'crypto-js/pad-nopadding';
 import bs58check from 'bs58check';
 import { u, wallet, sc } from '@cityofzion/neon-js';
 import { Buffer } from 'buffer';
+import Scrypt from 'scrypt-js';
+import { Observable } from 'rxjs/Observable';
 
 export const ASSET = {
     NEO: 'c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b',
@@ -46,6 +48,23 @@ export const HEX = {
         return u.num2fixed8(num);
     }
 };
+
+export function SCRYPT(addr, pwd) {
+    return new Observable((observer) => {
+        const addressHash = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
+        Scrypt(Buffer.from(pwd.normalize('NFC'), 'utf8'), Buffer.from(addressHash, 'hex'), 16384, 8, 8, 64, (a, b, c) => {
+            if (c) {
+                observer.next(Buffer.from(c).toString('hex'));
+                observer.complete();
+                return;
+            }
+            if (a) {
+                observer.error('scrypt_failed');
+                return;
+            }
+        });
+    });
+}
 
 export const WALLET = {
     addr2hash: (addr: string) => {
