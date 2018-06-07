@@ -1,5 +1,11 @@
 <ion-content padding ibg="default" icolor="font">
-    <ion-input #pwdInput ibg="default2" class="input" type="password" margin-vertical text-center [(ngModel)]="pwd" placeholder="{{'SHARED_PASSWORD_VERIFY' | translate}}"></ion-input>
+    <ion-list class="pass-input-list">
+        <ion-item class="pass-input-item" no-lines>
+            <ion-input icolor="font" #pwdInput ibg="default2" class="input" type="password" margin-vertical text-center [(ngModel)]="pwd" placeholder="{{'SHARED_PASSWORD_VERIFY' | translate}}"></ion-input>
+        </ion-item>
+    </ion-list>
+  
+   
     <button ion-button block margin-vertical [color]="'primary' | theme | async" (click)="confirm()" [disabled]="!pwd?.length">{{'SHARED_PASSWORD_BTN' | translate}}</button>
     <button ion-button block clear [color]="'primary' | theme | async" (click)="cancel()">{{'SHARED_PASSWORD_CANCEL' | translate}}</button>
 </ion-content>
