@@ -117,13 +117,6 @@ export class BalanceState {
                             } else {
                                 continue;
                             }
-                        } else {
-                            if (result.findIndex((e) => e.assetId === i.assetId) >= 0) {
-                                const arrayIndex = result.findIndex((e) => e.assetId === i.assetId);
-                                result.splice(arrayIndex, 1);
-                            } else {
-                                continue;
-                            }
                         }
                     }
                     observer.next(result);
