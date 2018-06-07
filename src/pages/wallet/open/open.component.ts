@@ -120,20 +120,25 @@ export class WalletOpenComponent implements OnInit {
         this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
             return this.wallet.verifyNep2(privateKeyEncrypted, publicKey, pwd).map((res) => {
                 load.dismiss();
-                if (res) {
-                    this.pwd = pwd;
-                    this.rePwd = pwd;
-                    this.wif = res;
-                    return res;
-                } else {
-                    return false;
-                }
+                return {wif: res, pwd};
+            }).catch((err) => {
+                load.dismiss();
+                throw err;
             });
-        }) : Observable.throw('need_verify')).subscribe((res) => {
-            if (res) {
-                this.import();
-            } else {
+        }) : Observable.throw('need_verify')).subscribe((res: any) => {
+            this.pwd = res.pwd;
+            this.rePwd = res.pwd;
+            this.wif = res.wif;
+            this.import();
+        }, (err) => {
+            if (err === 'verify_failed') {
                 this.global.Alert('WRONGPWD').subscribe();
+            } else if (err !== 'need_verify') {
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_CAUTION',
+                    content: 'ALERT_CONTENT_IMPORTNEP6',
+                    ok: 'ALERT_OK_SURE'
+                }).subscribe();
             }
         });
     }

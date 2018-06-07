@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../../core';
-import { api, wallet, u, sc } from '..';
 import { Transaction, TxType, UTXO } from '../models/transaction';
+import { WALLET, HEX, SmartContract } from '../utils';
 
 @Injectable()
 export class TransactionService {
@@ -42,15 +42,15 @@ export class TransactionService {
         }
         let newTX: Transaction;
         if (isNEP5) {
-            newTX = Transaction.forNEP5Contract(sc.createScript({
-                scriptHash: asset,
-                operation: 'transfer',
-                args: [
-                    u.reverseHex(wallet.getScriptHashFromAddress(from)),
-                    u.reverseHex(wallet.getScriptHashFromAddress(to)),
-                    sc.ContractParam.byteArray(new u.Fixed8(amount), 'fixed8')
+            newTX = Transaction.forNEP5Contract(SmartContract.create(
+                asset,
+                'transfer',
+                [
+                    HEX.reverse(WALLET.addr2hash(from)),
+                    HEX.reverse(WALLET.addr2hash(to)),
+                    SmartContract.amount(amount)
                 ]
-            }), wallet.getScriptHashFromAddress(from));
+            ), WALLET.addr2hash(from));
             return this.signNSendTX(newTX, wif, remark).map((rs) => {
                 if (rs && rs.result) {
                     return {txid: newTX.hash, value: amount};
@@ -148,9 +148,8 @@ export class TransactionService {
      * Will move to RPCService soon.
      */
     private signNSendTX(tx: Transaction, wif: string, remark?: string): Observable<any> {
-        const invocationScript = '40' +
-            wallet.generateSignature(tx.serielize(), wallet.getPrivateKeyFromWIF(wif));
-        const verificationScript =  '21' + wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif)) + 'ac';
+        const invocationScript = '40' + WALLET.signature(tx.serielize(), wif);
+        const verificationScript =  '21' + WALLET.priv2pub(WALLET.wif2priv(wif)) + 'ac';
         tx.scripts.push({ invocationScript, verificationScript });
         if (remark) {
             tx.addRemark(remark);
@@ -159,11 +158,5 @@ export class TransactionService {
             method: 'sendrawtransaction',
             params: [tx.serielize(true)],
         });
-        // return this.http.post(`${this.global.rpcDomain}`, {
-        //     jsonrpc: '2.0',
-        //     method: 'sendrawtransaction',
-        //     params: [tx.serielize(true)],
-        //     id: 1
-        // });
     }
 }

@@ -1,10 +1,6 @@
-export { tx, api, rpc, u, wallet, sc } from '@cityofzion/neon-js';
-import Neon, { api } from '@cityofzion/neon-js';
-export const create = Neon.create;
-export { RPCService } from './services/rpc.service';
 export { TransactionService } from './services/transaction.service';
-export { UtilService, ASSET } from './services/util.service';
 export { WalletService } from './services/wallet.service';
 export * from './models/wallet';
 export * from './models/transaction';
+export * from './utils';
 export { NEOModule } from './neo.module';
