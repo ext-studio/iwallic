@@ -8,6 +8,7 @@ asset-detail {
     .nav-bar {
         position: absolute;
         top: 0;
+        z-index: 999;
     }
     .top {
         height: 230px;

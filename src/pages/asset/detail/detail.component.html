@@ -1,10 +1,10 @@
 <ion-header no-border>
+    <ion-navbar transparent class="nav-bar" [color]=" 'primary' | theme | async">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    </ion-navbar>
     <div class="top" [style.backgroundImage]="'url(' + ('assets/asset/detail_bg_img.png' | isrc | async) + ')'">
-        <ion-navbar transparent class="nav-bar" [color]=" 'primary' | theme | async">
-            <button ion-button menuToggle>
-                <ion-icon name="menu"></ion-icon>
-            </button>
-        </ion-navbar>
         <h5>{{ assetSymbol }}</h5>
         <p>{{ assetBalance }}</p>
     </div>
