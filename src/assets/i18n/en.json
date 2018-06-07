@@ -39,7 +39,7 @@
   "LOADING_CREATING": "Creating...",
   "LOADING_TRANSFER": "Sending...",
   "LOADING_CLAIMGAS": "Claiming...",
-  "SHARED_PASSWORD_VERIFY": "Enter password.",
+  "SHARED_PASSWORD_VERIFY": "Enter password",
   "SHARED_PASSWORD_BTN": "Verify",
   "SHARED_PASSWORD_CANCEL": "Cancel",
   "SHARED_PASSWORD_TOOSHORT": "Password length is at least 6.",
