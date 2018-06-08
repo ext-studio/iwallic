@@ -66,12 +66,11 @@ export class TxListComponent implements OnInit {
     }
 
     public copyTx(txid: string, item: ItemSliding) {
-        this.clipboard.copy(txid).then((res) => {
-            this.global.ToastI18N('TOAST_CONTENT_COPIED').subscribe();
-            item.close();
-        }, (err) => {
-            this.global.ToastI18N('TOAST_CONTENT_COPYFAILED').subscribe();
-            item.close();
+        this.global.Copy(txid).then((res) => {
+            if (res) {
+                this.global.ToastI18N('TOAST_CONTENT_COPIED').subscribe();
+                item.close();
+            }
         });
     }
 

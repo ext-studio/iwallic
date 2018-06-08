@@ -19,6 +19,10 @@ transaction-receipt {
             height: 434px;
             margin-top: 30px;
             text-align: center;
+            background-position: center top;
+            background-size: contain;
+            background-repeat: no-repeat;
+            position: relative;
             #qrcode {
                 margin-top: 40px;
             }
@@ -29,22 +33,16 @@ transaction-receipt {
                 margin-bottom: 0;
             }
             .address {
-                margin: auto;
-                margin-top: 12px;
                 font-size: 13px;
                 color: #646163;
-                display: block;
-                border: none;
-                width: 80%;
-                background: transparent;
-                text-align: center;
+                width: 200px;
+                margin: 12px auto;
             }
-            button {
+            .btn {
+                position: absolute;
+                bottom: 0;left: 50%;
                 min-width: 150px;
-                margin-top: 48px;
-                background: #558aef;
-                color: white;
-
+                transform: translateX(-50%);
             }
         }
     }
