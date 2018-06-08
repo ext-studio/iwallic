@@ -6,10 +6,9 @@
         <ion-row>
             <ion-title>{{'WALLET_OPEN_TITLE' | translate}}</ion-title>
             <button  class="scan-btn" (click)="qrScan()" *ngIf="isScan">
-                <img class="scan-btn" isrc="assets/transaction/icon_scan.png" alt="">
+                <ion-icon style="font-size: 24px;font-weight: 600;" name="qr-scanner"></ion-icon>
             </button>
         </ion-row>
-        
     </ion-navbar>
 </ion-header>
 

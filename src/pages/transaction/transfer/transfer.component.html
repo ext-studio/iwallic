@@ -18,7 +18,7 @@
         <ion-item ibg="default2" iborder="line" icolor="font">
             <ion-input type="text" placeholder="{{ 'TRANSACTION_TRANSFER_TARGET' | translate }}" [(ngModel)]="toaddr"></ion-input>
             <button *ngIf="isScan" clear ion-button item-end (click)="qrScan()">
-                <img class="scan" isrc="assets/transaction/icon_scan.png">
+                <ion-icon style="font-size: 24px;font-weight: 600;" name="qr-scanner"></ion-icon>
             </button>
         </ion-item>
         <ion-item iborder="line" ibg="default2" icolor="font">
