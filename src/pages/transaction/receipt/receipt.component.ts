@@ -22,10 +22,10 @@ export class TxReceiptComponent implements OnInit {
         });
     }
     public copy() {
-        this.global.Copy('wallet-address').then((res) => {
-            this.copied = true;
-        }).catch((err) => {
-            this.global.AlertI18N({content: 'ALERT_CONTENT_COPYMANUALLY'}).subscribe();
+        this.global.Copy(this.address).then((res) => {
+            if (res) {
+                this.copied = true;
+            }
         });
     }
 }

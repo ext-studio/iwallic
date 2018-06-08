@@ -44,7 +44,7 @@ export class WalletCreateComponent implements OnInit {
     }
 
     public copy() {
-        this.global.Copy('wif-copy').then((res) => {
+        this.global.Copy(this.newWallet.wif).then((res) => {
             this.copied = true;
         }).catch((err) => {
             this.global.AlertI18N({content: 'ALERT_CONTENT_COPYMANUALLY'}).subscribe();

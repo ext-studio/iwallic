@@ -136,24 +136,29 @@ export class GlobalService {
      * Copy the value of an input DOM
      * @param selector the dom taken value to copy
      */
-    public Copy(selector: string): Promise<any> {
-        return new Promise((res, rej) => {
-            const target: any = window.document.getElementById(selector);
-            if (this.platform.is('core') || this.platform.is('mobileweb')) {
-                target.select();
-                if (document.execCommand('copy')) {
-                    res();
-                } else {
-                    rej();
-                }
-            } else {
-                target.select();
-                this.clipboard.copy(target.value).then((cres) => {
-                    res();
-                }, (err) => {
-                    rej();
-                });
-            }
+    public Copy(content: string): Promise<any> {
+        return this.clipboard.copy(content).catch((err) => {
+            this.ngTranslate.get(
+                ['ALERT_COPY_TITLE', 'ALERT_COPY_MESSAGE', 'ALERT_NO_CLOSE']
+            ).subscribe((config) => {
+                const bool = true;
+                this.alert.create({
+                    title: config['ALERT_COPY_TITLE'],
+                    subTitle: config['ALERT_COPY_MESSAGE'],
+                    inputs: [
+                        {
+                            value: content,
+                            disabled: bool
+                        },
+                    ],
+                    buttons: [
+                        config['ALERT_NO_CLOSE']
+                    ]
+                }).present();
+            }, () => {
+                this.ToastI18N('TOAST_CONTENT_COPYFAILED').subscribe();
+            });
+            return Promise.resolve(false);
         });
     }
 

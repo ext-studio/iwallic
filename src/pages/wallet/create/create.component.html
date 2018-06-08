@@ -12,8 +12,8 @@
         <img *ngIf="shown" (click)="shown = false" isrc="assets/wallet/backups_btn_display_s@2x.png" />
         <img *ngIf="!shown" (click)="shown = true" isrc="assets/wallet/backups_btn_display_n@2x.png" />
     </div>
-    <textarea icolor="font" ibg="default" *ngIf="shown" class="wif" id="wif-copy" readonly="readonly" contenteditable="false" [value]="newWallet?.wif" ></textarea>
-    <input icolor="font" ibg="default" *ngIf="!shown" type="text" class="wif" readonly="readonly" contenteditable="false" value="**************************************************" />
+    <p *ngIf="shown" class="tip">{{newWallet?.wif}}</p>
+    <p *ngIf="!shown" class="tip">********************</p>
     <button [color]="'primary' | theme | async" *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_CREATE_COPIED' : 'WALLET_CREATE_COPY') | translate}}</button>
     <button [color]="'primary' | theme | async" margin-vertical ion-button block (click)="enter()">{{'WALLET_CREATE_ENTER' | translate}}</button>
 </ion-content>
