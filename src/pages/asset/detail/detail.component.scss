@@ -8,18 +8,17 @@ asset-detail {
     .nav-bar {
         position: absolute;
         top: 0;
+        z-index: 999;
     }
     .top {
         height: 230px;
         width: 100%;
         text-align: center;
-        color: white;
+        color: white !important;
         padding-top: 80px;
         background-size: cover;        
         background-repeat: no-repeat;
         background-position: center;
-        z-index: -1;
-
         h5 {
             font-size: 15px;
             margin: 0;

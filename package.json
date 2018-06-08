@@ -1,6 +1,6 @@
 {
   "name": "iwallic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "iWallic Team",
   "private": true,
   "scripts": {
@@ -41,11 +41,12 @@
     "@ionic/storage": "2.1.3",
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
-    "base58check": "^2.0.0",
+    "bs58": "^4.0.1",
+    "buffer": "^5.1.0",
     "cordova-android": "7.0.0",
     "cordova-browser": "5.0.3",
     "cordova-clipboard": "^1.2.1",
-    "cordova-ios": "^4.5.4",
+    "cordova-ios": "4.5.4",
     "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-app-version": "^0.1.9",
     "cordova-plugin-compat": "^1.2.0",
@@ -59,13 +60,14 @@
     "cordova-plugin-themeablebrowser": "^0.2.17",
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-sqlite-storage": "^2.3.2",
+    "crypto-js": "^3.1.9-1",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "ngx-qrcode2": "^0.1.0",
     "qr-code-with-logo": "^1.0.16",
     "rxjs": "5.5.10",
-    "sha.js": "^2.4.11",
     "sw-toolbox": "3.6.0",
+    "text-encoding": "^0.6.4",
     "zone.js": "0.8.26"
   },
   "devDependencies": {

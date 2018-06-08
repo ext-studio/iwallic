@@ -1,5 +1,4 @@
-import { ASSET } from './const';
-import { u, wallet } from '..';
+import { ASSET, WALLET, HEX } from '../utils';
 
 export const TxVersion = {
     'CLAIM': 0,
@@ -58,7 +57,7 @@ export class Script {
 
 export class Transaction {
     public get hash(): string {
-        return u.reverseHex(u.hash256(this.serielize()));
+        return HEX.reverse(HEX.hash256(this.serielize()));
     }
     public claims: Array<{ prevHash: string, prevIndex: number }> = [];
     public type: number = TxType.CONTRACT;
@@ -95,7 +94,7 @@ export class Transaction {
         const vout: Output[] = [{
             asset: asset,
             value: amount,
-            scriptHash: wallet.getScriptHashFromAddress(to)
+            scriptHash: WALLET.addr2hash(to)
         }];
         let curr = 0;
         for (const tx of utxo) {
@@ -110,7 +109,7 @@ export class Transaction {
             throw 'not_enouogh';
         }
         if (payback > 0) {
-            vout.push({value: payback, asset: asset, scriptHash: wallet.getScriptHashFromAddress(from)});
+            vout.push({value: payback, asset: asset, scriptHash: WALLET.addr2hash(from)});
         }
         return new Transaction({
             vin, vout
@@ -136,35 +135,35 @@ export class Transaction {
             vout: [{
                 asset: ASSET.GAS,
                 value: value,
-                scriptHash: wallet.getScriptHashFromAddress(to)
+                scriptHash: WALLET.addr2hash(to)
             }]
         });
     }
     public addRemark(data: string) {
         // usage Remark
         // data string
-        this.attributes.push({usage: AttributeUsage.REMARK, data: u.str2hexstring(data)});
+        this.attributes.push({usage: AttributeUsage.REMARK, data: HEX.fromString(data)});
     }
     public addNEP5(data: string) {
-        this.attributes.push({usage: AttributeUsage.SCRIPT, data: u.reverseHex(data)});
+        this.attributes.push({usage: AttributeUsage.SCRIPT, data: HEX.reverse(data)});
         this.attributes.push({
             usage: AttributeUsage.NEP5,
-            data: u.reverseHex(u.str2hexstring('from iwallic' + new Date().getTime()))
+            data: HEX.reverse(HEX.fromString('from iwallic' + new Date().getTime()))
         });
     }
     public serielize(signed: boolean = false): string {
         let out = '';
-        out += u.num2hexstring(this.type, 1, false);
-        out += u.num2hexstring(this.version, 1, false);
+        out += HEX.fromNumber(this.type, 1, false);
+        out += HEX.fromNumber(this.version, 1, false);
         out += this.serielizeType();
         out += this.serielizeAttr();
         out += this.serielizeInput();
         out += this.serielizeOutput();
         if (signed && this.scripts && this.scripts.length > 0) {
-            out += u.num2VarInt(this.scripts.length);
+            out += HEX.forNum(this.scripts.length);
             for (const script of this.scripts) {
-                const invoLength = u.num2VarInt(script.invocationScript.length / 2);
-                const veriLength = u.num2VarInt(script.verificationScript.length / 2);
+                const invoLength = HEX.forNum(script.invocationScript.length / 2);
+                const veriLength = HEX.forNum(script.verificationScript.length / 2);
                 out += invoLength + script.invocationScript + veriLength + script.verificationScript;
             }
         }
@@ -173,7 +172,7 @@ export class Transaction {
     private serielizeType(): string {
         switch (this.type) {
             case TxType.CLAIM:
-            let outClaim = u.num2VarInt(this.claims.length);
+            let outClaim = HEX.forNum(this.claims.length);
             for (const claim of this.claims) {
                 if (typeof claim.prevIndex === 'string') {
                     claim.prevIndex = parseInt(claim.prevIndex, 0);
@@ -181,14 +180,14 @@ export class Transaction {
                 if (claim.prevHash.length === 66) {
                     claim.prevHash = claim.prevHash.slice(2);
                 }
-                outClaim += u.reverseHex(claim.prevHash) + u.reverseHex(u.num2hexstring(claim.prevIndex, 2));
+                outClaim += HEX.reverse(claim.prevHash) + HEX.reverse(HEX.fromNumber(claim.prevIndex, 2));
             }
             return outClaim;
             case TxType.INVOCATION:
-            let outInvoke = u.num2VarInt(this.script.length / 2);
+            let outInvoke = HEX.forNum(this.script.length / 2);
             outInvoke += this.script;
             if (this.version >= 1) {
-                outInvoke += u.num2fixed8(this.gas);
+                outInvoke += HEX.forFixedNum(this.gas);
             }
             return outInvoke;
             case TxType.CONTRACT:
@@ -197,16 +196,16 @@ export class Transaction {
         }
     }
     private serielizeAttr(): string {
-        let rs = u.num2VarInt(this.attributes.length);
+        let rs = HEX.forNum(this.attributes.length);
         for (const attribute of this.attributes) {
             if (attribute.data.length > 65535) {
                 throw new Error();
             }
-            rs += u.num2hexstring(attribute.usage, 1, false);
+            rs += HEX.fromNumber(attribute.usage, 1, false);
             if (attribute.usage === 0x81) {
-                rs += u.num2hexstring(attribute.data.length / 2, 1, false);
+                rs += HEX.fromNumber(attribute.data.length / 2, 1, false);
             } else if (attribute.usage === 0x90 || attribute.usage >= 0xf0) {
-                rs += u.num2VarInt(attribute.data.length / 2);
+                rs += HEX.forNum(attribute.data.length / 2);
             }
             if (attribute.usage === 0x02 || attribute.usage === 0x03) {
                 rs += attribute.data.substr(2, 64);
@@ -217,20 +216,20 @@ export class Transaction {
         return rs;
     }
     private serielizeInput(): string {
-        let rs = u.num2VarInt(this.vin.length);
+        let rs = HEX.forNum(this.vin.length);
         for (const input of this.vin) {
-            rs += u.reverseHex(input.prevHash) + u.reverseHex(u.num2hexstring(input.prevIndex, 2));
+            rs += HEX.reverse(input.prevHash) + HEX.reverse(HEX.fromNumber(input.prevIndex, 2));
         }
         return rs;
     }
     private serielizeOutput(): string {
-        let rs = u.num2VarInt(this.vout.length);
+        let rs = HEX.forNum(this.vout.length);
         for (const output of this.vout) {
-            const value = new u.Fixed8(output.value).toReverseHex();
+            const value = HEX.forFixedNum(typeof output.value === 'string' ? parseInt(output.value, 0) : output.value);
             if (output.asset.length === 66) {
                 output.asset = output.asset.slice(2);
             }
-            rs += u.reverseHex(output.asset) + value + u.reverseHex(output.scriptHash);
+            rs += HEX.reverse(output.asset) + value + HEX.reverse(output.scriptHash);
         }
         return rs;
     }

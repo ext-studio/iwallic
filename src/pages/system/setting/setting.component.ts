@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService, GlobalService, ThemeService, NetService, BlockState } from '../../../core';
+import { TranslateService, ThemeService, NetService, BlockState } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 
@@ -16,7 +16,6 @@ export class SystemSettingComponent implements OnInit {
     constructor(
         private translate: TranslateService,
         private nav: NavController,
-        private global: GlobalService,
         private themeService: ThemeService,
         private net: NetService,
         private block: BlockState

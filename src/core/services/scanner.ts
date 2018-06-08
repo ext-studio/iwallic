@@ -1,7 +1,6 @@
-import { Injectable, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ScanComponent } from '../directives/scan/scan.component';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 import { NavController } from 'ionic-angular';
 
 @Injectable()

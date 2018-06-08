@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Nav } from 'ionic-angular';
-import { AssetListComponent } from '../../../pages';
 @Component({
     selector: 'success',
     templateUrl: 'success.component.html',

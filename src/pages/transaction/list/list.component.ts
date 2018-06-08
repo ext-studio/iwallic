@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScroll, Refresher, Platform, ItemSliding } from 'ionic-angular';
-import { HttpClient } from '@angular/common/http';
+import { Refresher, ItemSliding } from 'ionic-angular';
 import { GlobalService, TransactionState, NetService } from '../../../core';
 import { WalletService } from '../../../neo';
 import { Clipboard } from '@ionic-native/clipboard';
 import {
-    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+    ThemeableBrowser, ThemeableBrowserOptions
 } from '@ionic-native/themeable-browser';
 
 const options: ThemeableBrowserOptions = {
@@ -37,10 +36,8 @@ export class TxListComponent implements OnInit {
     public address: string = '';
 
     constructor(
-        private http: HttpClient,
         private global: GlobalService,
         private wallet: WalletService,
-        private platform: Platform,
         public transcation: TransactionState,
         private clipboard: Clipboard,
         private themeableBrowser: ThemeableBrowser,

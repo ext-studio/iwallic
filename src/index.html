@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="UTF-8">
   <title>iWallic</title>
@@ -30,10 +31,14 @@
   <link href="build/main.css" rel="stylesheet">
 
 </head>
-<body>
 
+<body>
   <!-- Ionic's root component and where the app will load -->
-  <ion-app></ion-app>
+  <ion-app>
+      <div class="appSplash" style="height: 100%;width: 100%;background: linear-gradient(#3236ae, #25168b)">
+      
+      </div>
+  </ion-app>
 
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>
@@ -46,12 +51,13 @@
   <script src="build/main.js"></script>
   <script>
     var _hmt = _hmt || [];
-    (function() {
+    (function () {
       var hm = document.createElement("script");
       hm.src = "https://hm.baidu.com/hm.js?a23fb5029a3b12f48e6804486909eda6";
-      var s = document.getElementsByTagName("script")[0]; 
+      var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
   </script>
 </body>
+
 </html>

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { GlobalService, ConfigService } from '../../../core';
-import { Config } from 'ionic-angular';
 import {
-    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+    ThemeableBrowser, ThemeableBrowserOptions
 } from '@ionic-native/themeable-browser';
-import { AppVersion } from '@ionic-native/app-version';
 
 const options: ThemeableBrowserOptions = {
     statusbar: {
@@ -37,7 +34,6 @@ export class SystemHelperComponent implements OnInit {
     constructor(
         private global: GlobalService,
         private themeableBrowser: ThemeableBrowser,
-        private http: HttpClient,
         private config: ConfigService
     ) { }
 

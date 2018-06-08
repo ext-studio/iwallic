@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, NavController, ViewController } from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
-import { TxTransferComponent, WalletOpenComponent } from '../../../pages';
 import { GlobalService } from '../../services/global';
 import { Subject } from 'rxjs/Subject';
 import { wallet } from '@cityofzion/neon-js';

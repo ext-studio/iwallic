@@ -4,8 +4,28 @@ popup-input {
     }
     input {
         letter-spacing: 3px;
+        font-size: 1.4rem;
+        
     }
     .input input::placeholder {
         color: map-get($colors, primary);
+    }
+    .pass-input-list {
+        margin: 16px 0;
+        .pass-input-item {
+            border-radius: 4px;
+            height: 0 ;
+            border: none ;
+            padding: 0;
+            background: transparent;
+            text-align: center;
+            .item-inner {
+                padding-right: 0;
+            }
+            &.item-input:last-child  {
+                border: none;
+                box-shadow: none;
+            }
+        }
     }
 }

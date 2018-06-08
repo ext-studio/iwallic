@@ -14,6 +14,7 @@ export class AssetAttachComponent implements OnInit {
     public assetList: any[] = [];
     public address: string;
     public isloading: boolean = true;
+    public assetBalanceList: any[] = [];
     constructor(
         private http: HttpClient,
         private global: GlobalService,
@@ -29,6 +30,9 @@ export class AssetAttachComponent implements OnInit {
             } else {
                 this.chooseList = [];
             }
+        });
+        this.balance.get().subscribe((res) => {
+            this.assetBalanceList = res;
         });
         this.address = this.wallet.address;
         this.getAssetList();
@@ -54,6 +58,12 @@ export class AssetAttachComponent implements OnInit {
                         'symbol': this.assetList[i].symbol,
                         'name': this.assetList[i].name
                     });
+                }
+                if (this.assetBalanceList.findIndex((e) => e.assetId === token) >= 0) {
+                    const arrIndex = this.assetBalanceList.findIndex((e) => e.assetId === token);
+                    this.assetList[i]['balance'] = parseFloat(this.assetBalanceList[arrIndex]['balance']);
+                } else {
+                    this.assetList[i]['balance'] = 0;
                 }
                 this.assetList[i].assetId = token.substring(0, 8) +
                     '...' + token.substring(token.length - 8);

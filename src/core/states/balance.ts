@@ -22,7 +22,6 @@ export class BalanceState {
     private _balance: any[];
     private $balance: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
-    private selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
     constructor(
         private global: GlobalService,
         private http: HttpClient,
@@ -115,13 +114,6 @@ export class BalanceState {
                                     'assetId': i.assetId,
                                     'balance': 0
                                 });
-                            } else {
-                                continue;
-                            }
-                        } else {
-                            if (result.findIndex((e) => e.assetId === i.assetId) >= 0) {
-                                const arrayIndex = result.findIndex((e) => e.assetId === i.assetId);
-                                result.splice(arrayIndex, 1);
                             } else {
                                 continue;
                             }

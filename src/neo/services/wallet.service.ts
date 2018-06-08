@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { wallet, UtilService } from '../';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -9,20 +8,9 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from '../../core';
-import { WalletCreateComponent } from '../../pages';
 import { Wallet } from '../models/wallet';
-import { Subject } from 'rxjs/Subject';
+import { WALLET, SCRYPT } from '../utils';
 import CryptoJS from 'crypto-js';
-
-export function getAddressFromWIF(wif: string): string {
-    return wallet.getAddressFromScriptHash(
-        wallet.getScriptHashFromPublicKey(
-            wallet.getPublicKeyFromPrivateKey(
-                wallet.getPrivateKeyFromWIF(wif)
-            )
-        )
-    );
-}
 
 @Injectable()
 export class WalletService {
@@ -37,7 +25,6 @@ export class WalletService {
     }
     private cached: Wallet;
     constructor(
-        private util: UtilService,
         private storage: Storage,
         private http: HttpClient,
         private global: GlobalService
@@ -55,13 +42,13 @@ export class WalletService {
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'scryptaddr',
             params: [this.cached.address, pwd]
-        }).map((rs: any) => {
+        }).switchMap((rs: any) => {
             if (rs && rs.code === 200) {
-                return rs.result;
+                return Observable.of(rs.result);
             } else {
-                throw 'verify_failed';
+                return SCRYPT(this.cached.address, pwd);
             }
-        }).switchMap((scrypt) => this.cached.Verify(scrypt)).map((res) => {
+        }).catch((err) =>  SCRYPT(this.cached.address, pwd)).switchMap((scrypt) => this.cached.Verify(scrypt)).map((res) => {
             if (!skipSave) {
                 console.log('skip_save');
                 this.Save(res);
@@ -76,16 +63,17 @@ export class WalletService {
      */
     public Import(text: string, pwd: string, type: 'NEP2' | 'NEP6'): Observable<any> {
         if (type === 'NEP2') {
+            const addr = WALLET.wif2addr(text);
             return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
                 method: 'scryptaddr',
-                params: [getAddressFromWIF(text), pwd]
-            }).map((rs: any) => {
+                params: [addr, pwd]
+            }).switchMap((rs: any) => {
                 if (rs && rs.code === 200) {
-                    return rs.result;
+                    return Observable.of(rs.result);
                 } else {
-                    throw 'verify_failed';
+                    return SCRYPT(addr, pwd);
                 }
-            }).switchMap((scrypt) => Wallet.fromWIF(text, scrypt));
+            }).catch((err) =>  SCRYPT(addr, pwd)).switchMap((scrypt) => Wallet.fromWIF(text, scrypt));
         } else if (type === 'NEP6') {
             return Observable.throw('unsupport');
         } else {
@@ -105,18 +93,18 @@ export class WalletService {
      * generate and encrypt private key by neon-js
      */
     public Create(pwd: string = 'iwallic'): Observable<Wallet> {
-        const newWif = wallet.getWIFFromPrivateKey(wallet.generatePrivateKey());
-        const addr = getAddressFromWIF(newWif);
+        const newWif = WALLET.priv2wif(WALLET.generate());
+        const addr = WALLET.wif2addr(newWif);
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'scryptaddr',
             params: [addr, pwd]
-        }).map((rs: any) => {
+        }).switchMap((rs: any) => {
             if (rs && rs.code === 200) {
-                return rs.result;
+                return Observable.of(rs.result);
             } else {
-                throw 'verify_failed';
+                return SCRYPT(addr, pwd);
             }
-        }).switchMap((scrypt) => Wallet.fromWIF(newWif, scrypt));
+        }).catch((err) =>  SCRYPT(addr, pwd)).switchMap((scrypt) => Wallet.fromWIF(newWif, scrypt));
     }
 
     /**
@@ -173,12 +161,8 @@ export class WalletService {
         this.storage.remove('wallet');
     }
 
-    public GetAddressFromWIF(wif: string): string {
-        return getAddressFromWIF(wif);
-    }
-
     public CheckWIF(wif: string): boolean {
-        return wallet.isWIF(wif);
+        return WALLET.checkWIF(wif);
     }
 
     public Backup() {
@@ -191,20 +175,15 @@ export class WalletService {
 
     public verifyNep2(enckey: any, publicKey: any, pwd: any): Observable<any> {
         return new Observable((observable) => {
-            const strReg = new RegExp('^[0-9]+$');
-            if (strReg.test(CryptoJS.AES.decrypt(enckey, pwd).toString())) {
+            if (/^[0-9]+$/.test(CryptoJS.AES.decrypt(enckey, pwd).toString())) {
                 const privateKey = CryptoJS.AES.decrypt(enckey, pwd).toString(CryptoJS.enc.Utf8);
-                if (publicKey === wallet.getPublicKeyFromPrivateKey(privateKey)) {
-                    observable.next(wallet.getWIFFromPrivateKey(privateKey));
+                if (publicKey === WALLET.priv2pub(privateKey)) {
+                    observable.next(WALLET.priv2wif(privateKey));
                     observable.complete();
-                } else {
-                    observable.next(false);
-                    observable.complete();
+                    return;
                 }
-            } else {
-                observable.next(false);
-                observable.complete();
             }
+            observable.error('verify_failed');
         });
     }
 }

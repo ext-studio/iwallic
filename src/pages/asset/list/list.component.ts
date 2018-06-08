@@ -1,22 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import {
-    WalletBackupComponent, AssetDetailComponent,
-    TxReceiptComponent, TxTransferComponent, AssetAttachComponent,
-    TxSuccessComponent
+    AssetDetailComponent,
+    TxReceiptComponent, TxTransferComponent, AssetAttachComponent
 } from '../../../pages';
 import {
-    InfiniteScroll, NavController, Refresher, AlertController,
+    NavController, Refresher,
     Platform, MenuController
 } from 'ionic-angular';
-import { WalletService, Wallet, TransactionService } from '../../../neo';
+import { WalletService, TransactionService } from '../../../neo';
 import { GlobalService, BalanceState, NetService, TransactionState } from '../../../core';
-import { ValueTransformer } from '@angular/compiler/src/util';
-import { attachEmbeddedView } from '@angular/core/src/view';
-
-import Neon, { api } from '@cityofzion/neon-js';
-
 
 @Component({
     selector: 'asset-list',
@@ -51,8 +44,6 @@ export class AssetListComponent implements OnInit {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
             this.neoValue = neo ? neo.balance : 0;
-            // this.checkClaim('0x3691d90256c4f55f26bf6c23c4a12dec1bde00b0e54b76f2938f4687d3df0245');
-            // fetch only when has NEO & has not unconfirmed claim
             if (this.balance.unconfirmedClaim) {
                 this.checkClaim(this.balance.unconfirmedClaim);
             } else if (this.neoValue > 0) {
@@ -122,15 +113,6 @@ export class AssetListComponent implements OnInit {
                 }).subscribe();
             });
         });
-    }
-
-    private resolveAssetList(list: any[]) {
-        this.assets = list;
-        const neo = list.find((e) => e.name === 'NEO');
-        this.neoValue = neo ? neo.balance : 0;
-        if (this.neoValue > 0) {
-            this.fetchClaim();
-        }
     }
 
     private fetchClaim() {

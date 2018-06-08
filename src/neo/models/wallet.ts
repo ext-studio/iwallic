@@ -1,12 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { wallet, u } from '..';
-import AES from 'crypto-js/aes';
-import hexEncoding from 'crypto-js/enc-hex';
-import ECBMode from 'crypto-js/mode-ecb';
-import NoPadding from 'crypto-js/pad-nopadding';
-import SHA256 from 'crypto-js/sha256';
-import latin1Encoding from 'crypto-js/enc-latin1';
-import base58check from 'base58check';
+import { NEP2, WALLET } from '../utils';
 
 export class Contract {
     public script: string;
@@ -58,30 +51,13 @@ export class Account {
     }
     public static fromWIF(wif: string, scrypt: string): Observable<Account> {
         return new Observable((observer) => {
-            const addr = wallet.getAddressFromScriptHash(
-                wallet.getScriptHashFromPublicKey(
-                    wallet.getPublicKeyFromPrivateKey(
-                        wallet.getPrivateKeyFromWIF(wif)
-                    )
-                )
-            );
-            const addressHash = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
-            const derived1 = scrypt.slice(0, 64);
-            const derived2 = scrypt.slice(64);
-            const xor = u.hexXor(wallet.getPrivateKeyFromWIF(wif), derived1);
-            const encrypted = AES.encrypt(
-                hexEncoding.parse(xor),
-                hexEncoding.parse(derived2),
-                { mode: ECBMode, padding: NoPadding }
-            );
-            const assembled = '0142' + 'e0' + addressHash + encrypted.ciphertext.toString();
-            const encryptedKey = base58check.encode(assembled, '0x');
+            const addr = WALLET.wif2addr(wif);
             observer.next(new Account({
-                key: encryptedKey,
+                key: NEP2.encode(addr, wif, scrypt),
                 address: addr,
                 wif: wif,
                 contract: Contract.fromWallet(
-                    wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif))
+                    WALLET.priv2pub(WALLET.wif2priv(wif))
                 )
             }));
             observer.complete();
@@ -89,28 +65,9 @@ export class Account {
     }
     public Verify(scrypt: string): Observable<any> {
         return new Observable((observer) => {
-            const assembled = base58check.decode(this.key, 'hex');
-            const addressHash = (assembled.prefix + assembled.data).substr(6, 8);
-            const encrypted = (assembled.prefix + assembled.data).substr(-64);
-            const derived1 = scrypt.slice(0, 64);
-            const derived2 = scrypt.slice(64);
-            const ciphertext = { ciphertext: hexEncoding.parse(encrypted), salt: '' };
-            const decrypted = AES.decrypt(ciphertext, hexEncoding.parse(derived2), { mode: ECBMode, padding: NoPadding });
-            const privateKey = u.hexXor(decrypted.toString(), derived1);
-            const wif = wallet.getWIFFromPrivateKey(privateKey);
-            const addr = wallet.getAddressFromScriptHash(
-                wallet.getScriptHashFromPublicKey(
-                    wallet.getPublicKeyFromPrivateKey(privateKey)
-                )
-            );
-            const gotAH = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
-            if (addressHash === gotAH) {
-                this.wif = wif;
-                observer.next(this.wif);
-                observer.complete();
-            } else {
-                observer.error('verify_failed');
-            }
+            this.wif = NEP2.decode(scrypt, this.key);
+            observer.next(this.wif);
+            observer.complete();
         });
     }
 }

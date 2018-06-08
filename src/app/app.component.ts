@@ -1,21 +1,17 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
+import { Component, ViewChild } from '@angular/core';
+import { Nav, Platform, MenuController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Storage } from '@ionic/storage';
-import { AlertController, LoadingController, MenuController, NavController, Config, IonicApp } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
-
-import { GlobalService, TranslateService, ThemeService } from '../core';
 import { WalletService } from '../neo';
 import {
-    AssetAttachComponent, AssetDetailComponent, AssetListComponent,
+    AssetDetailComponent, AssetListComponent,
     SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletPwdComponent, WalletCreateComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
-    TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
+    TxDetailComponent, TxListComponent, TxTransferComponent
 } from '../pages';
-import { PopupInputService, BlockState, BalanceState, TransactionState, NetService, ConfigService } from '../core';
+import {
+    BlockState, BalanceState, TransactionState,
+    NetService, ConfigService, GlobalService, TranslateService
+} from '../core';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -61,8 +57,8 @@ export class AppComponent {
         if (this.nav.getActive().component === AssetListComponent) {
             this.nav.push(page);
         } else {
-            this.nav.pop({animate: false});
-            this.nav.push(page, null, {animate: true});
+            this.nav.pop({ animate: false });
+            this.nav.push(page, null, { animate: true });
         }
         this.menu.close();
     }
@@ -98,13 +94,13 @@ export class AppComponent {
                 case SystemSettingComponent:
                 case TxListComponent:
                 case AssetDetailComponent:
-                this.transaction.fetchSilent();
+                    this.transaction.fetchSilent();
                 // tslint:disable-next-line:no-switch-case-fall-through
                 case TxDetailComponent:
                 case TxTransferComponent:
                 case AssetListComponent:
-                this.balance.fetchSilent();
-                break;
+                    this.balance.fetchSilent();
+                    break;
             }
         });
     }
@@ -136,19 +132,19 @@ export class AppComponent {
     private initConfig() {
         this.translate.Init();
         this.config.Init()
-        .switchMap(() => this.net.Init())
-        .switchMap(() => this.wallet.Get()).subscribe(() => {
-            this.menu.enable(true, 'iwallic-menu');
-            this.nav.setRoot(AssetListComponent);
-        }, (err) => {
-            console.log(err);
-            this.menu.enable(false, 'iwallic-menu');
-            if (err === 'need_verify') {
-                this.nav.setRoot(WalletVerifyComponent);
-            } else {
-                this.nav.setRoot(WalletGateComponent);
-            }
-        });
+            .switchMap(() => this.net.Init())
+            .switchMap(() => this.wallet.Get()).subscribe(() => {
+                this.menu.enable(true, 'iwallic-menu');
+                this.nav.setRoot(AssetListComponent);
+            }, (err) => {
+                console.log(err);
+                this.menu.enable(false, 'iwallic-menu');
+                if (err === 'need_verify') {
+                    this.nav.setRoot(WalletVerifyComponent);
+                } else {
+                    this.nav.setRoot(WalletGateComponent);
+                }
+            });
     }
 
     private initSwipe() {

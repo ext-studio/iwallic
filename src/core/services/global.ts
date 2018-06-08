@@ -4,10 +4,11 @@ import {
     AlertController, LoadingController, Loading, ToastController
 } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { Storage } from '@ionic/storage';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
 import { NetService } from './net';
+import { Platform } from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @Injectable()
 export class GlobalService {
@@ -19,7 +20,9 @@ export class GlobalService {
         private ngTranslate: NgTranslateService,
         private toast: ToastController,
         private theme: ThemeService,
-        private net: NetService
+        private net: NetService,
+        private platform: Platform,
+        private clipboard: Clipboard
     ) {}
     public get apiDomain(): string {
         return this.net.get('API');
@@ -136,35 +139,20 @@ export class GlobalService {
     public Copy(selector: string): Promise<any> {
         return new Promise((res, rej) => {
             const target: any = window.document.getElementById(selector);
-            if (window.navigator.userAgent.toLowerCase().match(/ipad|ipod|iphone/i)) {
-                const oldContentEditable = target.contentEditable;
-                const oldReadOnly = target.readOnly;
-                const range = document.createRange();
-
-                target.contenteditable = true;
-                target.readonly = false;
-                range.selectNodeContents(target);
-
-                const s = window.getSelection();
-                s.removeAllRanges();
-                s.addRange(range);
-
-                target.setSelectionRange(0, 999999);
-
-                if (document.execCommand('copy')) {
-                    res();
-                } else {
-                    rej();
-                }
-                target.contentEditable = oldContentEditable;
-                target.readOnly = oldReadOnly;
-            } else {
+            if (this.platform.is('core') || this.platform.is('mobileweb')) {
                 target.select();
                 if (document.execCommand('copy')) {
                     res();
                 } else {
                     rej();
                 }
+            } else {
+                target.select();
+                this.clipboard.copy(target.value).then((cres) => {
+                    res();
+                }, (err) => {
+                    rej();
+                });
             }
         });
     }

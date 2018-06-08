@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PopupInputService, GlobalService, TransactionState, BalanceState, ScannerService } from '../../../core';
 import { NavController, Platform, NavParams } from 'ionic-angular';
-import { WalletService, TransactionService, Wallet } from '../../../neo';
+import { WalletService, TransactionService } from '../../../neo';
 import { TxSuccessComponent } from '../../../pages';
 
 @Component({
@@ -37,15 +37,15 @@ export class TxTransferComponent implements OnInit {
             this.isScan = false;
         }
         this.asset = this.params.get('asset') || null;
-        if (this.asset) {
-            const chosen = this.assetList.find((e) => e.assetId === this.asset);
-            this.assetBalance = chosen && chosen.balance;
-            this.assetSymbol = chosen && chosen.symbol;
-        }
         this.balanceState.get().subscribe((res) => {
             this.assetList = res;
-            const value = res.find((e) => e.assetId === this.asset);
-            this.assetBalance = value ? value.balance : 0;
+            if (this.asset) {
+                const preChosen = res.find((e) => e.assetId === this.asset);
+                this.assetBalance = parseFloat(preChosen && preChosen.balance || 0);
+                this.assetSymbol = preChosen && preChosen.symbol;
+            } else {
+                this.assetBalance = 0;
+            }
         });
     }
 
@@ -63,8 +63,11 @@ export class TxTransferComponent implements OnInit {
             this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
             return;
         }
+        if (typeof this.amount === 'string') {
+            this.amount = parseFloat(this.amount);
+        }
         if (this.amount) {
-            if (parseFloat(this.amount.toString()) > parseFloat(this.assetBalance.toString())) {
+            if (this.amount > this.assetBalance) {
                 this.wrongTips = 'TRANSACTION_TRANSFER_EXCEEDETBALANCE';
                 return;
             }

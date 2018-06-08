@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RPCService } from './services/rpc.service';
 import { TransactionService } from './services/transaction.service';
-import { UtilService } from './services/util.service';
 import { WalletService } from './services/wallet.service';
 
 @NgModule({
@@ -9,8 +7,7 @@ import { WalletService } from './services/wallet.service';
     exports: [],
     declarations: [],
     providers: [
-        RPCService, TransactionService,
-        UtilService, WalletService
+        TransactionService, WalletService
     ],
 })
 export class NEOModule { }

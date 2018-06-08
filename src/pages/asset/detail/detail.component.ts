@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    InfiniteScroll, NavController, NavParams,
+    NavController, NavParams,
     Refresher, Platform, ItemSliding
 } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
@@ -8,7 +8,7 @@ import { WalletService } from '../../../neo';
 import { TransactionState, BalanceState, GlobalService, NetService, ConfigService } from '../../../core';
 import { Clipboard } from '@ionic-native/clipboard';
 import {
-    ThemeableBrowser, ThemeableBrowserOptions, ThemeableBrowserObject
+    ThemeableBrowser, ThemeableBrowserOptions
 } from '@ionic-native/themeable-browser';
 
 const options: ThemeableBrowserOptions = {
