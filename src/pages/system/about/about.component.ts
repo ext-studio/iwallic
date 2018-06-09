@@ -46,7 +46,18 @@ export class SystemAboutComponent implements OnInit {
     public ngOnInit() {
         this.version.getVersionNumber().then((ver) => {
             this.verCurr = ver;
-            if (this.config.get().version.code !== this.verCurr) {
+            let version;
+            if (this.platform.is('ios')) {
+                version = this.config.get().version_ios || {};
+            } else if (this.platform.is('android')) {
+                version = this.config.get().version_android || {};
+            } else {
+                return;
+            }
+            if (this.verCurr === '0.0.2') { // fir for old ios
+                return;
+            }
+            if (version.code !== this.verCurr) {
                 this.global.AlertI18N({
                     title: 'ALERT_TITLE_TIP',
                     content: 'ALERT_CONTENT_NEWVERSION',
@@ -54,15 +65,9 @@ export class SystemAboutComponent implements OnInit {
                     no: 'ALERT_NO_CANCEL'
                 }).subscribe((confirm) => {
                     if (confirm) {
-                        if (this.platform.is('ios')) {
-                            this.iab.create(this.config.get().version.ios, '_system').show();
-                        } else if (this.platform.is('android')) {
-                            this.iab.create(this.config.get().version.android, '_system').show();
-                        }
+                        this.iab.create(version.url, '_system').show();
                     }
                 });
-            } else {
-                console.log(`already latest`);
             }
         }).catch((err) => {
             console.log(err);
