@@ -25,6 +25,7 @@
     <preference name="FadeSplashScreen" value="true" />
     <preference name="SplashScreenBackgroundColor" value="false" />
     <preference name="orientation" value="portrait" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
     </feature>
@@ -101,4 +102,5 @@
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="7.0.0" />
     <engine name="ios" spec="4.5.4" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
 </widget>
