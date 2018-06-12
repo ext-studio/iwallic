@@ -14,6 +14,7 @@ import {
     NetService, ConfigService, GlobalService, TranslateService,
     ThemeService
 } from '../core';
+import { checkNoChangesNode } from '@angular/core/src/view/view';
 
 @Component({
     templateUrl: 'app.component.html'
@@ -167,7 +168,7 @@ export class AppComponent {
             if (val === 'dark') {
                 this.statusBar.styleLightContent();
             } else {
-                this.themeService.set(this.themeService.default);
+                this.statusBar.styleDefault();
             }
         });
     }
