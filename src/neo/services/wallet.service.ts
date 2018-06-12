@@ -165,6 +165,10 @@ export class WalletService {
         return WALLET.checkWIF(wif);
     }
 
+    public CheckAddress(address: string): boolean {
+        return WALLET.checkAddress(address);
+    }
+
     public Backup() {
         this.cached.backup = true;
         this.storage.get('wallet').then((res) => {

@@ -59,18 +59,21 @@ export class TxTransferComponent implements OnInit {
     }
 
     public enterPwd() {
-        if (this.toaddr.length !== 34) {
+        if (!this.w.CheckAddress(this.toaddr)) {
             this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
             return;
         }
-        if (typeof this.amount === 'string') {
+        if (typeof this.amount === 'string' && this.amount !== '') {
             this.amount = parseFloat(this.amount);
         }
-        if (this.amount) {
+        if (this.amount && this.amount > 0) {
             if (this.amount > this.assetBalance) {
                 this.wrongTips = 'TRANSACTION_TRANSFER_EXCEEDETBALANCE';
                 return;
             }
+        } else if (this.amount < 0 || isNaN(this.amount)) {
+            this.wrongTips = 'TRANSACTION_TRANSFER_AMOUNTWRONG';
+            return;
         } else {
             this.wrongTips = 'TRANSACTION_TRANSFER_NOAMOUNT';
             return;

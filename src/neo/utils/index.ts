@@ -102,6 +102,9 @@ export const WALLET = {
     },
     checkWIF: (wif: string) => {
         return wallet.isWIF(wif);
+    },
+    checkAddress: (address: string) => {
+        return wallet.isAddress(address);
     }
 };
 
