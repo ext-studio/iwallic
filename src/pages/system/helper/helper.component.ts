@@ -45,6 +45,7 @@ export class SystemHelperComponent implements OnInit {
         const walletGuide = this.helpers && this.helpers.walletGuide;
         if (walletGuide && walletGuide.action === 'link' && walletGuide.enabled && walletGuide.data) {
             const tb = this.themeableBrowser.create(walletGuide.data, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }
@@ -53,6 +54,7 @@ export class SystemHelperComponent implements OnInit {
         const txGuide = this.helpers && this.helpers.transactionGuide;
         if (txGuide && txGuide.action === 'link' && txGuide.enabled && txGuide.data) {
             const tb = this.themeableBrowser.create(txGuide.data, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }
@@ -61,6 +63,7 @@ export class SystemHelperComponent implements OnInit {
     public browser() {
         if (this.browsers && this.browsers.action === 'link' && this.browsers.enabled && this.browsers.data) {
             const tb = this.themeableBrowser.create(this.browsers.data, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }
@@ -69,6 +72,7 @@ export class SystemHelperComponent implements OnInit {
         const community = this.helpers && this.helpers.community;
         if (community && community.action === 'link' && community.enabled && community.data) {
             const tb = this.themeableBrowser.create(community.data, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }

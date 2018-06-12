@@ -9,7 +9,7 @@ import {
 
 const options: ThemeableBrowserOptions = {
     statusbar: {
-        color: '#ffffffff'
+        color: '#f3f3f3ff'
     },
     toolbar: {
         height: 44,
@@ -77,6 +77,7 @@ export class TxListComponent implements OnInit {
     public browse(txid: string) {
         if (this.net.current === 'Main') {
             const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
+            b.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         }
     }
 }

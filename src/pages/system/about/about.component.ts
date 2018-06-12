@@ -77,6 +77,7 @@ export class SystemAboutComponent implements OnInit {
         const disclaimer = this.ver && this.ver.disclaimer;
         if (disclaimer && disclaimer.action === 'link' && disclaimer.enabled && disclaimer.data) {
             const tb = this.themeableBrowser.create(disclaimer.data, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }
