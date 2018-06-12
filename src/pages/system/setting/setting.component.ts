@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService, ThemeService, NetService, BlockState } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
+import { StatusBar } from '@ionic-native/status-bar';
+
 
 @Component({
     selector: 'system-setting',
@@ -18,7 +20,8 @@ export class SystemSettingComponent implements OnInit {
         private nav: NavController,
         private themeService: ThemeService,
         private net: NetService,
-        private block: BlockState
+        private block: BlockState,
+        private statusBar: StatusBar
     ) {
         this.themeService.get().subscribe(val => this.selectedTheme = val);
     }
@@ -40,8 +43,10 @@ export class SystemSettingComponent implements OnInit {
     public toggleAppTheme() {
         if (this.selectedTheme === 'dark') {
             this.themeService.set('dark');
+            this.statusBar.styleLightContent();
         } else {
             this.themeService.set(this.themeService.default);
+            this.statusBar.styleDefault();
         }
     }
     public toggleAppNet() {

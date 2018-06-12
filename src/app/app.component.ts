@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { WalletService } from '../neo';
 import {
     AssetDetailComponent, AssetListComponent,
@@ -10,7 +11,8 @@ import {
 } from '../pages';
 import {
     BlockState, BalanceState, TransactionState,
-    NetService, ConfigService, GlobalService, TranslateService
+    NetService, ConfigService, GlobalService, TranslateService,
+    ThemeService
 } from '../core';
 
 @Component({
@@ -38,13 +40,16 @@ export class AppComponent {
         private balance: BalanceState,
         private transaction: TransactionState,
         private config: ConfigService,
-        private net: NetService
+        private net: NetService,
+        private themeService: ThemeService,
+        private statusBar: StatusBar
     ) {
         this.initializeApp();
     }
 
     private initializeApp() {
         this.platform.ready().then(() => {
+            this.initStatusbar();
             this.initSwipe();
             this.initConfig();
             this.initBackBtn();
@@ -155,5 +160,15 @@ export class AppComponent {
             this.nav.swipeBackEnabled = false;
             this.menu.swipeEnable(true, 'iwallic-menu');
         }
+    }
+
+    private initStatusbar() {
+        this.themeService.get().subscribe(val => {
+            if (val === 'dark') {
+                this.statusBar.styleLightContent();
+            } else {
+                this.themeService.set(this.themeService.default);
+            }
+        });
     }
 }
