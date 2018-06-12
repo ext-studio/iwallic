@@ -36,17 +36,7 @@ export class TxTransferComponent implements OnInit {
         if (this.platform.is('mobileweb') || this.platform.is('core')) {
             this.isScan = false;
         }
-        this.asset = this.params.get('asset') || null;
-        this.balanceState.get().subscribe((res) => {
-            this.assetList = res;
-            if (this.asset) {
-                const preChosen = res.find((e) => e.assetId === this.asset);
-                this.assetBalance = parseFloat(preChosen && preChosen.balance || 0);
-                this.assetSymbol = preChosen && preChosen.symbol;
-            } else {
-                this.assetBalance = 0;
-            }
-        });
+        this.getAssets();
     }
 
     public assetChange() {
@@ -136,5 +126,24 @@ export class TxTransferComponent implements OnInit {
 
     public clearAmount() {
         this.amount = null;
+    }
+
+    public getAssets() {
+        this.asset = this.params.get('asset') || null;
+        this.balanceState.get().subscribe((res) => {
+            this.assetList = [];
+            for (let i = 0; i < res.length; i++) {
+                if (res[i]['balance'] > 0) {
+                    this.assetList.push(res[i]);
+                }
+            }
+            if (this.asset) {
+                const preChosen = res.find((e) => e.assetId === this.asset);
+                this.assetBalance = parseFloat(preChosen && preChosen.balance || 0);
+                this.assetSymbol = preChosen && preChosen.symbol;
+            } else {
+                this.assetBalance = 0;
+            }
+        });
     }
 }

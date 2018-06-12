@@ -11,7 +11,8 @@
     <ion-list>
         <ion-item iborder="line" ibg="default2" class="choose-asset">
             <ion-label  icolor="font">{{ 'TRANSACTION_TRANSFER_CHOOSEASSET' | translate }}</ion-label>
-            <ion-select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
+            <ion-select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()" 
+            cancelText="{{'ALERT_NO_CANCEL' | translate}}" okText="{{'ALERT_OK_SURE' | translate}}">
                 <ion-option [value]="i.assetId" *ngFor="let i of assetList">{{ i.symbol }}</ion-option>
             </ion-select>
         </ion-item>

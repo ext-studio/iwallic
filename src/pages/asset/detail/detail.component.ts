@@ -77,6 +77,14 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public jumpTx() {
+        if (this.assetBalance <= 0) {
+            this.global.AlertI18N({
+                title: 'ALERT_TITLE_TIP',
+                content: 'ALERT_CONTENT_NOBALANCE',
+                no: 'ALERT_NO_CANCEL'
+            }).subscribe();
+            return;
+        }
         this.navCtrl.push(TxTransferComponent, {asset: this.token});
     }
 
