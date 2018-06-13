@@ -65,9 +65,14 @@ export class Account {
     }
     public Verify(scrypt: string): Observable<any> {
         return new Observable((observer) => {
-            this.wif = NEP2.decode(scrypt, this.key);
-            observer.next(this.wif);
-            observer.complete();
+            const decode = NEP2.decode(scrypt, this.key);
+            if (decode) {
+                this.wif = decode;
+                observer.next(this.wif);
+                observer.complete();
+            } else {
+                observer.error('verify_failed');
+            }
         });
     }
 }

@@ -138,7 +138,7 @@ export const NEP2 = {
         if (addressHash === gotAH) {
             return wif;
         } else {
-            throw 'verify_failed';
+            return false;
         }
     }
 };
