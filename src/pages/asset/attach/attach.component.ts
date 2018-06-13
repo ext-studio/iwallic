@@ -23,6 +23,10 @@ export class AssetAttachComponent implements OnInit {
         public balance: BalanceState,
     ) { }
 
+    public ionViewDidLeave() {
+        this.balance.fetch();
+    }
+
     public ngOnInit() {
         this.storage.get('MainAssetList').then((res) => {
             if (res) {
@@ -41,7 +45,6 @@ export class AssetAttachComponent implements OnInit {
 
     public changeChoose(event, index) {
         this.storage.set('MainAssetList', this.chooseList);
-        this.balance.fetch();
     }
 
     public getAssetList() {
