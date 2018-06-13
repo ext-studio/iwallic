@@ -23,6 +23,7 @@ import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 import { Clipboard } from '@ionic-native/clipboard';
 import { AppVersion } from '@ionic-native/app-version';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Network } from '@ionic-native/network';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -66,6 +67,7 @@ const translateModuleConfig = {
         StatusBar, SplashScreen,
         Camera, QRScanner, File,
         ThemeableBrowser, Clipboard, AppVersion, InAppBrowser,
+        Network,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

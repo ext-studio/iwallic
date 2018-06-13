@@ -6,8 +6,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
-import { NetService } from './net';
-import { Platform } from 'ionic-angular';
+import { ConfigService } from './config';
 import { Clipboard } from '@ionic-native/clipboard';
 
 @Injectable()
@@ -20,15 +19,14 @@ export class GlobalService {
         private ngTranslate: NgTranslateService,
         private toast: ToastController,
         private theme: ThemeService,
-        private net: NetService,
-        private platform: Platform,
+        private config: ConfigService,
         private clipboard: Clipboard
     ) {}
     public get apiDomain(): string {
-        return this.net.get('API');
+        return this.config.net('API');
     }
     public get rpcDomain(): string {
-        return this.net.get('RPC');
+        return this.config.net('RPC');
     }
     /**
      * Internal Alert by given type

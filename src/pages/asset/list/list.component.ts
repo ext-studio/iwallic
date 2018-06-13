@@ -9,7 +9,7 @@ import {
     Platform, MenuController
 } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, NetService, TransactionState } from '../../../core';
+import { GlobalService, BalanceState, ConfigService, TransactionState } from '../../../core';
 
 @Component({
     selector: 'asset-list',
@@ -31,7 +31,7 @@ export class AssetListComponent implements OnInit {
         private global: GlobalService,
         private navctrl: NavController,
         public balance: BalanceState,
-        private net: NetService,
+        private config: ConfigService,
         private tx: TransactionService,
         private txState: TransactionState,
         private menu: MenuController,
@@ -39,7 +39,7 @@ export class AssetListComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
-        this.selectedNet = this.net.current;
+        this.selectedNet = this.config.current;
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');

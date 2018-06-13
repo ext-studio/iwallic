@@ -5,7 +5,7 @@ import {
 } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
-import { TransactionState, BalanceState, GlobalService, NetService, ConfigService } from '../../../core';
+import { TransactionState, BalanceState, GlobalService, ConfigService } from '../../../core';
 import { Clipboard } from '@ionic-native/clipboard';
 import {
     ThemeableBrowser, ThemeableBrowserOptions
@@ -47,14 +47,11 @@ export class AssetDetailComponent implements OnInit {
     constructor(
         private navCtrl: NavController,
         private navParams: NavParams,
-        private platform: Platform,
         private wallet: WalletService,
         private transcation: TransactionState,
         private balanceState: BalanceState,
-        private clipboard: Clipboard,
         private global: GlobalService,
         private themeableBrowser: ThemeableBrowser,
-        private net: NetService,
         private config: ConfigService
     ) {}
     public ngOnInit() {
@@ -106,7 +103,7 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.net.current === 'Main') {
+        if (this.config.current === 'Main') {
             const b = this.themeableBrowser.create(this.config.get().browser.tx + txid, '_blank', options);
             b.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         }

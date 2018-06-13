@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Refresher, ItemSliding } from 'ionic-angular';
-import { GlobalService, TransactionState, NetService } from '../../../core';
+import { GlobalService, TransactionState, ConfigService } from '../../../core';
 import { WalletService } from '../../../neo';
-import { Clipboard } from '@ionic-native/clipboard';
 import {
     ThemeableBrowser, ThemeableBrowserOptions
 } from '@ionic-native/themeable-browser';
@@ -39,9 +38,8 @@ export class TxListComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         public transcation: TransactionState,
-        private clipboard: Clipboard,
         private themeableBrowser: ThemeableBrowser,
-        private net: NetService
+        private config: ConfigService
     ) { }
 
     public ngOnInit() {
@@ -75,7 +73,7 @@ export class TxListComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.net.current === 'Main') {
+        if (this.config.current === 'Main') {
             const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
             b.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         }

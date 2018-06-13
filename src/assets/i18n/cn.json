@@ -36,7 +36,7 @@
   "ALERT_COPY_MESSAGE": "请手动选择下方内容进行复制",
   "ALERT_NO_CLOSE": "关闭",
   "TOAST_EXISTAPP": "再次点击退出钱包",
-  "TOAST_CONTENT_COPIED": "已复制交易号",
+  "TOAST_CONTENT_COPIED": "已复制交易id",
   "TOAST_CONTENT_COPYFAILED": "不支持复制",
   "LOADING": "加载中...",
   "LOADING_VERIFY": "正在验证...",

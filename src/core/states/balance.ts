@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../services/global';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
-import { NetService } from '../services/net';
+import { ConfigService } from '../services/config';
 import 'rxjs/add/operator/startWith';
 
 /**
@@ -26,7 +26,7 @@ export class BalanceState {
         private global: GlobalService,
         private http: HttpClient,
         private storage: Storage,
-        private net: NetService
+        private config: ConfigService
     ) { }
     public get(address?: string): Observable<any> {
         if (address && this.address !== address) {
@@ -45,6 +45,10 @@ export class BalanceState {
     }
     public fetch(address?: string): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (!this.config.online) {
+                reject('offline');
+                return;
+            }
             if (address) {
                 this.address = address;
             } else if (this._loading) {
@@ -70,7 +74,7 @@ export class BalanceState {
                     this.$error.next(res && res.msg || 'unknown_error');
                 }
                 resolve();
-            }, (err) => {
+            }, () => {
                 this._loading = false;
                 this.$error.next('request_error');
                 resolve();
@@ -104,7 +108,7 @@ export class BalanceState {
     public getAssetChooseList(result: any[]): Observable <any> {
         return new Observable<any>((observer) => {
             this.storage.get('MainAssetList').then((res) => {
-                if (res && `${this.net.current}` === 'Main') {
+                if (res && `${this.config.current}` === 'Main') {
                     for (const i of res) {
                         if (i.choose) {
                             if (result.findIndex((e) => e.assetId === i.assetId) < 0) {

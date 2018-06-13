@@ -5,7 +5,6 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
 import { GlobalService } from '../../core';
 import { Wallet } from '../models/wallet';
@@ -132,23 +131,33 @@ export class WalletService {
         if (this.cached && !pwd) {
             return Observable.of(this.cached);
         }
-        return Observable.fromPromise(this.storage.get('wallet')).switchMap((res: Wallet) => {
-            if (!res) {
-                return Observable.throw('not_exist');
-            }
-            const w = new Wallet(res);
-            // cached wif to avoid entering pwd each time
-            if (w.wif) {
-                this.cached = w;
-                return Observable.of(this.cached);
-            }
-            if (!pwd) {
-                return Observable.throw('need_verify');
-            }
-            return w.Verify(pwd).map((vres) => {
-                this.cached = w;
-                this.Save(w);
-                return this.cached;
+        return new Observable((observer) => {
+            this.storage.get('wallet').catch(() => Promise.resolve()).then((res) => {
+                if (!res) {
+                    observer.error('not_exist');
+                    return;
+                }
+                const w = new Wallet(res);
+                // cached wif to avoid entering pwd each time
+                if (w.wif) {
+                    this.cached = w;
+                    observer.next(this.cached);
+                    observer.complete();
+                    return;
+                }
+                if (!pwd) {
+                    return Observable.throw('need_verify');
+                }
+                w.Verify(pwd).subscribe(() => {
+                    this.cached = w;
+                    this.Save(w);
+                    observer.next(this.cached);
+                    observer.complete();
+                    return;
+                }, (err) => {
+                    observer.error(err);
+                    return;
+                });
             });
         });
     }
