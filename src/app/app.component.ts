@@ -165,11 +165,16 @@ export class AppComponent {
     }
 
     private initStatusbar() {
+        if (this.platform.is('android')) {
+            this.statusBar.styleDefault();
+        }
         this.themeService.get().subscribe(val => {
-            if (val === 'dark') {
-                this.statusBar.styleLightContent();
-            } else {
-                this.statusBar.styleDefault();
+            if (this.platform.is('ios')) {
+                if (val === 'dark') {
+                    this.statusBar.styleLightContent();
+                } else {
+                    this.statusBar.styleDefault();
+                }
             }
         });
     }

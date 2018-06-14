@@ -3,6 +3,7 @@ import { TranslateService, ThemeService, ConfigService, BlockState } from '../..
 import { NavController, Select } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Platform } from 'ionic-angular';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class SystemSettingComponent implements OnInit {
         private themeService: ThemeService,
         private config: ConfigService,
         private block: BlockState,
-        private statusBar: StatusBar
+        private statusBar: StatusBar,
+        private platform: Platform
     ) {
         this.themeService.get().subscribe(val => this.selectedTheme = val);
     }
@@ -43,10 +45,14 @@ export class SystemSettingComponent implements OnInit {
     public toggleAppTheme() {
         if (this.selectedTheme === 'dark') {
             this.themeService.set('dark');
-            this.statusBar.styleLightContent();
+            if (this.platform.is('ios')) {
+                 this.statusBar.styleLightContent();
+            }
         } else {
             this.themeService.set(this.themeService.default);
-            this.statusBar.styleDefault();
+            if (this.platform.is('ios')) {
+                this.statusBar.styleDefault();
+           }
         }
     }
     public toggleAppNet() {
