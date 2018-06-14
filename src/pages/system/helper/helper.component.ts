@@ -42,18 +42,18 @@ export class SystemHelperComponent implements OnInit {
         this.browsers = this.config.get().browser;
     }
     public wallet() {
-        const walletGuide = this.helpers && this.helpers.walletGuide;
-        if (walletGuide && walletGuide.action === 'link' && walletGuide.enabled && walletGuide.data) {
-            const tb = this.themeableBrowser.create(walletGuide.data, '_blank', options);
+        const walletguide = this.helpers && this.helpers.walletguide;
+        if (walletguide && walletguide.action === 'link' && walletguide.enabled && walletguide.data) {
+            const tb = this.themeableBrowser.create(walletguide.data, '_blank', options);
             tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
         }
     }
     public transaction() {
-        const txGuide = this.helpers && this.helpers.transactionGuide;
-        if (txGuide && txGuide.action === 'link' && txGuide.enabled && txGuide.data) {
-            const tb = this.themeableBrowser.create(txGuide.data, '_blank', options);
+        const transactionguide = this.helpers && this.helpers.transactionguide;
+        if (transactionguide && transactionguide.action === 'link' && transactionguide.enabled && transactionguide.data) {
+            const tb = this.themeableBrowser.create(transactionguide.data, '_blank', options);
             tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         } else {
             this.global.ToastI18N('APP_COMING').subscribe();
@@ -81,8 +81,6 @@ export class SystemHelperComponent implements OnInit {
         const contact = this.helpers && this.helpers.contact;
         if (contact && contact.action === 'email' && contact.enabled && contact.data) {
             //
-        } else {
-            this.global.ToastI18N('APP_COMING').subscribe();
         }
     }
 }

@@ -23,7 +23,8 @@ export class AssetListComponent implements OnInit {
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
     public claimGasBalance: number = 0;
-    public selectedNet: 'Main' | 'Test' | 'Priv';
+    public selectedNet: 'main' | 'test' | 'priv';
+    public online: boolean = true;
     private claimLoading: boolean = false;
     constructor(
         private http: HttpClient,
@@ -34,8 +35,7 @@ export class AssetListComponent implements OnInit {
         private config: ConfigService,
         private tx: TransactionService,
         private txState: TransactionState,
-        private menu: MenuController,
-        private plaftorm: Platform
+        private menu: MenuController
     ) {}
 
     public ngOnInit() {
@@ -54,6 +54,9 @@ export class AssetListComponent implements OnInit {
         });
         this.balance.error().subscribe((res) => {
             this.global.Alert('REQUESTFAILED').subscribe();
+        });
+        this.config.$net().subscribe((online) => {
+            this.online = online;
         });
         this.menu.swipeEnable(true, 'iwallic-menu');
     }

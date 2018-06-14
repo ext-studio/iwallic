@@ -12,7 +12,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 export class SystemSettingComponent implements OnInit {
     private oldLang: string = 'sys';
     public lang = 'sys';
-    public selectedNet: 'Main' | 'Test' | 'Priv' = this.config.current;
+    public selectedNet: 'main' | 'test' | 'priv' = this.config.current;
     public selectedTheme: String = this.themeService.default;
     @ViewChild(Select) public select: Select;
     constructor(

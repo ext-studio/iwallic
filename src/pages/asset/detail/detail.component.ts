@@ -103,7 +103,7 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.config.current === 'Main') {
+        if (this.config.current === 'main') {
             const b = this.themeableBrowser.create(this.config.get().browser.tx + txid, '_blank', options);
             b.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
         }

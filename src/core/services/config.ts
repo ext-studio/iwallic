@@ -3,76 +3,92 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ConfigService {
     private _config: any;
-    public current: 'Main' | 'Test' | 'Priv';
+    public current: 'main' | 'test' | 'priv';
     private currNet = {};
     private netList: any = {};
-    public online: boolean = true;
+    private _online: boolean = true;
+    public get online(): boolean {
+        return this._online;
+    }
+    private _$net: Subject<any> = new Subject();
     constructor(
         private http: HttpClient,
         private storage: Storage,
         private network: Network
     ) {
-        // this.network.onchange().subscribe(() => {
-        //     setTimeout(() => {
-        //         if (navigator.onLine) {
-        //             this.Init().subscribe((res) => console.log(res));
-        //         }
-        //     }, 1000);
-        // });
+        this.network.onchange().subscribe(() => {
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    this.Init().subscribe((res) => console.log(res));
+                } else {
+                    this._online = false;
+                    this._$net.next(false);
+                }
+            }, 1000);
+        });
     }
     public get() {
         return this._config;
     }
+    public $net() {
+        return this._$net.publish().refCount().startWith(this.online);
+    }
     public Init() {
         return new Observable((observer) => {
-            this.http.get(`https://iwallic.com/assets/config/app.json`).subscribe((config) => {
+            this.http.post(`https://api.iwallic.com/api/iwallic`, {
+                method: 'fetchIwallicConfig',
+                params: []
+            }).map((rs: any) => {
+                if (rs.code === 200 && rs.result) {
+                    return rs.result;
+                } else {
+                    throw 'offline';
+                }
+            }).subscribe((config: any) => {
                 this._config = config || false;
                 this.netList = this._config.net || false;
-                if (!this.netList) {
-                    this.online = false;
-                }
-                if (this._config) {
-                    this.storage.set('local_config', this._config);
-                }
-                this.online = true;
-                this.storage.get('net').then((res) => {
+                this._online = true;
+                this.storage.get('net').then((res: any) => {
                     if (res) {
-                        this.currNet = this.netList[res];
+                        this.currNet = this.netList[res] || this.netList['main'];
                         this.current = res;
+                        this._$net.next(true);
                         observer.next('complete');
                         observer.complete();
                     } else {
-                        this.currNet = this.netList['Main'];
-                        this.current = 'Main';
+                        this.currNet = this.netList['main'];
+                        this.current = 'main';
+                        this._$net.next(true);
                         observer.next('config_but_net');
                         observer.complete();
                     }
                 }).catch(() => {
-                    this.currNet = this.netList['Main'];
-                    this.current = 'Main';
+                    this.currNet = this.netList['main'];
+                    this.current = 'main';
+                    this._$net.next(true);
                     observer.next('config_but_net');
                     observer.complete();
                 });
-            }, (err) => {
+            }, () => {
                 this._config = false;
                 this.netList = false;
-                if (!this.netList) {
-                    this.online = false;
-                }
+                this._online = false;
+                this._$net.next(false);
                 observer.next('offline');
                 observer.complete();
             });
         });
     }
 
-    public net(type: 'API' | 'RPC' = 'API'): string {
+    public net(type: 'api' | 'rpc' = 'api'): string {
         return this.currNet && this.currNet[type];
     }
-    public switch(net: 'Main' | 'Test' | 'Priv') {
+    public switch(net: 'main' | 'test' | 'priv') {
         this.currNet = this.netList[net];
         this.current = net;
         this.storage.set('net', net);

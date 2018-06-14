@@ -28,8 +28,8 @@
             <ion-item ibg="default2" icolor="font" iborder="line">
                 <ion-label>{{'SYSTEM_SETTING_NET' | translate}}</ion-label>
                 <ion-select [(ngModel)]="selectedNet" interface="action-sheet" (ionChange)="toggleAppNet()">
-                    <ion-option value="Main">{{'SYSTEM_SETTING_MAINNET' | translate}}</ion-option>
-                    <ion-option value="Test">{{'SYSTEM_SETTING_TESTNET' | translate}}</ion-option>
+                    <ion-option value="main">{{'SYSTEM_SETTING_MAINNET' | translate}}</ion-option>
+                    <ion-option value="test">{{'SYSTEM_SETTING_TESTNET' | translate}}</ion-option>
                     <!-- <ion-option value="Priv">{{'SYSTEM_SETTING_PRIVNET' | translate}}</ion-option> -->
                 </ion-select>
             </ion-item>

@@ -8,6 +8,7 @@
   "APP_MENU_HELPER": "帮助中心",
   "APP_MENU_ABOUT": "关于 iWallic",
   "APP_MENU_SIGNOUT": "关闭钱包",
+  "APP_OFFLINE": "正处于离线模式",
   "ALERT_TITLE_TIP": "提示",
   "ALERT_TITLE_CAUTION": "注意",
   "ALERT_TITLE_WARN": "警告",

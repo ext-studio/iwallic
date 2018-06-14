@@ -12,7 +12,7 @@ export class HttpInterceptor implements NgHttpInterceptor {
         private config: ConfigService
     ) {}
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!this.config.online) {
+        if (!this.config.online && req.body.method !== 'fetchIwallicConfig') {
             throw 'offline';
         }
         return next.handle(req).map((event) => {
