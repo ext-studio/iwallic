@@ -52,34 +52,26 @@ export class TransactionService {
                 ]
             ), WALLET.addr2hash(from));
             return this.signNSendTX(newTX, wif, remark).map((rs) => {
-                if (rs && rs.result) {
-                    return {txid: newTX.hash, value: amount};
-                } else {
-                    throw 'transaction_failed';
-                }
+                return {txid: newTX.hash, value: amount};
             });
         }
         return this.getUTXO(from, asset)
             .switchMap((utxos) => {
                 newTX = Transaction.forContract(utxos, from, to, amount, asset);
                 return this.signNSendTX(newTX, wif);
-            }).map((rs) => {
-                if (rs && rs.result) {
-                    for (let i = 0; i < newTX.vout.length; i++) {
-                        this.unconfirmedUTXO.push({
-                            hash: newTX.hash,
-                            value: newTX.vout[i].value,
-                            index: i,
-                            asset: newTX.vout[i].asset
-                        });
-                    }
-                    for (const tx of newTX.vin) {
-                        this.usedUTXO.push({hash: tx.prevHash, index: tx.prevIndex, asset: asset, value: 0});
-                    }
-                    return {txid: newTX.hash, value: amount};
-                } else {
-                    throw 'transaction_failed';
+            }).map(() => {
+                for (let i = 0; i < newTX.vout.length; i++) {
+                    this.unconfirmedUTXO.push({
+                        hash: newTX.hash,
+                        value: newTX.vout[i].value,
+                        index: i,
+                        asset: newTX.vout[i].asset
+                    });
                 }
+                for (const tx of newTX.vin) {
+                    this.usedUTXO.push({hash: tx.prevHash, index: tx.prevIndex, asset: asset, value: 0});
+                }
+                return {txid: newTX.hash, value: amount};
             });
     }
 
@@ -90,17 +82,13 @@ export class TransactionService {
     public ClaimGAS(claim: any, wif: string): Observable<any> {
         const tx = Transaction.forClaim(claim.claims, claim.unSpentClaim, claim.address);
         return this.signNSendTX(tx, wif).map((res) => {
-            if (res && res.result) {
-                this.unconfirmedUTXO.push({
-                    hash: tx.hash,
-                    value: tx.vout[0].value,
-                    index: 0,
-                    asset: tx.vout[0].asset
-                });
-                return {txid: tx.hash, value: claim.unSpentClaim};
-            } else {
-                throw 'transaction_failed';
-            }
+            this.unconfirmedUTXO.push({
+                hash: tx.hash,
+                value: tx.vout[0].value,
+                index: 0,
+                asset: tx.vout[0].asset
+            });
+            return {txid: tx.hash, value: claim.unSpentClaim};
         });
     }
 
@@ -118,12 +106,8 @@ export class TransactionService {
                 params: [addr, asset]
             }
         ).map((res: any) => {
-            if (res.code === 200) {
-                res.result = res.result || [];
-                return (res.result as any[]).map((tx) => new UTXO(tx));
-            } else {
-                throw res.message;
-            }
+            res = res || [];
+            return (res as any[]).map((tx) => new UTXO(tx));
         }).map((utxos: UTXO[]) => {
             for (let i = 0; i < this.usedUTXO.length; i++) {
                 const index = utxos.findIndex((e) => e.hash === this.usedUTXO[i].hash && e.index === this.usedUTXO[i].index);
@@ -155,7 +139,7 @@ export class TransactionService {
             tx.addRemark(remark);
         }
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-            method: 'sendrawtransaction',
+            method: 'sendv4rawtransaction',
             params: [tx.serielize(true)],
         });
     }

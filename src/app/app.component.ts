@@ -138,6 +138,7 @@ export class AppComponent {
             this.splashScreen.hide();
             if (res !== 'offline') {
                 this.initListen();
+                this.versionCheck();
             }
             this.wallet.Get().subscribe(() => {
                 this.menu.enable(true, 'iwallic-menu');
@@ -152,6 +153,25 @@ export class AppComponent {
                 }
             });
         });
+    }
+
+    private versionCheck() {
+        this.config.version().subscribe((version: any) => {
+            if (version.curr !== version.latest) {
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_TIP',
+                    content: 'ALERT_CONTENT_NEWVERSION',
+                    ok: 'ALERT_OK_UPDATE',
+                    no: 'ALERT_NO_CANCEL'
+                }).subscribe((confirm) => {
+                    if (confirm) {
+                        this.global.browser(version.url, 'INAPP');
+                    }
+                });
+            } else {
+                console.log('no need');
+            }
+        }, (err) => console.log(err));
     }
 
     private initSwipe() {

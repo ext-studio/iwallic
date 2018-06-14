@@ -59,28 +59,18 @@ export class BalanceState {
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {
                 method: 'getaddrassets',
                 params: [this.address, 1]
-            }).switchMap((res: any) => {
-                if (res && res.code === 200) {
-                    return this.getAssetChooseList(res.result);
-                } else {
-                    return Observable.of(false);
-                }
-            }).subscribe((res: any) => {
+            }).switchMap((res: any) =>  this.getAssetChooseList(res)).subscribe((res: any) => {
                 this._loading = false;
-                if (res) {
-                    this._balance = res || [];
-                    this.$balance.next(this._balance);
-                } else {
-                    this.$error.next(res && res.msg || 'unknown_error');
-                }
+                this._balance = res || [];
+                this.$balance.next(this._balance);
                 resolve();
-            }, () => {
+            }, (err) => {
                 this._loading = false;
                 if (!this.config.online) {
                     resolve();
                     return;
                 }
-                this.$error.next('request_error');
+                this.$error.next(err);
                 resolve();
             });
         }).catch(() => {});
@@ -92,21 +82,11 @@ export class BalanceState {
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'getaddrassets',
             params: [this.address, 1]
-        }).switchMap((res: any) => {
-            if (res && res.code === 200) {
-                return this.getAssetChooseList(res.result);
-            } else {
-                return Observable.of(false);
-            }
-        }).subscribe((res: any) => {
-            if (res) {
-                this._balance = res || [];
-                this.$balance.next(this._balance);
-            } else {
-                this.$error.next(res && res.msg || 'unknown_error');
-            }
+        }).switchMap((res: any) => this.getAssetChooseList(res)).subscribe((res: any) => {
+            this._balance = res || [];
+            this.$balance.next(this._balance);
         }, (err) => {
-            this.$error.next('request_error');
+            this.$error.next(err);
         });
     }
     public getAssetChooseList(result: any[]): Observable <any> {

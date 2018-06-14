@@ -173,24 +173,11 @@ export class TransactionState {
             return this.http.post(this.global.apiDomain + '/api/iwallic', {
                 method: 'getassettxes',
                 params: [page, pageSize, address, asset]
-            }).map((res: any) => {
-                if (res && res.code === 200) {
-                    return res.result;
-                } else {
-                    throw res && res.msg || 'unknown_error';
-                }
             });
-            // return Observable.throw('completing');
         }
         return this.http.post(this.global.apiDomain + '/api/iwallic', {
             method: 'getaccounttxes',
             params: [page, pageSize, address]
-        }).map((res: any) => {
-            if (res && res.code === 200) {
-                return res.result;
-            } else {
-                throw res && res.msg || 'unknown_error';
-            }
         });
     }
     // unshift or concact tx

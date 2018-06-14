@@ -10,12 +10,9 @@
 <ion-content ibg="default" icolor="font">
     
     <ion-list margin-vertical>
-        <!-- <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="checkVersion()">
-            <ion-label>{{'SYSTEM_ABOUT_VERSION' | translate}}</ion-label>
-        </button> -->
         <ion-item [color]="'default2' | theme | async" iborder="line">
             <ion-label>{{'SYSTEM_ABOUT_CURRENT' | translate}}</ion-label>
-            <ion-note item-end>{{verCurr}}</ion-note>
+            <ion-note item-end>{{ver?.curr}}</ion-note>
         </ion-item>
         <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="disclaimer()">
             <ion-label>{{'SYSTEM_ABOUT_DISCLAIMER' | translate}}</ion-label>

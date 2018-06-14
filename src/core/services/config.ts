@@ -4,6 +4,8 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
 import { Subject } from 'rxjs/Subject';
+import { Platform } from 'ionic-angular';
+import { AppVersion } from '@ionic-native/app-version';
 
 @Injectable()
 export class ConfigService {
@@ -19,6 +21,8 @@ export class ConfigService {
     constructor(
         private http: HttpClient,
         private storage: Storage,
+        private appVersion: AppVersion,
+        private platform: Platform,
         private network: Network
     ) {
         setTimeout(() => {
@@ -48,12 +52,6 @@ export class ConfigService {
             this.http.post(`https://api.iwallic.com/api/iwallic`, {
                 method: 'fetchIwallicConfig',
                 params: []
-            }).map((rs: any) => {
-                if (rs.code === 200 && rs.result) {
-                    return rs.result;
-                } else {
-                    throw 'offline';
-                }
             }).subscribe((config: any) => {
                 this._config = config || false;
                 this.netList = this._config.net || false;
@@ -97,5 +95,29 @@ export class ConfigService {
         this.currNet = this.netList[net];
         this.current = net;
         this.storage.set('net', net);
+    }
+    public version() {
+        return new Observable((observer) => {
+            this.appVersion.getVersionNumber().then((ver) => {
+                let version;
+                if (this.platform.is('ios')) {
+                    version = this._config.version_ios || false;
+                } else if (this.platform.is('android')) {
+                    version = this._config.version_android || false;
+                } else {
+                    observer.error('unsupport platform');
+                    return;
+                }
+                if (!this.online) {
+                    version = {code: ver};
+                }
+                observer.next({curr: ver, latest: version.code, url: version.url});
+                observer.complete();
+                return;
+            }).catch(() => {
+                observer.error('no need');
+                return;
+            });
+        });
     }
 }

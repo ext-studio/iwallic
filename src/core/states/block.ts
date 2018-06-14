@@ -39,23 +39,18 @@ export class BlockState {
                 return;
             }
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {method: 'getblocktime'}).subscribe((res: any) => {
-                if (res && res.code === 200) {
-                    if (
-                        res.result && res.result.lastBlockIndex && res.result.time &&
-                        this._block !== res.result.lastBlockIndex
-                    ) {
-                        this._block = res.result.lastBlockIndex;
-                        this._last = res.result.time * 1000;
-                        this.$listen.next(res.result);
-                    } else if (force) {
-                        this.$listen.next(res.result);
-                    } else {
-                        this.$error.next(res && res.msg || 'block_error');
-                    }
+                if (
+                    res && res.lastBlockIndex && res.time &&
+                    this._block !== res.lastBlockIndex
+                ) {
+                    this._block = res.lastBlockIndex;
+                    this._last = res.time * 1000;
+                    this.$listen.next(res);
+                } else if (force) {
+                    this.$listen.next(res);
                 } else {
-                    this.$error.next(res && res.msg || 'unknown_error');
+                    this.$error.next(res && res.msg || 'block_error');
                 }
-                this._loading = false;
                 resolve();
             }, (err) => {
                 if (!this.config.online) {

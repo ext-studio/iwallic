@@ -39,6 +39,7 @@
   "TOAST_EXISTAPP": "再次点击退出钱包",
   "TOAST_CONTENT_COPIED": "已复制交易id",
   "TOAST_CONTENT_COPYFAILED": "不支持复制",
+  "TOAST_CONTENT_NETWORKERROR": "网络好像有点问题",
   "LOADING": "加载中...",
   "LOADING_VERIFY": "正在验证...",
   "LOADING_CREATING": "正在创建...",

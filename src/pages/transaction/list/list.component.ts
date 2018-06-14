@@ -2,29 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Refresher, ItemSliding } from 'ionic-angular';
 import { GlobalService, TransactionState, ConfigService } from '../../../core';
 import { WalletService } from '../../../neo';
-import {
-    ThemeableBrowser, ThemeableBrowserOptions
-} from '@ionic-native/themeable-browser';
-
-const options: ThemeableBrowserOptions = {
-    statusbar: {
-        color: '#f3f3f3ff'
-    },
-    toolbar: {
-        height: 44,
-        color: '#f0f0f0ff'
-    },
-    title: {
-        color: '#003264ff',
-        showPageTitle: true
-    },
-    closeButton: {
-        wwwImage: '/assets/icon/close.png',
-        align: 'left',
-        wwwImageDensity: 2
-    },
-    backButtonCanClose: true
-};
 
 @Component({
     selector: 'transaction-list',
@@ -38,7 +15,6 @@ export class TxListComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         public transcation: TransactionState,
-        private themeableBrowser: ThemeableBrowser,
         private config: ConfigService
     ) { }
 
@@ -73,9 +49,8 @@ export class TxListComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.config.current === 'main') {
-            const b = this.themeableBrowser.create(`https://blolys.com/#/transaction/${txid}`, '_blank', options);
-            b.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
+        if (this.config.current === 'main' && this.config.online) {
+            this.global.browser(this.config.get().browser.tx + txid, 'THEMEABLE');
         }
     }
 }

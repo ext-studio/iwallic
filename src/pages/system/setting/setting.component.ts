@@ -5,7 +5,6 @@ import { AssetListComponent } from '../../asset/list/list.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 
-
 @Component({
     selector: 'system-setting',
     templateUrl: 'setting.component.html'

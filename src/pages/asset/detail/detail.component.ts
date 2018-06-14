@@ -1,35 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
     NavController, NavParams,
-    Refresher, Platform, ItemSliding
+    Refresher, ItemSliding
 } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
 import { TransactionState, BalanceState, GlobalService, ConfigService } from '../../../core';
-import { Clipboard } from '@ionic-native/clipboard';
-import {
-    ThemeableBrowser, ThemeableBrowserOptions
-} from '@ionic-native/themeable-browser';
-
-const options: ThemeableBrowserOptions = {
-    statusbar: {
-        color: '#ffffffff'
-    },
-    toolbar: {
-        height: 44,
-        color: '#f0f0f0ff'
-    },
-    title: {
-        color: '#003264ff',
-        showPageTitle: true
-    },
-    closeButton: {
-        wwwImage: '/assets/icon/close.png',
-        align: 'left',
-        wwwImageDensity: 2
-    },
-    backButtonCanClose: true
-};
 
 @Component({
     selector: 'asset-detail',
@@ -51,7 +27,6 @@ export class AssetDetailComponent implements OnInit {
         private transcation: TransactionState,
         private balanceState: BalanceState,
         private global: GlobalService,
-        private themeableBrowser: ThemeableBrowser,
         private config: ConfigService
     ) {}
     public ngOnInit() {
@@ -103,9 +78,8 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.config.current === 'main') {
-            const b = this.themeableBrowser.create(this.config.get().browser.tx + txid, '_blank', options);
-            b.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
+        if (this.config.current === 'main' && this.config.online) {
+            this.global.browser(this.config.get().browser.tx + txid, 'THEMEABLE');
         }
     }
 }

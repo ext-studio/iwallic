@@ -41,13 +41,8 @@ export class WalletService {
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'scryptaddr',
             params: [this.cached.address, pwd]
-        }).switchMap((rs: any) => {
-            if (rs && rs.code === 200) {
-                return Observable.of(rs.result);
-            } else {
-                return SCRYPT(this.cached.address, pwd);
-            }
-        }).catch((err) =>  SCRYPT(this.cached.address, pwd)).switchMap((scrypt) => this.cached.Verify(scrypt)).map((res) => {
+        }).catch(() =>  SCRYPT(this.cached.address, pwd))
+        .switchMap((scrypt: string) => this.cached.Verify(scrypt)).map((res) => {
             if (!skipSave) {
                 console.log('skip_save');
                 this.Save(res);
@@ -66,13 +61,8 @@ export class WalletService {
             return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
                 method: 'scryptaddr',
                 params: [addr, pwd]
-            }).switchMap((rs: any) => {
-                if (rs && rs.code === 200) {
-                    return Observable.of(rs.result);
-                } else {
-                    return SCRYPT(addr, pwd);
-                }
-            }).catch((err) =>  SCRYPT(addr, pwd)).switchMap((scrypt) => Wallet.fromWIF(text, scrypt));
+            }).catch(() =>  SCRYPT(addr, pwd))
+            .switchMap((scrypt: string) => Wallet.fromWIF(text, scrypt));
         } else if (type === 'NEP6') {
             return Observable.throw('unsupport');
         } else {
@@ -97,13 +87,8 @@ export class WalletService {
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'scryptaddr',
             params: [addr, pwd]
-        }).switchMap((rs: any) => {
-            if (rs && rs.code === 200) {
-                return Observable.of(rs.result);
-            } else {
-                return SCRYPT(addr, pwd);
-            }
-        }).catch((err) =>  SCRYPT(addr, pwd)).switchMap((scrypt) => Wallet.fromWIF(newWif, scrypt));
+        }).catch(() =>  SCRYPT(addr, pwd))
+        .switchMap((scrypt: string) => Wallet.fromWIF(newWif, scrypt));
     }
 
     /**

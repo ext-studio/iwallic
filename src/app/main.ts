@@ -5,5 +5,4 @@ if ((navigator as any).splashscreen) {
     (navigator as any).splashscreen.show();
 }
 
-
 platformBrowserDynamic().bootstrapModule(AppModule);

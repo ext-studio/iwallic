@@ -12,10 +12,24 @@ export class HttpInterceptor implements NgHttpInterceptor {
         private config: ConfigService
     ) {}
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!this.config.online && req.body.method !== 'fetchIwallicConfig') {
+        if (req.url.indexOf('api.iwallic.com') > -1 && !this.config.online && req.body.method !== 'fetchIwallicConfig') {
             throw 'offline';
         }
         return next.handle(req).map((event) => {
+            if (req.url.indexOf('api.iwallic.com') < 0) {
+                return event;
+            }
+            if (event instanceof HttpResponse) {
+                if (event.status === 200) {
+                    if (event.body.code === 200) {
+                        return event.clone({body: event.body.result});
+                    } else {
+                        throw event.body.msg || 'unknown_error';
+                    }
+                } else {
+                    throw 'network_error';
+                }
+            }
             return event;
         });
     }

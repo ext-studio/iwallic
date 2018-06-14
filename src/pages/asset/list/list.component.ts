@@ -123,13 +123,7 @@ export class AssetListComponent implements OnInit {
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'getclaim',
             params: [this.wallet.address]
-        }).map((res: any) => {
-            if (res && res.code === 200) {
-                return res.result;
-            } else {
-                throw res.message || 'unknown';
-            }
-        }).subscribe((res) => {
+        }).subscribe((res: any) => {
             res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
             this.claim = res;
             this.claimLoading = false;
@@ -146,13 +140,7 @@ export class AssetListComponent implements OnInit {
         this.http.post(`${this.global.apiDomain}/api/transactions`, {
             method: 'gettxbytxid',
             params: [txid]
-        }).map((res: any) => {
-            if (res && res.code === 200) {
-                return res.result;
-            } else {
-                throw 'not_confirmed';
-            }
-        }).subscribe((res) => {
+        }).subscribe(() => {
             this.balance.unconfirmedClaim = undefined;
             this.fetchClaim();
         }, (err) => {

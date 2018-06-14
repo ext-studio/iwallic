@@ -8,6 +8,30 @@ import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
 import { ConfigService } from './config';
 import { Clipboard } from '@ionic-native/clipboard';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {
+    ThemeableBrowser, ThemeableBrowserOptions
+} from '@ionic-native/themeable-browser';
+
+const options: ThemeableBrowserOptions = {
+    statusbar: {
+        color: '#ffffffff'
+    },
+    toolbar: {
+        height: 44,
+        color: '#f0f0f0ff'
+    },
+    title: {
+        color: '#003264ff',
+        showPageTitle: true
+    },
+    closeButton: {
+        wwwImage: '/assets/icon/close.png',
+        align: 'left',
+        wwwImageDensity: 2
+    },
+    backButtonCanClose: true
+};
 
 @Injectable()
 export class GlobalService {
@@ -20,6 +44,8 @@ export class GlobalService {
         private toast: ToastController,
         private theme: ThemeService,
         private config: ConfigService,
+        private iab: InAppBrowser,
+        private themeableBrowser: ThemeableBrowser,
         private clipboard: Clipboard
     ) {}
     public get apiDomain(): string {
@@ -179,5 +205,14 @@ export class GlobalService {
             }
         });
         return ;
+    }
+
+    public browser(url: string, type: 'INAPP' | 'THEMEABLE') {
+        if (type === 'INAPP') {
+            this.iab.create(url, '_system').show();
+        } else {
+            const tb = this.themeableBrowser.create(url, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
+        }
     }
 }
