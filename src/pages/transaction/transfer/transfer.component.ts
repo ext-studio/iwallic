@@ -94,7 +94,7 @@ export class TxTransferComponent implements OnInit {
                             });
                             this.navCtrl.push(TxSuccessComponent);
                             return;
-                        }, (err) => {
+                        }, () => {
                             transferLoad.dismiss();
                             this.global.AlertI18N({
                                 title: 'ALERT_TITLE_WARN',
