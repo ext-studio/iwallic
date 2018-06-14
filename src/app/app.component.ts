@@ -166,7 +166,8 @@ export class AppComponent {
 
     private initStatusbar() {
         if (this.platform.is('android')) {
-            this.statusBar.styleDefault();
+            this.statusBar.styleLightContent();
+            return;
         }
         this.themeService.get().subscribe(val => {
             if (this.platform.is('ios')) {
