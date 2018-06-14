@@ -52,7 +52,6 @@ export class AppComponent {
             this.initSwipe();
             this.initConfig();
             this.initBackBtn();
-            this.splashScreen.hide();
         });
     }
 
@@ -136,6 +135,7 @@ export class AppComponent {
         this.translate.Init();
         this.config.Init().subscribe((res) => {
             console.log(res);
+            this.splashScreen.hide();
             if (res !== 'offline') {
                 this.initListen();
             }

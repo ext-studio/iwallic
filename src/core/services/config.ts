@@ -21,16 +21,21 @@ export class ConfigService {
         private storage: Storage,
         private network: Network
     ) {
-        this.network.onchange().subscribe(() => {
-            setTimeout(() => {
-                if (navigator.onLine) {
-                    this.Init().subscribe((res) => console.log(res));
-                } else {
-                    this._online = false;
-                    this._$net.next(false);
-                }
-            }, 1000);
-        });
+        setTimeout(() => {
+            this.network.onchange().subscribe(() => {
+                setTimeout(() => {
+                    if (this.online && navigator.onLine) {
+                        return;
+                    }
+                    if (navigator.onLine) {
+                        this.Init().subscribe((res) => console.log(res));
+                    } else {
+                        this._online = false;
+                        this._$net.next(false);
+                    }
+                }, 1000);
+            });
+        }, 3000);
     }
     public get() {
         return this._config;

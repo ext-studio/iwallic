@@ -76,6 +76,10 @@ export class BalanceState {
                 resolve();
             }, () => {
                 this._loading = false;
+                if (!this.config.online) {
+                    resolve();
+                    return;
+                }
                 this.$error.next('request_error');
                 resolve();
             });

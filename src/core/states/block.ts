@@ -58,6 +58,10 @@ export class BlockState {
                 this._loading = false;
                 resolve();
             }, (err) => {
+                if (!this.config.online) {
+                    resolve();
+                    return;
+                }
                 this.$error.next(err);
                 this._loading = false;
                 resolve();
