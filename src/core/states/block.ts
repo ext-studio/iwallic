@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { GlobalService } from '../services/global';
+import { ConfigService } from '../services/config';
 
 @Injectable()
 export class BlockState {
@@ -14,7 +15,8 @@ export class BlockState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private http: HttpClient,
-        private global: GlobalService
+        private global: GlobalService,
+        private config: ConfigService
     ) { }
     public listen(): Observable<any> {
         if (!this.interval) {
@@ -31,28 +33,30 @@ export class BlockState {
     }
     public fetch(force: boolean = false): Promise<any> {
         this._loading = true;
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
+            if (!this.config.online) {
+                reject('offline');
+                return;
+            }
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {method: 'getblocktime'}).subscribe((res: any) => {
-                if (res && res.code === 200) {
-                    if (
-                        res.result && res.result.lastBlockIndex && res.result.time &&
-                        this._block !== res.result.lastBlockIndex
-                    ) {
-                        this._block = res.result.lastBlockIndex;
-                        this._last = res.result.time * 1000;
-                        this.$listen.next(res.result);
-                    } else if (force) {
-                        this.$listen.next(res.result);
-                    } else {
-                        this.$error.next(res && res.msg || 'block_error');
-                    }
+                if (
+                    res && res.lastBlockIndex && res.time &&
+                    this._block !== res.lastBlockIndex
+                ) {
+                    this._block = res.lastBlockIndex;
+                    this._last = res.time * 1000;
+                    this.$listen.next(res);
+                } else if (force) {
+                    this.$listen.next(res);
                 } else {
-                    this.$error.next(res && res.msg || 'unknown_error');
+                    this.$error.next(res && res.msg || 'block_error');
                 }
-                this._loading = false;
                 resolve();
             }, (err) => {
-                console.log(err);
+                if (!this.config.online) {
+                    resolve();
+                    return;
+                }
                 this.$error.next(err);
                 this._loading = false;
                 resolve();

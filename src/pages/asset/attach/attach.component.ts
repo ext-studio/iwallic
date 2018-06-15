@@ -23,6 +23,10 @@ export class AssetAttachComponent implements OnInit {
         public balance: BalanceState,
     ) { }
 
+    public ionViewDidLeave() {
+        this.balance.fetch();
+    }
+
     public ngOnInit() {
         this.storage.get('MainAssetList').then((res) => {
             if (res) {
@@ -41,15 +45,14 @@ export class AssetAttachComponent implements OnInit {
 
     public changeChoose(event, index) {
         this.storage.set('MainAssetList', this.chooseList);
-        this.balance.fetch();
     }
 
     public getAssetList() {
         this.http.post(this.global.apiDomain + '/api/iwallic', {
             method: 'getaddrassets',
             params: [this.address, 0]
-        }).subscribe((res) => {
-            this.assetList = res['result'];
+        }).subscribe((res: any) => {
+            this.assetList = res;
             for (let i = 0; i < this.assetList.length; i++) {
                 const token = this.assetList[i].assetId;
                 if (!this.chooseList.find((e) => e.assetId === token)) {
@@ -76,7 +79,7 @@ export class AssetAttachComponent implements OnInit {
                 }
             }
             this.isloading = false;
-        }, (err) => {
+        }, () => {
             this.global.Alert('REQUESTFAILED').subscribe();
         });
         return;

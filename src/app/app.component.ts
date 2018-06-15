@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { WalletService } from '../neo';
 import {
     AssetDetailComponent, AssetListComponent,
@@ -10,7 +11,8 @@ import {
 } from '../pages';
 import {
     BlockState, BalanceState, TransactionState,
-    NetService, ConfigService, GlobalService, TranslateService
+    ConfigService, GlobalService, TranslateService,
+    ThemeService
 } from '../core';
 
 @Component({
@@ -38,18 +40,18 @@ export class AppComponent {
         private balance: BalanceState,
         private transaction: TransactionState,
         private config: ConfigService,
-        private net: NetService
+        private themeService: ThemeService,
+        private statusBar: StatusBar
     ) {
         this.initializeApp();
     }
 
     private initializeApp() {
         this.platform.ready().then(() => {
+            this.initStatusbar();
             this.initSwipe();
             this.initConfig();
             this.initBackBtn();
-            this.initListen();
-            this.splashScreen.hide();
         });
     }
 
@@ -82,7 +84,7 @@ export class AppComponent {
     }
 
     private initListen() {
-        this.block.listen().subscribe((res) => {
+        this.block.listen().subscribe(() => {
             const curr = this.nav.getActive();
             if (!curr) {
                 return;
@@ -131,9 +133,14 @@ export class AppComponent {
 
     private initConfig() {
         this.translate.Init();
-        this.config.Init()
-            .switchMap(() => this.net.Init())
-            .switchMap(() => this.wallet.Get()).subscribe(() => {
+        this.config.Init().subscribe((res) => {
+            console.log(res);
+            this.splashScreen.hide();
+            if (res !== 'offline') {
+                this.initListen();
+                this.versionCheck();
+            }
+            this.wallet.Get().subscribe(() => {
                 this.menu.enable(true, 'iwallic-menu');
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
@@ -145,6 +152,26 @@ export class AppComponent {
                     this.nav.setRoot(WalletGateComponent);
                 }
             });
+        });
+    }
+
+    private versionCheck() {
+        this.config.version().subscribe((version: any) => {
+            if (version.curr !== version.latest) {
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_TIP',
+                    content: 'ALERT_CONTENT_NEWVERSION',
+                    ok: 'ALERT_OK_UPDATE',
+                    no: 'ALERT_NO_CANCEL'
+                }).subscribe((confirm) => {
+                    if (confirm) {
+                        this.global.browser(version.url, 'INAPP');
+                    }
+                });
+            } else {
+                console.log('no need');
+            }
+        }, (err) => console.log(err));
     }
 
     private initSwipe() {
@@ -155,5 +182,21 @@ export class AppComponent {
             this.nav.swipeBackEnabled = false;
             this.menu.swipeEnable(true, 'iwallic-menu');
         }
+    }
+
+    private initStatusbar() {
+        if (this.platform.is('android')) {
+            this.statusBar.styleLightContent();
+            return;
+        }
+        this.themeService.get().subscribe(val => {
+            if (this.platform.is('ios')) {
+                if (val === 'dark') {
+                    this.statusBar.styleLightContent();
+                } else {
+                    this.statusBar.styleDefault();
+                }
+            }
+        });
     }
 }

@@ -11,7 +11,8 @@
     <ion-list>
         <ion-item iborder="line" ibg="default2" class="choose-asset">
             <ion-label  icolor="font">{{ 'TRANSACTION_TRANSFER_CHOOSEASSET' | translate }}</ion-label>
-            <ion-select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()">
+            <ion-select [(ngModel)]="asset" icolor="font" ibg="default2" (ngModelChange)="assetChange()" 
+            cancelText="{{'ALERT_NO_CANCEL' | translate}}" okText="{{'ALERT_OK_SURE' | translate}}">
                 <ion-option [value]="i.assetId" *ngFor="let i of assetList">{{ i.symbol }}</ion-option>
             </ion-select>
         </ion-item>
@@ -28,7 +29,7 @@
             <button ibg="default2" icolor="font" clear item-end (click)="clearAmount()" *ngIf="amount"><ion-icon name="close"></ion-icon></button>
         </ion-item>
     </ion-list>
-    <p icolor="danger" margin text-sm float-left *ngIf="addr?.length || amount">{{ wrongTips | translate }}</p>
+    <p icolor="danger" margin text-sm float-left>{{ wrongTips | translate }}</p>
     <button clear float-right ion-button (click)="clear()">{{'TRANSACTION_TRANSFER_CLEAR' | translate}}</button>
     <div padding style="margin-top: 48px;">
         <button ibg="primary" ion-button block round (click)="enterPwd()">{{ 'TRANSACTION_TRANSFER_SUBMIT' | translate }}</button>

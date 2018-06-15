@@ -36,17 +36,7 @@ export class TxTransferComponent implements OnInit {
         if (this.platform.is('mobileweb') || this.platform.is('core')) {
             this.isScan = false;
         }
-        this.asset = this.params.get('asset') || null;
-        this.balanceState.get().subscribe((res) => {
-            this.assetList = res;
-            if (this.asset) {
-                const preChosen = res.find((e) => e.assetId === this.asset);
-                this.assetBalance = parseFloat(preChosen && preChosen.balance || 0);
-                this.assetSymbol = preChosen && preChosen.symbol;
-            } else {
-                this.assetBalance = 0;
-            }
-        });
+        this.getAssets();
     }
 
     public assetChange() {
@@ -59,18 +49,21 @@ export class TxTransferComponent implements OnInit {
     }
 
     public enterPwd() {
-        if (this.toaddr.length !== 34) {
+        if (!this.w.CheckAddress(this.toaddr)) {
             this.wrongTips = 'TRANSACTION_TRANSFER_WRONGADDRESS';
             return;
         }
-        if (typeof this.amount === 'string') {
+        if (typeof this.amount === 'string' && this.amount !== '') {
             this.amount = parseFloat(this.amount);
         }
-        if (this.amount) {
+        if (this.amount && this.amount > 0) {
             if (this.amount > this.assetBalance) {
                 this.wrongTips = 'TRANSACTION_TRANSFER_EXCEEDETBALANCE';
                 return;
             }
+        } else if (this.amount < 0 || isNaN(this.amount)) {
+            this.wrongTips = 'TRANSACTION_TRANSFER_AMOUNTWRONG';
+            return;
         } else {
             this.wrongTips = 'TRANSACTION_TRANSFER_NOAMOUNT';
             return;
@@ -101,7 +94,7 @@ export class TxTransferComponent implements OnInit {
                             });
                             this.navCtrl.push(TxSuccessComponent);
                             return;
-                        }, (err) => {
+                        }, () => {
                             transferLoad.dismiss();
                             this.global.AlertI18N({
                                 title: 'ALERT_TITLE_WARN',
@@ -133,5 +126,24 @@ export class TxTransferComponent implements OnInit {
 
     public clearAmount() {
         this.amount = null;
+    }
+
+    public getAssets() {
+        this.asset = this.params.get('asset') || null;
+        this.balanceState.get().subscribe((res) => {
+            this.assetList = [];
+            for (let i = 0; i < res.length; i++) {
+                if (res[i]['balance'] > 0) {
+                    this.assetList.push(res[i]);
+                }
+            }
+            if (this.asset) {
+                const preChosen = res.find((e) => e.assetId === this.asset);
+                this.assetBalance = parseFloat(preChosen && preChosen.balance || 0);
+                this.assetSymbol = preChosen && preChosen.symbol;
+            } else {
+                this.assetBalance = 0;
+            }
+        });
     }
 }

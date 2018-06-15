@@ -9,7 +9,7 @@ import {
     Platform, MenuController
 } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, NetService, TransactionState } from '../../../core';
+import { GlobalService, BalanceState, ConfigService, TransactionState } from '../../../core';
 
 @Component({
     selector: 'asset-list',
@@ -23,7 +23,8 @@ export class AssetListComponent implements OnInit {
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
     public claimGasBalance: number = 0;
-    public selectedNet: 'Main' | 'Test' | 'Priv';
+    public selectedNet: 'main' | 'test' | 'priv';
+    public online: boolean = true;
     private claimLoading: boolean = false;
     constructor(
         private http: HttpClient,
@@ -31,15 +32,14 @@ export class AssetListComponent implements OnInit {
         private global: GlobalService,
         private navctrl: NavController,
         public balance: BalanceState,
-        private net: NetService,
+        private config: ConfigService,
         private tx: TransactionService,
         private txState: TransactionState,
-        private menu: MenuController,
-        private plaftorm: Platform
+        private menu: MenuController
     ) {}
 
     public ngOnInit() {
-        this.selectedNet = this.net.current;
+        this.selectedNet = this.config.current;
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
@@ -54,6 +54,9 @@ export class AssetListComponent implements OnInit {
         });
         this.balance.error().subscribe((res) => {
             this.global.Alert('REQUESTFAILED').subscribe();
+        });
+        this.config.$net().subscribe((online) => {
+            this.online = online;
         });
         this.menu.swipeEnable(true, 'iwallic-menu');
     }
@@ -120,13 +123,7 @@ export class AssetListComponent implements OnInit {
         this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'getclaim',
             params: [this.wallet.address]
-        }).map((res: any) => {
-            if (res && res.code === 200) {
-                return res.result;
-            } else {
-                throw res.message || 'unknown';
-            }
-        }).subscribe((res) => {
+        }).subscribe((res: any) => {
             res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
             this.claim = res;
             this.claimLoading = false;
@@ -143,13 +140,7 @@ export class AssetListComponent implements OnInit {
         this.http.post(`${this.global.apiDomain}/api/transactions`, {
             method: 'gettxbytxid',
             params: [txid]
-        }).map((res: any) => {
-            if (res && res.code === 200) {
-                return res.result;
-            } else {
-                throw 'not_confirmed';
-            }
-        }).subscribe((res) => {
+        }).subscribe(() => {
             this.balance.unconfirmedClaim = undefined;
             this.fetchClaim();
         }, (err) => {

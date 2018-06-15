@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { GlobalService } from '../services/global';
+import { ConfigService } from '../services/config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -34,7 +35,8 @@ export class TransactionState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private global: GlobalService,
-        private http: HttpClient
+        private http: HttpClient,
+        private config: ConfigService
     ) { }
     public get(address: string, asset: string = null): Observable<any> {
         this.asset = asset;
@@ -108,6 +110,10 @@ export class TransactionState {
                 console.log(err);
                 this._loading = false;
                 if (err !== 'no_need') {
+                    if (!this.config.online) {
+                        resolve();
+                        return;
+                    }
                     this.$error.next(typeof err === 'string' ? err : 'request_error');
                 }
                 resolve();
@@ -167,24 +173,11 @@ export class TransactionState {
             return this.http.post(this.global.apiDomain + '/api/iwallic', {
                 method: 'getassettxes',
                 params: [page, pageSize, address, asset]
-            }).map((res: any) => {
-                if (res && res.code === 200) {
-                    return res.result;
-                } else {
-                    throw res && res.msg || 'unknown_error';
-                }
             });
-            // return Observable.throw('completing');
         }
         return this.http.post(this.global.apiDomain + '/api/iwallic', {
             method: 'getaccounttxes',
             params: [page, pageSize, address]
-        }).map((res: any) => {
-            if (res && res.code === 200) {
-                return res.result;
-            } else {
-                throw res && res.msg || 'unknown_error';
-            }
         });
     }
     // unshift or concact tx

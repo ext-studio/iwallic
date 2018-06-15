@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService, ThemeService, NetService, BlockState } from '../../../core';
+import { TranslateService, ThemeService, ConfigService, BlockState } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
+import { StatusBar } from '@ionic-native/status-bar';
+import { Platform } from 'ionic-angular';
 
 @Component({
     selector: 'system-setting',
@@ -10,15 +12,17 @@ import { AssetListComponent } from '../../asset/list/list.component';
 export class SystemSettingComponent implements OnInit {
     private oldLang: string = 'sys';
     public lang = 'sys';
-    public selectedNet: 'Main' | 'Test' | 'Priv' = this.net.current;
+    public selectedNet: 'main' | 'test' | 'priv' = this.config.current;
     public selectedTheme: String = this.themeService.default;
     @ViewChild(Select) public select: Select;
     constructor(
         private translate: TranslateService,
         private nav: NavController,
         private themeService: ThemeService,
-        private net: NetService,
-        private block: BlockState
+        private config: ConfigService,
+        private block: BlockState,
+        private statusBar: StatusBar,
+        private platform: Platform
     ) {
         this.themeService.get().subscribe(val => this.selectedTheme = val);
     }
@@ -27,7 +31,7 @@ export class SystemSettingComponent implements OnInit {
         this.translate.Current().subscribe((res) => {
             this.oldLang = this.lang = res;
         });
-        this.selectedNet = this.net.current;
+        this.selectedNet = this.config.current;
     }
     public langChange() {
         if (this.oldLang !== this.lang) {
@@ -40,12 +44,18 @@ export class SystemSettingComponent implements OnInit {
     public toggleAppTheme() {
         if (this.selectedTheme === 'dark') {
             this.themeService.set('dark');
+            if (this.platform.is('ios')) {
+                 this.statusBar.styleLightContent();
+            }
         } else {
             this.themeService.set(this.themeService.default);
+            if (this.platform.is('ios')) {
+                this.statusBar.styleDefault();
+           }
         }
     }
     public toggleAppNet() {
-        this.net.switch(this.selectedNet);
+        this.config.switch(this.selectedNet);
         this.block.fetch(true);
         setTimeout(() => {
             this.nav.setRoot(AssetListComponent);

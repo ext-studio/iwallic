@@ -116,7 +116,7 @@ $colors: (
 }
 .toast-dark {
   .toast-wrapper {
-    background-color: map-get($colors, dark-primary) !important;
+    background-color: map-get($colors, dark-secondary) !important;
     color: map-get($colors, dark-font) !important;
   }
 }

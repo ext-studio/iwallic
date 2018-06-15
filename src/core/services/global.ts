@@ -6,9 +6,32 @@ import {
 import { Observable } from 'rxjs/Observable';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
-import { NetService } from './net';
-import { Platform } from 'ionic-angular';
+import { ConfigService } from './config';
 import { Clipboard } from '@ionic-native/clipboard';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import {
+    ThemeableBrowser, ThemeableBrowserOptions
+} from '@ionic-native/themeable-browser';
+
+const options: ThemeableBrowserOptions = {
+    statusbar: {
+        color: '#ffffffff'
+    },
+    toolbar: {
+        height: 44,
+        color: '#f0f0f0ff'
+    },
+    title: {
+        color: '#003264ff',
+        showPageTitle: true
+    },
+    closeButton: {
+        wwwImage: '/assets/icon/close.png',
+        align: 'left',
+        wwwImageDensity: 2
+    },
+    backButtonCanClose: true
+};
 
 @Injectable()
 export class GlobalService {
@@ -20,15 +43,16 @@ export class GlobalService {
         private ngTranslate: NgTranslateService,
         private toast: ToastController,
         private theme: ThemeService,
-        private net: NetService,
-        private platform: Platform,
+        private config: ConfigService,
+        private iab: InAppBrowser,
+        private themeableBrowser: ThemeableBrowser,
         private clipboard: Clipboard
     ) {}
     public get apiDomain(): string {
-        return this.net.get('API');
+        return this.config.net('api');
     }
     public get rpcDomain(): string {
-        return this.net.get('RPC');
+        return this.config.net('rpc');
     }
     /**
      * Internal Alert by given type
@@ -181,5 +205,14 @@ export class GlobalService {
             }
         });
         return ;
+    }
+
+    public browser(url: string, type: 'INAPP' | 'THEMEABLE') {
+        if (type === 'INAPP') {
+            this.iab.create(url, '_system').show();
+        } else {
+            const tb = this.themeableBrowser.create(url, '_blank', options);
+            tb.insertCss({code: 'html {background: #f3f3f3;} body {margin-top: 44px;}'});
+        }
     }
 }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GlobalService } from './services/global';
-import { NetService } from './services/net';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { PopupInputService } from './services/popup-input';
 import { ScannerService } from './services/scanner';
@@ -23,6 +22,7 @@ import {
     ISrcDirective, ISrcPipe
 } from './directives/skin';
 import { ConfigService } from './services/config';
+import { HttpInterceptor } from './services/intercepter';
 
 @NgModule({
     imports: [
@@ -49,7 +49,12 @@ import { ConfigService } from './services/config';
         GlobalService, PopupInputService, ScannerService,
         ReadFileService, TranslateService,
         BlockState, BalanceState, TransactionState,
-        ThemeService, NetService, ConfigService
+        ThemeService, ConfigService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpInterceptor,
+            multi: true
+        }
     ]
 })
 export class CoreModule { }

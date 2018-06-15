@@ -102,6 +102,9 @@ export const WALLET = {
     },
     checkWIF: (wif: string) => {
         return wallet.isWIF(wif);
+    },
+    checkAddress: (address: string) => {
+        return wallet.isAddress(address);
     }
 };
 
@@ -135,7 +138,7 @@ export const NEP2 = {
         if (addressHash === gotAH) {
             return wif;
         } else {
-            throw 'verify_failed';
+            return false;
         }
     }
 };
