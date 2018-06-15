@@ -81,7 +81,7 @@ export class TransactionService {
      */
     public ClaimGAS(claim: any, wif: string): Observable<any> {
         const tx = Transaction.forClaim(claim.claims, claim.unSpentClaim, claim.address);
-        return this.signNSendTX(tx, wif).map((res) => {
+        return this.signNSendTX(tx, wif).map(() => {
             this.unconfirmedUTXO.push({
                 hash: tx.hash,
                 value: tx.vout[0].value,
@@ -141,6 +141,12 @@ export class TransactionService {
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'sendv4rawtransaction',
             params: [tx.serielize(true)],
+        }).map((rs) => {
+            if (rs === true) {
+                return rs;
+            } else {
+                throw rs;
+            }
         });
     }
 }
