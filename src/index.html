@@ -40,6 +40,22 @@
       </div>
   </ion-app>
 
+  <script>
+    if (navigator.splashscreen) {
+      navigator.splashscreen.show();
+      document.addEventListener('pause', function() {
+          if (!window.isReady) {
+            navigator.splashscreen.show();
+          }
+      }, false);
+      document.addEventListener('resume', function() {
+          if (!window.isReady) {
+              navigator.splashscreen.show();
+          }
+      }, false);
+    }
+  </script>
+
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>
 

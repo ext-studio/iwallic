@@ -24,6 +24,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { AppVersion } from '@ionic-native/app-version';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Network } from '@ionic-native/network';
+import { HTTP } from '@ionic-native/http';
 
 // for i18n
 export function createTranslateLoader(http: HttpClient) {
@@ -67,7 +68,7 @@ const translateModuleConfig = {
         StatusBar, SplashScreen,
         Camera, QRScanner, File,
         ThemeableBrowser, Clipboard, AppVersion, InAppBrowser,
-        Network,
+        Network, HTTP,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

@@ -135,16 +135,19 @@ export class AppComponent {
         this.translate.Init();
         this.config.Init().subscribe((res) => {
             console.log(res);
-            this.splashScreen.hide();
             if (res !== 'offline') {
                 this.initListen();
                 this.versionCheck();
             }
             this.wallet.Get().subscribe(() => {
+                (window as any).isReady = true;
+                this.splashScreen.hide();
                 this.menu.enable(true, 'iwallic-menu');
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
                 console.log(err);
+                (window as any).isReady = true;
+                this.splashScreen.hide();
                 this.menu.enable(false, 'iwallic-menu');
                 if (err === 'need_verify') {
                     this.nav.setRoot(WalletVerifyComponent);

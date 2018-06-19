@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
 import { Subject } from 'rxjs/Subject';
 import { Platform } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
+import { HTTP } from '@ionic-native/http';
 
 @Injectable()
 export class ConfigService {
@@ -19,11 +19,11 @@ export class ConfigService {
     }
     private _$net: Subject<any> = new Subject();
     constructor(
-        private http: HttpClient,
         private storage: Storage,
         private appVersion: AppVersion,
         private platform: Platform,
-        private network: Network
+        private network: Network,
+        private ionHttp: HTTP
     ) {
         setTimeout(() => {
             this.network.onchange().subscribe(() => {
@@ -49,10 +49,23 @@ export class ConfigService {
     }
     public Init() {
         return new Observable((observer) => {
-            this.http.post(`https://api.iwallic.com/api/iwallic`, {
+            this.ionHttp.setDataSerializer('json');
+            this.ionHttp.post(`https://api.iwallic.com/api/iwallic`, {
                 method: 'fetchIwallicConfig',
                 params: []
-            }).subscribe((config: any) => {
+            }, {'Content-Type': 'application/json'}).then((res) => {
+                let data;
+                try {
+                    data = JSON.parse(res.data);
+                    if (data.code === 200) {
+                        return data.result;
+                    } else {
+                        return Promise.reject(res.data.msg || 'unknown_error');
+                    }
+                } catch {
+                    return Promise.reject(res.data.msg || 'parse_error');
+                }
+            }).then((config: any) => {
                 this._config = config || false;
                 this.netList = this._config.net || false;
                 this._online = true;
@@ -77,7 +90,7 @@ export class ConfigService {
                     observer.next('config_but_net');
                     observer.complete();
                 });
-            }, () => {
+            }).catch(() => {
                 this._config = false;
                 this.netList = false;
                 this._online = false;
