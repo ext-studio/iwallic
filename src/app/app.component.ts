@@ -47,7 +47,9 @@ export class AppComponent {
     }
 
     private initializeApp() {
+        this.splashScreen.show();
         this.platform.ready().then(() => {
+            this.splashScreen.show();
             this.initStatusbar();
             this.initSwipe();
             this.initConfig();
