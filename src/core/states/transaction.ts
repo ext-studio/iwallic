@@ -184,6 +184,7 @@ export class TransactionState {
     // replace unfonfirmed tx if matched
     private mergeTx(rs: { data: any[], page: number, pageSize: number, total: number }, isOlder: boolean = false) {
         this._total = rs.total;
+        rs.data = rs.data || [];
         if (!this._transaction || !this._transaction.length) {
             this._transaction = rs.data;
             this._page = rs.page;
