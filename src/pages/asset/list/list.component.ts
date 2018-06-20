@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {
     AssetDetailComponent,
     TxReceiptComponent, TxTransferComponent, AssetAttachComponent
@@ -9,7 +8,7 @@ import {
     Platform, MenuController
 } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, ConfigService, TransactionState } from '../../../core';
+import { GlobalService, BalanceState, ConfigService, TransactionState, HttpService } from '../../../core';
 
 @Component({
     selector: 'asset-list',
@@ -27,7 +26,7 @@ export class AssetListComponent implements OnInit {
     public online: boolean = true;
     private claimLoading: boolean = false;
     constructor(
-        private http: HttpClient,
+        private http: HttpService,
         public wallet: WalletService,
         private global: GlobalService,
         private navctrl: NavController,

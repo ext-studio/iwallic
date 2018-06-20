@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { GlobalService, BalanceState } from '../../../core';
+import { GlobalService, BalanceState, HttpService } from '../../../core';
 import { WalletService } from '../../../neo';
 import { Storage } from '@ionic/storage';
 
@@ -16,7 +15,7 @@ export class AssetAttachComponent implements OnInit {
     public isloading: boolean = true;
     public assetBalanceList: any[] = [];
     constructor(
-        private http: HttpClient,
+        private http: HttpService,
         private global: GlobalService,
         private wallet: WalletService,
         private storage: Storage,

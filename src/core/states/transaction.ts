@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { GlobalService } from '../services/global';
 import { ConfigService } from '../services/config';
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../services/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
@@ -35,7 +35,7 @@ export class TransactionState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private global: GlobalService,
-        private http: HttpClient,
+        private http: HttpService,
         private config: ConfigService
     ) { }
     public get(address: string, asset: string = null): Observable<any> {

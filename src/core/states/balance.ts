@@ -2,7 +2,7 @@ import { Injectable, } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../services/global';
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../services/http';
 import { Storage } from '@ionic/storage';
 import { ConfigService } from '../services/config';
 import 'rxjs/add/operator/startWith';
@@ -24,7 +24,7 @@ export class BalanceState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private global: GlobalService,
-        private http: HttpClient,
+        private http: HttpService,
         private storage: Storage,
         private config: ConfigService
     ) { }

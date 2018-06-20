@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../../core';
+import { GlobalService, HttpService } from '../../core';
 import { Transaction, UTXO } from '../models/transaction';
 import { WALLET, HEX, SmartContract } from '../utils';
 
@@ -11,7 +10,7 @@ export class TransactionService {
     private unconfirmedUTXO: UTXO[] = [];
 
     constructor(
-        private http: HttpClient,
+        private http: HttpService,
         private global: GlobalService
     ) {
         //
