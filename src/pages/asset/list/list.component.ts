@@ -53,7 +53,12 @@ export class AssetListComponent implements OnInit {
             this.global.Error(res).subscribe();
         });
         this.config.$net().subscribe((online) => {
-            this.online = online;
+            if (!this.online && online) {
+                this.online = online;
+                this.selectedNet = this.config.current;
+            } else {
+                this.online = online;
+            }
         });
         this.menu.swipeEnable(true, 'iwallic-menu');
     }

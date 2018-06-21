@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
 import { WalletService } from '../neo';
 import {
     AssetDetailComponent, AssetListComponent,
@@ -11,8 +10,7 @@ import {
 } from '../pages';
 import {
     BlockState, BalanceState, TransactionState,
-    ConfigService, GlobalService, TranslateService,
-    ThemeService
+    ConfigService, GlobalService, TranslateService
 } from '../core';
 
 @Component({
@@ -38,9 +36,7 @@ export class AppComponent {
         private block: BlockState,
         private balance: BalanceState,
         private transaction: TransactionState,
-        private config: ConfigService,
-        private themeService: ThemeService,
-        private statusBar: StatusBar
+        private config: ConfigService
     ) {
         this.initializeApp();
     }
@@ -49,7 +45,6 @@ export class AppComponent {
         this.splashScreen.show();
         this.platform.ready().then(() => {
             this.splashScreen.show();
-            this.initStatusbar();
             this.initSwipe();
             this.initConfig();
             this.initBackBtn();
@@ -185,21 +180,5 @@ export class AppComponent {
             this.nav.swipeBackEnabled = false;
             this.menu.swipeEnable(true, 'iwallic-menu');
         }
-    }
-
-    private initStatusbar() {
-        if (this.platform.is('android')) {
-            this.statusBar.styleLightContent();
-            return;
-        }
-        this.themeService.get().subscribe(val => {
-            if (this.platform.is('ios')) {
-                if (val === 'dark') {
-                    this.statusBar.styleLightContent();
-                } else {
-                    this.statusBar.styleDefault();
-                }
-            }
-        });
     }
 }
