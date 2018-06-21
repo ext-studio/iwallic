@@ -168,6 +168,7 @@ export class GlobalService {
             return this.ToastI18N('ERROR_UNKNOWN');
             case 99998: // Network error
             return this.ToastI18N('ERROR_NETWORK');
+            case 1000: // no data
             case 99997: // Offline
             case 99996: // Platform not support
             case 99995: // No need

@@ -28,8 +28,8 @@ export class HttpService {
                         } else {
                             throw json.code || 99999;
                         }
-                    } catch {
-                        throw 99994;
+                    } catch (e) {
+                        throw typeof e === 'number' ? e : 99994;
                     }
                 } else {
                     throw 99998;
@@ -54,8 +54,8 @@ export class HttpService {
                         } else {
                             throw json.msg || 99999;
                         }
-                    } catch {
-                        throw 99994;
+                    } catch (e) {
+                        throw typeof e === 'number' ? e : 99994;
                     }
                 } else {
                     throw 99998;
