@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService, ThemeService, ConfigService, BlockState } from '../../../core';
+import { TranslateService, ThemeService, ConfigService, BalanceState, BlockState } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -20,9 +20,10 @@ export class SystemSettingComponent implements OnInit {
         private nav: NavController,
         private themeService: ThemeService,
         private config: ConfigService,
-        private block: BlockState,
         private statusBar: StatusBar,
-        private platform: Platform
+        private platform: Platform,
+        private block: BlockState,
+        private balance: BalanceState
     ) {
         this.themeService.get().subscribe(val => this.selectedTheme = val);
     }
@@ -56,6 +57,7 @@ export class SystemSettingComponent implements OnInit {
     }
     public toggleAppNet() {
         this.config.switch(this.selectedNet);
+        this.balance.unconfirmedClaim = undefined;
         this.block.fetch(true);
         setTimeout(() => {
             this.nav.setRoot(AssetListComponent);
