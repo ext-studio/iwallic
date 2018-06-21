@@ -5,6 +5,7 @@ export { ScannerService } from './services/scanner';
 export { ReadFileService } from './services/readfile';
 export { TranslateService } from './services/translate';
 export { ThemeService } from './services/theme';
+export { HttpService } from './services/http';
 
 export { BalanceState } from './states/balance';
 export { TransactionState } from './states/transaction';

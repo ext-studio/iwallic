@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { Storage } from '@ionic/storage';
-import { GlobalService } from '../../core';
+import { GlobalService, HttpService } from '../../core';
 import { Wallet } from '../models/wallet';
 import { WALLET, SCRYPT } from '../utils';
 import CryptoJS from 'crypto-js';
@@ -25,7 +24,7 @@ export class WalletService {
     private cached: Wallet;
     constructor(
         private storage: Storage,
-        private http: HttpClient,
+        private http: HttpService,
         private global: GlobalService
     ) {
         //

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { Network } from '@ionic-native/network';
 import { Subject } from 'rxjs/Subject';
 import { Platform } from 'ionic-angular';
 import { AppVersion } from '@ionic-native/app-version';
+
+import { HttpService } from './http';
 
 @Injectable()
 export class ConfigService {
@@ -19,11 +20,11 @@ export class ConfigService {
     }
     private _$net: Subject<any> = new Subject();
     constructor(
-        private http: HttpClient,
         private storage: Storage,
         private appVersion: AppVersion,
         private platform: Platform,
-        private network: Network
+        private network: Network,
+        private http: HttpService
     ) {
         setTimeout(() => {
             this.network.onchange().subscribe(() => {

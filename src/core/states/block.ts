@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../services/http';
 import { GlobalService } from '../services/global';
 import { ConfigService } from '../services/config';
 
@@ -14,7 +14,7 @@ export class BlockState {
     private $listen: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
     constructor(
-        private http: HttpClient,
+        private http: HttpService,
         private global: GlobalService,
         private config: ConfigService
     ) { }

@@ -1,28 +1,32 @@
 import { NgModule } from '@angular/core';
-import { GlobalService } from './services/global';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from 'ionic-angular';
+import { HTTP } from '@ionic-native/http';
+
+import { GlobalService } from './services/global';
 import { PopupInputService } from './services/popup-input';
 import { ScannerService } from './services/scanner';
 import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
 import { ThemeService } from './services/theme';
-import { TranslateModule } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from 'ionic-angular';
+import { HttpService } from './services/http';
+import { ConfigService } from './services/config';
+import { HttpInterceptor } from './services/intercepter';
 
 import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
 import { TransactionState } from './states/transaction';
+
 import { PopupInputComponent } from './directives/popup-input/popup-input.component';
 import { ScanComponent } from './directives/scan/scan.component';
 import {
-    IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-    ISrcDirective, ISrcPipe
+    IBgDirective, IBorderDirective, IColorDirective,
+    ImgPipe, ThemePipe, ISrcDirective, ISrcPipe
 } from './directives/skin';
-import { ConfigService } from './services/config';
-import { HttpInterceptor } from './services/intercepter';
 
 @NgModule({
     imports: [
@@ -50,7 +54,7 @@ import { HttpInterceptor } from './services/intercepter';
         ReadFileService, TranslateService,
         BlockState, BalanceState, TransactionState,
         ThemeService, ConfigService,
-        {
+        HTTP, HttpService, {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpInterceptor,
             multi: true
