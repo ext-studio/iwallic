@@ -22,7 +22,7 @@ export class TransactionState {
         return this._total;
     }
     public get nomore(): boolean {
-        return (this.total / this.pageSize) < this.page;
+        return (this.total / this.pageSize) <= this.page;
     }
     private _page: number = 1;
     private _pageSize: number = 10;

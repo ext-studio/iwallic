@@ -21,6 +21,9 @@ code | desc | from | resolve
 99982 | Not Completed Yet | Client | x
 99981 | Need Verify | Client | x
 99980 | Input Canceled | Client | x
+99979 | Server Error | Server | toast
 1000 | No records | Server | x
 1003 | Invoke Method Error | Server | toast
 1001 | Data Parse Error | Server | retry if config
+1011 | Request Timeout | Server | retry if config
+1012 | Connection Refused | Server | retry if config

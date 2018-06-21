@@ -19,7 +19,7 @@ export class HttpService {
             return this.ng.post(url, data);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
             this.native.setDataSerializer('json');
-            return Observable.fromPromise(this.native.post(url, data, {'Content-Type': 'application/json'})).map((res: any) => {
+            return Observable.fromPromise(this.native.post(url, data, {'Content-Type': 'application/json'})).map((res) => {
                 if (res.status === 200 && res.data) {
                     try {
                         const json = JSON.parse(res.data);
@@ -31,6 +31,8 @@ export class HttpService {
                     } catch (e) {
                         throw typeof e === 'number' ? e : 99994;
                     }
+                } else if (/^[5]/.test(`${res.status}`)) {
+                    throw 99979;
                 } else {
                     throw 99998;
                 }
@@ -57,6 +59,8 @@ export class HttpService {
                     } catch (e) {
                         throw typeof e === 'number' ? e : 99994;
                     }
+                } else if (/^[5]/.test(`${res.status}`)) {
+                    throw 99979;
                 } else {
                     throw 99998;
                 }

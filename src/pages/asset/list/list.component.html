@@ -30,7 +30,7 @@
     <div text-center padding margin-vertical *ngIf="balance.loading && isRefresh">
         <ion-spinner [color]="'primary' | theme | async"></ion-spinner>
     </div>
-    <ion-label icolor="font" *ngIf="!online" text-center class="no-assets">{{ 'APP_OFFLINE' | translate}}</ion-label>
+    <ion-label icolor="font" *ngIf="!online" text-center class="no-assets">{{ 'ERROR_OFFLINE' | translate}}</ion-label>
     <ion-list *ngIf="!balance.loading">
         <ion-item iborder="line" ibg="default2" icolor="font" *ngFor="let asset of assets" (click)="online && jumpDetail(asset.assetId, asset.symbol, asset.balance)">
             <span class="asset-type" icolor="font">{{ asset.symbol }}</span>

@@ -69,7 +69,11 @@ export class WalletBackupComponent implements OnInit {
                     load.dismiss();
                 }, (werr) => {
                     load.dismiss();
-                    this.global.Error(werr).subscribe();
+                    if (werr === 99987) {
+                        this.global.Alert('WRONGPWD').subscribe();
+                    } else {
+                        this.global.Error(werr).subscribe();
+                    }
                 });
             });
         });
