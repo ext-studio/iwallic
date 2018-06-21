@@ -12,14 +12,13 @@ export class HttpService {
         private native: NativeHttp,
         private ng: NgHttp,
         private platform: Platform
-    ) {
-        this.native.setDataSerializer('json');
-    }
+    ) { }
 
     public post(url: string, data: any): Observable<any> {
         if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.ng.post(url, data);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
+            this.native.setDataSerializer('json');
             return Observable.fromPromise(this.native.post(url, data, {'Content-Type': 'application/json'})).map((res: any) => {
                 if (res.status === 200 && res.data) {
                     try {
@@ -45,6 +44,7 @@ export class HttpService {
         if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.ng.get(url);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
+            this.native.setDataSerializer('json');
             return Observable.fromPromise(this.native.get(url, null, {'Content-Type': 'application/json'})).map((res: any) => {
                 if (res.status === 200 && res.data) {
                     try {
