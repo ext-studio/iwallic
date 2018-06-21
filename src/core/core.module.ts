@@ -35,7 +35,7 @@ import {
         IonicModule,
         IonicStorageModule.forRoot({
             name: '__iwallicdb',
-            driverOrder: ['indexeddb', 'sqlite', 'websql']
+            driverOrder: ['sqlite', 'indexeddb', 'websql']
         }),
         HttpClientModule,
         TranslateModule.forChild()
