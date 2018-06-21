@@ -40,13 +40,13 @@ export class WalletOpenComponent implements OnInit {
             return;
         }
         this.importing = true;
-        this.wallet.Import(this.wif, this.pwd, 'NEP2').subscribe((res) => {
+        this.wallet.ImportWIF(this.wif, this.pwd).subscribe((res) => {
             this.importing = false;
             this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
-            this.global.AlertI18N({content: 'ALERT_CONTENT_IMPORTFAILED'}).subscribe();
+            this.global.Error(err).subscribe();
             this.importing = false;
         });
     }
@@ -54,7 +54,6 @@ export class WalletOpenComponent implements OnInit {
         if (this.importing) {
             return;
         }
-        // this.global.LoadI18N('LOADING_VERIFY')
         let json;
         this.file.read().switchMap((res) => {
             json = res;
@@ -62,35 +61,32 @@ export class WalletOpenComponent implements OnInit {
             if (w.wif) {
                 return Observable.of(w);
             }
-                return this.input.open(this.navCtrl)
-                .switchMap((pwd) => pwd ?
-                this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
-                    return this.wallet.Verify(pwd, w).map((r) => {
-                        load.dismiss();
-                        return w;
-                    }).catch((e) => {
-                        load.dismiss();
-                        return Observable.throw(e);
-                    });
-                }) : Observable.throw('need_verify'));
+            return this.input.open(this.navCtrl)
+            .switchMap((pwd) => pwd ?
+            this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
+                return this.wallet.Verify(pwd, w).map((r) => {
+                    load.dismiss();
+                    return w;
+                }).catch((e) => {
+                    load.dismiss();
+                    return Observable.throw(e);
+                });
+            }) : Observable.throw(99980));
         }).subscribe((res) => {
             this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
-            if (err === 'not_nep6') {
+            switch (err) {
+                case 99986:
                 this.tryOTCWallet(json);
                 return;
-            }
-            console.log(err);
-            if (err === 'verify_failed') {
+                case 99987:
                 this.global.Alert('WRONGPWD').subscribe();
-            } else if (err !== 'need_verify') {
-                this.global.AlertI18N({
-                    title: 'ALERT_TITLE_CAUTION',
-                    content: 'ALERT_CONTENT_IMPORTNEP6',
-                    ok: 'ALERT_OK_SURE'
-                }).subscribe();
+                return;
+                default:
+                this.global.Alert(err).subscribe();
+                return;
             }
         });
     }
@@ -115,6 +111,14 @@ export class WalletOpenComponent implements OnInit {
     private tryOTCWallet(json: any) {
         const privateKeyEncrypted = json['privateKeyEncrypted'];
         const publicKey = json['publicKeyCompressed'];
+        if (!privateKeyEncrypted || !publicKey) {
+            this.global.AlertI18N({
+                title: 'ALERT_TITLE_CAUTION',
+                content: 'ALERT_CONTENT_IMPORTNEP6',
+                ok: 'ALERT_OK_SURE'
+            }).subscribe();
+            return;
+        }
         return this.input.open(this.navCtrl)
         .switchMap((pwd) => pwd ?
         this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
@@ -125,20 +129,19 @@ export class WalletOpenComponent implements OnInit {
                 load.dismiss();
                 throw err;
             });
-        }) : Observable.throw('need_verify')).subscribe((res: any) => {
+        }) : Observable.throw(99980)).subscribe((res: any) => {
             this.pwd = res.pwd;
             this.rePwd = res.pwd;
             this.wif = res.wif;
             this.import();
         }, (err) => {
-            if (err === 'verify_failed') {
+            switch (err) {
+                case 99987:
                 this.global.Alert('WRONGPWD').subscribe();
-            } else if (err !== 'need_verify') {
-                this.global.AlertI18N({
-                    title: 'ALERT_TITLE_CAUTION',
-                    content: 'ALERT_CONTENT_IMPORTNEP6',
-                    ok: 'ALERT_OK_SURE'
-                }).subscribe();
+                return;
+                default:
+                this.global.Alert(err).subscribe();
+                return;
             }
         });
     }

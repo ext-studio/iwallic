@@ -1,6 +1,6 @@
 {
   "name": "iwallic",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "iWallic Team",
   "private": true,
   "scripts": {
@@ -38,6 +38,7 @@
     "@ionic-native/network": "^4.7.0",
     "@ionic-native/qr-scanner": "^4.7.0",
     "@ionic-native/splash-screen": "4.7.0",
+    "@ionic-native/sqlite": "^4.7.0",
     "@ionic-native/status-bar": "4.7.0",
     "@ionic-native/themeable-browser": "^4.7.0",
     "@ionic/storage": "2.1.3",

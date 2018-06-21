@@ -23,6 +23,7 @@ import { TransactionState } from './states/transaction';
 
 import { PopupInputComponent } from './directives/popup-input/popup-input.component';
 import { ScanComponent } from './directives/scan/scan.component';
+import { PagerComponent } from './directives/pager/pager.component';
 import {
     IBgDirective, IBorderDirective, IColorDirective,
     ImgPipe, ThemePipe, ISrcDirective, ISrcPipe
@@ -34,17 +35,17 @@ import {
         IonicModule,
         IonicStorageModule.forRoot({
             name: '__iwallicdb',
-            driverOrder: ['indexeddb', 'sqlite', 'websql']
+            driverOrder: ['sqlite', 'indexeddb', 'websql']
         }),
         HttpClientModule,
         TranslateModule.forChild()
     ],
     exports: [
         IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-        ISrcDirective, ISrcPipe
+        ISrcDirective, ISrcPipe, PagerComponent
     ],
     declarations: [
-        PopupInputComponent, ScanComponent,
+        PopupInputComponent, ScanComponent, PagerComponent,
         IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
         ISrcDirective, ISrcPipe
     ],

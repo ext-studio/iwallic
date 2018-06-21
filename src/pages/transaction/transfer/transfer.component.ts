@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopupInputService, GlobalService, TransactionState, BalanceState, ScannerService } from '../../../core';
+import { PopupInputService, GlobalService, BalanceState, ScannerService } from '../../../core';
 import { NavController, Platform, NavParams } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
 import { TxSuccessComponent } from '../../../pages';
@@ -25,7 +25,6 @@ export class TxTransferComponent implements OnInit {
         private navCtrl: NavController,
         private tx: TransactionService,
         private w: WalletService,
-        private txState: TransactionState,
         private balanceState: BalanceState,
         private platform: Platform,
         private scanner: ScannerService,
@@ -88,24 +87,36 @@ export class TxTransferComponent implements OnInit {
                             this.isNEP5
                         ).subscribe((xres) => {
                             transferLoad.dismiss();
-                            this.txState.push(this.assetSymbol, xres.txid, xres.value);
                             this.navCtrl.pop({
                                 animate: false
                             });
                             this.navCtrl.push(TxSuccessComponent);
                             return;
-                        }, () => {
+                        }, (err) => {
                             transferLoad.dismiss();
-                            this.global.AlertI18N({
-                                title: 'ALERT_TITLE_WARN',
-                                content: 'ALERT_CONTENT_TXFAILED',
-                                ok: 'ALERT_OK_SURE'
-                            }).subscribe();
+                            switch (err) {
+                                case 1011:
+                                this.global.ToastI18N('ERROR_TIMEOUT').subscribe();
+                                break;
+                                case 1012:
+                                this.global.ToastI18N('ERROR_CONNREFUSED').subscribe();
+                                break;
+                                case 99997:
+                                this.global.ToastI18N('ERROR_OFFLINE').subscribe();
+                                break;
+                                default:
+                                this.global.Error(err).subscribe();
+                                break;
+                            }
                         });
                     });
                 }, (werr) => {
                     load.dismiss();
-                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN').subscribe();
+                    if (werr === 99987) {
+                        this.global.Alert('WRONGPWD').subscribe();
+                    } else {
+                        this.global.Error(werr).subscribe();
+                    }
                 });
             });
         });

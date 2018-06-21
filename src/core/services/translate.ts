@@ -23,7 +23,7 @@ export class TranslateService {
                     observer.next(this._current);
                     observer.complete();
                 } else {
-                    observer.error('unset');
+                    observer.error(99991);
                 }
             }).catch((err) => {
                 observer.error(err);

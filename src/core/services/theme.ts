@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Observable } from 'rxjs/Observable';
@@ -12,14 +13,19 @@ export class ThemeService {
 
     constructor(
         private statusBar: StatusBar,
-        private storage: Storage
+        private storage: Storage,
+        private platform: Platform
     ) {
         this.storage.get('theme').then((res) => {
             this._theme = res || this.default;
-            if (this._theme === 'light') {
-                this.statusBar.styleDefault();
-            } else {
+            if (this.platform.is('android')) {
                 this.statusBar.styleLightContent();
+            } else {
+                if (this._theme === 'light') {
+                    this.statusBar.styleDefault();
+                } else {
+                    this.statusBar.styleLightContent();
+                }
             }
             this.$theme.next(this._theme);
         }).catch((err) => {
@@ -38,7 +44,15 @@ export class ThemeService {
         this.storage.set('theme', theme);
         this._theme = theme;
         this.$theme.next(this._theme);
-        this.statusBar.styleLightContent();
+        if (this.platform.is('android')) {
+            this.statusBar.styleLightContent();
+        } else {
+            if (this._theme === 'light') {
+                this.statusBar.styleDefault();
+            } else {
+                this.statusBar.styleLightContent();
+            }
+        }
     }
 
     public current() {

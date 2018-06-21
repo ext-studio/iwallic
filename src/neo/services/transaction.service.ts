@@ -34,7 +34,7 @@ export class TransactionService {
         remark?: string
     ): Observable<any> {
         if (amount <= 0) {
-            return Observable.throw('invalid_amount');
+            return Observable.throw(99984);
         }
         if (asset.length === 42 || asset.length === 66) {
             asset = asset.slice(2);

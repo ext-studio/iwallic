@@ -45,14 +45,10 @@ export class BalanceState {
     }
     public fetch(address?: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (!this.config.online) {
-                reject('offline');
-                return;
-            }
             if (address) {
                 this.address = address;
             } else if (this._loading) {
-                reject('loading');
+                reject(99990);
                 return;
             }
             this._loading = true;

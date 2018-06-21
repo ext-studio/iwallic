@@ -5,10 +5,10 @@ import {
 } from '../../../pages';
 import {
     NavController, Refresher,
-    Platform, MenuController
+    MenuController
 } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, ConfigService, TransactionState, HttpService } from '../../../core';
+import { GlobalService, BalanceState, ConfigService, HttpService } from '../../../core';
 
 @Component({
     selector: 'asset-list',
@@ -18,7 +18,6 @@ export class AssetListComponent implements OnInit {
     public assets: any[] = [];
     public claim: any;
     public neoValue: number = 0;
-    // public backuped: boolean = false;
     public receipt: any = TxReceiptComponent;
     public isRefresh: boolean = true;
     public claimGasBalance: number = 0;
@@ -33,7 +32,6 @@ export class AssetListComponent implements OnInit {
         public balance: BalanceState,
         private config: ConfigService,
         private tx: TransactionService,
-        private txState: TransactionState,
         private menu: MenuController
     ) {}
 
@@ -52,10 +50,15 @@ export class AssetListComponent implements OnInit {
             }
         });
         this.balance.error().subscribe((res) => {
-            this.global.Alert('REQUESTFAILED').subscribe();
+            this.global.Error(res).subscribe();
         });
         this.config.$net().subscribe((online) => {
-            this.online = online;
+            if (!this.online && online) {
+                this.online = online;
+                this.selectedNet = this.config.current;
+            } else {
+                this.online = online;
+            }
         });
         this.menu.swipeEnable(true, 'iwallic-menu');
     }
@@ -87,15 +90,11 @@ export class AssetListComponent implements OnInit {
         this.navctrl.push(AssetAttachComponent);
     }
 
-    // public walletBackup() {
-    //     this.navctrl.push(WalletBackupComponent);
-    // }
-
     public claimGas() {
         this.global.LoadI18N('LOADING_CLAIMGAS').subscribe((load) => {
             this.tx.ClaimGAS(this.claim, this.wallet.wif).subscribe((res) => {
                 load.dismiss();
-                this.txState.push('GAS', res.txid, res.value, true);
+                // this.txState.push('GAS', res.txid, res.value, true);
                 this.balance.unconfirmedClaim = res.txid;
                 this.claim.unSpentClaim = 0;
                 // call for new claim
@@ -107,12 +106,13 @@ export class AssetListComponent implements OnInit {
                 }).subscribe();
             }, (err) => {
                 load.dismiss();
-                console.log(err);
-                this.global.AlertI18N({
-                    title: 'ALERT_TITLE_WARN',
-                    content: 'ALERT_CONTENT_CLAIMFAILED',
-                    ok: 'ALERT_OK_SURE'
-                }).subscribe();
+                this.global.Error(err).subscribe();
+                // console.log(err);
+                // this.global.AlertI18N({
+                //     title: 'ALERT_TITLE_WARN',
+                //     content: 'ALERT_CONTENT_CLAIMFAILED',
+                //     ok: 'ALERT_OK_SURE'
+                // }).subscribe();
             });
         });
     }

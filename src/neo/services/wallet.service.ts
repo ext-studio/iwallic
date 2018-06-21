@@ -32,7 +32,7 @@ export class WalletService {
     public Verify(pwd: string, w?: Wallet, skipSave?: boolean): Observable<any> {
         // scrypt
         if (!this.cached && !w) {
-            return Observable.throw('not_exist');
+            return Observable.throw(99983);
         }
         if (w) {
             this.cached = w;
@@ -40,10 +40,9 @@ export class WalletService {
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'scryptaddr',
             params: [this.cached.address, pwd]
-        }).catch(() =>  SCRYPT(this.cached.address, pwd))
+        }).catch(() => SCRYPT(this.cached.address, pwd))
         .switchMap((scrypt: string) => this.cached.Verify(scrypt)).map((res) => {
             if (!skipSave) {
-                console.log('skip_save');
                 this.Save(res);
             }
             return res;
@@ -54,26 +53,20 @@ export class WalletService {
      * @param text file content in JSON or WIF
      * @param type resolve as WIF-key or NEP-6 JSON
      */
-    public Import(text: string, pwd: string, type: 'NEP2' | 'NEP6'): Observable<any> {
-        if (type === 'NEP2') {
-            const addr = WALLET.wif2addr(text);
+    public ImportWIF(wif: string, pwd: string): Observable<any> {
+            const addr = WALLET.wif2addr(wif);
             return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
                 method: 'scryptaddr',
                 params: [addr, pwd]
             }).catch(() =>  SCRYPT(addr, pwd))
-            .switchMap((scrypt: string) => Wallet.fromWIF(text, scrypt));
-        } else if (type === 'NEP6') {
-            return Observable.throw('unsupport');
-        } else {
-            return Observable.throw('type_error');
-        }
+            .switchMap((scrypt: string) => Wallet.fromWIF(wif, scrypt));
     }
     /**
      * export wallet as JSON file by name
      * @param name  name of wallet to export as file
      */
     public Export(name: string): Observable<any> {
-        return Observable.throw('unsupport');
+        return Observable.throw(99982);
     }
 
     /**
@@ -118,7 +111,7 @@ export class WalletService {
         return new Observable((observer) => {
             this.storage.get('wallet').catch(() => Promise.resolve()).then((res) => {
                 if (!res) {
-                    observer.error('not_exist');
+                    observer.error(99983);
                     return;
                 }
                 const w = new Wallet(res);
@@ -130,7 +123,7 @@ export class WalletService {
                     return;
                 }
                 if (!pwd) {
-                    return Observable.throw('need_verify');
+                    return Observable.throw(99981);
                 }
                 w.Verify(pwd).subscribe(() => {
                     this.cached = w;
@@ -180,7 +173,7 @@ export class WalletService {
                     return;
                 }
             }
-            observable.error('verify_failed');
+            observable.error(99987);
         });
     }
 }

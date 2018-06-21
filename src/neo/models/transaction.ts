@@ -106,7 +106,7 @@ export class Transaction {
         }
         const payback = curr - amount;
         if (payback < 0) {
-            throw 'not_enouogh';
+            throw 99988;
         }
         if (payback > 0) {
             vout.push({value: payback, asset: asset, scriptHash: WALLET.addr2hash(from)});
@@ -148,7 +148,7 @@ export class Transaction {
         this.attributes.push({usage: AttributeUsage.SCRIPT, data: HEX.reverse(data)});
         this.attributes.push({
             usage: AttributeUsage.NEP5,
-            data: HEX.reverse(HEX.fromString('from iwallic' + new Date().getTime()))
+            data: HEX.reverse(HEX.fromString('from iwallic at ' + new Date().getTime()))
         });
     }
     public serielize(signed: boolean = false): string {

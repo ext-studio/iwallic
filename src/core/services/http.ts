@@ -12,28 +12,29 @@ export class HttpService {
         private native: NativeHttp,
         private ng: NgHttp,
         private platform: Platform
-    ) {
-        this.native.setDataSerializer('json');
-    }
+    ) { }
 
     public post(url: string, data: any): Observable<any> {
         if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.ng.post(url, data);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
-            return Observable.fromPromise(this.native.post(url, data, {'Content-Type': 'application/json'})).map((res: any) => {
+            this.native.setDataSerializer('json');
+            return Observable.fromPromise(this.native.post(url, data, {'Content-Type': 'application/json'})).map((res) => {
                 if (res.status === 200 && res.data) {
                     try {
                         const json = JSON.parse(res.data);
                         if (json.code === 200) {
                             return json.result;
                         } else {
-                            throw json.msg || 'unknown_error';
+                            throw json.code || 99999;
                         }
-                    } catch {
-                        throw 'parse_error';
+                    } catch (e) {
+                        throw typeof e === 'number' ? e : 99994;
                     }
+                } else if (/^[5]/.test(`${res.status}`)) {
+                    throw 99979;
                 } else {
-                    throw 'request_error';
+                    throw 99998;
                 }
             });
         } else {
@@ -45,6 +46,7 @@ export class HttpService {
         if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.ng.get(url);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
+            this.native.setDataSerializer('json');
             return Observable.fromPromise(this.native.get(url, null, {'Content-Type': 'application/json'})).map((res: any) => {
                 if (res.status === 200 && res.data) {
                     try {
@@ -52,13 +54,15 @@ export class HttpService {
                         if (json.code === 200) {
                             return json.result;
                         } else {
-                            throw json.msg || 'unknown_error';
+                            throw json.msg || 99999;
                         }
-                    } catch {
-                        throw 'parse_error';
+                    } catch (e) {
+                        throw typeof e === 'number' ? e : 99994;
                     }
+                } else if (/^[5]/.test(`${res.status}`)) {
+                    throw 99979;
                 } else {
-                    throw 'request_error';
+                    throw 99998;
                 }
             });
         } else {
