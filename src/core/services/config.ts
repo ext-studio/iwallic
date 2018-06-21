@@ -62,29 +62,62 @@ export class ConfigService {
                         this.currNet = this.netList[res] || this.netList['main'];
                         this.current = res;
                         this._$net.next(true);
-                        observer.next('complete');
+                        observer.next(200);
                         observer.complete();
                     } else {
                         this.currNet = this.netList['main'];
                         this.current = 'main';
                         this._$net.next(true);
-                        observer.next('config_but_net');
+                        observer.next(200);
                         observer.complete();
                     }
                 }).catch(() => {
                     this.currNet = this.netList['main'];
                     this.current = 'main';
                     this._$net.next(true);
-                    observer.next('config_but_net');
+                    observer.next(200);
                     observer.complete();
                 });
-            }, () => {
-                this._config = false;
-                this.netList = false;
-                this._online = false;
-                this._$net.next(false);
-                observer.next('offline');
-                observer.complete();
+            }, (err) => {
+                console.log(err);
+                setTimeout(() => {
+                    this.http.post(`https://api.iwallic.com/api/iwallic`, {
+                        method: 'fetchIwallicConfig',
+                        params: []
+                    }).subscribe((config2: any) => {
+                        this._config = config2 || false;
+                        this.netList = this._config.net || false;
+                        this._online = true;
+                        this.storage.get('net').then((res: any) => {
+                            if (res) {
+                                this.currNet = this.netList[res] || this.netList['main'];
+                                this.current = res;
+                                this._$net.next(true);
+                                observer.next(200);
+                                observer.complete();
+                            } else {
+                                this.currNet = this.netList['main'];
+                                this.current = 'main';
+                                this._$net.next(true);
+                                observer.next(200);
+                                observer.complete();
+                            }
+                        }).catch(() => {
+                            this.currNet = this.netList['main'];
+                            this.current = 'main';
+                            this._$net.next(true);
+                            observer.next(200);
+                            observer.complete();
+                        });
+                    }, () => {
+                        this._config = false;
+                        this.netList = false;
+                        this._online = false;
+                        this._$net.next(false);
+                        observer.next(99997);
+                        observer.complete();
+                    });
+                }, 1000);
             });
         });
     }
@@ -106,7 +139,7 @@ export class ConfigService {
                 } else if (this.platform.is('android')) {
                     version = this._config.version_android || false;
                 } else {
-                    observer.error('unsupport platform');
+                    observer.error(99996);
                     return;
                 }
                 if (!this.online) {
@@ -116,7 +149,7 @@ export class ConfigService {
                 observer.complete();
                 return;
             }).catch(() => {
-                observer.error('no need');
+                observer.error(99995);
                 return;
             });
         });

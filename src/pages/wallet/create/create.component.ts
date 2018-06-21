@@ -27,7 +27,7 @@ export class WalletCreateComponent implements OnInit {
     public ngOnInit() {
         this.pwd = this.navParams.get('pwd');
         if (!this.pwd) {
-            this.global.Alert('UNKNOWN').subscribe();
+            this.global.Error(99999).subscribe();
             return;
         }
         this.global.LoadI18N('LOADING_CREATING').subscribe((load) => {
@@ -37,17 +37,16 @@ export class WalletCreateComponent implements OnInit {
                 this.global.GenerateQRCode('wallet-qrcode', this.newWallet.wif, 160, 'assets/app/logo.png');
             }, (err) => {
                 load.dismiss();
-                console.log(err);
-                this.global.Alert('UNKNOWN').subscribe();
+                this.global.Error(err).subscribe();
             });
         });
     }
 
     public copy() {
         this.global.Copy(this.newWallet.wif).then((res) => {
-            this.copied = true;
-        }).catch((err) => {
-            this.global.AlertI18N({content: 'ALERT_CONTENT_COPYMANUALLY'}).subscribe();
+            if (res) {
+                this.copied = true;
+            }
         });
     }
 

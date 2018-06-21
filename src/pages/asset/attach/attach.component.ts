@@ -78,8 +78,8 @@ export class AssetAttachComponent implements OnInit {
                 }
             }
             this.isloading = false;
-        }, () => {
-            this.global.Alert('REQUESTFAILED').subscribe();
+        }, (err) => {
+            this.global.Error(err).subscribe();
         });
         return;
     }

@@ -65,6 +65,10 @@ export class TransactionState {
                 resolve();
                 return;
             }
+            if (isNext && this.total / (this.pageSize * this.page) <= 1) {
+                resolve();
+                return;
+            }
             this._loading = true;
             // get tx of all assets
             this.request(
@@ -75,7 +79,7 @@ export class TransactionState {
                 if (isNext) {
                     if (newCount < 0) {
                         // less tx
-                        return Observable.throw('no_need');
+                        return Observable.throw(99995);
                     } else if (newCount === 0) {
                         // no new tx
                         return Observable.of(rs);
@@ -91,7 +95,7 @@ export class TransactionState {
                 } else {
                     if (newCount <= 0) {
                         // less tx
-                        return Observable.throw('no_need');
+                        return Observable.throw(99995);
                     }
                     if (this._total === 0 || newCount <= this._pageSize) {
                         // new tx less than page size
@@ -109,12 +113,12 @@ export class TransactionState {
             }, (err) => {
                 console.log(err);
                 this._loading = false;
-                if (err !== 'no_need') {
+                if (err !== 99995) {
                     if (!this.config.online) {
                         resolve();
                         return;
                     }
-                    this.$error.next(typeof err === 'string' ? err : 'request_error');
+                    this.$error.next(err);
                 }
                 resolve();
             });
@@ -130,7 +134,7 @@ export class TransactionState {
             const newCount = rs.total - this._total;
             if (newCount <= 0) {
                 // less tx
-                return Observable.throw('no_need');
+                return Observable.throw(99995);
             }
             if (this._total === 0 || newCount <= this._pageSize) {
                 // new tx less than page size
@@ -143,26 +147,11 @@ export class TransactionState {
             this.mergeTx(rs);
             this.$transaction.next(this._transaction);
         }, (err) => {
-            if (err === 'no_need') {
+            if (err === 99995) {
                 return;
             }
-            this.$error.next(typeof err === 'string' ? err : 'request_error');
+            this.$error.next(err);
         });
-    }
-    // push unconfirmed tx into list
-    public push(name: string, txid: string, value: number, isClaim: boolean = false) {
-        this._transaction = this._transaction || [];
-        if (txid.length === 64) {
-            txid = '0x' + txid;
-        }
-        this._transaction.unshift({
-            name: name,
-            txid: txid,
-            value: `${isClaim ? '' : '-'}${value}`,
-            unconfirmed: true,
-            isClaim
-        });
-        this.$transaction.next(this._transaction);
     }
     public clear() {
         this._transaction = undefined;
@@ -181,7 +170,6 @@ export class TransactionState {
         });
     }
     // unshift or concact tx
-    // replace unfonfirmed tx if matched
     private mergeTx(rs: { data: any[], page: number, pageSize: number, total: number }, isOlder: boolean = false) {
         this._total = rs.total;
         rs.data = rs.data || [];
@@ -191,23 +179,13 @@ export class TransactionState {
             return;
         }
         if (isOlder) {
-            for (let i = 0; i < rs.data.length; i++) {
-                const index = this._transaction.findIndex((tx) => rs.data[i] && tx.txid === rs.data[i].txid && tx.unconfirmed);
-                if (index >= 0) {
-                    this._transaction.splice(index, 1);
-                }
-                this._transaction.push(rs.data[i]);
-            }
+            this._transaction = this._transaction.concat(rs.data);
             this._page = rs.page;
         } else {
             for (let i = rs.data.length - 1; i >= 0; i--) {
                 const index = this._transaction.findIndex((tx) => rs.data[i] && tx.txid === rs.data[i].txid);
-                if (index >= 0) {
-                    if (this._transaction[index].unconfirmed) {
-                        this._transaction.splice(index, 1, rs.data[i]);
-                    }
-                } else {
-                    this._transaction.splice((this._transaction.findIndex((tx) => tx.unconfirmed) || 0) + 1, 0, rs.data[i]);
+                if (index < 0) {
+                    this._transaction.unshift(rs.data[i]);
                 }
             }
         }

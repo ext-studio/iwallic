@@ -41,6 +41,9 @@ export class AssetDetailComponent implements OnInit {
             this.transcation.get(wal.address, this.token).subscribe((res) => {
                 this.items = res;
             });
+            this.transcation.error().subscribe((err) => {
+                this.global.Error(err).subscribe();
+            });
         });
     }
 

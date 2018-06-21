@@ -26,13 +26,13 @@ export class HttpService {
                         if (json.code === 200) {
                             return json.result;
                         } else {
-                            throw json.msg || 'unknown_error';
+                            throw json.code || 99999;
                         }
                     } catch {
-                        throw 'parse_error';
+                        throw 99994;
                     }
                 } else {
-                    throw 'request_error';
+                    throw 99998;
                 }
             });
         } else {
@@ -52,13 +52,13 @@ export class HttpService {
                         if (json.code === 200) {
                             return json.result;
                         } else {
-                            throw json.msg || 'unknown_error';
+                            throw json.msg || 99999;
                         }
                     } catch {
-                        throw 'parse_error';
+                        throw 99994;
                     }
                 } else {
-                    throw 'request_error';
+                    throw 99998;
                 }
             });
         } else {

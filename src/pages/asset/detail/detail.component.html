@@ -32,10 +32,7 @@
             </ion-item-options>
         </ion-item-sliding>
     </ion-list>
-    <div icolor="font2" class="more" margin-vertical padding text-sm text-center (click)="loadMore()">
-        {{(transcation.loading ? 'TRANSACTION_LIST_LOADING' : transcation.nomore ? 'TRANSACTION_LIST_NORANSACTION' : 'TRANSACTION_LIST_LOADMORE')
-        | translate}}
-    </div>
+    <pager [nomore]="transcation.nomore" [loading]="transcation.loading" (next)="loadMore()"></pager>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content icolor="primary"></ion-refresher-content>
     </ion-refresher>

@@ -30,11 +30,11 @@ export class ReadFileService {
             this.input.onchange = (e: any) => {
                 const file = e && e.path[0] && (e.path[0].files as FileList)[0];
                 if (!file) {
-                    observer.error('failed');
+                    observer.error(99992);
                     return;
                 }
                 if (file.type !== 'application/json') {
-                    observer.error('type_error');
+                    observer.error(99993);
                     return;
                 }
                 const reader = new FileReader();
@@ -45,7 +45,7 @@ export class ReadFileService {
                             observer.next(rs);
                             observer.complete();
                         } catch (e) {
-                            observer.error('format_error');
+                            observer.error(99994);
                         }
                     }
                 };
@@ -85,10 +85,10 @@ export class ReadFileService {
                                         observer.next(rs);
                                         observer.complete();
                                     } catch (e) {
-                                        observer.error('format_error');
+                                        observer.error(99994);
                                     }
                                 } else {
-                                    observer.error('format_error');
+                                    observer.error(99994);
                                 }
                             }
                         }

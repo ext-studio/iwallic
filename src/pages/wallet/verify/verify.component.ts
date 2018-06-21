@@ -32,12 +32,7 @@ export class WalletVerifyComponent implements OnInit {
                 this.nav.setRoot(AssetListComponent);
             }, (err) => {
                 load.dismiss();
-                this.global.AlertI18N({
-                    title: 'ALERT_TITLE_CAUTION',
-                    content: 'ALERT_CONTENT_WALLETVERIFY',
-                    ok: 'ALERT_OK_SURE'
-                }).subscribe();
-                console.log(err);
+                this.global.Error(err).subscribe();
             });
         });
     }

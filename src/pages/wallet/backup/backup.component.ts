@@ -34,7 +34,7 @@ export class WalletBackupComponent implements OnInit {
         this.w.Get().subscribe((res) => {
             this.wallet = res;
         }, (err) => {
-            this.global.Alert('UNKNOWN').subscribe();
+            this.global.Error(err).subscribe();
         });
         this.navBar.backButtonClick = () => {
             if (this.verified) {
@@ -69,7 +69,7 @@ export class WalletBackupComponent implements OnInit {
                     load.dismiss();
                 }, (werr) => {
                     load.dismiss();
-                    this.global.Alert(werr === 'verify_failed' ? 'WRONGPWD' : 'UNKNOWN').subscribe();
+                    this.global.Error(werr).subscribe();
                 });
             });
         });

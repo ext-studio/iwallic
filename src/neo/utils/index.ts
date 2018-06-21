@@ -59,7 +59,7 @@ export function SCRYPT(addr, pwd) {
                 return;
             }
             if (a) {
-                observer.error('scrypt_failed');
+                observer.error(99985);
                 return;
             }
         });

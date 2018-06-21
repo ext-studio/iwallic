@@ -156,6 +156,35 @@ export class GlobalService {
         });
     }
 
+    public Error(err): Observable<any> {
+        console.log(err);
+        if (typeof err !== 'number') {
+            return this.ToastI18N('ERROR_REQUESTFAILED');
+        }
+        switch (err) {
+            case 1003: // 'Invoke Method Error'
+            return this.ToastI18N('ERROR_METHOD_ERROR');
+            case 99999:
+            return this.ToastI18N('ERROR_UNKNOWN');
+            case 99998: // Network error
+            return this.ToastI18N('ERROR_NETWORK');
+            case 99997: // Offline
+            case 99996: // Platform not support
+            case 99995: // No need
+            case 99980: // User canceled
+            return Observable.of();
+            default:
+            return new Observable<any>((observer) => {
+                const toast = this.toast.create({message: `[${err}]`, duration: 2000, cssClass: `toast-${this.theme.current()}`});
+                toast.present();
+                toast.onDidDismiss(() => {
+                    observer.next();
+                    observer.complete();
+                });
+            });
+        }
+    }
+
     /**
      * Copy the value of an input DOM
      * @param selector the dom taken value to copy

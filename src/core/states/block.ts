@@ -34,10 +34,6 @@ export class BlockState {
     public fetch(force: boolean = false): Promise<any> {
         this._loading = true;
         return new Promise((resolve, reject) => {
-            if (!this.config.online) {
-                reject('offline');
-                return;
-            }
             this.http.post(`${this.global.apiDomain}/api/iwallic`, {method: 'getblocktime'}).subscribe((res: any) => {
                 if (
                     res && res.lastBlockIndex && res.time &&
@@ -49,7 +45,7 @@ export class BlockState {
                 } else if (force) {
                     this.$listen.next(res);
                 } else {
-                    this.$error.next(res && res.msg || 'block_error');
+                    this.$error.next(res && res.msg || 99989);
                 }
                 resolve();
             }, (err) => {

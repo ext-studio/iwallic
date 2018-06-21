@@ -24,6 +24,9 @@ export class TxListComponent implements OnInit {
             this.transcation.get(wal.address).subscribe((res: any[]) => {
                 this.items = res;
             });
+            this.transcation.error().subscribe((err) => {
+                this.global.Error(err).subscribe();
+            });
         });
     }
 

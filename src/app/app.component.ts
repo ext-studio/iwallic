@@ -30,7 +30,6 @@ export class AppComponent {
 
     constructor(
         private platform: Platform,
-        // private statusBar: StatusBar,
         private splashScreen: SplashScreen,
         private global: GlobalService,
         private wallet: WalletService,
@@ -136,8 +135,7 @@ export class AppComponent {
     private initConfig() {
         this.translate.Init();
         this.config.Init().subscribe((res) => {
-            console.log(res);
-            if (res !== 'offline') {
+            if (res !== 99997) {
                 this.initListen();
                 this.versionCheck();
             }

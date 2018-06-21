@@ -71,7 +71,7 @@ export class Account {
                 observer.next(this.wif);
                 observer.complete();
             } else {
-                observer.error('verify_failed');
+                observer.error(99987);
             }
         });
     }
@@ -110,7 +110,7 @@ export class Wallet {
         for (const account of nep6['accounts'] || []) {
             const acc = new Account(account);
             if (!acc.key && !acc.address) {
-                throw 'not_nep6';
+                throw 99986;
             }
             this.accounts.push(acc);
         }
@@ -118,7 +118,7 @@ export class Wallet {
         this.verified = nep6['verified'] || false;
         this.backup = nep6['backup'] || false;
         if (!this.accounts.length) {
-            throw 'not_nep6';
+            throw 99986;
         }
     }
     public static fromWIF(wif: string, scrypt: string): Observable<Wallet> {

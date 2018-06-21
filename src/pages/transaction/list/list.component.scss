@@ -26,4 +26,13 @@ transaction-list {
             }
         }
     }
+    .nomore {
+        position: relative;
+    }
+    .nomore::before {
+        position: absolute;
+        width: 90%;
+        left: 0;
+        content: ' ';
+    }
 }
