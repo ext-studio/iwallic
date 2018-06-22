@@ -20,7 +20,7 @@ import { CoreModule } from '../core';
 import { NEOModule } from '../neo';
 import {
     AssetAttachComponent, AssetDetailComponent, AssetListComponent,
-    SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+    SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, SystemNotifyComponent,
     WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
     WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
     TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent
@@ -43,7 +43,7 @@ const translateModuleConfig = {
     declarations: [
         AppComponent, // root
         AssetAttachComponent, AssetDetailComponent, AssetListComponent, // asset
-        SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, // system
+        SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, SystemNotifyComponent, // system
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
         WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent, // transaction
@@ -59,7 +59,7 @@ const translateModuleConfig = {
     entryComponents: [
         AppComponent,
         AssetAttachComponent, AssetDetailComponent, AssetListComponent,
-        SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
+        SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, SystemNotifyComponent,
         WalletBackupComponent, WalletOpenComponent, WalletGateComponent,
         WalletCreateComponent, WalletPwdComponent, WalletVerifyComponent,
         TxDetailComponent, TxListComponent, TxReceiptComponent, TxTransferComponent, TxSuccessComponent

@@ -36,7 +36,7 @@ export class AssetListComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
-        this.selectedNet = this.config.current;
+        this.selectedNet = this.config.currentNet;
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
@@ -55,7 +55,7 @@ export class AssetListComponent implements OnInit {
         this.config.$net().subscribe((online) => {
             if (!this.online && online) {
                 this.online = online;
-                this.selectedNet = this.config.current;
+                this.selectedNet = this.config.currentNet;
             } else {
                 this.online = online;
             }

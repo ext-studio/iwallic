@@ -13,7 +13,7 @@ export class SystemAboutComponent implements OnInit {
     ) { }
 
     public ngOnInit() {
-        this.config.version().subscribe((res) => {
+        this.config.VersionInit().subscribe((res) => {
             this.ver = res;
         }, () => {});
     }

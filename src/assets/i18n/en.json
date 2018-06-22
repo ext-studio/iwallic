@@ -154,5 +154,6 @@
   "SYSTEM_HELPER_TRANSACTION": "Transaction guide",
   "SYSTEM_HELPER_COMMUNITY": "Community",
   "SYSTEM_HELPER_CONTACT": "Contact",
-  "SYSTEM_HELPER_BROWSER": "Blockchain browser"
+  "SYSTEM_HELPER_BROWSER": "Blockchain browser",
+  "SYSTEM_NOTIFY_SKIP": "Skip"
 }

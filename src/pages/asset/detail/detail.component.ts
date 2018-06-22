@@ -81,7 +81,7 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.config.current === 'main' && this.config.online) {
+        if (this.config.currentNet === 'main' && this.config.online) {
             this.global.browser(this.config.get().browser.tx + txid, 'THEMEABLE');
         }
     }

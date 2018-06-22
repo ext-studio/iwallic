@@ -47,9 +47,10 @@ export class TranslateService {
 
     public Init() {
         this.translate.setDefaultLang('en');
-        this.Current().subscribe((lang) => {
+        return this.Current().map((lang) => {
             this.switchLang(lang);
-        }, () => {
+            return lang;
+        }).catch(() => {
             let lang = 'sys';
             const sysLang = window.navigator.language.toLocaleLowerCase();
             switch (sysLang) {
@@ -63,6 +64,7 @@ export class TranslateService {
                 break;
             }
             this.switchLang(lang);
+            return Observable.of(lang);
         });
     }
 
