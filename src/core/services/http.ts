@@ -8,7 +8,7 @@ import 'rxjs/add/observable/fromPromise';
 import { Storage } from '@ionic/storage';
 
 const DefaultConfig = {
-    time: new Date().getTime(),
+    time: 23333,
     config: {
         'version_ios': {
             'code': '0.0.8',

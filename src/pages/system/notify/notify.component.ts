@@ -24,7 +24,6 @@ export class SystemNotifyComponent {
         private global: GlobalService
     ) {
         this.config.Init().subscribe((res) => {
-            console.log(res);
             this.localConfig = res;
             this.config.NetInit();
             this.translate.Init().subscribe((lang) => {
