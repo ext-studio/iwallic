@@ -66,7 +66,6 @@ export class BalanceState {
                     resolve();
                     return;
                 }
-                alert(err);
                 this.$error.next(err);
                 resolve();
             });
