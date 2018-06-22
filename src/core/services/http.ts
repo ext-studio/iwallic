@@ -174,10 +174,7 @@ export class HttpService {
     }
 
     public config() {
-        return Observable.fromPromise(this.storage.get('local_config')).map((local) => {
-            local = DefaultConfig; // local || DefaultConfig;
-            return local;
-        }).map((config) => {
+        return Observable.fromPromise(this.storage.get('local_config')).map((local) => (local || DefaultConfig)).map((config) => {
             this._config = config.config;
             const currTime = new Date().getTime();
             if (currTime - config.time < 21600000) {
