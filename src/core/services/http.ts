@@ -74,7 +74,7 @@ const DefaultConfig = {
             }
         },
         'system': {
-            'welcomedelay': 3000,
+            'welcomedelay': 0,
             'welcomeimg': {
                 'en': null,
                 'cn': null
@@ -99,7 +99,7 @@ export class HttpService {
         if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.ng.post(url, data);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
-            let prepare = Observable.of(true);
+            let prepare = Observable.of<any>(true);
             if (!this.online && url.indexOf('api.iwallic.com') > -1 && data.method !== 'fetchIwallicConfig') {
                 if (navigator.onLine) {
                     prepare = this.config();
@@ -138,7 +138,7 @@ export class HttpService {
         if (this.platform.is('core') || this.platform.is('mobileweb')) {
             return this.ng.get(url);
         } else if (this.platform.is('ios') || this.platform.is('android')) {
-            let prepare = Observable.of(true);
+            let prepare = Observable.of<any>(true);
             if (!this.online && url.indexOf('api.iwallic.com') > -1) {
                 if (navigator.onLine) {
                     prepare = this.config();
