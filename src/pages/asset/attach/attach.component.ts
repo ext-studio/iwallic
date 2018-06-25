@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { GlobalService, BalanceState, HttpService } from '../../../core';
 import { WalletService } from '../../../neo';
 import { Storage } from '@ionic/storage';
 
 
+
 @Component({
     selector: 'asset-attach',
-    templateUrl: 'attach.component.html'
+    templateUrl: 'attach.component.html',
 })
+
 export class AssetAttachComponent implements OnInit {
     public chooseList: any[] = [];
     public assetList: any[] = [];
@@ -30,8 +32,6 @@ export class AssetAttachComponent implements OnInit {
         this.storage.get('MainAssetList').then((res) => {
             if (res) {
                 this.chooseList = res;
-            } else {
-                this.chooseList = [];
             }
         });
         this.balance.get().subscribe((res) => {
@@ -43,7 +43,7 @@ export class AssetAttachComponent implements OnInit {
     }
 
     public changeChoose(event, index) {
-        this.storage.set('MainAssetList', this.chooseList);
+        this.storage.set('MainAssetList', this.assetList);
     }
 
     public getAssetList() {
@@ -54,29 +54,26 @@ export class AssetAttachComponent implements OnInit {
             this.assetList = res;
             for (let i = 0; i < this.assetList.length; i++) {
                 const token = this.assetList[i].assetId;
-                if (!this.chooseList.find((e) => e.assetId === token)) {
-                    this.chooseList.push({
-                        'assetId': this.assetList[i].assetId,
-                        'symbol': this.assetList[i].symbol,
-                        'name': this.assetList[i].name
-                    });
+                if (this.chooseList.find((e) => e.assetId === token)) {
+                    const arrIndex = this.chooseList.findIndex((e) => e.assetId === token);
+                    this.assetList[i]['choose'] = this.chooseList[arrIndex].choose;
                 }
                 if (this.assetBalanceList.findIndex((e) => e.assetId === token) >= 0) {
                     const arrIndex = this.assetBalanceList.findIndex((e) => e.assetId === token);
                     this.assetList[i]['balance'] = parseFloat(this.assetBalanceList[arrIndex]['balance']);
+                    this.assetList[i]['choose'] = true;
                 } else {
                     this.assetList[i]['balance'] = 0;
                 }
-                this.assetList[i].assetId = token.substring(0, 8) +
-                    '...' + token.substring(token.length - 8);
-                if (!this.chooseList[i]['choose']) {
+                if (!this.assetList[i]['choose']) {
                     if (i <= 3) {
-                        this.chooseList[i]['choose'] = true;
+                        this.assetList[i]['choose'] = true;
                     } else {
-                        this.chooseList[i]['choose'] = false;
+                        this.assetList[i]['choose'] = false;
                     }
                 }
             }
+            this.storage.set('MainAssetList', this.assetList);
             this.isloading = false;
         }, (err) => {
             this.global.Error(err).subscribe();

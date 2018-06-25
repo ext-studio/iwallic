@@ -17,10 +17,10 @@
                 <h3>{{ item.symbol }}</h3>
                 <div class="info" icolor="font2">
                     <p icolor="font3">{{ item.name }}</p>
-                    <p icolor="font2">{{ item.assetId }}</p>
+                    <p icolor="font2">{{ item.assetId.substring(0, 8) }}....{{ item.assetId.substring( item.assetId.length - 8) }}</p>
                 </div>
             </ion-label>
-            <ion-toggle *ngIf="i > 3 && item.balance == 0" [(ngModel)]="chooseList[i]['choose']" (ionChange)="changeChoose($event, i)"></ion-toggle>
+            <ion-toggle *ngIf="i > 3 && item.balance == 0" [(ngModel)]="item.choose" (ionChange)="changeChoose($event, i)"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>
