@@ -89,7 +89,7 @@ export class SystemNotifyComponent {
         this.config.VersionInit().subscribe((version: any) => {
             if (version.curr !== version.latest) {
                 this.global.AlertI18N({
-                    title: 'ALERT_TITLE_TIP',
+                    title: 'ALERT_TITLE_UPGRADE',
                     content: version.info[lang],
                     ok: 'ALERT_OK_UPDATE',
                     no: 'ALERT_NO_CANCEL'
