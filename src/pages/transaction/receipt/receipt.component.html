@@ -14,4 +14,7 @@
         <p class="address">{{address}}</p>
         <button class="btn" ion-button round [color]="'primary' | theme | async" (click)="copy()">{{(copied ? 'TRANSACTION_RECEIPT_COPIED' : 'TRANSACTION_RECEIPT_COPY') | translate}}</button>
     </div>
+    <div class="bottom-log-box">
+         <img src="assets/transaction/logo@2x.png" alt="">
+    </div>
 </ion-content>
