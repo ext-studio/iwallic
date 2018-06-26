@@ -10,7 +10,7 @@ import {
 } from '../pages';
 import {
     BlockState, BalanceState, TransactionState,
-    GlobalService
+    GlobalService, TranslateService
 } from '../core';
 
 @Component({
@@ -28,7 +28,8 @@ export class AppComponent {
         private menu: MenuController,
         private block: BlockState,
         private balance: BalanceState,
-        private transaction: TransactionState
+        private transaction: TransactionState,
+        private translate: TranslateService
     ) {
         this.splashScreen.show();
         this.platform.ready().then(() => {
@@ -36,9 +37,11 @@ export class AppComponent {
             this.initSwipe();
             this.initListen();
             this.menu.enable(false, 'iwallic-menu');
-            (window as any).isReady = true;
-            this.nav.setRoot(SystemNotifyComponent);
-            this.splashScreen.hide();
+            this.translate.Init().subscribe(() => {
+                (window as any).isReady = true;
+                this.nav.setRoot(SystemNotifyComponent);
+                this.splashScreen.hide();
+            });
         });
     }
 
