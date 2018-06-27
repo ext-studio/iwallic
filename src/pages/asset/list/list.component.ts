@@ -82,8 +82,15 @@ export class AssetListComponent implements OnInit {
     }
 
     public jumpTransfer() {
-        this.navctrl.push(TxTransferComponent);
-        return;
+        if (this.assets.find((e) => e.balance > 0)) {
+            this.navctrl.push(TxTransferComponent);
+            return;
+        }
+         this.global.AlertI18N({
+                title: 'ALERT_TITLE_TIP',
+                content: 'ALERT_CONTENT_NOBALANCE',
+                no: 'ALERT_NO_CANCEL'
+            }).subscribe();
     }
 
     public addAsset() {
