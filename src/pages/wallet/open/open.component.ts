@@ -78,6 +78,13 @@ export class WalletOpenComponent implements OnInit {
             this.navCtrl.setRoot(AssetListComponent);
         }, (err) => {
             switch (err) {
+                case 99994:
+                this.global.AlertI18N({
+                    title: 'ALERT_TITLE_CAUTION',
+                    content: 'ALERT_CONTENT_IMPORTNEP6',
+                    ok: 'ALERT_OK_SURE'
+                }).subscribe();
+                return;
                 case 99986:
                 this.tryOTCWallet(json);
                 return;

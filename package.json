@@ -36,7 +36,7 @@
     "@ionic-native/http": "^4.7.0",
     "@ionic-native/in-app-browser": "^4.7.0",
     "@ionic-native/network": "^4.7.0",
-    "@ionic-native/qr-scanner": "^4.7.0",
+    "@ionic-native/qr-scanner": "^4.8.0",
     "@ionic-native/splash-screen": "4.7.0",
     "@ionic-native/sqlite": "^4.7.0",
     "@ionic-native/status-bar": "4.7.0",
