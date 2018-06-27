@@ -126,8 +126,8 @@ export class HttpService {
                 } else {
                     throw 99998;
                 }
-            }).catch(() => {
-                return Observable.throw(99998);
+            }).catch((err) => {
+                return Observable.throw(err);
             }));
         } else {
             return this.ng.post(url, data);
@@ -165,8 +165,8 @@ export class HttpService {
                 } else {
                     throw 99998;
                 }
-            }).catch(() => {
-                return Observable.throw(99998);
+            }).catch((err) => {
+                return Observable.throw(err);
             }));
         } else {
             return this.ng.get(url);
