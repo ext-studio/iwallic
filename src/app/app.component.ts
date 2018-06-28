@@ -4,13 +4,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { WalletService } from '../neo';
 import {
     AssetDetailComponent, AssetListComponent,
-    SystemAboutComponent, SystemHelperComponent, SystemSettingComponent,
-    WalletBackupComponent, WalletOpenComponent, WalletGateComponent, WalletVerifyComponent,
+    SystemAboutComponent, SystemHelperComponent, SystemSettingComponent, SystemNotifyComponent,
+    WalletBackupComponent, WalletGateComponent,
     TxDetailComponent, TxListComponent, TxTransferComponent
 } from '../pages';
 import {
     BlockState, BalanceState, TransactionState,
-    ConfigService, GlobalService, TranslateService
+    GlobalService, TranslateService
 } from '../core';
 
 @Component({
@@ -18,12 +18,6 @@ import {
 })
 export class AppComponent {
     @ViewChild(Nav) public nav: Nav;
-    public BackupPage = WalletBackupComponent;
-    public ImportPage = WalletOpenComponent;
-    public TransactionPage = TxListComponent;
-    public SettingPage = SystemSettingComponent;
-    public HelperPage = SystemHelperComponent;
-    public AboutPage = SystemAboutComponent;
     private leaving: boolean = false;
 
     constructor(
@@ -32,31 +26,51 @@ export class AppComponent {
         private global: GlobalService,
         private wallet: WalletService,
         private menu: MenuController,
-        private translate: TranslateService,
         private block: BlockState,
         private balance: BalanceState,
         private transaction: TransactionState,
-        private config: ConfigService
+        private translate: TranslateService
     ) {
-        this.initializeApp();
-    }
-
-    private initializeApp() {
         this.splashScreen.show();
         this.platform.ready().then(() => {
-            this.splashScreen.show();
-            this.initSwipe();
-            this.initConfig();
             this.initBackBtn();
+            this.initSwipe();
+            this.initListen();
+            this.menu.enable(false, 'iwallic-menu');
+            this.translate.Init().subscribe(() => {
+                (window as any).isReady = true;
+                this.nav.setRoot(SystemNotifyComponent);
+                this.splashScreen.hide();
+            });
         });
     }
 
     public pushPage(page: any) {
+        let toPage;
+        switch (page) {
+            case 'wallet-backup':
+            toPage = WalletBackupComponent;
+            break;
+            case 'tx-list':
+            toPage = TxListComponent;
+            break;
+            case 'system-setting':
+            toPage = SystemSettingComponent;
+            break;
+            case 'system-helper':
+            toPage = SystemHelperComponent;
+            break;
+            case 'system-about':
+            toPage = SystemAboutComponent;
+            break;
+            default:
+            return;
+        }
         if (this.nav.getActive().component === AssetListComponent) {
-            this.nav.push(page);
+            this.nav.push(toPage);
         } else {
             this.nav.pop({ animate: false });
-            this.nav.push(page, null, { animate: true });
+            this.nav.push(toPage, null, { animate: true });
         }
         this.menu.close();
     }
@@ -86,9 +100,6 @@ export class AppComponent {
                 return;
             }
             switch (curr.component) {
-                // case TxReceiptComponent:
-                // case TxSuccessComponent:
-                // case AssetAttachComponent:
                 case SystemSettingComponent:
                 case TxListComponent:
                 case AssetDetailComponent:
@@ -125,51 +136,6 @@ export class AppComponent {
                 });
             }
         });
-    }
-
-    private initConfig() {
-        this.translate.Init();
-        this.config.Init().subscribe((res) => {
-            if (res !== 99997) {
-                this.initListen();
-                this.versionCheck();
-            }
-            this.wallet.Get().subscribe(() => {
-                (window as any).isReady = true;
-                this.splashScreen.hide();
-                this.menu.enable(true, 'iwallic-menu');
-                this.nav.setRoot(AssetListComponent);
-            }, (err) => {
-                console.log(err);
-                (window as any).isReady = true;
-                this.splashScreen.hide();
-                this.menu.enable(false, 'iwallic-menu');
-                if (err === 'need_verify') {
-                    this.nav.setRoot(WalletVerifyComponent);
-                } else {
-                    this.nav.setRoot(WalletGateComponent);
-                }
-            });
-        });
-    }
-
-    private versionCheck() {
-        this.config.version().subscribe((version: any) => {
-            if (version.curr !== version.latest) {
-                this.global.AlertI18N({
-                    title: 'ALERT_TITLE_TIP',
-                    content: 'ALERT_CONTENT_NEWVERSION',
-                    ok: 'ALERT_OK_UPDATE',
-                    no: 'ALERT_NO_CANCEL'
-                }).subscribe((confirm) => {
-                    if (confirm) {
-                        this.global.browser(version.url, 'INAPP');
-                    }
-                });
-            } else {
-                console.log('no need');
-            }
-        }, (err) => console.log(err));
     }
 
     private initSwipe() {

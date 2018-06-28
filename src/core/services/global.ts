@@ -49,10 +49,7 @@ export class GlobalService {
         private clipboard: Clipboard
     ) {}
     public get apiDomain(): string {
-        return this.config.net('api');
-    }
-    public get rpcDomain(): string {
-        return this.config.net('rpc');
+        return this.config.apiDomain();
     }
     /**
      * Internal Alert by given type

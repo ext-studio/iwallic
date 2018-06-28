@@ -1,0 +1,4 @@
+<ion-content>
+    <img src="{{localConfig?.system?.welcomeimg ? localConfig?.system?.welcomeimg[lang] : 'assets/app/logo.png'}}" onerror="this.src='assets/app/logo.png'" alt="" class="cover" />
+    <button class="skip" [color]="'dark' | theme | async" ion-button (click)="skip()">{{'SYSTEM_NOTIFY_SKIP' | translate}}</button>
+</ion-content>

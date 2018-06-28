@@ -88,7 +88,7 @@ export class BalanceState {
     public getAssetChooseList(result: any[]): Observable <any> {
         return new Observable<any>((observer) => {
             this.storage.get('MainAssetList').then((res) => {
-                if (res && `${this.config.current}` === 'main') {
+                if (res && `${this.config.currentNet}` === 'main') {
                     for (const i of res) {
                         if (i.choose) {
                             if (result.findIndex((e) => e.assetId === i.assetId) < 0) {
@@ -113,6 +113,7 @@ export class BalanceState {
         });
     }
     public clear() {
+        this.unconfirmedClaim = undefined;
         this.address = undefined;
         this._balance = undefined;
     }

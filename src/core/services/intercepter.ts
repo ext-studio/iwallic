@@ -12,10 +12,15 @@ export class HttpInterceptor implements NgHttpInterceptor {
         private config: ConfigService
     ) {}
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let prepare = Observable.of<any>(true);
         if (!this.config.online && req.url.indexOf('api.iwallic.com') > -1 && req.body.method !== 'fetchIwallicConfig') {
-            throw 99997;
+            if (navigator.onLine) {
+                prepare = this.config.Init();
+            } else {
+                return Observable.throw(99997);
+            }
         }
-        return next.handle(req).map((event) => {
+        return prepare.switchMap(() => next.handle(req).map((event) => {
             if (req.url.indexOf('api.iwallic.com') < 0) {
                 return event;
             }
@@ -31,6 +36,6 @@ export class HttpInterceptor implements NgHttpInterceptor {
                 }
             }
             return event;
-        });
+        }));
     }
 }

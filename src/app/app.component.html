@@ -6,27 +6,23 @@
     </ion-header>
     <ion-content ibg="default2" icolor="font">
         <ion-list class="menu-list">
-            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(BackupPage)">
+            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage('wallet-backup')">
                 <img isrc="assets/app/backup.png" />
                 {{'APP_MENU_BACKUP' | translate}}
             </button>
-            <!-- <button  iborder="line" icolor="font"  [color]="'default' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(ImportPage)">
-                <img src="assets/app/comon_nav_icon_Import@2x.png" />
-                {{'APP_MENU_IMPORT' | translate}}
-            </button> -->
-            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(TransactionPage)">
+            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage('tx-list')">
                 <img isrc="assets/app/transaction.png" />
                 {{'APP_MENU_TRANSACTION' | translate}}
             </button>
-            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(SettingPage)">
+            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage('system-setting')">
                 <img isrc="assets/app/setting.png" />
                 {{'APP_MENU_SETTING' | translate}}
             </button>
-            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(HelperPage)">
+            <button iborder="default2" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage('system-helper')">
                 <img isrc="assets/app/helpers.png" />
                 {{'APP_MENU_HELPER' | translate}}
             </button>
-            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage(AboutPage)">
+            <button iborder="line" icolor="font" [color]="'default2' | theme | async" class="sidemenu-item" ion-item (click)="pushPage('system-about')">
                 <img isrc="assets/app/about.png" />
                 {{'APP_MENU_ABOUT' | translate}}
             </button>

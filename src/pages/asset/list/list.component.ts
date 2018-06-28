@@ -36,7 +36,7 @@ export class AssetListComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
-        this.selectedNet = this.config.current;
+        this.selectedNet = this.config.currentNet;
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
@@ -55,7 +55,7 @@ export class AssetListComponent implements OnInit {
         this.config.$net().subscribe((online) => {
             if (!this.online && online) {
                 this.online = online;
-                this.selectedNet = this.config.current;
+                this.selectedNet = this.config.currentNet;
             } else {
                 this.online = online;
             }
@@ -82,8 +82,15 @@ export class AssetListComponent implements OnInit {
     }
 
     public jumpTransfer() {
-        this.navctrl.push(TxTransferComponent);
-        return;
+        if (this.assets.find((e) => e.balance > 0)) {
+            this.navctrl.push(TxTransferComponent);
+            return;
+        }
+         this.global.AlertI18N({
+                title: 'ALERT_TITLE_TIP',
+                content: 'ALERT_CONTENT_NOBALANCE',
+                no: 'ALERT_NO_CANCEL'
+            }).subscribe();
     }
 
     public addAsset() {

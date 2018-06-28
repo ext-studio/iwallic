@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TranslateService, ThemeService, ConfigService, BlockState } from '../../../core';
+import { TranslateService, ThemeService, ConfigService, BalanceState, BlockState } from '../../../core';
 import { NavController, Select } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -12,7 +12,7 @@ import { Platform } from 'ionic-angular';
 export class SystemSettingComponent implements OnInit {
     private oldLang: string = 'sys';
     public lang = 'sys';
-    public selectedNet: 'main' | 'test' | 'priv' = this.config.current;
+    public selectedNet: 'main' | 'test' | 'priv' = this.config.currentNet;
     public selectedTheme: String = this.themeService.default;
     @ViewChild(Select) public select: Select;
     constructor(
@@ -20,9 +20,10 @@ export class SystemSettingComponent implements OnInit {
         private nav: NavController,
         private themeService: ThemeService,
         private config: ConfigService,
-        private block: BlockState,
         private statusBar: StatusBar,
-        private platform: Platform
+        private platform: Platform,
+        private block: BlockState,
+        private balance: BalanceState
     ) {
         this.themeService.get().subscribe(val => this.selectedTheme = val);
     }
@@ -31,7 +32,7 @@ export class SystemSettingComponent implements OnInit {
         this.translate.Current().subscribe((res) => {
             this.oldLang = this.lang = res;
         });
-        this.selectedNet = this.config.current;
+        this.selectedNet = this.config.currentNet;
     }
     public langChange() {
         if (this.oldLang !== this.lang) {
@@ -55,7 +56,8 @@ export class SystemSettingComponent implements OnInit {
         }
     }
     public toggleAppNet() {
-        this.config.switch(this.selectedNet);
+        this.config.NetSwitch(this.selectedNet);
+        this.balance.unconfirmedClaim = undefined;
         this.block.fetch(true);
         setTimeout(() => {
             this.nav.setRoot(AssetListComponent);

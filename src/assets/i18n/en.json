@@ -18,6 +18,7 @@
   "ALERT_TITLE_TIP": "Tip",
   "ALERT_TITLE_CAUTION": "Caution",
   "ALERT_TITLE_WARN": "Warning",
+  "ALERT_TITLE_UPGRADE": "New version ready",
   "ALERT_CONTENT_INVALIDWIF": "This WIF is invalid.",
   "ALERT_CONTENT_WRONGPWD": "Password is wrong.",
   "ALERT_CONTENT_REQUESTFAILED": "Request failed.",
@@ -35,7 +36,7 @@
   "ALERT_TITLE_ADDRESSERROR": "Address Error",
   "ALERT_TITLE_WIFERROR": "WIF Error",
   "ALERT_CONTENT_NEWVERSION": "New version is available, update now?",
-  "ALERT_CONTENT_ClAIMESUCCESS": "Success",
+  "ALERT_CONTENT_ClAIMESUCCESS": "Claim emitted, Please wait for confirmation.",
   "ALERT_OK_UPDATE": "Update",
   "ALERT_OK_SURE": "Sure",
   "ALERT_COPY_TITLE": "Copy Manually",
@@ -154,5 +155,6 @@
   "SYSTEM_HELPER_TRANSACTION": "Transaction guide",
   "SYSTEM_HELPER_COMMUNITY": "Community",
   "SYSTEM_HELPER_CONTACT": "Contact",
-  "SYSTEM_HELPER_BROWSER": "Blockchain browser"
+  "SYSTEM_HELPER_BROWSER": "Blockchain browser",
+  "SYSTEM_NOTIFY_SKIP": "Skip"
 }

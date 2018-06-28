@@ -14,6 +14,7 @@ transaction-receipt {
     }
     ion-content {
         // background: linear-gradient(#42bfee, #3f76de);
+        text-align: center;
         background: linear-gradient(#2ec1e4, #355eaa);
         .address-bg {
             height: 434px;
@@ -44,6 +45,17 @@ transaction-receipt {
                 min-width: 150px;
                 transform: translateX(-50%);
             }
+        }
+        .bottom-log-box {
+            img {
+                width: 74px;
+                height: 13px;;
+            }
+            width: calc(100% - 32px);
+            position: absolute;
+            bottom: 25px;
+            z-index: -1;
+            text-align: center;
         }
     }
 }
