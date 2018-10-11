@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { GlobalService, HttpService } from '../../core';
 import { Transaction, UTXO } from '../models/transaction';
 import { WALLET, HEX, SmartContract } from '../utils';
@@ -50,28 +51,28 @@ export class TransactionService {
                     SmartContract.amount(amount)
                 ]
             ), WALLET.addr2hash(from));
-            return this.signNSendTX(newTX, wif, remark).map((rs) => {
+            return this.signNSendTX(newTX, wif, remark).pipe(map((rs) => {
                 return {txid: newTX.hash, value: amount};
-            });
+            }));
         }
         return this.getUTXO(from, asset)
-            .switchMap((utxos) => {
-                newTX = Transaction.forContract(utxos, from, to, amount, asset);
-                return this.signNSendTX(newTX, wif);
-            }).map(() => {
-                for (let i = 0; i < newTX.vout.length; i++) {
-                    this.unconfirmedUTXO.push({
-                        hash: newTX.hash,
-                        value: newTX.vout[i].value,
-                        index: i,
-                        asset: newTX.vout[i].asset
-                    });
-                }
-                for (const tx of newTX.vin) {
-                    this.usedUTXO.push({hash: tx.prevHash, index: tx.prevIndex, asset: asset, value: 0});
-                }
-                return {txid: newTX.hash, value: amount};
-            });
+        .pipe(switchMap((utxos) => {
+            newTX = Transaction.forContract(utxos, from, to, amount, asset);
+            return this.signNSendTX(newTX, wif);
+        }), map(() => {
+            for (let i = 0; i < newTX.vout.length; i++) {
+                this.unconfirmedUTXO.push({
+                    hash: newTX.hash,
+                    value: newTX.vout[i].value,
+                    index: i,
+                    asset: newTX.vout[i].asset
+                });
+            }
+            for (const tx of newTX.vin) {
+                this.usedUTXO.push({hash: tx.prevHash, index: tx.prevIndex, asset: asset, value: 0});
+            }
+            return {txid: newTX.hash, value: amount};
+        }));
     }
 
     /**
@@ -80,7 +81,7 @@ export class TransactionService {
      */
     public ClaimGAS(claim: any, wif: string): Observable<any> {
         const tx = Transaction.forClaim(claim.claims, claim.unSpentClaim, claim.address);
-        return this.signNSendTX(tx, wif).map(() => {
+        return this.signNSendTX(tx, wif).pipe(map(() => {
             this.unconfirmedUTXO.push({
                 hash: tx.hash,
                 value: tx.vout[0].value,
@@ -88,7 +89,7 @@ export class TransactionService {
                 asset: tx.vout[0].asset
             });
             return {txid: tx.hash, value: claim.unSpentClaim};
-        });
+        }));
     }
 
     /**
@@ -98,16 +99,10 @@ export class TransactionService {
         if (asset.length === 64) {
             asset = '0x' + asset;
         }
-        return this.http.post(
-            `${this.global.apiDomain}/api/iwallic`,
-            {
-                method: 'getutxoes',
-                params: [addr, asset]
-            }
-        ).map((res: any) => {
+        return this.http.postGo('getutxoes', [addr, asset]).pipe(map((res: any) => {
             res = res || [];
             return (res as any[]).map((tx) => new UTXO(tx));
-        }).map((utxos: UTXO[]) => {
+        }), map((utxos: UTXO[]) => {
             for (let i = 0; i < this.usedUTXO.length; i++) {
                 const index = utxos.findIndex((e) => e.hash === this.usedUTXO[i].hash && e.index === this.usedUTXO[i].index);
                 if (index >= 0) {
@@ -123,7 +118,7 @@ export class TransactionService {
                 }
             }
             return utxos;
-        });
+        }));
     }
 
     /**
@@ -137,15 +132,12 @@ export class TransactionService {
         if (remark) {
             tx.addRemark(remark);
         }
-        return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-            method: 'sendv4rawtransaction',
-            params: [tx.serielize(true)],
-        }).map((rs) => {
+        return this.http.post('sendv4rawtransaction', [tx.serielize(true)]).pipe(map((rs) => {
             if (rs === true) {
                 return rs;
             } else {
                 throw rs;
             }
-        });
+        }));
     }
 }

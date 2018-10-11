@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
+import { refCount, publish } from 'rxjs/operators';
 import { HttpService } from '../services/http';
-import { GlobalService } from '../services/global';
-import { ConfigService } from '../services/config';
 
 @Injectable()
 export class BlockState {
@@ -14,9 +12,7 @@ export class BlockState {
     private $listen: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
     constructor(
-        private http: HttpService,
-        private global: GlobalService,
-        private config: ConfigService
+        private http: HttpService
     ) { }
     public listen(): Observable<any> {
         if (!this.interval) {
@@ -29,12 +25,12 @@ export class BlockState {
                 }
             }, 10000);
         }
-        return this.$listen.publish().refCount();
+        return this.$listen.pipe(publish(), refCount());
     }
     public fetch(force: boolean = false): Promise<any> {
         this._loading = true;
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.global.apiDomain}/api/iwallic`, {method: 'getblocktime'}).subscribe((res: any) => {
+            this.http.postGo('getblocktime', []).subscribe((res: any) => {
                 if (
                     res && res.lastBlockIndex && res.time &&
                     this._block !== res.lastBlockIndex
@@ -49,10 +45,6 @@ export class BlockState {
                 }
                 resolve();
             }, (err) => {
-                if (!this.config.online) {
-                    resolve();
-                    return;
-                }
                 this.$error.next(err);
                 this._loading = false;
                 resolve();

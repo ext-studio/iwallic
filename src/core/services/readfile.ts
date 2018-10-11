@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Observer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import 'rxjs/add/operator/publish';
 import 'rxjs/operators/refCount';
 import { Platform, AlertController } from 'ionic-angular';
@@ -41,7 +42,7 @@ export class ReadFileService {
                 reader.onload = (event: any) => {
                     if (event.target.readyState === 2) {
                         try {
-                            const rs = JSON.parse(reader.result);
+                            const rs = JSON.parse(reader.result as string);
                             observer.next(rs);
                             observer.complete();
                         } catch (e) {
@@ -57,8 +58,8 @@ export class ReadFileService {
     private byCopy() {
         return this.ngTranslate.get([
             'WALLET_OPEN_COPYTITLE', 'WALLET_OPEN_COPYPH', 'WALLET_OPEN_COPYCANCEL', 'WALLET_OPEN_COPYGO'
-        ]).switchMap((res) => {
-            return new Observable((observer) => {
+        ]).pipe(switchMap((res) => {
+            return new Observable((observer: Observer<any>) => {
                 const alert = this.alert.create({
                     title: res['WALLET_OPEN_COPYTITLE'],
                     inputs: [
@@ -96,6 +97,6 @@ export class ReadFileService {
                 });
                 alert.present();
             });
-        });
+        }));
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService, ConfigService } from '../../../core';
+import { GlobalService, HttpService } from '../../../core';
 
 @Component({
     selector: 'system-about',
@@ -9,11 +9,11 @@ export class SystemAboutComponent implements OnInit {
     public ver: any;
     constructor(
         private global: GlobalService,
-        private config: ConfigService
+        private http: HttpService
     ) { }
 
     public ngOnInit() {
-        this.config.VersionInit().subscribe((res) => {
+        this.http.Version().subscribe((res) => {
             this.ver = res;
         }, () => {});
     }

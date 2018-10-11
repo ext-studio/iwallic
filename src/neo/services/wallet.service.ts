@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
+import { Observable, of } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { GlobalService, HttpService } from '../../core';
 import { Wallet } from '../models/wallet';
@@ -37,16 +34,13 @@ export class WalletService {
         if (w) {
             this.cached = w;
         }
-        return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-            method: 'scryptaddr',
-            params: [this.cached.address, pwd]
-        }).catch(() => SCRYPT(this.cached.address, pwd))
-        .switchMap((scrypt: string) => this.cached.Verify(scrypt)).map((res) => {
+        return of(SCRYPT(this.cached.address, pwd))
+        .pipe(switchMap((scrypt: string) => this.cached.Verify(scrypt)), map((res) => {
             if (!skipSave) {
                 this.Save(res);
             }
             return res;
-        });
+        }));
     }
     /**
      * import a wallet from WIF or NEP-6 JSON
@@ -54,12 +48,9 @@ export class WalletService {
      * @param type resolve as WIF-key or NEP-6 JSON
      */
     public ImportWIF(wif: string, pwd: string): Observable<any> {
-            const addr = WALLET.wif2addr(wif);
-            return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-                method: 'scryptaddr',
-                params: [addr, pwd]
-            }).catch(() =>  SCRYPT(addr, pwd))
-            .switchMap((scrypt: string) => Wallet.fromWIF(wif, scrypt));
+        const addr = WALLET.wif2addr(wif);
+        return of(SCRYPT(addr, pwd))
+        .pipe(switchMap((scrypt: string) => Wallet.fromWIF(wif, scrypt)));
     }
     /**
      * export wallet as JSON file by name
@@ -76,11 +67,8 @@ export class WalletService {
     public Create(pwd: string = 'iwallic'): Observable<Wallet> {
         const newWif = WALLET.priv2wif(WALLET.generate());
         const addr = WALLET.wif2addr(newWif);
-        return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-            method: 'scryptaddr',
-            params: [addr, pwd]
-        }).catch(() =>  SCRYPT(addr, pwd))
-        .switchMap((scrypt: string) => Wallet.fromWIF(newWif, scrypt));
+        return of(SCRYPT(addr, pwd))
+        .pipe(switchMap((scrypt: string) => Wallet.fromWIF(newWif, scrypt)));
     }
 
     /**
@@ -106,7 +94,7 @@ export class WalletService {
      */
     public Get(pwd?: string): Observable<any> {
         if (this.cached && !pwd) {
-            return Observable.of(this.cached);
+            return of(this.cached);
         }
         return new Observable((observer) => {
             this.storage.get('wallet').catch(() => Promise.resolve()).then((res) => {

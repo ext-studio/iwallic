@@ -7,7 +7,6 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
-import { ConfigService } from './config';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import {
@@ -38,20 +37,17 @@ const options: ThemeableBrowserOptions = {
 export class GlobalService {
     public popups: any[] = [];
     public masks: any[] = [];
+
     constructor(
         private alert: AlertController,
         private loading: LoadingController,
         private ngTranslate: NgTranslateService,
         private toast: ToastController,
         private theme: ThemeService,
-        private config: ConfigService,
         private iab: InAppBrowser,
         private themeableBrowser: ThemeableBrowser,
         private clipboard: Clipboard
     ) {}
-    public get apiDomain(): string {
-        return this.config.apiDomain();
-    }
     /**
      * Internal Alert by given type
      * leave empty to unknown error

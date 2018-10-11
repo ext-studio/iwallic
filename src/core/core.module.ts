@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from 'ionic-angular';
-import { HTTP } from '@ionic-native/http';
+import { HTTP } from '@ionic-native/http/ngx';
 
 import { GlobalService } from './services/global';
 import { PopupInputService } from './services/popup-input';
@@ -14,8 +14,6 @@ import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
 import { ThemeService } from './services/theme';
 import { HttpService } from './services/http';
-import { ConfigService } from './services/config';
-import { HttpInterceptor } from './services/intercepter';
 
 import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
@@ -54,12 +52,8 @@ import {
         GlobalService, PopupInputService, ScannerService,
         ReadFileService, TranslateService,
         BlockState, BalanceState, TransactionState,
-        ThemeService, ConfigService,
-        HTTP, HttpService, {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpInterceptor,
-            multi: true
-        }
+        ThemeService,
+        HTTP, HttpService
     ]
 })
 export class CoreModule { }

@@ -1,7 +1,8 @@
 import { TranslateService as NgTranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class TranslateService {
@@ -47,10 +48,10 @@ export class TranslateService {
 
     public Init() {
         this.translate.setDefaultLang('en');
-        return this.Current().map((lang) => {
+        return this.Current().pipe(map((lang: string) => {
             this.switchLang(lang);
             return lang;
-        }).catch(() => {
+        }), catchError(() => {
             let lang = 'sys';
             const sysLang = window.navigator.language.toLocaleLowerCase();
             switch (sysLang) {
@@ -64,8 +65,8 @@ export class TranslateService {
                 break;
             }
             this.switchLang(lang);
-            return Observable.of(lang);
-        });
+            return of(lang);
+        }));
     }
 
     private switchLang(lang: string) {

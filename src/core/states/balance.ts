@@ -1,10 +1,9 @@
 import { Injectable, } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subject } from 'rxjs';
+import { refCount, publish, startWith, switchMap } from 'rxjs/operators';
 import { GlobalService } from '../services/global';
 import { HttpService } from '../services/http';
 import { Storage } from '@ionic/storage';
-import { ConfigService } from '../services/config';
 import 'rxjs/add/operator/startWith';
 
 /**
@@ -25,8 +24,7 @@ export class BalanceState {
     constructor(
         private global: GlobalService,
         private http: HttpService,
-        private storage: Storage,
-        private config: ConfigService
+        private storage: Storage
     ) { }
     public get(address?: string): Observable<any> {
         if (address && this.address !== address) {
@@ -36,12 +34,12 @@ export class BalanceState {
             this.fetch(address || this.address);
         }
         if (this._balance) {
-            return this.$balance.publish().refCount().startWith(this._balance);
+            return this.$balance.pipe(publish(), refCount(), startWith(this._balance));
         }
-        return this.$balance.publish().refCount();
+        return this.$balance.pipe(publish(), refCount());
     }
     public error(): Observable<any> {
-        return this.$error.publish().refCount();
+        return this.$error.pipe(publish(), refCount());
     }
     public fetch(address?: string): Promise<any> {
         return new Promise((resolve, reject) => {
@@ -52,20 +50,13 @@ export class BalanceState {
                 return;
             }
             this._loading = true;
-            this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-                method: 'getaddrassets',
-                params: [this.address, 1]
-            }).switchMap((res: any) =>  this.getAssetChooseList(res)).subscribe((res: any) => {
+            this.http.postGo('getaddrassets', [this.address, 1]).pipe(switchMap((res: any) =>  this.getAssetChooseList(res))).subscribe((res: any) => {
                 this._loading = false;
                 this._balance = res || [];
                 this.$balance.next(this._balance);
                 resolve();
             }, (err) => {
                 this._loading = false;
-                if (!this.config.online) {
-                    resolve();
-                    return;
-                }
                 this.$error.next(err);
                 resolve();
             });
@@ -75,10 +66,7 @@ export class BalanceState {
         if (this._loading || !this.address) {
             return;
         }
-        this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-            method: 'getaddrassets',
-            params: [this.address, 1]
-        }).switchMap((res: any) => this.getAssetChooseList(res)).subscribe((res: any) => {
+        this.http.postGo('getaddrassets', [this.address, 1]).pipe(switchMap((res: any) => this.getAssetChooseList(res))).subscribe((res: any) => {
             this._balance = res || [];
             this.$balance.next(this._balance);
         }, (err) => {
@@ -88,7 +76,7 @@ export class BalanceState {
     public getAssetChooseList(result: any[]): Observable <any> {
         return new Observable<any>((observer) => {
             this.storage.get('MainAssetList').then((res) => {
-                if (res && `${this.config.currentNet}` === 'main') {
+                if (res && `${this.http.neoNet}` === 'main') {
                     for (const i of res) {
                         if (i.choose) {
                             if (result.findIndex((e) => e.assetId === i.assetId) < 0) {

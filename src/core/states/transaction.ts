@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject, Observable, of } from 'rxjs';
 import { GlobalService } from '../services/global';
-import { ConfigService } from '../services/config';
 import { HttpService } from '../services/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/throw';
+import { refCount, publish, startWith, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class TransactionState {
@@ -35,8 +32,7 @@ export class TransactionState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private global: GlobalService,
-        private http: HttpService,
-        private config: ConfigService
+        private http: HttpService
     ) { }
     public get(address: string, asset: string = null): Observable<any> {
         this.asset = asset;
@@ -48,12 +44,12 @@ export class TransactionState {
             this.fetch(false, address);
         }
         if (this._transaction) {
-            return this.$transaction.publish().refCount().startWith(this._transaction);
+            return this.$transaction.pipe(publish(), refCount(), startWith(this._transaction));
         }
-        return this.$transaction.publish().refCount();
+        return this.$transaction.pipe(publish(), refCount());
     }
     public error(): Observable<any> {
-        return this.$error.publish().refCount();
+        return this.$error.pipe(publish(), refCount());
     }
     // try fetch more (not broken pagination)
     public fetch(isNext: boolean = false, address?: string): Promise<any> {
@@ -73,7 +69,7 @@ export class TransactionState {
             // get tx of all assets
             this.request(
                 isNext ? this.page + 1 : 1, this.pageSize, this.address, this.asset
-            ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+            ).pipe(switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
                 const newCount = rs.total - this._total;
                 // get older tx
                 if (isNext) {
@@ -82,7 +78,7 @@ export class TransactionState {
                         return Observable.throw(99995);
                     } else if (newCount === 0) {
                         // no new tx
-                        return Observable.of(rs);
+                        return of(rs);
                     } else {
                         // has new tx, count real current page
                         this._page = Math.floor(rs.total / rs.pageSize) + 1;
@@ -99,13 +95,13 @@ export class TransactionState {
                     }
                     if (this._total === 0 || newCount <= this._pageSize) {
                         // new tx less than page size
-                        return Observable.of(rs);
+                        return of(rs);
                     } else {
                         // new tx over page size, need fetching those unfetched
                         return this.request(1, newCount, this.address, this.asset);
                     }
                 }
-            }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+            })).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
                 this.mergeTx(rs, isNext);
                 this._loading = false;
                 this.$transaction.next(this._transaction);
@@ -114,10 +110,6 @@ export class TransactionState {
                 console.log(err);
                 this._loading = false;
                 if (err !== 99995) {
-                    if (!this.config.online) {
-                        resolve();
-                        return;
-                    }
                     this.$error.next(err);
                 }
                 resolve();
@@ -130,7 +122,7 @@ export class TransactionState {
         }
         this.request(
             1, this.pageSize, this.address, this.asset
-        ).switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+        ).pipe(switchMap((rs: { data: any[], page: number, pageSize: number, total: number }) => {
             const newCount = rs.total - this._total;
             if (newCount <= 0) {
                 // less tx
@@ -138,12 +130,12 @@ export class TransactionState {
             }
             if (this._total === 0 || newCount <= this._pageSize) {
                 // new tx less than page size
-                return Observable.of(rs);
+                return of(rs);
             } else {
                 // new tx over page size, need fetching those unfetched
                 return this.request(1, newCount, this.address, this.asset);
             }
-        }).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
+        })).subscribe((rs: { data: any[], page: number, pageSize: number, total: number }) => {
             this.mergeTx(rs);
             this.$transaction.next(this._transaction);
         }, (err) => {
@@ -159,15 +151,9 @@ export class TransactionState {
     }
     private request(page: number, pageSize: number, address: string, asset: string): Observable<any> {
         if (asset) {
-            return this.http.post(this.global.apiDomain + '/api/iwallic', {
-                method: 'getassettxes',
-                params: [page, pageSize, address, asset]
-            });
+            return this.http.postGo('getassettxes', [page, pageSize, address, asset]);
         }
-        return this.http.post(this.global.apiDomain + '/api/iwallic', {
-            method: 'getaccounttxes',
-            params: [page, pageSize, address]
-        });
+        return this.http.postGo('getaccounttxes', [page, pageSize, address]);
     }
     // unshift or concact tx
     private mergeTx(rs: { data: any[], page: number, pageSize: number, total: number }, isOlder: boolean = false) {

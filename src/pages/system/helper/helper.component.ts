@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GlobalService, ConfigService } from '../../../core';
+import { GlobalService } from '../../../core';
 
 @Component({
     selector: 'system-helper',
@@ -9,13 +9,11 @@ export class SystemHelperComponent implements OnInit {
     private helpers: any;
     private browsers: any;
     constructor(
-        private global: GlobalService,
-        private config: ConfigService
+        private global: GlobalService
     ) { }
 
     public ngOnInit() {
-        this.helpers = this.config.get().helpers;
-        this.browsers = this.config.get().browser;
+        //
     }
     public wallet() {
         const walletguide = this.helpers && this.helpers.walletguide;

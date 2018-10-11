@@ -8,7 +8,7 @@ import {
     MenuController
 } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, ConfigService, HttpService } from '../../../core';
+import { GlobalService, BalanceState, HttpService } from '../../../core';
 
 @Component({
     selector: 'asset-list',
@@ -30,13 +30,12 @@ export class AssetListComponent implements OnInit {
         private global: GlobalService,
         private navctrl: NavController,
         public balance: BalanceState,
-        private config: ConfigService,
         private tx: TransactionService,
         private menu: MenuController
     ) {}
 
     public ngOnInit() {
-        this.selectedNet = this.config.currentNet;
+        this.selectedNet = this.http.neoNet;
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
@@ -51,14 +50,6 @@ export class AssetListComponent implements OnInit {
         });
         this.balance.error().subscribe((res) => {
             this.global.Error(res).subscribe();
-        });
-        this.config.$net().subscribe((online) => {
-            if (!this.online && online) {
-                this.online = online;
-                this.selectedNet = this.config.currentNet;
-            } else {
-                this.online = online;
-            }
         });
         this.menu.swipeEnable(true, 'iwallic-menu');
     }
@@ -126,10 +117,7 @@ export class AssetListComponent implements OnInit {
 
     private fetchClaim() {
         this.claimLoading = true;
-        this.http.post(`${this.global.apiDomain}/api/iwallic`, {
-            method: 'getclaim',
-            params: [this.wallet.address]
-        }).subscribe((res: any) => {
+        this.http.postGo('getclaim', [this.wallet.address]).subscribe((res: any) => {
             res.unSpentClaim = parseFloat(res.unSpentClaim) || 0;
             this.claim = res;
             this.claimLoading = false;
@@ -143,10 +131,7 @@ export class AssetListComponent implements OnInit {
         if (txid.length === 64) {
             txid = '0x' + txid;
         }
-        this.http.post(`${this.global.apiDomain}/api/transactions`, {
-            method: 'gettxbytxid',
-            params: [txid]
-        }).subscribe(() => {
+        this.http.post('gettxbytxid', [txid]).subscribe(() => {
             this.balance.unconfirmedClaim = undefined;
             this.fetchClaim();
         }, (err) => {

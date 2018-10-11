@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject, Observable } from 'rxjs';
+import { publish, refCount, startWith } from 'rxjs/operators';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ThemeService {
@@ -35,9 +35,9 @@ export class ThemeService {
     }
     public get(): Observable<any> {
         if (this._theme) {
-            return this.$theme.publish().refCount().startWith(this._theme);
+            return this.$theme.pipe(publish(), refCount(), startWith(this._theme));
         }
-        return this.$theme.publish().refCount();
+        return this.$theme.pipe(publish(), refCount());
     }
 
     public set(theme: string) {

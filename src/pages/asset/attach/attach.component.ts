@@ -47,10 +47,7 @@ export class AssetAttachComponent implements OnInit {
     }
 
     public getAssetList() {
-        this.http.post(this.global.apiDomain + '/api/iwallic', {
-            method: 'getaddrassets',
-            params: [this.address, 0]
-        }).subscribe((res: any) => {
+        this.http.postGo('getaddrassets', [this.address, 0]).subscribe((res: any) => {
             this.assetList = res;
             for (let i = 0; i < this.assetList.length; i++) {
                 const token = this.assetList[i].assetId;

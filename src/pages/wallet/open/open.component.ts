@@ -3,8 +3,8 @@ import { GlobalService, PopupInputService, ReadFileService, ScannerService } fro
 import { WalletService, Wallet } from '../../../neo';
 import { NavController, MenuController, Platform } from 'ionic-angular';
 import { AssetListComponent } from '../../asset/list/list.component';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 @Component({
     selector: 'wallet-open',
@@ -55,24 +55,23 @@ export class WalletOpenComponent implements OnInit {
             return;
         }
         let json;
-        this.file.read().switchMap((res) => {
+        this.file.read().pipe(switchMap((res) => {
             json = res;
             const w = new Wallet(json);
             if (w.wif) {
-                return Observable.of(w);
+                return of(w);
             }
-            return this.input.open(this.navCtrl)
-            .switchMap((pwd) => pwd ?
-            this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
-                return this.wallet.Verify(pwd, w).map((r) => {
+            return this.input.open(this.navCtrl).pipe(switchMap((pwd) => pwd ?
+            this.global.LoadI18N('LOADING_VERIFY').pipe(switchMap((load) => {
+                return this.wallet.Verify(pwd, w).pipe(map((r) => {
                     load.dismiss();
                     return w;
-                }).catch((e) => {
+                }), catchError((e) => {
                     load.dismiss();
                     return Observable.throw(e);
-                });
-            }) : Observable.throw(99980));
-        }).subscribe((res) => {
+                }));
+            })) : Observable.throw(99980)));
+        })).subscribe((res) => {
             this.menu.enable(true, 'iwallic-menu');
             this.wallet.SaveBackup(res);
             this.navCtrl.setRoot(AssetListComponent);
@@ -126,17 +125,16 @@ export class WalletOpenComponent implements OnInit {
             }).subscribe();
             return;
         }
-        return this.input.open(this.navCtrl)
-        .switchMap((pwd) => pwd ?
-        this.global.LoadI18N('LOADING_VERIFY').switchMap((load) => {
-            return this.wallet.verifyNep2(privateKeyEncrypted, publicKey, pwd).map((res) => {
+        return this.input.open(this.navCtrl).pipe(switchMap((pwd) => pwd ?
+        this.global.LoadI18N('LOADING_VERIFY').pipe(switchMap((load) => {
+            return this.wallet.verifyNep2(privateKeyEncrypted, publicKey, pwd).pipe(map((res) => {
                 load.dismiss();
                 return {wif: res, pwd};
-            }).catch((err) => {
+            }), catchError((err) => {
                 load.dismiss();
                 throw err;
-            });
-        }) : Observable.throw(99980)).subscribe((res: any) => {
+            }));
+        })) : Observable.throw(99980))).subscribe((res: any) => {
             this.pwd = res.pwd;
             this.rePwd = res.pwd;
             this.wif = res.wif;

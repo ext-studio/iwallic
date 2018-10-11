@@ -5,7 +5,7 @@ import {
 } from 'ionic-angular';
 import { TxReceiptComponent, TxTransferComponent } from '../../../pages';
 import { WalletService } from '../../../neo';
-import { TransactionState, BalanceState, GlobalService, ConfigService } from '../../../core';
+import { TransactionState, BalanceState, GlobalService } from '../../../core';
 
 @Component({
     selector: 'asset-detail',
@@ -26,8 +26,7 @@ export class AssetDetailComponent implements OnInit {
         private wallet: WalletService,
         private transcation: TransactionState,
         private balanceState: BalanceState,
-        private global: GlobalService,
-        private config: ConfigService
+        private global: GlobalService
     ) {}
     public ngOnInit() {
         this.token = this.navParams.get('token');
@@ -81,8 +80,6 @@ export class AssetDetailComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.config.currentNet === 'main' && this.config.online) {
-            this.global.browser(this.config.get().browser.tx + txid, 'THEMEABLE');
-        }
+        // this.global.browser(this.config.get().browser.tx + txid, 'THEMEABLE');
     }
 }

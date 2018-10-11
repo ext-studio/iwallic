@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WalletService } from '../../../neo';
 import { GlobalService } from '../../../core';
-import { AlertController } from 'ionic-angular';
 
 @Component({
     selector: 'transaction-receipt',
@@ -12,8 +11,7 @@ export class TxReceiptComponent implements OnInit {
     public copied: boolean;
     constructor(
         private wallet: WalletService,
-        private global: GlobalService,
-        private alert: AlertController,
+        private global: GlobalService
     ) { }
     public ngOnInit() {
         this.wallet.Get().subscribe((res) => {

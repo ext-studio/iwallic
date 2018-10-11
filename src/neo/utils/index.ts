@@ -9,7 +9,7 @@ import bs58check from 'bs58check';
 import { u, wallet, sc } from '@cityofzion/neon-js';
 import { Buffer } from 'buffer';
 import Scrypt from 'scrypt-js';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export const ASSET = {
     NEO: 'c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b',

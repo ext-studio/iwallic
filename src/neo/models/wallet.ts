@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { NEP2, WALLET } from '../utils';
 
 export class Contract {
@@ -122,16 +123,16 @@ export class Wallet {
         }
     }
     public static fromWIF(wif: string, scrypt: string): Observable<Wallet> {
-        return Account.fromWIF(wif, scrypt).map((acc) => {
+        return Account.fromWIF(wif, scrypt).pipe(map((acc) => {
             const wal = new Wallet({accounts: [acc]});
             wal.verified = true;
             return wal;
-        });
+        }));
     }
     public Verify(scrypt: string): Observable<any> {
-        return this.account.Verify(scrypt).map((res) => {
+        return this.account.Verify(scrypt).pipe(map((res) => {
             this.verified = true;
             return res;
-        });
+        }));
     }
 }

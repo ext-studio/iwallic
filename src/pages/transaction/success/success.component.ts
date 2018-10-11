@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Nav } from 'ionic-angular';
+
 @Component({
     selector: 'success',
     templateUrl: 'success.component.html',

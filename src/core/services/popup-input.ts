@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PopupInputComponent } from '../directives/popup-input/popup-input.component';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { NavController } from 'ionic-angular';
 
 @Injectable()
