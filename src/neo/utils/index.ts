@@ -51,7 +51,7 @@ export const HEX = {
 
 export function SCRYPT(addr, pwd) {
     return new Observable((observer) => {
-        const addressHash = SHA256(SHA256(latin1Encoding.parse(addr)).toString()).toString().slice(0, 8);
+        const addressHash = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
         Scrypt(Buffer.from(pwd.normalize('NFC'), 'utf8'), Buffer.from(addressHash, 'hex'), 16384, 8, 8, 64, (a, b, c) => {
             if (c) {
                 observer.next(Buffer.from(c).toString('hex'));
@@ -110,7 +110,7 @@ export const WALLET = {
 
 export const NEP2 = {
     encode: (addr: string, wif: string, scrypt: string) => {
-        const addressHash = SHA256(SHA256(latin1Encoding.parse(addr)).toString()).toString().slice(0, 8);
+        const addressHash = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
         const derived1 = scrypt.slice(0, 64);
         const derived2 = scrypt.slice(64);
         const xor = HEX.xor(WALLET.wif2priv(wif), derived1);
@@ -129,12 +129,12 @@ export const NEP2 = {
         const encrypted = assembled.substr(-64);
         const derived1 = scrypt.slice(0, 64);
         const derived2 = scrypt.slice(64);
-        const ciphertext = { ciphertext: hexEncoding.parse(encrypted), salt: '', iv: null };
+        const ciphertext = { ciphertext: hexEncoding.parse(encrypted), salt: '' };
         const decrypted = CAES.decrypt(ciphertext, hexEncoding.parse(derived2), { mode: ECBMode, padding: NoPadding });
         const privateKey = u.hexXor(decrypted.toString(), derived1);
         const wif = WALLET.priv2wif(privateKey);
         const addr = WALLET.wif2addr(wif);
-        const gotAH = SHA256(SHA256(latin1Encoding.parse(addr)) as any).toString().slice(0, 8);
+        const gotAH = SHA256(SHA256(latin1Encoding.parse(addr))).toString().slice(0, 8);
         if (addressHash === gotAH) {
             return wif;
         } else {

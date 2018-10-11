@@ -137,7 +137,6 @@ export class TransactionService {
         if (remark) {
             tx.addRemark(remark);
         }
-        console.log(tx.serielize(true));
         return this.http.post(`${this.global.apiDomain}/api/iwallic`, {
             method: 'sendv4rawtransaction',
             params: [tx.serielize(true)],

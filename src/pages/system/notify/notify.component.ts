@@ -14,7 +14,7 @@ export class SystemNotifyComponent {
     public localConfig: any;
     public lang: string;
     public canSkip: number = 0;
-    private willSkip: number;
+    private willSkip: any;
     constructor(
         private nav: NavController,
         private menu: MenuController,

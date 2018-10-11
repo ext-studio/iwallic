@@ -1,7 +1,7 @@
 {
-  "name": "iWallic",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
+    "name": "iwallic",
+    "integrations": {
+        "cordova": {}
+    },
+    "type": "angular"
 }
