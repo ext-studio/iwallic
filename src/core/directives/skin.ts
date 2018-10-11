@@ -3,7 +3,7 @@ import {
     ElementRef, Pipe, PipeTransform, ViewChildren
 } from '@angular/core';
 import { ThemeService } from '../services/theme';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 const skin = {
     light: {

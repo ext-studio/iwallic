@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Observable';
-import { Network } from '@ionic-native/network';
+import { Observable, from } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { Network } from '@ionic-native/network/ngx';
 import { Platform } from 'ionic-angular';
-import { AppVersion } from '@ionic-native/app-version';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { HttpService } from './http';
 
 @Injectable()
@@ -61,7 +62,7 @@ export class ConfigService {
         this.storage.set('config_neonet', net);
     }
     public VersionInit() {
-        return Observable.fromPromise(this.appVersion.getVersionNumber()).map((ver) => {
+        return from(this.appVersion.getVersionNumber()).pipe(map((ver) => {
             let version;
             if (this.platform.is('ios')) {
                 version = this.http._config.version_ios || false;
@@ -74,8 +75,8 @@ export class ConfigService {
                 version = {code: ver};
             }
             return {curr: ver, latest: version.code, url: version.url, info: version.info};
-        }).catch((err) => {
+        }), catchError((err) => {
             return Observable.throw(99995);
-        });
+        }));
     }
 }

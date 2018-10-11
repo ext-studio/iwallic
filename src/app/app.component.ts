@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, MenuController } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { WalletService } from '../neo';
 import {
     AssetDetailComponent, AssetListComponent,

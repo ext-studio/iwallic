@@ -3,15 +3,16 @@ import { TranslateService as NgTranslateService } from '@ngx-translate/core';
 import {
     AlertController, LoadingController, Loading, ToastController
 } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
 import { ConfigService } from './config';
-import { Clipboard } from '@ionic-native/clipboard';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import {
     ThemeableBrowser, ThemeableBrowserOptions
-} from '@ionic-native/themeable-browser';
+} from '@ionic-native/themeable-browser/ngx';
 
 const options: ThemeableBrowserOptions = {
     statusbar: {
@@ -75,7 +76,7 @@ export class GlobalService {
      * @param msg translate key
      */
     public LoadI18N(msg?: string): Observable<Loading> {
-        return (msg ? this.ngTranslate.get(msg) : Observable.of('')).switchMap((res) => {
+        return (msg ? this.ngTranslate.get(msg) : of('')).pipe(switchMap((res) => {
             return new Observable<Loading>((observer) => {
                 const load = this.loading.create({content: res, cssClass: `load-${this.theme.current()}`});
                 this.masks.push(load);
@@ -86,7 +87,7 @@ export class GlobalService {
                 observer.next(load);
                 observer.complete();
             });
-        });
+        }));
     }
 
     /**
@@ -95,7 +96,7 @@ export class GlobalService {
      * @param duration during time
      */
     public ToastI18N(msg: string, duration: number = 2000): Observable<any> {
-        return this.ngTranslate.get(msg).switchMap((res) => {
+        return this.ngTranslate.get(msg).pipe(switchMap((res) => {
             return new Observable<any>((observer) => {
                 const toast = this.toast.create({message: res, duration: duration, cssClass: `toast-${this.theme.current()}`});
                 toast.present();
@@ -104,7 +105,7 @@ export class GlobalService {
                     observer.complete();
                 });
             });
-        });
+        }));
     }
 
     /**
@@ -119,7 +120,7 @@ export class GlobalService {
     }): Observable<any> {
         return this.ngTranslate.get(
             [config['title'], config['content'], config['ok'], config['no']].filter((e) => !!e)
-        ).switchMap((res) => {
+        ).pipe(switchMap((res) => {
             return new Observable<any>((observer) => {
                 const btns = [];
                 if (res[config['no']]) {
@@ -150,7 +151,7 @@ export class GlobalService {
                     }
                 });
             });
-        });
+        }));
     }
 
     public Error(err): Observable<any> {
@@ -170,7 +171,7 @@ export class GlobalService {
             case 99996: // Platform not support
             case 99995: // No need
             case 99980: // User canceled
-            return Observable.of();
+            return of();
             default:
             return new Observable<any>((observer) => {
                 const toast = this.toast.create({message: `[${err}]`, duration: 2000, cssClass: `toast-${this.theme.current()}`});
