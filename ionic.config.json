@@ -1,7 +1,7 @@
 {
-    "name": "iwallic",
-    "integrations": {
-        "cordova": {}
-    },
-    "type": "angular"
+  "name": "iwallic",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
 }
