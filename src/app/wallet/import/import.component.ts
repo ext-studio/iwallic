@@ -5,17 +5,16 @@ import { AlertController, List, LoadingController, ModalController, ToastControl
 
 
 @Component({
-    templateUrl: 'transfer.component.html',
-    styleUrls: ['./transfer.component.scss'],
+    templateUrl: 'import.component.html',
+    styleUrls: ['./import.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class TransferComponent {
+export class ImportComponent {
     constructor(
         private router: Router,
         private location: Location
     ) {}
 
     public go() {
-        this.location.back();
     }
 }

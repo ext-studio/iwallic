@@ -5,21 +5,19 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AssetRoutingModule } from './asset.route';
-import { AssetComponent } from './asset.component';
 import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    AssetRoutingModule
-  ],
-  declarations: [
-    AssetComponent,
-    ListComponent,
-    DetailComponent
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        AssetRoutingModule
+    ],
+    declarations: [
+        ListComponent,
+        DetailComponent
+    ]
 })
 export class AssetModule { }

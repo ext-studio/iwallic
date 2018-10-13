@@ -1,0 +1,15 @@
+ion-content {
+    --ion-background-color: linear-gradient(#25168b, #3236ae, #25168b);
+}
+.cover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    max-width: 480px;
+    display: block;
+    transform: translate(-50%, -50%);
+}
+.skip {
+    margin: 30px;
+}

@@ -5,17 +5,16 @@ import { AlertController, List, LoadingController, ModalController, ToastControl
 
 
 @Component({
-  selector: 'transaction-receive',
-  templateUrl: 'receive.component.html',
-  styleUrls: ['./receive.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    templateUrl: 'receive.component.html',
+    styleUrls: ['./receive.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ReceiveComponent {
-  constructor(
-    private router: Router,
-    private location: Location
-  ) {}
+    constructor(
+        private router: Router,
+        private location: Location
+    ) {}
 
-  public go() {
-  }
+    public go() {
+    }
 }

@@ -1,0 +1,53 @@
+<ion-header no-border>
+<ion-toolbar>
+    <ion-buttons slot="end">
+    <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+</ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
+    <ion-slide>
+    <img src="/assets/images/logo.png" class="slide-image" />
+    <h2 class="slide-title">
+        Welcome to
+        <b>iWallic</b>
+    </h2>
+    <p>
+        NEO thin wallet from Netop Team.
+    </p>
+    </ion-slide>
+
+    <ion-slide>
+    <img src="/assets/images/logo.png" class="slide-image" />
+    <h2 class="slide-title">What is iWallic?</h2>
+    <p>
+        It's a simple but strong thin wallet for NEO block chain.
+    </p>
+    </ion-slide>
+
+    <ion-slide>
+    <img src="/assets/images/logo.png" class="slide-image" />
+    <h2 class="slide-title">What can iWallic do?</h2>
+    <p>
+        Asset (with NEP5 token support).
+    </p>
+    <p>
+        Transaction list (with NEP5 token suport).
+    </p>
+    <p>
+        Wallet management.
+    </p>
+    </ion-slide>
+
+    <ion-slide>
+    <img src="/assets/images/logo.png" class="slide-image" />
+    <h2 class="slide-title">Ready to Play?</h2>
+    <ion-button fill="clear" (click)="startApp()">
+        Continue
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-button>
+    </ion-slide>
+</ion-slides>
+</ion-content>

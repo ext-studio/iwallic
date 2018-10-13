@@ -4,22 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
 
-import { UserComponent } from './user.component';
+import { IndexComponent } from './index/index.component';
+import { GuideComponent } from './guide/guide.component';
+import { WelcomeRoutingModule } from './welcome.route';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild([
-        {
-            path: '',
-            component: UserComponent
-        }
-    ])
+    WelcomeRoutingModule
   ],
   declarations: [
-    UserComponent
+    IndexComponent,
+    GuideComponent
   ]
 })
-export class MainUserModule { }
+export class WelcomeModule { }
