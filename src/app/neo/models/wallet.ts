@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NEP2, WALLET } from '../utils';
+import { wallet } from '@cityofzion/neon-js';
 
 export class Contract {
     public script: string;
@@ -50,30 +50,37 @@ export class Account {
         this.contract = new Contract(data['contract']);
         this.wif = data['wif'] || null;
     }
-    public static fromWIF(wif: string, scrypt: string): Observable<Account> {
+    public static fromWIF(wif: string, pwd: string): Observable<Account> {
         return new Observable((observer) => {
-            const addr = WALLET.wif2addr(wif);
-            observer.next(new Account({
-                key: NEP2.encode(addr, wif, scrypt),
-                address: addr,
-                wif: wif,
-                contract: Contract.fromWallet(
-                    WALLET.priv2pub(WALLET.wif2priv(wif))
-                )
-            }));
-            observer.complete();
+            const pubKey = wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif))
+            const addr = wallet.getAddressFromScriptHash(wallet.getScriptHashFromPublicKey(pubKey));
+            (wallet.encryptAsync(wif, pwd) as unknown as Promise<string>).then((res) => {
+                observer.next(new Account({
+                    key: res,
+                    address: addr,
+                    wif: wif,
+                    contract: Contract.fromWallet(
+                        pubKey
+                    )
+                }));
+                observer.complete();
+            }).catch((err) => {
+                observer.error(99897);
+            });
         });
     }
-    public Verify(scrypt: string): Observable<any> {
+    public Verify(pwd: string): Observable<string> {
         return new Observable((observer) => {
-            const decode = NEP2.decode(scrypt, this.key);
-            if (decode) {
-                this.wif = decode;
-                observer.next(this.wif);
-                observer.complete();
-            } else {
-                observer.error(99987);
-            }
+            (wallet.decryptAsync(this.key, pwd) as unknown as Promise<string>).then((res) => {
+                if (res) {
+                    observer.next(res);
+                    observer.complete();
+                } else {
+                    observer.error(99899);
+                }
+            }).catch((err) => {
+                observer.error(99899);
+            });
         });
     }
 }
@@ -85,19 +92,12 @@ export class Wallet {
     public accounts: Account[] = [];
     public extra: string = null;
     public backup: boolean = false;
-    public get wif() {
-        if (!this.verified) {
-            return null;
-        }
-        return this.accounts[this.main].wif;
-    }
     public get address() {
         return this.accounts[this.main] && this.accounts[this.main].address;
     }
     public get account() {
         return this.accounts[this.main];
     }
-    private verified: boolean = false;
     private main: number = 0;
     constructor(
         nep6?: any
@@ -116,23 +116,16 @@ export class Wallet {
             this.accounts.push(acc);
         }
         this.extra = nep6['extra'] || null;
-        this.verified = nep6['verified'] || false;
-        this.backup = nep6['backup'] || false;
         if (!this.accounts.length) {
             throw 99986;
         }
     }
-    public static fromWIF(wif: string, scrypt: string): Observable<Wallet> {
-        return Account.fromWIF(wif, scrypt).pipe(map((acc) => {
-            const wal = new Wallet({accounts: [acc]});
-            wal.verified = true;
-            return wal;
+    public static fromWIF(wif: string, pwd: string): Observable<Wallet> {
+        return Account.fromWIF(wif, pwd).pipe(map((acc) => {
+            return new Wallet({accounts: [acc]});;
         }));
     }
-    public Verify(scrypt: string): Observable<any> {
-        return this.account.Verify(scrypt).pipe(map((res) => {
-            this.verified = true;
-            return res;
-        }));
+    public Verify(pwd: string): Observable<any> {
+        return this.account.Verify(pwd);
     }
 }
