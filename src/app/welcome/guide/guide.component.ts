@@ -1,6 +1,5 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, Route } from '@angular/router';
-import { Location }  from '@angular/common';
 import { Storage } from '@ionic/storage';
 
 
@@ -13,7 +12,6 @@ export class GuideComponent {
     showSkip = true;
     constructor(
         private router: Router,
-        private location: Location,
         public storage: Storage
     ) {}
 
@@ -32,7 +30,7 @@ export class GuideComponent {
     ionViewWillEnter() {
         this.storage.get('ion_did_tutorial').then(res => {
             if (res === 'true') {
-                this.router.navigateByUrl('/asset', {replaceUrl: true});
+                this.router.navigateByUrl('/wallet', {replaceUrl: true});
             }
         });
     }

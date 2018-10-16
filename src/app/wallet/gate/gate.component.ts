@@ -6,8 +6,7 @@ import { AlertController, List, LoadingController, ModalController, ToastControl
 
 @Component({
     templateUrl: 'gate.component.html',
-    styleUrls: ['./gate.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./gate.component.scss']
 })
 export class GateComponent {
     constructor(
@@ -15,6 +14,10 @@ export class GateComponent {
         private location: Location
     ) {}
 
-    public go() {
+    public import() {
+        this.router.navigateByUrl('/wallet/import');
+    }
+    public create() {
+        this.router.navigateByUrl('/wallet/create');
     }
 }

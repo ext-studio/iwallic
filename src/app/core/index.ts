@@ -1,11 +1,8 @@
 export { CoreModule } from './core.module';
 export { GlobalService } from './services/global';
-export { PopupInputService } from './services/popup-input';
-export { ScannerService } from './services/scanner';
-export { ReadFileService } from './services/readfile';
 export { TranslateService } from './services/translate';
-export { ThemeService } from './services/theme';
 export { HttpService } from './services/http';
+export { DialogService } from './services/dialog';
 
 export { BalanceState } from './states/balance';
 export { TransactionState } from './states/transaction';

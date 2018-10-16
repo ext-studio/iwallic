@@ -1,0 +1,23 @@
+.input-cover{
+    display: none;
+}
+ion-label[fixed] {
+    flex: 0 0 140px;
+    width: 140px;
+}
+input.text-input[disabled] {
+    opacity: 1;
+}
+ion-list ion-item {
+    border-top: none !important;
+}
+ion-list ion-item:last-child {
+    border-bottom: none !important;
+}
+.tip {
+    background: var(--ion-color-primary);
+    color: #FFFFFF;
+}
+.error {
+    color: var(--ion-color-danger);
+}

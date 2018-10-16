@@ -4,7 +4,6 @@ import { refCount, publish, startWith, switchMap } from 'rxjs/operators';
 import { GlobalService } from '../services/global';
 import { HttpService } from '../services/http';
 import { Storage } from '@ionic/storage';
-import 'rxjs/add/operator/startWith';
 
 /**
  * for state management of assets & balances of an address

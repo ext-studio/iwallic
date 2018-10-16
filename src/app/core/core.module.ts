@@ -1,59 +1,68 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+
+import { TranslateModule, TranslateLoader, TranslateService as NgxTranslate } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 import { IonicStorageModule } from '@ionic/storage';
-import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http/ngx';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 
 import { GlobalService } from './services/global';
-import { PopupInputService } from './services/popup-input';
-import { ScannerService } from './services/scanner';
-import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
-import { ThemeService } from './services/theme';
 import { HttpService } from './services/http';
+import { DialogService } from './services/dialog';
 
 import { BlockState } from './states/block';
 import { BalanceState } from './states/balance';
 import { TransactionState } from './states/transaction';
 
-import { PopupInputComponent } from './directives/popup-input/popup-input.component';
-import { ScanComponent } from './directives/scan/scan.component';
-import { PagerComponent } from './directives/pager/pager.component';
-import {
-    IBgDirective, IBorderDirective, IColorDirective,
-    ImgPipe, ThemePipe, ISrcDirective, ISrcPipe
-} from './directives/skin';
+// for i18n
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
+
+const translateModuleConfig = {
+    loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+    }
+};
 
 @NgModule({
     imports: [
         CommonModule, FormsModule,
-        IonicModule,
         IonicStorageModule.forRoot({
             name: '__iwallicdb',
             driverOrder: ['sqlite', 'indexeddb', 'websql']
         }),
         HttpClientModule,
-        TranslateModule.forChild()
+        TranslateModule.forRoot(translateModuleConfig)
     ],
     exports: [
-        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-        ISrcDirective, ISrcPipe, PagerComponent
+        
     ],
     declarations: [
-        PopupInputComponent, ScanComponent, PagerComponent,
-        IBgDirective, IBorderDirective, IColorDirective, ImgPipe, ThemePipe,
-        ISrcDirective, ISrcPipe
+        
     ],
-    entryComponents: [PopupInputComponent, ScanComponent],
+    entryComponents: [
+        
+    ],
     providers: [
-        GlobalService, PopupInputService, ScannerService,
-        ReadFileService, TranslateService,
+        GlobalService, TranslateService, DialogService,
         BlockState, BalanceState, TransactionState,
-        ThemeService,
-        HTTP, HttpService
+        HTTP, HttpService, Clipboard, Dialogs
     ]
 })
-export class CoreModule { }
+export class CoreModule {
+    constructor(
+        private translate: NgxTranslate
+    ) {
+        translate.setDefaultLang('en');
+        translate.use('en');
+    }
+}

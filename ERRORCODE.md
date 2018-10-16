@@ -8,3 +8,4 @@ code | desc
 99897 | wallet encrypt error
 99896 | wallet format error
 99895 | no wallet opened
+99799 | platform not support

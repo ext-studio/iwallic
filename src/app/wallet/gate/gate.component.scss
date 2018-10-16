@@ -1,0 +1,24 @@
+ion-content {
+    --background: url('/assets/images/wallet_gate_bg.png') no-repeat bottom center;
+    background-size: cover;
+}
+.btns {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: auto;
+    width: 100%;
+    text-align: center;
+}
+ion-button {
+    --width: 230px;
+}
+ion-button.create {
+    --background: #6bd3fa;
+    --background-activated: #5ac2e9;
+    --background-focused: #5ac2e9;
+}
+ion-button:not(:first-of-type) {
+    margin-top: 15px;
+}

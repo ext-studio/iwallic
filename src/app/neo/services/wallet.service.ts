@@ -61,7 +61,7 @@ export class WalletService {
             const privKey = wallet.generatePrivateKey();
             const wif = wallet.getWIFFromPrivateKey(privKey);
             const address = wallet.getAddressFromScriptHash(wallet.getScriptHashFromPublicKey(wallet.getPublicKeyFromPrivateKey(privKey)));
-            (wallet.encryptAsync(wif, pwd) as unknown as Promise<string>).then((res) => {
+            (wallet.encryptAsync(wif, pwd) as any).then((res) => {
                 observer.next({
                     key: res,
                     address: address,

@@ -1,0 +1,21 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button text="Back" defaultHref="/wallet/create"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ 'WALLET_CREATE_TITLE' | translate  }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding>
+    <img id="wallet-qrcode" />
+    <div class="title">
+        {{'WALLET_CREATE_YOURWIF' | translate}}
+        <img *ngIf="shown" (click)="shown = false" src="/assets/images/light.backups_btn_display_s@2x.png" />
+        <img *ngIf="!shown" (click)="shown = true" src="/assets/images/light.backups_btn_display_n@2x.png" />
+    </div>
+    <p *ngIf="shown" class="tip">{{wif}}</p>
+    <p *ngIf="!shown" class="tip">********************</p>
+    <ion-button *ngIf="shown" class="btn copy" ion-button outline (click)="copy()">{{(copied ? 'WALLET_CREATE_COPIED' : 'WALLET_CREATE_COPY') | translate}}</ion-button>
+    <ion-button margin-vertical ion-button block (click)="enter()">{{'WALLET_CREATE_ENTER' | translate}}</ion-button>
+</ion-content>

@@ -54,7 +54,7 @@ export class Account {
         return new Observable((observer) => {
             const pubKey = wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif))
             const addr = wallet.getAddressFromScriptHash(wallet.getScriptHashFromPublicKey(pubKey));
-            (wallet.encryptAsync(wif, pwd) as unknown as Promise<string>).then((res) => {
+            (wallet.encryptAsync(wif, pwd) as any).then((res) => {
                 observer.next(new Account({
                     key: res,
                     address: addr,
@@ -71,7 +71,7 @@ export class Account {
     }
     public Verify(pwd: string): Observable<string> {
         return new Observable((observer) => {
-            (wallet.decryptAsync(this.key, pwd) as unknown as Promise<string>).then((res) => {
+            (wallet.decryptAsync(this.key, pwd) as any).then((res) => {
                 if (res) {
                     observer.next(res);
                     observer.complete();

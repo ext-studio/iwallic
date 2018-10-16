@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HTTP as NativeHttp} from '@ionic-native/http/ngx';
+import { HTTP as NativeHttp } from '@ionic-native/http/ngx';
 import { HttpClient as NgHttp, HttpHeaders } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { Platform } from 'ionic-angular';
+import { Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @Injectable()
