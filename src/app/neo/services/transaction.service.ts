@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { GlobalService, HttpService } from '../../core';
+import { HttpService } from '../../core';
 import { Transaction, UTXO } from '../models/transaction';
 import { sc, wallet, u } from '@cityofzion/neon-js';
 // import { WALLET, HEX, SmartContract } from '../utils';
@@ -12,8 +12,7 @@ export class TransactionService {
     private unconfirmedUTXO: UTXO[] = [];
 
     constructor(
-        private http: HttpService,
-        private global: GlobalService
+        private http: HttpService
     ) {
         //
     }

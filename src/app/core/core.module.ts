@@ -11,6 +11,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 import { GlobalService } from './services/global';
 import { TranslateService } from './services/translate';
@@ -56,7 +57,7 @@ const translateModuleConfig = {
     providers: [
         GlobalService, TranslateService, DialogService,
         BlockState, BalanceState, TransactionState,
-        HTTP, HttpService, Clipboard, Dialogs, QRScanner
+        HTTP, HttpService, Clipboard, Dialogs, QRScanner, AppVersion
     ]
 })
 export class CoreModule {

@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, Route } from '@angular/router';
 import { Location }  from '@angular/common';
+import { MenuController } from '@ionic/angular';
 import { AlertController, List, LoadingController, ModalController, ToastController } from '@ionic/angular';
 
 
@@ -11,8 +12,10 @@ import { AlertController, List, LoadingController, ModalController, ToastControl
 export class GateComponent {
     constructor(
         private router: Router,
-        private location: Location
-    ) {}
+        private menuCtrl: MenuController
+    ) {
+        this.menuCtrl.enable(false);
+    }
 
     public import() {
         this.router.navigateByUrl('/wallet/import');

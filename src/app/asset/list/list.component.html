@@ -1,13 +1,35 @@
+<ion-header no-border class="header-box">
+    <div class="header-content" center text-center [style.backgroundImage]="'url(' + ('/assets/images/light.list_bg_img.png') + ')'">
+        <div class="title">
+            <span>{{'ASSET_LIST_TITLE' | translate}}</span>
+        </div>
+        <div class="balance">
+            <span class="num">
+                {{ neoValue }}
+            </span>
+            <span class="unit">NEO</span>
+        </div>
+        <ion-fab vertical="bottom" edge horizontal="end" slot="fixed">
+            <ion-fab-button>
+                <ion-icon name="arrow-dropleft"></ion-icon>
+            </ion-fab-button>
+
+            <ion-fab-list side="start">
+                <ion-fab-button><ion-icon name="iwallic-qrcode"></ion-icon></ion-fab-button>
+                <ion-fab-button><ion-icon name="iwallic-trans"></ion-icon></ion-fab-button>
+            </ion-fab-list>
+        </ion-fab>
+    </div>
+</ion-header>
+
 <ion-content>
-    asset-list
-    <ion-fab class="skip" horizontal="end" vertical="bottom" (click)="go()" slot="fixed">
-        <ion-fab-button>
-            <ion-icon name="arrow-forward"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
-    <ion-fab class="skip" horizontal="start" vertical="bottom" slot="fixed">
-        <ion-fab-button (click)="exit()">
-            <ion-icon name="arrow-forward"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
+    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <ion-item *ngFor="let asset of list" (click)="jumpDetail(asset.assetId, asset.symbol, asset.balance)">
+            <ion-label class="asset-type">{{ asset.symbol }}</ion-label>
+            <ion-label class="asset-balance" text-end>{{ asset.balance }}</ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

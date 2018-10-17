@@ -1,0 +1,60 @@
+.header-content {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 160px;
+    width: 100%;
+    color: white;
+    background-size: cover;
+    position: relative;
+    z-index: -1;
+    .title {
+        padding-top: 60px;
+        span {
+            font-size: 15px;
+        }
+        img {
+            vertical-align: top;
+            width: 22px;
+            height: 22px;
+            margin-left: 8px;
+        }
+    }
+    .balance {
+        .num {
+            font-size: 25px;
+            vertical-align: middle;
+        }
+        .unit {
+            font-size: 12px;
+            vertical-align: middle;
+        }
+    }
+    .warn-tips {
+        margin: 0;
+        font-size: 10px;
+        color: #d95959;
+    }
+}
+
+ion-item {
+    height: 90px;
+    line-height: 90px;
+    padding: 0 !important;
+    span {
+        color: #3c373b;
+        font-size: 21px;
+    }
+    .asset-type {
+        color: #646163;
+        margin-left: 20px;
+    }
+    .asset-balance {
+        float: right;
+        margin-right: 4px;
+    }
+}
+
+.no-assets {
+    font-size: 16px;
+    color: #646163;
+}

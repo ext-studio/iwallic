@@ -11,12 +11,7 @@ import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class BalanceState {
-    public get loading(): boolean {
-        return this._loading;
-    }
-    public unconfirmedClaim: string;
     private _loading: boolean = false;
-    private address: string;
     private _balance: any[];
     private $balance: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
@@ -25,12 +20,9 @@ export class BalanceState {
         private http: HttpService,
         private storage: Storage
     ) { }
-    public get(address?: string): Observable<any> {
-        if (address && this.address !== address) {
-            this.address = address;
-            this.fetch(this.address);
-        } else if (!this._balance) {
-            this.fetch(address || this.address);
+    public listen(address: string): Observable<any> {
+        if (!this._balance) {
+            this.fetch(address);
         }
         if (this._balance) {
             return this.$balance.pipe(publish(), refCount(), startWith(this._balance));
@@ -40,16 +32,14 @@ export class BalanceState {
     public error(): Observable<any> {
         return this.$error.pipe(publish(), refCount());
     }
-    public fetch(address?: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            if (address) {
-                this.address = address;
-            } else if (this._loading) {
-                reject(99990);
+    public fetch(address: string): Promise<any> {
+        return new Promise((resolve) => {
+            if (this._loading) {
+                resolve(99990);
                 return;
             }
             this._loading = true;
-            this.http.postGo('getaddrassets', [this.address, 1]).pipe(switchMap((res: any) =>  this.getAssetChooseList(res))).subscribe((res: any) => {
+            this.http.get(`/client/index/assets/display?wallet_address=${address}`).pipe(switchMap((res: any[]) => this.getAssetChooseList(res))).subscribe((res) => {
                 this._loading = false;
                 this._balance = res || [];
                 this.$balance.next(this._balance);
@@ -61,11 +51,11 @@ export class BalanceState {
             });
         }).catch(() => {});
     }
-    public fetchSilent() {
-        if (this._loading || !this.address) {
+    public fetchSilent(address: string) {
+        if (this._loading) {
             return;
         }
-        this.http.postGo('getaddrassets', [this.address, 1]).pipe(switchMap((res: any) => this.getAssetChooseList(res))).subscribe((res: any) => {
+        this.http.get(`/client/index/assets/display?wallet_address=${address}`).pipe(switchMap((res: any[]) => this.getAssetChooseList(res))).subscribe((res) => {
             this._balance = res || [];
             this.$balance.next(this._balance);
         }, (err) => {
@@ -74,8 +64,8 @@ export class BalanceState {
     }
     public getAssetChooseList(result: any[]): Observable <any> {
         return new Observable<any>((observer) => {
-            this.storage.get('MainAssetList').then((res) => {
-                if (res && `${this.http.neoNet}` === 'main') {
+            this.storage.get(`asset_subscribe_${this.http.neoNet}`).then((res) => {
+                if (res) {
                     for (const i of res) {
                         if (i.choose) {
                             if (result.findIndex((e) => e.assetId === i.assetId) < 0) {
@@ -100,8 +90,6 @@ export class BalanceState {
         });
     }
     public clear() {
-        this.unconfirmedClaim = undefined;
-        this.address = undefined;
         this._balance = undefined;
     }
 }

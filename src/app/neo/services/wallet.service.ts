@@ -8,7 +8,7 @@ import { wallet } from '@cityofzion/neon-js';
 @Injectable()
 export class WalletService {
     public get address(): string {
-        return this.cached && this.cached.address;
+        return this.cached && this.cached.accounts[0] && this.cached.accounts[0].address;
     }
     private cached: Wallet;
     constructor(

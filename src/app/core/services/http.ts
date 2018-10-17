@@ -129,36 +129,36 @@ export class HttpService {
     }
 
     public get(url: string): Observable<any> {
-        if (this.platform.is('ios') || this.platform.is('android')) {
-            this.native.setDataSerializer('json');
-            return from(this.native.get(
-                `${this.apiDomain}${url}`,
-                null,
-                {
-                    'Content-Type': 'application/json',
-                    'app_version': this.requestVersion,
-                    'network': this.neoNet
-                })).pipe(map((res) => {
-                if (res.status === 200 && res.data) {
-                    try {
-                        const json = JSON.parse(res.data);
-                        if (json.bool_status === true) {
-                            return json.data;
-                        } else {
-                            throw json.error_code || 99999;
-                        }
-                    } catch (e) {
-                        throw typeof e === 'number' ? e : 99994;
-                    }
-                } else if (/^[5]/.test(`${res.status}`)) {
-                    throw 99979;
-                } else {
-                    throw 99998;
-                }
-            }), catchError((err) => {
-                return Observable.throw(err);
-            }));
-        } else {
+        // if (this.platform.is('ios') || this.platform.is('android')) {
+        //     this.native.setDataSerializer('json');
+        //     return from(this.native.get(
+        //         `${this.apiDomain}${url}`,
+        //         null,
+        //         {
+        //             'Content-Type': 'application/json',
+        //             'app_version': this.requestVersion,
+        //             'network': this.neoNet
+        //         })).pipe(map((res) => {
+        //         if (res.status === 200 && res.data) {
+        //             try {
+        //                 const json = JSON.parse(res.data);
+        //                 if (json.bool_status === true) {
+        //                     return json.data;
+        //                 } else {
+        //                     throw json.error_code || 99999;
+        //                 }
+        //             } catch (e) {
+        //                 throw typeof e === 'number' ? e : 99994;
+        //             }
+        //         } else if (/^[5]/.test(`${res.status}`)) {
+        //             throw 99979;
+        //         } else {
+        //             throw 99998;
+        //         }
+        //     }), catchError((err) => {
+        //         return Observable.throw(err);
+        //     }));
+        // } else {
             return this.ng.get(`${this.apiDomain}${url}`, {
                 headers: new HttpHeaders()
                     .set('app_version', this.requestVersion)
@@ -173,6 +173,6 @@ export class HttpService {
                 console.log('http', err);
                 throw 99999;
             }));
-        }
+        // }
     }
 }

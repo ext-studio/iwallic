@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, ToastController, Platform } from '@ionic/angular';
+import { LoadingController, ToastController, Platform, AlertController } from '@ionic/angular';
+
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 
 @Injectable()
@@ -8,7 +9,8 @@ export class DialogService {
         private loadCtrl: LoadingController,
         private toastCtrl: ToastController,
         private dialog: Dialogs,
-        private platform: Platform
+        private platform: Platform,
+        private alertCtrl: AlertController
     ) {}
     public async loader(msg: string = '') {
         const loading = await this.loadCtrl.create({
@@ -27,12 +29,26 @@ export class DialogService {
         toast.present();
     }
     public confirm(msg: string, title: string, ok: string = 'OK', no: string = 'Cancel') {
-        if (this.platform.is('ios')) {
-            return this.dialog.confirm(msg, title, [ok, no]).then((res) => {
-                return res === 1;
+        return new Promise((resolve) => {
+            this.alertCtrl.create({
+                header: title,
+                message: msg,
+                buttons: [{
+                    text: no,
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                        resolve(false);
+                    }
+                }, {
+                    text: ok,
+                    handler: () => {
+                        resolve(true);
+                    }
+                }]
+            }).then((alert) => {
+                alert.present()
             });
-        } else {
-            return Promise.resolve(confirm(msg));
-        }
+        });
     }
 }
