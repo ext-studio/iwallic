@@ -1,6 +1,5 @@
 ion-content {
-    --background: url('/assets/images/wallet_gate_bg.png') no-repeat bottom center;
-    background-size: cover;
+    --ion-background-color: linear-gradient(#25168b, #3236ae, #25168b);
 }
 .btns {
     position: absolute;

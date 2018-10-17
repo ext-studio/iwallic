@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router, Route } from '@angular/router';
 import { WalletService }  from '../../neo';
+import { MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -13,11 +14,9 @@ export class IndexComponent {
         private router: Router,
         private storage: Storage,
         private wallet: WalletService,
-        private translate: TranslateService
+        private menuCtrl: MenuController
     ) {
-        // console.log('123');
-        // this.translate.setDefaultLang('en');
-        // this.translate.use('en');
+        this.menuCtrl.enable(false);
         /**
          * if first enter jump to guide page directly
          * or goto wallet or asset page delay
@@ -39,6 +38,7 @@ export class IndexComponent {
     }
 
     public skip() {
+        this.menuCtrl.enable(true);
         this.router.navigateByUrl('/asset', {replaceUrl: true});
     }
 

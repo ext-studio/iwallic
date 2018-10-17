@@ -1,5 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { WalletService } from '../../neo';
 import { AlertController, List, LoadingController, ModalController, ToastController } from '@ionic/angular';
 
 @Component({
@@ -9,13 +10,15 @@ import { AlertController, List, LoadingController, ModalController, ToastControl
 })
 export class ListComponent {
     constructor(
-        private router: Router
+        private router: Router,
+        private wallet: WalletService
     ) {}
 
     go() {
         this.router.navigateByUrl('/transaction/transfer');
     }
-    detail() {
-        this.router.navigateByUrl('/asset/detail');
+    exit() {
+        this.wallet.close();
+        this.router.navigateByUrl('wallet', {replaceUrl: true});
     }
 }

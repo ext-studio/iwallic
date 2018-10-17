@@ -48,13 +48,13 @@ export class Account {
         this.lock = data['lock'] || false;
         this.extra = data['extra'] || null;
         this.contract = new Contract(data['contract']);
-        this.wif = data['wif'] || null;
     }
     public static fromWIF(wif: string, pwd: string): Observable<Account> {
         return new Observable((observer) => {
             const pubKey = wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(wif))
             const addr = wallet.getAddressFromScriptHash(wallet.getScriptHashFromPublicKey(pubKey));
             (wallet.encryptAsync(wif, pwd) as any).then((res) => {
+                console.log(res);
                 observer.next(new Account({
                     key: res,
                     address: addr,
@@ -119,6 +119,16 @@ export class Wallet {
         if (!this.accounts.length) {
             throw 99986;
         }
+    }
+    public static fromKey(key: string, pubKey: string): Wallet {
+        const account = new Account({
+            key: key,
+            address: wallet.getAddressFromScriptHash(wallet.getScriptHashFromPublicKey(pubKey)),
+            contract: Contract.fromWallet(pubKey)
+        });
+        return new Wallet({
+            accounts: [account]
+        });
     }
     public static fromWIF(wif: string, pwd: string): Observable<Wallet> {
         return Account.fromWIF(wif, pwd).pipe(map((acc) => {

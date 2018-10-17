@@ -1,3 +1,45 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="Back" defaultHref="/wallet/gate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{'WALLET_OPEN_TITLE' | translate}}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="qrScan()" *ngIf="isScan">
+                <ion-icon name="qr-scanner"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
-    import page
+    <ion-list>
+        <ion-item>
+            <ion-label color="primary" position="stacked">{{'WALLET_OPEN_YOURWIF' | translate}}</ion-label>
+            <ion-textarea rows="4" placeholder="{{'WALLET_OPEN_YOURWIF_PH' | translate}}" type="text" [(ngModel)]="wif"></ion-textarea>
+        </ion-item>
+        <div *ngIf="wif && !checkWIF()" class="error" text-sm margin>{{'WALLET_OPEN_YOURWIF_TIP' | translate}}</div>
+    </ion-list>
+
+    <ion-list margin-vertical>
+        <ion-item>
+            <ion-label color="primary">{{'WALLET_OPEN_PWD' | translate}}</ion-label>
+            <ion-input placeholder="{{'WALLET_OPEN_PWD_PH' | translate}}" type="password" [(ngModel)]="pwd"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+            <ion-label color="primary">{{'WALLET_OPEN_REPWD' | translate}}</ion-label>
+            <ion-input placeholder="{{'WALLET_OPEN_REPWD_PH' | translate}}" type="password" [(ngModel)]="rePwd"></ion-input>
+        </ion-item>
+
+        <div *ngIf="pwd && rePwd && !check()" class="error" text-sm margin>{{'WALLET_OPEN_PWDTIP' | translate}}</div>
+        <div *ngIf="pwd && pwd.length < 6" class="error" text-sm margin>{{'WALLET_PWD_TOOSHORT' | translate}}</div>
+    </ion-list>
+    <div padding margin-vertical>
+        <ion-button expand="block" (click)="import()" [disabled]="!check() || !checkWIF()">
+            {{'WALLET_OPEN_IMPORT' | translate}}
+        </ion-button>
+        <div margin-vertical>{{'WALLET_OPEN_OR' | translate}}</div>
+        <ion-button (click)="fromNEP6()">{{'WALLET_OPEN_FILE' | translate}}</ion-button>
+    </div>
 </ion-content>

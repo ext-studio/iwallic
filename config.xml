@@ -65,5 +65,6 @@
     <plugin name="cordova-plugin-advanced-http" spec="2.0.1" />
     <plugin name="cordova-clipboard" spec="1.2.1" />
     <plugin name="cordova-plugin-dialogs" spec="2.0.1" />
+    <plugin name="cordova-plugin-qrscanner" spec="2.6.0" />
     <engine name="ios" spec="4.5.5" />
 </widget>

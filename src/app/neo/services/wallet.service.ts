@@ -111,9 +111,14 @@ export class WalletService {
      * Only one wallet can be saved
      * @param key wallet key to save
      */
-    public Save(data: Wallet): void {
+    public save(data: Wallet) {
         this.cached = data;
         this.storage.set('wallet', data);
         // todo save wallet to history list
+    }
+
+    public close() {
+        this.cached = null;
+        this.storage.remove('wallet');
     }
 }
