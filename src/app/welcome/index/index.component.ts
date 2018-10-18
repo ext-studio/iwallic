@@ -37,13 +37,9 @@ export class IndexComponent {
         });
     }
 
-    public skip() {
-        this.menuCtrl.enable(true);
-        this.router.navigateByUrl('/asset', {replaceUrl: true});
-    }
-
     private resolveWallet() {
         this.wallet.init().subscribe(() => {
+            this.menuCtrl.enable(true);
             this.router.navigateByUrl('/asset', {replaceUrl: true});
         }, () => {
             this.router.navigateByUrl('/wallet', {replaceUrl: true});

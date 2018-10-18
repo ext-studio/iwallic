@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
+import { WalletGuard } from '../neo';
 
 const routes: Routes = [
-    { path: 'asset', component: ListComponent },
-    { path: 'asset/list', component: ListComponent },
-    { path: 'asset/detail', component: DetailComponent },
-    { path: 'asset/**', component: ListComponent }
+    { path: 'asset', component: ListComponent, canActivate: [WalletGuard] },
+    { path: 'asset/list', component: ListComponent, canActivate: [WalletGuard] },
+    { path: 'asset/detail', component: DetailComponent, canActivate: [WalletGuard] },
+    { path: 'asset/**', component: ListComponent, canActivate: [WalletGuard] }
 ];
 
 @NgModule({

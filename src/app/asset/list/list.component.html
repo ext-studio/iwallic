@@ -23,13 +23,14 @@
 </ion-header>
 
 <ion-content>
-    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher slot="fixed" color="primary" (ionRefresh)="refresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
+
     <ion-list>
-        <ion-item *ngFor="let asset of list" (click)="jumpDetail(asset.assetId, asset.symbol, asset.balance)">
-            <ion-label class="asset-type">{{ asset.symbol }}</ion-label>
-            <ion-label class="asset-balance" text-end>{{ asset.balance }}</ion-label>
+        <ion-item *ngFor="let asset of list" lines="full" (click)="jumpDetail(asset.assetId, asset.symbol, asset.balance)">
+            <ion-label padding-vertical>{{ asset.symbol }}</ion-label>
+            <ion-label padding-vertical text-end>{{ asset.balance }}</ion-label>
         </ion-item>
     </ion-list>
 </ion-content>

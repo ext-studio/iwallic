@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 import { CoreModule } from './core';
@@ -28,6 +29,8 @@ import { WalletModule } from './wallet/wallet.module';
         IonicStorageModule.forRoot(),
 
         CoreModule, NEOModule,
+
+        TranslateModule,
 
         WelcomeModule, AssetModule, TransactionModule, WalletModule
     ],

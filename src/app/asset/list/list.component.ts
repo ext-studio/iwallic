@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
         this.balance.listen(this.wallet.address).subscribe((res: any[]) => {
             this.list = res;
             const tryGet = res.find((e) => e.assetId === ASSET.NEO);
-            this.neoValue = tryGet && tryGet.balance;
+            this.neoValue = tryGet && tryGet.balance || 0;
         });
         this.balance.error().subscribe((err) => {
             this.dialog.toast(err);

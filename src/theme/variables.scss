@@ -3,6 +3,17 @@
 
 /** Ionic CSS Variables **/
 :root {
+    --ion-background-color-step-50: #ffffff;
+    --ion-overlay-background-color: #ffffff;
+    --ion-text-color-step-400: #1c1b2e;
+    --ion-text-color-step-150: #1c1b2e;
+    --ion-toolbar-background-color: #ffffff;
+    --ion-toolbar-text-color: #1c1b2e;
+    --ion-background-color: #f6f6f6;
+    --ion-text-color: #1c1b2e;
+    --ion-item-background-color: #ffffff;
+    --ion-item-border-color: #f3f3f3;
+
     /** primary **/
     --ion-color-primary: #3880ff;
     --ion-color-primary-rgb: 56,128,255;
@@ -11,6 +22,8 @@
     --ion-color-primary-shade: #3171e0;
     --ion-color-primary-tint: #4c8dff;
 
+    --ion-refresher-icon-color: var(--ion-color-primary);
+
     /** secondary **/
     --ion-color-secondary: #0cd1e8;
     --ion-color-secondary-rgb: 12,209,232;
@@ -68,12 +81,12 @@
     --ion-color-medium-tint: #a2a4ab;
 
     /** light **/
-    --ion-color-light: #f4f5f8;
-    --ion-color-light-rgb: 244,244,244;
+    --ion-color-light: #ffffff;
+    --ion-color-light-rgb: 255,255,255;
     --ion-color-light-contrast: #000000;
     --ion-color-light-contrast-rgb: 0,0,0;
     --ion-color-light-shade: #d7d8da;
-    --ion-color-light-tint: #f5f6f9;
+    --ion-color-light-tint: #ffffff;
 
 }
 
@@ -82,10 +95,13 @@
     --ion-overlay-background-color: #000000;
     --ion-text-color-step-400: #ffffff;
     --ion-text-color-step-150: #ffffff;
-    --ion-toolbar-background-color: #333333;
+    --ion-toolbar-background-color: #4f4f4f;
     --ion-toolbar-text-color: #ffffff;
-    --ion-background-color: #4f4f4f;
+    --ion-background-color: #333333;
     --ion-text-color: #ffffff;
+    --ion-item-background-color: #4f4f4f;
+
+    --ion-item-border-color: #333333;
 
     --ion-color-primary: #3880ff;
     --ion-color-primary-rgb: 56,128,255;
@@ -157,4 +173,14 @@
     --ion-color-light-contrast-rgb: 0,0,0;
     --ion-color-light-shade: #d7d8da;
     --ion-color-light-tint: #f5f6f9;
+}
+
+.app-menu ion-item {
+    --ion-text-color: #4f4f4f;
+    font-size: 14px;
+}
+
+.dark .app-menu ion-item {
+    --ion-text-color: #969696;
+    font-size: 14px;
 }

@@ -4,6 +4,9 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Events, MenuController, Platform } from '@ionic/angular';
 
+import { DialogService } from './core';
+import { WalletService } from './neo';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -17,7 +20,9 @@ export class AppComponent implements OnInit {
         private platform: Platform,
         private splashScreen: SplashScreen,
         private router: Router,
-        private statusBar: StatusBar
+        private statusBar: StatusBar,
+        private dialog: DialogService,
+        private wallet: WalletService
     ) {
         this.initializeApp();
     }
@@ -36,5 +41,14 @@ export class AppComponent implements OnInit {
 
     navigate(url: string) {
         return this.router.navigateByUrl(url);
+    }
+
+    public signout() {
+        this.dialog.confirm('Sure to close wallet and exit?', 'Notice', 'Exit', 'Cancel').then((confirm) => {
+            if (confirm) {
+                this.wallet.close();
+                this.router.navigateByUrl('/wallet', {replaceUrl: true});
+            }
+        });
     }
 }

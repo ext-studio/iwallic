@@ -1,9 +1,9 @@
 import { Injectable, } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { refCount, publish, startWith, switchMap } from 'rxjs/operators';
-import { GlobalService } from '../services/global';
 import { HttpService } from '../services/http';
 import { Storage } from '@ionic/storage';
+import { resolve } from 'path';
 
 /**
  * for state management of assets & balances of an address
@@ -16,15 +16,13 @@ export class BalanceState {
     private $balance: Subject<any> = new Subject<any>();
     private $error: Subject<any> = new Subject<any>();
     constructor(
-        private global: GlobalService,
         private http: HttpService,
         private storage: Storage
     ) { }
     public listen(address: string): Observable<any> {
         if (!this._balance) {
             this.fetch(address);
-        }
-        if (this._balance) {
+        } else {
             return this.$balance.pipe(publish(), refCount(), startWith(this._balance));
         }
         return this.$balance.pipe(publish(), refCount());
@@ -33,6 +31,10 @@ export class BalanceState {
         return this.$error.pipe(publish(), refCount());
     }
     public fetch(address: string): Promise<any> {
+        if (this._loading) {
+            resolve();
+            return;
+        }
         return new Promise((resolve) => {
             if (this._loading) {
                 resolve(99990);
