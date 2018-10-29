@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, HostBinding } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Events, MenuController, Platform } from '@ionic/angular';
+import { filter } from 'rxjs/operators';
 
 import { DialogService } from './core';
 import { WalletService } from './neo';
@@ -25,20 +26,23 @@ export class AppComponent implements OnInit {
         private dialog: DialogService,
         private wallet: WalletService,
         private location: Location,
-        private menuCtrl: MenuController
+        private menuCtrl: MenuController,
+        private aRoute: ActivatedRoute
     ) {
         this.initializeApp();
     }
 
-    ngOnInit() {
-      
-    }
+    ngOnInit() {}
 
     initializeApp() {
         this.platform.ready().then(() => {
-          
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+
+            this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+                // console.log(event.url, /^(\/asset)(\/list)?/.test(event.url));
+                this.menuCtrl.enable(/^(\/asset)(\/list)?/.test(event.url));
+            });
         });
     }
 
@@ -56,8 +60,7 @@ export class AppComponent implements OnInit {
     }
 
     public enter(url: string) {
-        console.log(this.location.path());
-        this.router.navigate([url], {replaceUrl: this.location.path() !in ['/asset', '/asset/list']});
+        this.router.navigate([url], {replaceUrl: /$\/asset[\/list]*/.test(this.location.path())});
         this.menuCtrl.close();
     }
 }

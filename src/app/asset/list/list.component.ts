@@ -2,7 +2,6 @@ import { Component, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WalletService, ASSET } from '../../neo';
 import { BalanceState, DialogService } from '../../core';
-import { AlertController, List, LoadingController, ModalController, ToastController } from '@ionic/angular';
 
 @Component({
     templateUrl: 'list.component.html',

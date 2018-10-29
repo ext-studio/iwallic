@@ -13,10 +13,8 @@ export class IndexComponent {
     constructor(
         private router: Router,
         private storage: Storage,
-        private wallet: WalletService,
-        private menuCtrl: MenuController
+        private wallet: WalletService
     ) {
-        this.menuCtrl.enable(false);
         /**
          * if first enter jump to guide page directly
          * or goto wallet or asset page delay
@@ -39,7 +37,6 @@ export class IndexComponent {
 
     private resolveWallet() {
         this.wallet.init().subscribe(() => {
-            this.menuCtrl.enable(true);
             this.router.navigateByUrl('/asset', {replaceUrl: true});
         }, () => {
             this.router.navigateByUrl('/wallet', {replaceUrl: true});

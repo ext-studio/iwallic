@@ -14,7 +14,7 @@ ion-content {
     min-width: 160px;
     min-height: 160px;
 }
-.wallet-qrcode img {
+.wallet-qrcode ion-icon {
     margin-top: 52px;
     height: 56px;
     width: 56px;
@@ -43,7 +43,10 @@ button.btn.copy {
     margin-bottom: 44px;
     max-width: 160px;
 }
-.tip {
+.tip.danger {
     max-width: 320px;
     margin: 16px auto;
+}
+.tip.danger {
+    color: var(--ion-color-danger);
 }

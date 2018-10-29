@@ -3,7 +3,6 @@ import { DialogService, GlobalService } from '../../core';
 import { Wallet, WalletService } from '../../neo';
 import { wallet } from '@cityofzion/neon-js';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MenuController } from '@ionic/angular';
 
 @Component({
     templateUrl: './new.component.html',
@@ -21,8 +20,7 @@ export class NewComponent implements OnInit {
         private router: Router,
         private aRoute: ActivatedRoute,
         private dialog: DialogService,
-        private global: GlobalService,
-        private menuCtrl: MenuController
+        private global: GlobalService
     ) {
         
     }
@@ -41,7 +39,6 @@ export class NewComponent implements OnInit {
         this.dialog.confirm('Have you backed up your new address and sure to enter wallet?', 'Notice', 'Enter', 'Cancel').then((confirm) => {
             if (confirm) {
                 this.wallet.save(Wallet.fromKey(this.key, wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(this.wif))));
-                this.menuCtrl.enable(true);
                 this.router.navigateByUrl('/asset', {replaceUrl: true});
             }
         });

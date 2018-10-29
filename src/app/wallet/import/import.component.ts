@@ -21,7 +21,6 @@ export class ImportComponent {
     constructor(
         private router: Router,
         private wallet: WalletService,
-        private menu: MenuController,
         private scanner: QRScanner,
         private platform: Platform,
         private dialog: DialogService
@@ -39,7 +38,6 @@ export class ImportComponent {
         this.dialog.loader('Importing').then((loader) => {
             this.wallet.nep2(this.pwd, this.wif).subscribe((res) => {
                 loader.dismiss();
-                this.menu.enable(true);
                 this.wallet.save(res);
                 this.router.navigateByUrl('/asset');
             }, (err) => {

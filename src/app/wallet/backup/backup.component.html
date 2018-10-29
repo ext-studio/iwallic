@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content padding>
     <img id="wallet-qrcode" [hidden]="!verified" />
-    <div ibg="default" class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
+    <div class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
         <ion-icon name="iwallic-touch"></ion-icon>
     </div>
     <div class="title">
@@ -18,8 +18,8 @@
     </div>
     <p *ngIf="shown" class="tip">{{wif}}</p>
     <p *ngIf="!shown" class="tip">********************</p>
-    <ion-button *ngIf="shown" class="btn copy"  outline (click)="copy()">{{(copied ? 'WALLET_BACKUP_COPIED' : 'WALLET_BACKUP_COPY') | translate}}</ion-button>
+    <ion-button *ngIf="shown" class="btn copy" outline (click)="copy()">{{(copied ? 'WALLET_BACKUP_COPIED' : 'WALLET_BACKUP_COPY') | translate}}</ion-button>
 
-    <ion-button *ngIf="shown" class="btn copy" ion-button (click)="leaveConfirm()">{{'WALLET_BACKUP_BACKED' | translate}}</ion-button>
-    <p class="tip" icolor="danger" text-sm>{{'WALLET_BACKUP_TIP' | translate}}</p>
+    <ion-button *ngIf="shown" class="btn copy" (click)="leaveConfirm()">{{'WALLET_BACKUP_BACKED' | translate}}</ion-button>
+    <p class="tip danger" text-sm>{{'WALLET_BACKUP_TIP' | translate}}</p>
 </ion-content>
