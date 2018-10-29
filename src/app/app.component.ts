@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Events, MenuController, Platform } from '@ionic/angular';
@@ -22,7 +23,9 @@ export class AppComponent implements OnInit {
         private router: Router,
         private statusBar: StatusBar,
         private dialog: DialogService,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private location: Location,
+        private menuCtrl: MenuController
     ) {
         this.initializeApp();
     }
@@ -50,5 +53,11 @@ export class AppComponent implements OnInit {
                 this.router.navigateByUrl('/wallet', {replaceUrl: true});
             }
         });
+    }
+
+    public enter(url: string) {
+        console.log(this.location.path());
+        this.router.navigate([url], {replaceUrl: this.location.path() !in ['/asset', '/asset/list']});
+        this.menuCtrl.close();
     }
 }

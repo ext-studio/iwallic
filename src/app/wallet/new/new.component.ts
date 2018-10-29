@@ -42,7 +42,7 @@ export class NewComponent implements OnInit {
             if (confirm) {
                 this.wallet.save(Wallet.fromKey(this.key, wallet.getPublicKeyFromPrivateKey(wallet.getPrivateKeyFromWIF(this.wif))));
                 this.menuCtrl.enable(true);
-                this.router.navigateByUrl('/asset');
+                this.router.navigateByUrl('/asset', {replaceUrl: true});
             }
         });
     }

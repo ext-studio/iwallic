@@ -19,9 +19,9 @@ export class WalletService {
      */
     public init(): Observable<Wallet> {
         return Observable.create((observer: Observer<Wallet>) => {
-            this.storage.get('wallet').then((res: Wallet) => {
+            this.storage.get('wallet').then((res: any) => {
                 if (res) {
-                    this.cached = res;
+                    this.cached = new Wallet(res);
                     observer.next(res);
                     observer.complete();
                 } else {
@@ -37,7 +37,7 @@ export class WalletService {
      * reguard a wallet be opened just after it imported or created,
      * only for a payment is this method needed
      */
-    public verify(pwd: string): Observable<Wallet> {
+    public verify(pwd: string): Observable<string> {
         if (!this.cached) {
             return throwError(99895);
         }

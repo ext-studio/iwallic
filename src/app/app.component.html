@@ -8,7 +8,7 @@
             </ion-header>
             <ion-content>
                 <ion-list class="app-menu">
-                    <ion-item button>
+                    <ion-item button (click)="enter('/wallet/backup')">
                         <ion-icon slot="start" name="iwallic-backup"></ion-icon>
                         <ion-label>
                             {{'APP_MENU_BACKUP' | translate}}

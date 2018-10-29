@@ -51,4 +51,31 @@ export class DialogService {
             });
         });
     }
+    public password() {
+        return new Promise((resolve) => {
+            this.alertCtrl.create({
+                header: 'Prompt!',
+                inputs: [{
+                    name: 'pwd',
+                    type: 'password',
+                    placeholder: 'Enter your password'
+                }],
+                buttons: [{
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                        resolve();
+                    }
+                }, {
+                    text: 'Ok',
+                    handler: (data) => {
+                        resolve(data['pwd']);
+                    }
+                }]
+            }).then((alert) => {
+                alert.present();
+            });
+        });
+    }
 }
