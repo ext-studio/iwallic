@@ -10,7 +10,7 @@ import { AlertController, List, LoadingController, ModalController, ToastControl
     encapsulation: ViewEncapsulation.None
 })
 export class ListComponent implements OnInit {
-    public neoValue = 99999999;
+    public neoValue = 0;
     public list = [];
     constructor(
         private router: Router,

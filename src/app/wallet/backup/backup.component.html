@@ -9,12 +9,12 @@
 <ion-content padding>
     <img id="wallet-qrcode" [hidden]="!verified" />
     <div ibg="default" class="wallet-qrcode" (click)="showQRCode()" *ngIf="!verified">
-        <img isrc="assets/wallet/btn_img_click@2x.png" class="tip" />
+        <ion-icon name="iwallic-touch"></ion-icon>
     </div>
     <div class="title">
         {{'WALLET_BACKUP_YOURWIF' | translate}}
-        <img *ngIf="shown" (click)="shown = false" isrc="assets/wallet/backups_btn_display_s@2x.png" />
-        <img *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" isrc="assets/wallet/backups_btn_display_n@2x.png" />
+        <ion-icon *ngIf="shown" (click)="shown = false" name="iwallic-eye"></ion-icon>
+        <ion-icon *ngIf="!shown" (click)="showQRCode() || (verified && shown = true)" name="iwallic-eyeclose"></ion-icon>
     </div>
     <p *ngIf="shown" class="tip">{{wif}}</p>
     <p *ngIf="!shown" class="tip">********************</p>
