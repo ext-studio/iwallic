@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AssetRoutingModule } from './asset.route';
 import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
+import { ManageComponent } from './manage/manage.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { DetailComponent } from './detail/detail.component';
     ],
     declarations: [
         ListComponent,
-        DetailComponent
+        DetailComponent,
+        ManageComponent
     ]
 })
 export class AssetModule { }

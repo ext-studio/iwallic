@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
 
             this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
                 // console.log(event.url, /^(\/asset)(\/list)?/.test(event.url));
-                this.menuCtrl.enable(/^(\/asset)(\/list)?/.test(event.url));
+                this.menuCtrl.enable(/^(\/asset)(\/list)?$/.test(event.url));
             });
         });
     }
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
     }
 
     public enter(url: string) {
-        this.router.navigate([url], {replaceUrl: /$\/asset[\/list]*/.test(this.location.path())});
+        this.router.navigate([url], {replaceUrl: /$\/asset[\/list]?$/.test(this.location.path())});
         this.menuCtrl.close();
     }
 }
