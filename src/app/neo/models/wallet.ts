@@ -132,7 +132,7 @@ export class Wallet {
     }
     public static fromWIF(wif: string, pwd: string): Observable<Wallet> {
         return Account.fromWIF(wif, pwd).pipe(map((acc) => {
-            return new Wallet({accounts: [acc]});;
+            return new Wallet({accounts: [acc]});
         }));
     }
     public Verify(pwd: string): Observable<any> {

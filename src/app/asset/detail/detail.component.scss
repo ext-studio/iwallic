@@ -1,0 +1,36 @@
+.header-content {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 160px;
+    width: 100%;
+    color: white;
+    background-size: cover;
+    position: relative;
+    z-index: -1;
+    .balance {
+        padding-top: 36px;
+        .num {
+            font-size: 25px;
+            vertical-align: middle;
+        }
+        .unit {
+            font-size: 12px;
+            vertical-align: middle;
+        }
+    }
+    .manage {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+    }
+}
+ion-item.transin {
+    color: var(--ion-color-danger);
+}
+p {
+    margin: 0;
+}
+
+
+
+

@@ -5,11 +5,11 @@ import { BalanceState, DialogService } from '../../core';
 import { Subscription } from 'rxjs';
 import { Block } from 'app/neo/models/block';
 import { Storage } from '@ionic/storage';
+import { MenuController } from '@ionic/angular';
 
 @Component({
     templateUrl: 'list.component.html',
-    styleUrls: ['./list.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
     public neoValue = 0;
@@ -24,7 +24,8 @@ export class ListComponent implements OnInit {
         private balance: BalanceState,
         private dialog: DialogService,
         private block: BlockService,
-        private storage: Storage
+        private storage: Storage,
+        private menuCtrl: MenuController
     ) {}
 
     public refresh(event) {
@@ -36,15 +37,18 @@ export class ListComponent implements OnInit {
     public jumpDetail(token: string, symbol: string, value: number) {
         this.router.navigate(['/asset/detail'], {
             queryParams: {
-                token: token,
+                asset: token,
                 symbol: symbol,
-                assetBalance: value
+                balance: value
             }
         });
     }
 
     public manage() {
         this.router.navigate(['/asset/manage']);
+    }
+    public menu() {
+        this.menuCtrl.open();
     }
 
     ngOnInit(): void {

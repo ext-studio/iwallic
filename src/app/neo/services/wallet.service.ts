@@ -74,10 +74,7 @@ export class WalletService {
         });
     }
     public nep2(pwd: string, wif: string): Observable<Wallet> {
-        return Wallet.fromWIF(wif, pwd).pipe(map((w) => {
-            // todo save new wallet
-            return w;
-        }));
+        return Wallet.fromWIF(wif, pwd);
     }
     public nep6(pwd: string, file: string): Observable<Wallet> {
         return Observable.create((observer: Observer<Wallet>) => {

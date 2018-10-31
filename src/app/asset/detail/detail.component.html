@@ -1,8 +1,52 @@
+<ion-header no-border>
+    <div class="header-content" center text-center [style.backgroundImage]="'url(' + 'assets/images/light.detail_bg_img.png' + ')'">
+        <ion-buttons slot="start">
+            <ion-back-button text="Back" defaultHref="/asset/list"></ion-back-button>
+        </ion-buttons>
+        <div class="balance">
+            <span class="num">
+                {{ assetBalance }}
+            </span>
+            <span class="unit">{{assetSymbol}}</span>
+        </div>
+    </div>
+</ion-header>
 <ion-content>
-    asset-detail
-    <ion-fab class="skip" horizontal="end" vertical="bottom" (click)="go()" slot="fixed">
-        <ion-fab-button>
-            <ion-icon name="arrow-forward"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
+    <ion-refresher slot="fixed" color="primary" (ionRefresh)="refresh($event)" >
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <ion-item-sliding *ngFor="let i of list" #slidingItem>
+            <ion-item (click)="browse(i.txid)" [ngClass]="{transin: !i.value.startsWith('-')}">
+                <ion-avatar slot="start">
+                    <ion-icon *ngIf="i.value.startsWith('-')" name="iwallic-transout"></ion-icon>
+                    <ion-icon *ngIf="!i.value.startsWith('-')" name="iwallic-transin"></ion-icon>
+                </ion-avatar>
+                <p text-center>{{ i.value }} {{ i.name }}</p>
+                <p padding-start class="txid">{{ i.txid }}</p>
+                <ion-note item-end *ngIf="i?.unconfirmed">{{'TRANSACTION_LIST_UNCONFIRMED' | translate}}</ion-note>
+            </ion-item>
+            <ion-item-options>
+                <ion-button fill="clear" (click)="copyTx(i.txid, slidingItem)" style="padding-top: 7px;">
+                    <ion-icon name="copy"></ion-icon>
+                    {{'TRANSACTION_LIST_COPY' | translate}}
+                </ion-button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="more($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
+<ion-footer>
+    <ion-row>
+        <ion-col text-center ion-col-6>
+            <ion-icon name="iwallic-trans"></ion-icon>
+            <span>{{ 'ASSET_DETAIL_TRANSFER' | translate }}</span>
+        </ion-col>
+        <ion-col text-center ion-col-6>
+            <ion-icon name="iwallic-qrcode"></ion-icon>
+            <span>{{ 'ASSET_DETAIL_RECEIPT' | translate }}</span>
+        </ion-col>
+    </ion-row>
+</ion-footer>

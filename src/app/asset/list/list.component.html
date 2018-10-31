@@ -20,6 +20,7 @@
             </ion-fab-list>
         </ion-fab>
         <ion-icon class="manage" (click)="manage()" name="iwallic-manage"></ion-icon>
+        <ion-icon class="menu" (click)="menu()" name="menu"></ion-icon>
     </div>
 </ion-header>
 
@@ -29,7 +30,7 @@
     </ion-refresher>
 
     <ion-list>
-        <ion-item *ngFor="let asset of list" lines="full" (click)="jumpDetail(asset.assetId, asset.symbol, asset.balance)">
+        <ion-item *ngFor="let asset of list" lines="full" (click)="jumpDetail(asset.asset_id, asset.symbol, asset.balance)">
             <ion-label padding-vertical>{{ asset.symbol }}</ion-label>
             <ion-label padding-vertical text-end>{{ asset.balance }}</ion-label>
         </ion-item>

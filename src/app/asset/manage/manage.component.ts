@@ -99,7 +99,7 @@ export class ManageComponent implements OnInit {
         this.page = page;
         return this.http.get(`/client/assets/list?page=${page}&page_size=${this.take}`).pipe(map((res) => {
             this.totalPage = res.pages;
-            this.nomore = res.page == this.totalPage || !res.items.length;
+            this.nomore = res.page >= this.totalPage || !res.items.length;
             return res.items.map((e) => {
                 e['chosen'] = this.watching.findIndex((i) => i['asset_id'] == e['asset_id']) >= 0;
                 return e;
