@@ -4,19 +4,28 @@
             <ion-back-button text="Back" defaultHref="/asset/list"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ 'ASSET_LIST_ADDASSETS' | translate  }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="trash()"><ion-icon name="trash"></ion-icon></ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <!-- <ion-list>
-        <ion-item *ngFor="let item of assetList; let i = index">
+    <ion-refresher slot="fixed" color="primary" (ionRefresh)="refresh($event)" >
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <ion-item *ngFor="let item of list; let i = index">
             <ion-label>
                 <h3>{{ item.symbol }}</h3>
-                <div class="info" icolor="font2">
-                    <p icolor="font3">{{ item.name }}</p>
-                    <p icolor="font2">{{ item.assetId.substring(0, 8) }}....{{ item.assetId.substring( item.assetId.length - 8) }}</p>
+                <div class="info">
+                    <p>{{ item.name }}</p>
+                    <p>{{ item.asset_id?.substring(0, 8) }}....{{ item.asset_id?.substring( item.asset_id.length - 8) }}</p>
                 </div>
             </ion-label>
-            <ion-toggle *ngIf="i > 3 && item.balance == 0" [(ngModel)]="item.choose" (ionChange)="changeChoose($event, i)"></ion-toggle>
+            <ion-toggle padding-vertical [(ngModel)]="item.chosen" *ngIf="!item.pinned" (ionChange)="toggle($event, i)"></ion-toggle>
         </ion-item>
-    </ion-list> -->
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="more($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
