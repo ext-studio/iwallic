@@ -6,18 +6,24 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { TransferComponent } from './transfer/transfer.component';
 import { ReceiveComponent } from './receive/receive.component';
+import { ListComponent } from './list/list.component';
+import { UnconfirmedComponent } from './unconfirmed/unconfirmed.component';
 import { TransactionRoutingModule } from './transaction.route';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        TransactionRoutingModule
+        TransactionRoutingModule,
+        TranslateModule
     ],
     declarations: [
         TransferComponent,
-        ReceiveComponent
+        ReceiveComponent,
+        ListComponent,
+        UnconfirmedComponent
     ]
 })
 export class TransactionModule { }

@@ -1,19 +1,15 @@
-import { Component, ViewChild, ViewEncapsulation, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Location }  from '@angular/common';
-import { DialogService, HttpService } from 'app/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DialogService, HttpService } from 'app/core';
 import { WalletService } from 'app/neo';
+import { Router } from '@angular/router';
 
 @Component({
-    templateUrl: 'detail.component.html',
-    styleUrls: ['./detail.component.scss']
+    templateUrl: './unconfirmed.component.html',
+    styleUrls: ['./unconfirmed.component.scss']
 })
-export class DetailComponent implements OnInit {
-    public assetSymbol = '';
-    public assetBalance = '0';
-    public assetId = '';
+export class UnconfirmedComponent implements OnInit {
     public list = [];
     public totalPage = 1;
 
@@ -21,30 +17,19 @@ export class DetailComponent implements OnInit {
     private take = 15;
     private nomore = false;
     constructor(
-        private aRoute: ActivatedRoute,
-        private location: Location,
         private dialog: DialogService,
         private http: HttpService,
-        private wallet: WalletService
+        private wallet: WalletService,
+        private router: Router
     ) {}
     ngOnInit() {
-        this.aRoute.queryParamMap.subscribe((res) => {
-            this.assetSymbol = res.get('symbol');
-            this.assetBalance = res.get('balance');
-            this.assetId = res.get('asset');
-            if (!this.assetId.length) {
-                this.dialog.toast('Params error.');
-                this.location.back();
-                return;
-            }
-            this.dialog.loader().then((loader) => {
-                this.fetch(1).subscribe((res) => {
-                    loader.dismiss();
-                    this.list = res;
-                }, (err) => {
-                    loader.dismiss();
-                    this.dialog.toast('Fetch failed.');
-                });
+        this.dialog.loader().then((loader) => {
+            this.fetch(1).subscribe((res) => {
+                loader.dismiss();
+                this.list = res;
+            }, (err) => {
+                loader.dismiss();
+                this.dialog.toast('Fetch failed.');
             });
         });
     }
@@ -88,7 +73,7 @@ export class DetailComponent implements OnInit {
 
     private fetch(page: number): Observable<any[]> {
         this.page = page;
-        return this.http.get(`/client/transaction/list?page=${page}&page_size=${this.take}&wallet_address=${this.wallet.address}&asset_id=${this.assetId}&confirmed=true`).pipe(map((res) => {
+        return this.http.get(`/client/transaction/list?page=${page}&page_size=${this.take}&wallet_address=${this.wallet.address}&confirmed=false`).pipe(map((res) => {
             this.totalPage = res.pages;
             this.nomore = res.page >= this.totalPage || !res.items.length;
             return res.items;

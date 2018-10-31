@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="Back" defaultHref="/transaction/list"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ 'TRANSACTION_LIST_TRANSACTION' | translate  }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-refresher slot="fixed" color="primary" (ionRefresh)="refresh($event)" >
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+        <ion-item-sliding *ngFor="let i of list" #slidingItem>
+            <ion-item (click)="browse(i.txid)" [ngClass]="{transin: !i.value.startsWith('-')}">
+                <ion-avatar slot="start">
+                    <ion-icon *ngIf="i.value.startsWith('-')" name="iwallic-transout"></ion-icon>
+                    <ion-icon *ngIf="!i.value.startsWith('-')" name="iwallic-transin"></ion-icon>
+                </ion-avatar>
+                <p text-center>{{ i.value }} {{ i.name }}</p>
+                <p padding-start class="txid">{{ i.txid }}</p>
+                <ion-note slot="end" padding-start>Canceled</ion-note>
+            </ion-item>
+            <ion-item-options>
+                <ion-button fill="clear" (click)="copyTx(i.txid, slidingItem)" style="padding-top: 7px;">
+                    <ion-icon name="copy"></ion-icon>
+                    {{'TRANSACTION_LIST_COPY' | translate}}
+                </ion-button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="more($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
