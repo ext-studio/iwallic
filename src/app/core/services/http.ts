@@ -95,7 +95,6 @@ export class HttpService {
                 `${this.apiDomain}${url}`,
                 data,
                 {
-                    'Content-Type': 'application/json',
                     'app_version': this.requestVersion,
                     'network': this.neoNet
                 })).pipe(map((res) => {
@@ -143,11 +142,11 @@ export class HttpService {
                 `${this.apiDomain}${url}`,
                 null,
                 {
-                    'Content-Type': 'application/json',
                     'app_version': this.requestVersion,
                     'network': this.neoNet
                 })).pipe(map((res) => {
                 if (res.status === 200 && res.data) {
+                    alert(JSON.stringify(res));
                     try {
                         const json = JSON.parse(res.data);
                         if (json.bool_status === true) {
