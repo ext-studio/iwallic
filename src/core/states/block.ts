@@ -3,7 +3,6 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from '../services/http';
 import { GlobalService } from '../services/global';
-import { ConfigService } from '../services/config';
 
 @Injectable()
 export class BlockState {
@@ -15,8 +14,7 @@ export class BlockState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private http: HttpService,
-        private global: GlobalService,
-        private config: ConfigService
+        private global: GlobalService
     ) { }
     public listen(): Observable<any> {
         if (!this.interval) {
@@ -24,10 +22,10 @@ export class BlockState {
                 if (this._loading) {
                     return;
                 }
-                if (new Date().getTime() - this._last > 20000) {
+                if (new Date().getTime() - this._last > 60000) {
                     this.fetch();
                 }
-            }, 10000);
+            }, 30000);
         }
         return this.$listen.publish().refCount();
     }
@@ -49,10 +47,6 @@ export class BlockState {
                 }
                 resolve();
             }, (err) => {
-                if (!this.config.online) {
-                    resolve();
-                    return;
-                }
                 this.$error.next(err);
                 this._loading = false;
                 resolve();

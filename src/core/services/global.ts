@@ -6,7 +6,6 @@ import {
 import { Observable } from 'rxjs/Observable';
 import QrCodeWithLogo from 'qr-code-with-logo';
 import { ThemeService } from './theme';
-import { ConfigService } from './config';
 import { Clipboard } from '@ionic-native/clipboard';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import {
@@ -43,13 +42,12 @@ export class GlobalService {
         private ngTranslate: NgTranslateService,
         private toast: ToastController,
         private theme: ThemeService,
-        private config: ConfigService,
         private iab: InAppBrowser,
         private themeableBrowser: ThemeableBrowser,
         private clipboard: Clipboard
     ) {}
     public get apiDomain(): string {
-        return this.config.apiDomain();
+        return 'https://api.iwallic.forchain.info'; // this.config.apiDomain();
     }
     /**
      * Internal Alert by given type

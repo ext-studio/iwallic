@@ -8,7 +8,7 @@ import {
     MenuController
 } from 'ionic-angular';
 import { WalletService, TransactionService } from '../../../neo';
-import { GlobalService, BalanceState, ConfigService, HttpService } from '../../../core';
+import { GlobalService, BalanceState, HttpService } from '../../../core';
 
 @Component({
     selector: 'asset-list',
@@ -30,13 +30,12 @@ export class AssetListComponent implements OnInit {
         private global: GlobalService,
         private navctrl: NavController,
         public balance: BalanceState,
-        private config: ConfigService,
         private tx: TransactionService,
         private menu: MenuController
     ) {}
 
     public ngOnInit() {
-        this.selectedNet = this.config.currentNet;
+        this.selectedNet = 'main';
         this.balance.get(this.wallet.address).subscribe((res) => {
             this.assets = res;
             const neo = res.find((e) => e.name === 'NEO');
@@ -51,14 +50,6 @@ export class AssetListComponent implements OnInit {
         });
         this.balance.error().subscribe((res) => {
             this.global.Error(res).subscribe();
-        });
-        this.config.$net().subscribe((online) => {
-            if (!this.online && online) {
-                this.online = online;
-                this.selectedNet = this.config.currentNet;
-            } else {
-                this.online = online;
-            }
         });
         this.menu.swipeEnable(true, 'iwallic-menu');
     }

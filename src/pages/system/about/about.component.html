@@ -12,7 +12,7 @@
     <ion-list margin-vertical>
         <ion-item [color]="'default2' | theme | async" iborder="line">
             <ion-label>{{'SYSTEM_ABOUT_CURRENT' | translate}}</ion-label>
-            <ion-note item-end>{{ver?.curr}}</ion-note>
+            <ion-note item-end>0.0.8</ion-note>
         </ion-item>
         <button [color]="'default2' | theme | async" iborder="line" ion-item (click)="disclaimer()">
             <ion-label>{{'SYSTEM_ABOUT_DISCLAIMER' | translate}}</ion-label>

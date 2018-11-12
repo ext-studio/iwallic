@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Refresher, ItemSliding } from 'ionic-angular';
-import { GlobalService, TransactionState, ConfigService } from '../../../core';
+import { GlobalService, TransactionState, HttpService } from '../../../core';
 import { WalletService } from '../../../neo';
 
 @Component({
@@ -15,7 +15,7 @@ export class TxListComponent implements OnInit {
         private global: GlobalService,
         private wallet: WalletService,
         public transcation: TransactionState,
-        private config: ConfigService
+        private http: HttpService
     ) { }
 
     public ngOnInit() {
@@ -52,8 +52,6 @@ export class TxListComponent implements OnInit {
     }
 
     public browse(txid: string) {
-        if (this.config.currentNet === 'main' && this.config.online) {
-            this.global.browser(this.config.get().browser.tx + txid, 'THEMEABLE');
-        }
+        this.global.browser(this.http._config.browser.tx + txid, 'THEMEABLE');
     }
 }

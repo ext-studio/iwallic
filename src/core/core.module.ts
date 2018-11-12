@@ -14,7 +14,6 @@ import { ReadFileService } from './services/readfile';
 import { TranslateService } from './services/translate';
 import { ThemeService } from './services/theme';
 import { HttpService } from './services/http';
-import { ConfigService } from './services/config';
 import { HttpInterceptor } from './services/intercepter';
 
 import { BlockState } from './states/block';
@@ -54,7 +53,7 @@ import {
         GlobalService, PopupInputService, ScannerService,
         ReadFileService, TranslateService,
         BlockState, BalanceState, TransactionState,
-        ThemeService, ConfigService,
+        ThemeService,
         HTTP, HttpService, {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpInterceptor,

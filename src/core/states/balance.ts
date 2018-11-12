@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../services/global';
 import { HttpService } from '../services/http';
 import { Storage } from '@ionic/storage';
-import { ConfigService } from '../services/config';
 import 'rxjs/add/operator/startWith';
 
 /**
@@ -25,8 +24,7 @@ export class BalanceState {
     constructor(
         private global: GlobalService,
         private http: HttpService,
-        private storage: Storage,
-        private config: ConfigService
+        private storage: Storage
     ) { }
     public get(address?: string): Observable<any> {
         if (address && this.address !== address) {
@@ -62,10 +60,6 @@ export class BalanceState {
                 resolve();
             }, (err) => {
                 this._loading = false;
-                if (!this.config.online) {
-                    resolve();
-                    return;
-                }
                 this.$error.next(err);
                 resolve();
             });
@@ -88,7 +82,7 @@ export class BalanceState {
     public getAssetChooseList(result: any[]): Observable <any> {
         return new Observable<any>((observer) => {
             this.storage.get('MainAssetList').then((res) => {
-                if (res && `${this.config.currentNet}` === 'main') {
+                if (res) {
                     for (const i of res) {
                         if (i.choose) {
                             if (result.findIndex((e) => e.assetId === i.assetId) < 0) {

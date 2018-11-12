@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { GlobalService } from '../services/global';
-import { ConfigService } from '../services/config';
 import { HttpService } from '../services/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -35,8 +34,7 @@ export class TransactionState {
     private $error: Subject<any> = new Subject<any>();
     constructor(
         private global: GlobalService,
-        private http: HttpService,
-        private config: ConfigService
+        private http: HttpService
     ) { }
     public get(address: string, asset: string = null): Observable<any> {
         this.asset = asset;
@@ -114,10 +112,6 @@ export class TransactionState {
                 console.log(err);
                 this._loading = false;
                 if (err !== 99995) {
-                    if (!this.config.online) {
-                        resolve();
-                        return;
-                    }
                     this.$error.next(err);
                 }
                 resolve();
